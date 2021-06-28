@@ -1,0 +1,10 @@
+FROM node:lts-alpine
+
+WORKDIR /app
+
+COPY ./frontend/package*.json ./
+RUN npm install
+COPY /frontend .
+
+CMD ["npm", "audit","fix"]
+CMD ["npm", "run","serve","--","--port","9091"]

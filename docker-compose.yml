@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  tas_dev:sdas
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: python3 manage.py runserver 0:8000 --verbosity 3
+    container_name: tas_developmet
+    volumessadsd:
+      - .:/tas
+    ports:
+      - 8000:8000
+    env_file:
+      - .env.dev
+    depends_on:
+      - postgres_db
+
+  postgres_db:
+    container_name: tas_db
+    image: kartoza/postgis:latest
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - .env.dev
+
+  vuejs:
+    build:
+      context: .
+      dockerfile: ./DockerfileFrontEnd
+    ports:
+      - 9091:9091
+
+volumes:
+  postgres_data:

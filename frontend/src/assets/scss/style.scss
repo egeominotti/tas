@@ -1,0 +1,48 @@
+// If you want to override variables do it here
+@import "variables";
+
+// Import styles with default layout.
+@import "~@coreui/coreui-pro/scss/coreui";
+
+// If you want to add something do it here
+@import "custom";
+
+.card-header:not(.content-center) > .c-icon:first-child {
+  margin-right: 0.1rem;
+  margin-top: 0.1rem;
+  vertical-align: top;
+  width: 1.2rem;
+  height: 1.2rem;
+  font-size: 1.2rem;
+}
+
+div.c-app.c-dark-theme > div.c-sidebar.c-sidebar-dark.c-sidebar-lg-show.c-sidebar-fixed {
+  background-color: #2a2b36;
+}
+
+div.c-app > div.c-sidebar.c-sidebar-dark.c-sidebar-lg-show.c-sidebar-fixed {
+  background-color: #262626;
+}
+
+.c-sidebar .c-sidebar-nav-link:hover, .c-sidebar .c-sidebar-nav-dropdown-toggle:hover {
+  color: #fff;
+  background: rgba(203, 232, 135, 0.34);;
+}
+
+a.router-link-active {
+  color: #f3ffcf;;
+}
+
+button.btn-info {
+  background-color: #f3ffcf;
+}
+
+.btn-info:hover {
+  color: #fff;
+  background-color: #FFBF01;
+  border-color: #0080ff;
+}
+
+li.c-header-nav-items.dropdown.nav-item {
+  display: none;
+}
