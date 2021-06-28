@@ -36,6 +36,8 @@ services:
     build:
       context: .
       dockerfile: ./DockerfileFrontEnd
+    depends_on:
+      - tas_dev
     ports:
       - 9091:9091
     labels:
