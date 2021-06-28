@@ -1,11 +1,13 @@
-# tas
+### TAS = Trading Analytics Sytem
 
-# Link util
+### Django / VueJs
+
+### Link util
     https://pypi.org/project/Backtesting/
     https://github.com/glassnode/glassnode-api-python-client
     https://github.com/jesse-ai/jesse
 
-###Run project
+### Run project
     - make build
     - make up
     - cd frontend
