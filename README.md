@@ -10,5 +10,3 @@
 ### Run project
     - make build
     - make up
-    - cd frontend
-    - npm run dev
