@@ -20,7 +20,6 @@ class Command(BaseCommand):
         listema = [5, 9, 10, 12, 24, 27, 42, 50, 60, 223]
 
         def scheduledTimeFrame(tf):
-            print(tf)
 
             candle =                taapi.candle(tf)
             candletimestamp =       datetime.fromtimestamp(candle['timestamp'])
@@ -52,8 +51,8 @@ class Command(BaseCommand):
         schedule.every(1).minutes.do(scheduledTimeFrame, tf='1m')
         schedule.every(15).minutes.do(scheduledTimeFrame, tf='15m')
         schedule.every(30).minutes.do(scheduledTimeFrame, tf='30m')
-        schedule.every(1).hours.do(scheduledTimeFrame, tf='1h')
-        schedule.every(4).hours.do(scheduledTimeFrame, tf='4h')
+        schedule.every(60).minutes.do(scheduledTimeFrame, tf='1h')
+        schedule.every(240).minutes.do(scheduledTimeFrame, tf='4h')
         schedule.every().day.do(scheduledTimeFrame, tf='1d')
         schedule.every().week.do(scheduledTimeFrame, tf='1w')
 
