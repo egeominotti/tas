@@ -25,6 +25,26 @@ class Taapi:
                     self.BASE_URL + 'ema?' + self.base + "&interval=" + str(interval) + "&optInTimePeriod=" + str(
                         ema)).content).get('value')
 
+    def rsi(self, interval):
+        return json.loads(
+            requests.get(
+                self.BASE_URL + 'rsi?' + self.base + "&interval=" + str(interval)).content)
+
+    def macd(self, interval):
+        return json.loads(
+            requests.get(
+                self.BASE_URL + 'macd?' + self.base + "&interval=" + str(interval)).content)
+
+    def bollinger(self, interval):
+        return json.loads(
+            requests.get(
+                self.BASE_URL + 'bbands?' + self.base + "&interval=" + str(interval)).content)
+
+    def fibonacciretracement(self, interval):
+        return json.loads(
+            requests.get(
+                self.BASE_URL + 'fibonacciretracement?' + self.base + "&interval=" + str(interval)).content)
+
     def candle(self, interval):
         return json.loads(
             requests.get(
