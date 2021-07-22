@@ -9,13 +9,12 @@ import logging
 
 logger = logging.getLogger('main')
 
-
 ticker = 'BTC/USDT'
 taapi = Taapi(ticker)
-listema = [5, 9, 10, 12, 24, 27, 42, 50, 60, 223]
+listema = [5, 7, 9, 10, 12, 24, 27, 42, 50, 60, 100, 200, 223, 365]
+
 
 def scheduledTimeFrame(tf):
-
     sleep(10)
 
     candle = taapi.candle(tf)
@@ -35,7 +34,7 @@ def scheduledTimeFrame(tf):
     ExchangeRecord.objects.create(
         symbol=ticker,
         tf=tf,
-        unix = candleunix,
+        unix=candleunix,
         timestamp=candletimestamp,
         open=candleopen,
         high=candlehigh,
@@ -44,6 +43,7 @@ def scheduledTimeFrame(tf):
         volume=candlevolume,
         ema=dizema
     )
+
 
 class Command(BaseCommand):
     help = 'Registra i dati di taapi'
