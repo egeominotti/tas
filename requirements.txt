@@ -13,3 +13,4 @@ markdown
 django-filter
 django-cors-headers
 schedule
+python-binance
