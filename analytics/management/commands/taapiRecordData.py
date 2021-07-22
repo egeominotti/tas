@@ -46,13 +46,15 @@ class Command(BaseCommand):
                 ema = dizema
             )
 
-            sleep(10)
 
         schedule.every(1).minutes.do(scheduledTimeFrame, tf='1m')
         schedule.every(15).minutes.do(scheduledTimeFrame, tf='15m')
         schedule.every(30).minutes.do(scheduledTimeFrame, tf='30m')
         schedule.every(60).minutes.do(scheduledTimeFrame, tf='1h')
+        schedule.every(120).minutes.do(scheduledTimeFrame, tf='2h')
         schedule.every(240).minutes.do(scheduledTimeFrame, tf='4h')
+        schedule.every(480).minutes.do(scheduledTimeFrame, tf='8h')
+        schedule.every(720).minutes.do(scheduledTimeFrame, tf='12h')
         schedule.every().day.do(scheduledTimeFrame, tf='1d')
         schedule.every().week.do(scheduledTimeFrame, tf='1w')
 
