@@ -16,9 +16,14 @@ class ByBt(CommonTrait):
     sum = models.FloatField(default=0, blank=True)
     candle = models.IntegerField(default=0, blank=True)
 
-# class ExchangeRecord(CommonTrait):
-#     symbol =
-#     tf =
-#
-#     ema =
 
+class ExchangeRecord(CommonTrait):
+    symbol = models.CharField(max_length=15, blank=False, null=False)
+    tf = models.CharField(max_length=15, blank=False, null=False)
+    timestamp = models.DateTimeField(blank=False, null=False)
+    open = models.FloatField(default=0, blank=False)
+    high = models.FloatField(default=0, blank=False)
+    low = models.FloatField(default=0, blank=False)
+    close = models.FloatField(default=0, blank=False)
+    volume = models.FloatField(default=0, blank=False)
+    ema = models.JSONField(blank=False, null=False)
