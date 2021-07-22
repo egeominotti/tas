@@ -15,12 +15,6 @@ services:
       - .env.dev
     depends_on:
       - postgres_db
-    labels:
-      - traefik.http.routers.management.rule=Host(`tas.dev`)
-      - traefik.http.routers.management.tls=true
-      - traefik.http.routers.management.tls.certresolver=le
-      - traefik.http.middlewares.management.compress=true
-      - traefik.http.routers.management.middlewares=management@docker
 
   postgres_db:
     container_name: tas_db
@@ -40,40 +34,6 @@ services:
       - tas_dev
     ports:
       - 9091:9091
-    labels:
-      - traefik.http.routers.vuejs.rule=Host(`vuejs.dev`)
-      - traefik.http.routers.vuejs.tls=true
-      - traefik.http.routers.vuejs.tls.certresolver=le
-      - traefik.http.middlewares.vuejs.compress=true
-      - traefik.http.routers.vuejs.middlewares=vuejs@docker
-
-  traefik:
-    container_name: traefik
-    image: traefik:latest
-    command:
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--entryPoints.web.address=:80"
-      - "--entryPoints.websecure.address=:443"
-      - "--certificatesResolvers.le.acme.email=egeominotti@gmail.com"
-      - "--certificatesResolvers.le.acme.storage=acme.json"
-      - "--certificatesResolvers.le.acme.tlsChallenge=true"
-      - "--certificatesResolvers.le.acme.httpChallenge=true"
-      - "--certificatesResolvers.le.acme.httpChallenge.entryPoint=web"
-    restart: always
-    ports:
-      - 80:80
-      - 443:443
-      - 8080:8080
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./acme.json:/acme.json
-    labels:
-      - traefik.http.routers.http_catchall.rule=HostRegexp(`{any:.+}`)
-      - traefik.http.routers.http_catchall.entrypoints=web
-      - traefik.http.routers.http_catchall.middlewares=https_redirect
-      - traefik.http.middlewares.https_redirect.redirectscheme.scheme=https
-      - traefik.http.middlewares.https_redirect.redirectscheme.permanent=true
 
 volumes:
   postgres_data:
