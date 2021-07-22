@@ -15,9 +15,8 @@ taapi = Taapi(ticker)
 listema = [5, 9, 10, 12, 24, 27, 42, 50, 60, 223]
 
 def scheduledTimeFrame(tf):
-    print(tf)
-    print(tf)
-    print(tf)
+
+    print("Save date for time frame: " + tf)
 
     candle = taapi.candle(tf)
     candletimestamp = datetime.fromtimestamp(candle['timestamp'])
@@ -47,20 +46,8 @@ def scheduledTimeFrame(tf):
 class Command(BaseCommand):
     help = 'Registra i dati di taapi'
 
+    def add_arguments(self, parser):
+        parser.add_argument('--tf', nargs='+', type=str)
+
     def handle(self, *args, **kwargs):
-
-        schedule.every(1).minutes.do(scheduledTimeFrame, tf='1m')
-        schedule.every(5).minutes.do(scheduledTimeFrame, tf='5m')
-        schedule.every(15).minutes.do(scheduledTimeFrame, tf='15m')
-        schedule.every(30).minutes.do(scheduledTimeFrame, tf='30m')
-        schedule.every(60).minutes.do(scheduledTimeFrame, tf='1h')
-        schedule.every(120).minutes.do(scheduledTimeFrame, tf='2h')
-        schedule.every(240).minutes.do(scheduledTimeFrame, tf='4h')
-        schedule.every(480).minutes.do(scheduledTimeFrame, tf='8h')
-        schedule.every(720).minutes.do(scheduledTimeFrame, tf='12h')
-        schedule.every().day.do(scheduledTimeFrame, tf='1d')
-        schedule.every().week.do(scheduledTimeFrame, tf='1w')
-
-        while True:
-            schedule.run_pending()
-            sleep(1)
+        scheduledTimeFrame(kwargs['tf'][0])
