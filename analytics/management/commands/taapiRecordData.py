@@ -1,4 +1,6 @@
 from datetime import datetime
+from time import sleep
+
 import schedule
 from analytics.models import ExchangeRecord
 from django.core.management import BaseCommand
@@ -15,9 +17,10 @@ class Command(BaseCommand):
 
         ticker = 'BTC/USDT'
         taapi = Taapi(ticker)
-        listema = [5, 9, 12, 24, 27, 42, 50, 60]
+        listema = [5, 9, 10, 12, 24, 27, 42, 50, 60, 223]
 
         def scheduledTimeFrame(tf):
+            print(tf)
 
             candle =                taapi.candle(tf)
             candletimestamp =       datetime.fromtimestamp(candle['timestamp'])
@@ -43,6 +46,8 @@ class Command(BaseCommand):
                 volume = candlevolume,
                 ema = dizema
             )
+
+            sleep(10)
 
         schedule.every(1).minutes.do(scheduledTimeFrame, tf='1m')
         schedule.every(15).minutes.do(scheduledTimeFrame, tf='15m')
