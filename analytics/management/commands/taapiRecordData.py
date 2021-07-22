@@ -17,8 +17,11 @@ listema = [5, 7, 9, 10, 12, 24, 27, 42, 50, 60, 100, 200, 223, 365]
 def scheduledTimeFrame(tf):
     sleep(10)
 
+    now = datetime.now()
+
     candle = taapi.candle(tf)
-    candletimestamp = datetime.fromtimestamp(candle['timestamp'])
+    candletimestamp = now
+    #candletimestamp = datetime.fromtimestamp(candle['timestamp'])
     candleunix = candle['timestamp']
     candleopen = candle['open']
     candlehigh = candle['high']
