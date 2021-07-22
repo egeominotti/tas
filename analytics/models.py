@@ -15,3 +15,6 @@ class ByBt(CommonTrait):
     avg = models.FloatField(default=0, blank=True)
     sum = models.FloatField(default=0, blank=True)
     candle = models.IntegerField(default=0, blank=True)
+
+#class Taapi(CommonTrait):
+
