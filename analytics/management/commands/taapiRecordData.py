@@ -20,6 +20,7 @@ def scheduledTimeFrame(tf):
 
     candle = taapi.candle(tf)
     candletimestamp = datetime.fromtimestamp(candle['timestamp'])
+    candleunix = candle['timestamp']
     candleopen = candle['open']
     candlehigh = candle['high']
     candlelow = candle['low']
@@ -34,6 +35,7 @@ def scheduledTimeFrame(tf):
     ExchangeRecord.objects.create(
         symbol=ticker,
         tf=tf,
+        unix = candleunix,
         timestamp=candletimestamp,
         open=candleopen,
         high=candlehigh,

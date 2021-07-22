@@ -20,6 +20,7 @@ class ByBt(CommonTrait):
 class ExchangeRecord(models.Model):
     symbol = models.CharField(max_length=15, blank=False, null=False)
     tf = models.CharField(max_length=15, blank=False, null=False)
+    unix = models.CharField(max_length=20, blank=True, null=True)
     timestamp = models.DateTimeField(blank=False, null=False)
     open = models.FloatField(default=0, blank=False)
     high = models.FloatField(default=0, blank=False)
