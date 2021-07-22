@@ -16,7 +16,7 @@ listema = [5, 9, 10, 12, 24, 27, 42, 50, 60, 223]
 
 def scheduledTimeFrame(tf):
 
-    print("Save date for time frame: " + tf)
+    sleep(10)
 
     candle = taapi.candle(tf)
     candletimestamp = datetime.fromtimestamp(candle['timestamp'])
