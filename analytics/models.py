@@ -17,7 +17,7 @@ class ByBt(CommonTrait):
     candle = models.IntegerField(default=0, blank=True)
 
 
-class ExchangeRecord(CommonTrait):
+class ExchangeRecord(models.Model):
     symbol = models.CharField(max_length=15, blank=False, null=False)
     tf = models.CharField(max_length=15, blank=False, null=False)
     timestamp = models.DateTimeField(blank=False, null=False)
