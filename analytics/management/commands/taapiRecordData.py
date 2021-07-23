@@ -6,8 +6,10 @@ from analytics.models import ExchangeRecord
 from django.core.management import BaseCommand
 from analytics.services.exchangeApi import Taapi
 import logging
+import requests
 
 logger = logging.getLogger('main')
+endpoint = 'http://localhost:4101/indicator'
 
 ticker = 'BTC/USDT'
 taapi = Taapi(ticker)
