@@ -40,6 +40,16 @@ class Taapi:
             requests.get(
                 self.BASE_URL + 'bbands?' + self.base + "&interval=" + str(interval)).content)
 
+    def stochrsi(self, interval):
+        return json.loads(
+            requests.get(
+                self.BASE_URL + 'stochrsi?' + self.base + "&interval=" + str(interval)).content)
+
+    def atr(self, interval):
+        return json.loads(
+            requests.get(
+                self.BASE_URL + 'atr?' + self.base + "&interval=" + str(interval)).content)
+
     def fibonacciretracement(self, interval):
         return json.loads(
             requests.get(
