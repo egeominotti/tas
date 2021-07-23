@@ -75,10 +75,11 @@ class Taapi:
                 self.BASE_URL + 'pivotpoints?' + self.base + "&interval=" + str(interval)).content)
 
     # https://taapi.io/indicators/annualized-historical-volatility/
-    def volatility(self, interval):
+    def volatility(self, interval, period):
         return json.loads(
             requests.get(
-                self.BASE_URL + 'volatility?' + self.base + "&interval=" + str(interval)).content)
+                self.BASE_URL + 'volatility?' + self.base + "&interval=" + str(interval) + "&period=" + str(
+                    period)).content)
 
     # https://taapi.io/indicators/commodity-channel-index/
     def cci(self, interval):

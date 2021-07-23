@@ -41,13 +41,22 @@ def scheduledTimeFrame(tf):
         low=candlelow,
         close=candleclose,
         volume=candlevolume,
+        # INDICATORS
         ema=dizema,
         macd=taapi.macd(tf),
         fibonacciretracement=taapi.fibonacciretracement(tf),
-        bollinger=taapi.bollinger(tf),
+        bbands=taapi.bbands(tf),
         rsi=taapi.rsi(tf),
         stochrsi=taapi.stochrsi(tf),
         atr=taapi.atr(tf),
+        doji=taapi.doji(tf),
+        hammer=taapi.hammer(tf),
+        breakaway=taapi.breakaway(tf),
+        ma=taapi.ma(tf),
+        trix=taapi.trix(tf),
+        stoch=taapi.stoch(tf),
+        volatility=taapi.volatility(tf, 50),
+        cci=taapi.cci(tf),
         pivotpoints=taapi.pivotpoints(tf),
     )
 
