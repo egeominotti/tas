@@ -41,7 +41,14 @@ def scheduledTimeFrame(tf):
         low=candlelow,
         close=candleclose,
         volume=candlevolume,
-        ema=dizema
+        ema=dizema,
+        macd=taapi.macd(tf),
+        fibonacciretracement=taapi.fibonacciretracement(tf),
+        bollinger=taapi.bollinger(tf),
+        rsi=taapi.rsi(tf),
+        stochrsi=taapi.stochrsi(tf),
+        atr=taapi.atr(tf),
+        pivotpoints=taapi.pivotpoints(tf),
     )
 
 
