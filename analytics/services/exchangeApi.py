@@ -13,6 +13,7 @@ class Taapi:
         self.symbol = symbol
         self.base = 'secret=' + self.API_KEY + "&exchange=" + self.EXCHANGE + "&symbol=" + self.symbol
 
+    # https://taapi.io/indicators/exponential-moving-average/
     def ema(self, ema, interval, backtracks=None):
         if backtracks is not None:
             return json.loads(
@@ -25,35 +26,47 @@ class Taapi:
                     self.BASE_URL + 'ema?' + self.base + "&interval=" + str(interval) + "&optInTimePeriod=" + str(
                         ema)).content).get('value')
 
+    # https://taapi.io/indicators/relative-strength-index-rsi/
     def rsi(self, interval):
         return json.loads(
             requests.get(
                 self.BASE_URL + 'rsi?' + self.base + "&interval=" + str(interval)).content)
 
+    # https://taapi.io/indicators/macd/
     def macd(self, interval):
         return json.loads(
             requests.get(
                 self.BASE_URL + 'macd?' + self.base + "&interval=" + str(interval)).content)
 
+    # https://taapi.io/indicators/bollinger-bands/
     def bollinger(self, interval):
         return json.loads(
             requests.get(
                 self.BASE_URL + 'bbands?' + self.base + "&interval=" + str(interval)).content)
 
+    # https://taapi.io/indicators/stochastic-relative-strength-index/
     def stochrsi(self, interval):
         return json.loads(
             requests.get(
                 self.BASE_URL + 'stochrsi?' + self.base + "&interval=" + str(interval)).content)
 
+    # https://taapi.io/indicators/average-true-range/
     def atr(self, interval):
         return json.loads(
             requests.get(
                 self.BASE_URL + 'atr?' + self.base + "&interval=" + str(interval)).content)
 
+    # https://taapi.io/indicators/fibonacci-retracement/
     def fibonacciretracement(self, interval):
         return json.loads(
             requests.get(
                 self.BASE_URL + 'fibonacciretracement?' + self.base + "&interval=" + str(interval)).content)
+
+    # https://taapi.io/indicators/pivot-points/
+    def pivotpoints(self, interval):
+        return json.loads(
+            requests.get(
+                self.BASE_URL + 'pivotpoints?' + self.base + "&interval=" + str(interval)).content)
 
     def candle(self, interval):
         return json.loads(
