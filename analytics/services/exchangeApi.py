@@ -39,7 +39,7 @@ class Taapi:
                 self.BASE_URL + 'macd?' + self.base + "&interval=" + str(interval)).content)
 
     # https://taapi.io/indicators/bollinger-bands/
-    def bollinger(self, interval):
+    def bbands(self, interval):
         return json.loads(
             requests.get(
                 self.BASE_URL + 'bbands?' + self.base + "&interval=" + str(interval)).content)
@@ -49,6 +49,12 @@ class Taapi:
         return json.loads(
             requests.get(
                 self.BASE_URL + 'stochrsi?' + self.base + "&interval=" + str(interval)).content)
+
+    # https://taapi.io/indicators/stochastic/
+    def stoch(self, interval):
+        return json.loads(
+            requests.get(
+                self.BASE_URL + 'stoch?' + self.base + "&interval=" + str(interval)).content)
 
     # https://taapi.io/indicators/average-true-range/
     def atr(self, interval):
@@ -67,6 +73,48 @@ class Taapi:
         return json.loads(
             requests.get(
                 self.BASE_URL + 'pivotpoints?' + self.base + "&interval=" + str(interval)).content)
+
+    # https://taapi.io/indicators/annualized-historical-volatility/
+    def volatility(self, interval):
+        return json.loads(
+            requests.get(
+                self.BASE_URL + 'volatility?' + self.base + "&interval=" + str(interval)).content)
+
+    # https://taapi.io/indicators/commodity-channel-index/
+    def cci(self, interval):
+        return json.loads(
+            requests.get(
+                self.BASE_URL + 'cci?' + self.base + "&interval=" + str(interval)).content)
+
+    # https://taapi.io/indicators/trix/
+    def trix(self, interval):
+        return json.loads(
+            requests.get(
+                self.BASE_URL + 'trix?' + self.base + "&interval=" + str(interval)).content)
+
+    # https://taapi.io/indicators/moving-average/
+    def ma(self, interval):
+        return json.loads(
+            requests.get(
+                self.BASE_URL + 'ma?' + self.base + "&interval=" + str(interval)).content)
+
+    # https://taapi.io/indicators/breakaway/
+    def breakaway(self, interval):
+        return json.loads(
+            requests.get(
+                self.BASE_URL + 'breakaway?' + self.base + "&interval=" + str(interval)).content)
+
+    # https://taapi.io/indicators/doji/
+    def doji(self, interval):
+        return json.loads(
+            requests.get(
+                self.BASE_URL + 'doji?' + self.base + "&interval=" + str(interval)).content)
+
+    # https://taapi.io/indicators/hammer/
+    def hammer(self, interval):
+        return json.loads(
+            requests.get(
+                self.BASE_URL + 'hammer?' + self.base + "&interval=" + str(interval)).content)
 
     def candle(self, interval):
         return json.loads(
