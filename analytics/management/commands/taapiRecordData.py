@@ -1,30 +1,18 @@
 from datetime import datetime
-from time import sleep
-import threading
-import schedule
 from analytics.models import ExchangeRecord
 from django.core.management import BaseCommand
 from analytics.services.exchangeApi import Taapi
 import logging
-import requests
+
 
 logger = logging.getLogger('main')
-endpoint = 'http://localhost:4101/indicator'
 
+EXTRA_API = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBpZXJyaTkzQGdtYWlsLmNvbSIsImlhdCI6MTYyNzAzNTMzNSwiZXhwIjo3OTM0MjM1MzM1fQ.m1f7RuvDmmdrTd1l8W7SSd_DVZxn9eabEjCoE8zED-Y'
 ticker = 'BTC/USDT'
-taapi = Taapi(ticker)
 listema = [5, 7, 9, 10, 12, 24, 27, 42, 50, 60, 100, 200, 223, 365]
 
 
-def scheduledTimeFrame(tf):
-
-    if tf == '1h':
-        sleep(25)
-    if tf == '30m':
-        sleep(20)
-    else:
-        sleep(15)
-
+def scheduledTimeFrame(tf, taapi):
     candle = taapi.candle(tf)
     candletimestamp = datetime.fromtimestamp(candle['timestamp'])
     candleunix = candle['timestamp']
@@ -70,10 +58,16 @@ def scheduledTimeFrame(tf):
 
 
 class Command(BaseCommand):
-    help = 'Registra i dati di taapi'
+    help = 'Registra i dati di taapi con intervalli orari'
 
     def add_arguments(self, parser):
         parser.add_argument('--tf', nargs='+', type=str)
 
     def handle(self, *args, **kwargs):
-        scheduledTimeFrame(kwargs['tf'][0])
+
+        tf = kwargs['tf'][0]
+        taapi = Taapi(ticker)
+        if tf == '1h' or tf == '15m' or tf == '30m':
+            taapi = Taapi(ticker, EXTRA_API)
+
+        scheduledTimeFrame(kwargs['tf'][0], taapi)

@@ -9,9 +9,11 @@ class Taapi:
     BASE_URL = 'https://api.taapi.io/'
     API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVnZW9taW5vdHRpQGdtYWlsLmNvbSIsImlhdCI6MTYyNjgwNjc0NSwiZXhwIjo3OTM0MDA2NzQ1fQ.27kEuy9Cih52IIq7r7nIdNYUYFVO2ClfN5bhn_0KCYU'
 
-    def __init__(self, symbol):
+    def __init__(self, symbol, api_extra=None):
         self.symbol = symbol
         self.base = 'secret=' + self.API_KEY + "&exchange=" + self.EXCHANGE + "&symbol=" + self.symbol
+        if api_extra is not None:
+            self.base = 'secret=' + api_extra + "&exchange=" + self.EXCHANGE + "&symbol=" + self.symbol
 
     # https://taapi.io/indicators/exponential-moving-average/
     def ema(self, ema, interval, backtracks=None):
