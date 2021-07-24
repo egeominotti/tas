@@ -55,81 +55,42 @@ class ScalpingTest:
 
         candle_close = self.getvaluecandle()
 
-        """
-        STRATEGY: LONG
-        """
         if self.gettypestrategy() == 'LONG':
             ratio_value = self.ema1 / self.ema2
             if ratio_value == 1 or ratio_value > 1.0005:
                 if self.ema1 > self.ema2:
                     if candle_close > self.ema1:
-                        # print("---------------------------------------------------")
-                        # print("Compro LONG al prezzo: " + str(candle_close))
-                        # print("TP:" + str(candle_close * self.TAKE_PROFIT))
-                        # print("SL:" + str(candle_close * self.STOP_LOSS))
-                        # print("DAY: " + str(self.time))
-                        # print("---------------------------------------------------")
-
                         self.value = candle_close
-                        return [True, self.value]
+                        return self.value
             return False
-        """
-        STRATEGY: LONG
-        """
+
         if self.gettypestrategy() == 'SHORT':
             if self.ema1 <= self.ema2:
                 if candle_close < self.ema1:
                     ratio_value = self.ema2 / self.ema1
                     if ratio_value < self.RATIO:
-                        print("---------------------------------------------------")
-                        print("Compro LONG al prezzo: " + str(candle_close))
-                        print("TP:" + str(candle_close * self.TAKE_PROFIT))
-                        print("SL:" + str(candle_close * self.STOP_LOSS))
-                        print("DAY: " + str(self.time))
-                        print("---------------------------------------------------")
-
                         self.value = candle_close
-                        return [True, self.value]
+                        return self.value
             return False
 
-    # if self.sentinel is True:
-    #     print(self.sentinel)
-    #     if self.gettypestrategy() == 'LONG':
-    #
-    #         """
-    #         TAKE PROFIT
-    #         """
-    #         if candle_close > self.value * self.TAKE_PROFIT:
-    #             print("TAKE PROFIT")
-    #             print("TAKE PROFIT")
-    #             print("TAKE PROFIT")
-    #             print("TAKE PROFIT")
-    #             print("TAKE PROFIT: " + str(self.value * self.TAKE_PROFIT))
-    #             self.sentinel = False
-    #
-    #         """
-    #         STOP LOSS
-    #         """
-    #         if candle_close < self.value * self.STOP_LOSS:
-    #             print("STOP LOSS")
-    #             print("STOP LOSS")
-    #             self.sentinel = False
-    #
-    #     if self.gettypestrategy() == 'SHORT':
-    #
-    #         """
-    #         TAKE PROFIT
-    #         """
-    #         if candle_close < self.value * self.TAKE_PROFIT:
-    #             print("Chiusura posizione long: " + str(self.value * self.TAKE_PROFIT))
-    #             self.sentinel = False
-    #
-    #         """
-    #         STOP LOSS
-    #         """
-    #         if candle_close > self.value * self.STOP_LOSS:
-    #             print("STOP LOSS")
-    #             self.sentinel = False
+    def stop_loss(self, candle_close):
+        if self.gettypestrategy() == 'LONG':
+            if candle_close < candle_close * self.STOP_LOSS:
+                print("STOP LOSS")
+
+        if self.gettypestrategy() == 'SHORT':
+            if candle_close > candle_close * self.STOP_LOSS:
+                print("STOP LOSS")
+
+    def take_profit(self, candle_close):
+
+        if self.gettypestrategy() == 'LONG':
+            if candle_close > candle_close * self.TAKE_PROFIT:
+                print("TAKE PROFIT: " + str(candle_close * self.TAKE_PROFIT))
+
+        if self.gettypestrategy() == 'SHORT':
+            if candle_close < candle_close * self.TAKE_PROFIT:
+                print("TAKE PROFIT: " + str(candle_close * self.TAKE_PROFIT))
 
 
 """
