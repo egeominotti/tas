@@ -20,7 +20,7 @@ class Command(BaseCommand):
         countTakeProfit = 0
         countStopLoss = 0
 
-        qs = ExchangeRecord.objects.filter(tf='15m')
+        qs = ExchangeRecord.objects.filter(tf='1m')
         for v in qs:
             candle_close = v.close
             """
@@ -33,7 +33,7 @@ class Command(BaseCommand):
                     if candle_close > ema9:
                         ratio = ema9 / ema24
                         if ratio < 1.0005:
-                            print(v['timestamp'])
+                            print(v.timestamp)
                             countOpen += 1
                             valueLong = candle_close
                             long = True
