@@ -40,6 +40,7 @@ class Command(BaseCommand):
             if value is not None:
                 dizEntry[v['time']] = value
 
+        print(dizEntry)
         for time_candle, candle_close in dizEntry.items():
             pandasTimeFrmae = df.loc[df['time'] > time_candle]
             for k, v in pandasTimeFrmae.iterrows():
