@@ -3,13 +3,11 @@ from analytics.services.exchangeApi import Taapi
 
 
 class Scalping:
-    interval = 0
-    QUANTITY = 0.004
     TAKE_PROFIT = 1.01
     STOP_LOSS = 0.95
-    lsitTimeSplit = [
-        0, 15, 30, 45
-    ]
+    RATIO = 1.0005
+
+    lsitTimeSplit = [0, 15, 30, 45]
 
     taapi = None
     candle_interval = None
@@ -32,6 +30,15 @@ class Scalping:
     def settimecandle(self, candle_interval):
         self.candle_interval = candle_interval
 
+    def setratio(self, ratio):
+        self.RATIO = ratio
+
+    def settakeprofit(self, takeprofit):
+        self.TAKE_PROFIT = takeprofit
+
+    def setstoploss(self, stoploss):
+        self.STOP_LOSS = stoploss
+
     def strategy(self):
         now = datetime.datetime.now()
         candle_close = self.taapi.candle(self.candle_interval).get('close')
@@ -43,8 +50,8 @@ class Scalping:
                     ema2 = self.taapi.ema(self.ema2, self.ema2_interval)
                     if ema1 >= ema2:
                         if candle_close > ema1:
-                            ratio = ema1 / ema2
-                            if ratio < 1.0005:
+                            ratio_value = ema1 / ema2
+                            if ratio_value < self.RATIO:
 
                                 print("---------------------------------------------------")
                                 print("Compro LONG al prezzo: " + str(candle_close))
