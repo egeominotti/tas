@@ -17,7 +17,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         BackTest.objects.all().delete()
-        df = pd.read_csv("backtest/file/BTC1HCHART.csv")
+        df = pd.read_csv("backtest/file/BTCUSDT15MCANDLE.csv")
         df.set_index('time')
 
         dizEntry = {}
@@ -50,26 +50,26 @@ class Command(BaseCommand):
 
                 if take_profit is True:
                     counterTp += 1
-                    # BackTest.objects.create(
-                    #     algorithm='15min_scalper',
-                    #     entry_candle=candle_close,
-                    #     entry_candle_date=time_candle,
-                    #     candle_take_profit=v['close'],
-                    #     take_profit=True,
-                    # )
+                    BackTest.objects.create(
+                        algorithm='15min_scalper',
+                        entry_candle=candle_close,
+                        entry_candle_date=time_candle,
+                        candle_take_profit=v['close'],
+                        take_profit=True,
+                    )
 
                     break
 
                 if stop_loss is True:
                     counterSl += 1
 
-                    # BackTest.objects.create(
-                    #     algorithm='15min_scalper',
-                    #     entry_candle=candle_close,
-                    #     entry_candle_date=time_candle,
-                    #     candle_stop_loss=v['close'],
-                    #     stop_loss=True,
-                    # )
+                    BackTest.objects.create(
+                        algorithm='15min_scalper',
+                        entry_candle=candle_close,
+                        entry_candle_date=time_candle,
+                        candle_stop_loss=v['close'],
+                        stop_loss=True,
+                    )
 
                     break
 
