@@ -24,8 +24,9 @@ class Command(BaseCommand):
         counterTp = 0
         counterSl = 0
         counterNotCondition = 0
+        valueEntry = 0
         scalping_test = ScalpingTest()
-        scalping_test.setratio(1.0005)
+        scalping_test.setratio(1.0004)
         scalping_test.settakeprofit(1.005)
         scalping_test.setstoploss(0.995)
         scalping_test.settypestrategy('LONG')
@@ -36,9 +37,10 @@ class Command(BaseCommand):
             scalping_test.setema(v['EMA9'], v['EMA24'])
             scalping_test.settime(v['time'])
 
-            value = scalping_test.check_entry()
-            if value is not None:
-                dizEntry[v['time']] = value
+            if v['close'] > valueEntry * 1.005:
+                valueEntry = scalping_test.check_entry()
+                if valueEntry is not None:
+                    dizEntry[v['time']] = valueEntry
 
         print(dizEntry)
         for time_candle, candle_close in dizEntry.items():
