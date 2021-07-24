@@ -51,27 +51,26 @@ class ScalpingTest:
     def setstoploss(self, stoploss):
         self.STOP_LOSS = stoploss
 
-    def check_entry(self):
+    def check_entry(self, activation_flag):
 
-        candle_close = self.getvaluecandle()
+        if activation_flag is False:
 
-        if self.gettypestrategy() == 'LONG':
-            ratio_value = self.ema1 / self.ema2
-            if ratio_value == 1 or ratio_value > 1.0005:
-                if self.ema1 > self.ema2:
+            candle_close = self.getvaluecandle()
+
+            if self.gettypestrategy() == 'LONG':
+                # ratio_value = self.ema1 / self.ema2
+                # if ratio_value == 1 or ratio_value > self.getratio():
+                if self.ema1 >= self.ema2:
                     if candle_close > self.ema1:
-                        self.value = candle_close
-                        return self.value
+                        return True
             return False
 
-        if self.gettypestrategy() == 'SHORT':
-            if self.ema1 <= self.ema2:
-                if candle_close < self.ema1:
-                    ratio_value = self.ema2 / self.ema1
-                    if ratio_value < self.RATIO:
-                        self.value = candle_close
-                        return self.value
-            return False
+            if self.gettypestrategy() == 'SHORT':
+                if self.ema1 <= self.ema2:
+                    if candle_close < self.ema1:
+                        return True
+                return False
+        return False
 
     def stop_loss(self, candle_close):
         if self.gettypestrategy() == 'LONG':
@@ -88,6 +87,9 @@ class ScalpingTest:
     def take_profit(self, candle_close):
 
         if self.gettypestrategy() == 'LONG':
+
+            #print("VALORE CANDELA:" + str(candle_close))
+            #print("TAKE PROFIT:" + str(candle_close * self.TAKE_PROFIT))
             if candle_close > candle_close * self.TAKE_PROFIT:
                 print("TAKE PROFIT: " + str(candle_close * self.TAKE_PROFIT))
                 return True
@@ -97,6 +99,7 @@ class ScalpingTest:
                 print("TAKE PROFIT: " + str(candle_close * self.TAKE_PROFIT))
                 return True
         return False
+
 
 """
 Classe per l'astrazione dei test long/short utilizzando due ema e una candela : utilizzo delle api in tempo reale
