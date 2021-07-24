@@ -45,3 +45,6 @@ class ExchangeRecord(models.Model):
     breakaway = models.JSONField(blank=True, null=True)
     hammer = models.JSONField(blank=True, null=True)
     doji = models.JSONField(blank=True, null=True)
+
+    def __str__(self):
+        return str(self.id)
