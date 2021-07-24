@@ -28,7 +28,7 @@ class Command(BaseCommand):
         scalping_test = ScalpingTest()
         scalping_test.setratio(1.0004)
         scalping_test.settakeprofit(1.005)
-        scalping_test.setstoploss(0.995)
+        scalping_test.setstoploss(0.99)
         scalping_test.settypestrategy('LONG')
 
         for k, v in df.iterrows():
@@ -51,10 +51,28 @@ class Command(BaseCommand):
 
                 if take_profit is True:
                     counterTp += 1
+
+                    BackTest.objects.create(
+                        algorithm='15min_scalper',
+                        entry_candle=candle_close,
+                        entry_candle_date=time_candle,
+                        candle_take_profit=v['close'],
+                        take_profit=True,
+                    )
+
                     break
 
                 if stop_loss is True:
                     counterSl += 1
+
+                    BackTest.objects.create(
+                        algorithm='15min_scalper',
+                        entry_candle=candle_close,
+                        entry_candle_date=time_candle,
+                        candle_stop_loss=v['close'],
+                        stop_loss=True,
+                    )
+
                     break
 
         print("-----------------------")
