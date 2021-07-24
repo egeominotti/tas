@@ -2,9 +2,11 @@ from time import sleep
 
 from django.core.management import BaseCommand
 from backtest.strategy.long.Scalping import ScalpingTest
+from backtest.models import BackTest
 from analytics.models import ExchangeRecord
 import pandas as pd
 import logging
+from dateutil import parser
 
 logger = logging.getLogger('main')
 
@@ -13,24 +15,16 @@ class Command(BaseCommand):
     help = 'Backtesting strategy scalping'
 
     def handle(self, *args, **kwargs):
-        # df = pd.read_csv("backtest/file/scalping_1m.csv")
-        # for k, v in df.iterrows():
-        #     scalping_test = ScalpingTest()
-        #     scalping_test.settypestrategy('LONG')
-        #     scalping_test.setvaluecandle(v['close'])
-        #     scalping_test.setema(9, 24)
-        #     scalping_test.setratio(1.0005)
-        #     scalping_test.settakeprofit(1.01)
-        #     scalping_test.setstoploss(0.95)
-        #     scalping_test.strategy()
 
+        BackTest.objects.all().delete()
         df = pd.read_csv("backtest/file/scalping_15min.csv")
+        df.set_index('time')
 
-        diz = {}
+        dizEntry = {}
         counterTp = 0
         counterSl = 0
         scalping_test = ScalpingTest()
-        scalping_test.setratio(1.0005)
+        scalping_test.setratio(1.01)
         scalping_test.settakeprofit(1.005)
         scalping_test.setstoploss(0.95)
         scalping_test.settypestrategy('LONG')
@@ -43,18 +37,24 @@ class Command(BaseCommand):
 
             value = scalping_test.check_entry()
             if value is not None:
-                diz[v['time']] = value
+                dizEntry[v['time']] = value
 
-        for time_candle, candle_close_entry in diz.items():
-            for k, v in df.iterrows():
-                if time_candle > v['time']:
-                    take_profit = scalping_test.take_profit(v['close'], candle_close_entry)
-                    if take_profit is True:
-                        counterTp += 1
+        for time_candle, candle_close in dizEntry.items():
+            pandasTimeFrmae = df.loc[df['time'] > time_candle]
+            for k, v in pandasTimeFrmae.iterrows():
+                take_profit = scalping_test.take_profit(v['close'], candle_close)
+                stop_loss = scalping_test.stop_loss(v['close'], candle_close)
 
-                    stop_loss = scalping_test.stop_loss(v['close'], candle_close_entry)
-                    if stop_loss is True:
-                        counterSl += 1
+                if take_profit is True:
+                    counterTp += 1
+                    break
 
-        print(counterTp)
-        print(counterSl)
+                if stop_loss is True:
+                    counterSl += 1
+                    break
+
+        print("-----------------------")
+        print("ENTRY: " + str(len(dizEntry)))
+        print("TAKE PROFIT: " + str(counterTp))
+        print("STOP LOSS: " +str(counterSl))
+        print("-----------------------")
