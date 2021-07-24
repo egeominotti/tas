@@ -17,7 +17,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         BackTest.objects.all().delete()
-        df = pd.read_csv("backtest/file/BTCUSDT15MCANDLE.csv")
+        df = pd.read_csv("backtest/file/BTC1HCHART.csv")
         df.set_index('time')
 
         dizEntry = {}
@@ -25,9 +25,9 @@ class Command(BaseCommand):
         counterSl = 0
         counterNotCondition = 0
         scalping_test = ScalpingTest()
-        scalping_test.setratio(1.0004)
-        scalping_test.settakeprofit(1.004)
-        scalping_test.setstoploss(0.996)
+        scalping_test.setratio(1.0010)
+        scalping_test.settakeprofit(1.0025)
+        scalping_test.setstoploss(0.99875)
         scalping_test.settypestrategy('LONG')
 
         for k, v in df.iterrows():
@@ -37,10 +37,10 @@ class Command(BaseCommand):
             scalping_test.setema(v['EMA9'], v['EMA24'])
             scalping_test.settime(v['time'])
 
-            if v['close'] > valueEntry * 1.005:
-                valueEntry = scalping_test.check_entry()
-                if valueEntry is not None:
-                    dizEntry[v['time']] = valueEntry
+            # if v['close'] > valueEntry * 1.0025:
+            valueEntry = scalping_test.check_entry()
+            if valueEntry is not None:
+                dizEntry[v['time']] = valueEntry
 
         for time_candle, candle_close in dizEntry.items():
             pandasTimeFrmae = df.loc[df['time'] > time_candle]
@@ -50,26 +50,26 @@ class Command(BaseCommand):
 
                 if take_profit is True:
                     counterTp += 1
-                    BackTest.objects.create(
-                        algorithm='15min_scalper',
-                        entry_candle=candle_close,
-                        entry_candle_date=time_candle,
-                        candle_take_profit=v['close'],
-                        take_profit=True,
-                    )
+                    # BackTest.objects.create(
+                    #     algorithm='15min_scalper',
+                    #     entry_candle=candle_close,
+                    #     entry_candle_date=time_candle,
+                    #     candle_take_profit=v['close'],
+                    #     take_profit=True,
+                    # )
 
                     break
 
                 if stop_loss is True:
                     counterSl += 1
 
-                    BackTest.objects.create(
-                        algorithm='15min_scalper',
-                        entry_candle=candle_close,
-                        entry_candle_date=time_candle,
-                        candle_stop_loss=v['close'],
-                        stop_loss=True,
-                    )
+                    # BackTest.objects.create(
+                    #     algorithm='15min_scalper',
+                    #     entry_candle=candle_close,
+                    #     entry_candle_date=time_candle,
+                    #     candle_stop_loss=v['close'],
+                    #     stop_loss=True,
+                    # )
 
                     break
 
@@ -77,5 +77,6 @@ class Command(BaseCommand):
         print("ENTRY: " + str(len(dizEntry)))
         print("TAKE PROFIT: " + str(counterTp))
         print("STOP LOSS: " + str(counterSl))
-        print("COUNTER NOT CONDITION: " + str(counterNotCondition))
+        print("PROFIT RATIO: " + str(counterTp / len(dizEntry)))
+        print("LOSS RATIO: " + str(counterSl / len(dizEntry)))
         print("-----------------------")

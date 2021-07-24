@@ -58,8 +58,8 @@ class ScalpingTest:
         if self.gettypestrategy() == 'LONG':
             ratio_value = self.ema1 / self.ema2
             if ratio_value == 1 or ratio_value > self.getratio():
-                if self.ema1 >= self.ema2:
-                    if candle_close > self.ema1:
+                if self.ema1 > self.ema2:
+                    if candle_close >= self.ema1:
                         return candle_close
 
         if self.gettypestrategy() == 'SHORT':
