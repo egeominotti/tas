@@ -51,52 +51,45 @@ class ScalpingTest:
     def setstoploss(self, stoploss):
         self.STOP_LOSS = stoploss
 
-    def check_entry(self, activation_flag):
+    def check_entry(self):
 
-        if activation_flag is False:
+        candle_close = self.getvaluecandle()
 
-            candle_close = self.getvaluecandle()
-
-            if self.gettypestrategy() == 'LONG':
-                # ratio_value = self.ema1 / self.ema2
-                # if ratio_value == 1 or ratio_value > self.getratio():
+        if self.gettypestrategy() == 'LONG':
+            ratio_value = self.ema1 / self.ema2
+            if ratio_value == 1 or ratio_value > self.getratio():
                 if self.ema1 >= self.ema2:
                     if candle_close > self.ema1:
-                        return True
-            return False
+                        return candle_close
 
-            if self.gettypestrategy() == 'SHORT':
-                if self.ema1 <= self.ema2:
-                    if candle_close < self.ema1:
-                        return True
-                return False
-        return False
+        if self.gettypestrategy() == 'SHORT':
+            if self.ema1 <= self.ema2:
+                if candle_close < self.ema1:
+                    return candle_close
 
-    def stop_loss(self, candle_close):
+        return None
+
+    def stop_loss(self, entry_candle_close_value, candle_close_iterate):
         if self.gettypestrategy() == 'LONG':
-            if candle_close < candle_close * self.STOP_LOSS:
+            if candle_close_iterate < entry_candle_close_value * self.STOP_LOSS:
                 print("STOP LOSS")
                 return True
 
         if self.gettypestrategy() == 'SHORT':
-            if candle_close > candle_close * self.STOP_LOSS:
+            if candle_close_iterate > candle_close_iterate * self.STOP_LOSS:
                 print("STOP LOSS")
                 return True
         return False
 
-    def take_profit(self, candle_close):
+    def take_profit(self, entry_candle_close_value, candle_close_iterate):
 
         if self.gettypestrategy() == 'LONG':
 
-            #print("VALORE CANDELA:" + str(candle_close))
-            #print("TAKE PROFIT:" + str(candle_close * self.TAKE_PROFIT))
-            if candle_close > candle_close * self.TAKE_PROFIT:
-                print("TAKE PROFIT: " + str(candle_close * self.TAKE_PROFIT))
+            if candle_close_iterate > entry_candle_close_value * self.TAKE_PROFIT:
                 return True
 
         if self.gettypestrategy() == 'SHORT':
-            if candle_close < candle_close * self.TAKE_PROFIT:
-                print("TAKE PROFIT: " + str(candle_close * self.TAKE_PROFIT))
+            if candle_close_iterate < candle_close_iterate * self.TAKE_PROFIT:
                 return True
         return False
 
