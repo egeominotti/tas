@@ -23,10 +23,11 @@ class Command(BaseCommand):
         dizEntry = {}
         counterTp = 0
         counterSl = 0
+        counterNotCondition = 0
         scalping_test = ScalpingTest()
-        scalping_test.setratio(1.01)
+        scalping_test.setratio(1.0005)
         scalping_test.settakeprofit(1.005)
-        scalping_test.setstoploss(0.95)
+        scalping_test.setstoploss(0.995)
         scalping_test.settypestrategy('LONG')
 
         for k, v in df.iterrows():
@@ -56,5 +57,6 @@ class Command(BaseCommand):
         print("-----------------------")
         print("ENTRY: " + str(len(dizEntry)))
         print("TAKE PROFIT: " + str(counterTp))
-        print("STOP LOSS: " +str(counterSl))
+        print("STOP LOSS: " + str(counterSl))
+        print("COUNTER NOT CONDITION: " + str(counterNotCondition))
         print("-----------------------")
