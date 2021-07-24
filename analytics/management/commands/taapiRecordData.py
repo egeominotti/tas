@@ -67,7 +67,7 @@ class Command(BaseCommand):
 
         tf = kwargs['tf'][0]
         taapi = Taapi(ticker)
-        if tf == '1h' or tf == '15m' or tf == '30m':
+        if tf == '4h' or tf == '1h' or tf == '15m' or tf == '30m':
             taapi = Taapi(ticker, EXTRA_API)
 
         scheduledTimeFrame(kwargs['tf'][0], taapi)
