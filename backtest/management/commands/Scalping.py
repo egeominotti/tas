@@ -51,7 +51,7 @@ class Command(BaseCommand):
 
                 if take_profit is True:
                     counterTp += 1
-
+                    print(v['close'])
                     BackTest.objects.create(
                         algorithm='15min_scalper',
                         entry_candle=candle_close,
@@ -64,6 +64,7 @@ class Command(BaseCommand):
 
                 if stop_loss is True:
                     counterSl += 1
+                    print(v['close'])
 
                     BackTest.objects.create(
                         algorithm='15min_scalper',

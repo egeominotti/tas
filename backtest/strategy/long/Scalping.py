@@ -71,22 +71,22 @@ class ScalpingTest:
 
     def stop_loss(self, entry_candle_close_value, candle_close_iterate):
         if self.gettypestrategy() == 'LONG':
-            if candle_close_iterate < entry_candle_close_value * self.STOP_LOSS:
+            if entry_candle_close_value < candle_close_iterate * self.STOP_LOSS:
                 return True
 
         if self.gettypestrategy() == 'SHORT':
-            if candle_close_iterate > candle_close_iterate * self.STOP_LOSS:
+            if entry_candle_close_value > candle_close_iterate * self.STOP_LOSS:
                 return True
         return False
 
     def take_profit(self, entry_candle_close_value, candle_close_iterate):
 
         if self.gettypestrategy() == 'LONG':
-            if candle_close_iterate > entry_candle_close_value * self.TAKE_PROFIT:
+            if entry_candle_close_value > candle_close_iterate * self.TAKE_PROFIT:
                 return True
 
         if self.gettypestrategy() == 'SHORT':
-            if candle_close_iterate < candle_close_iterate * self.TAKE_PROFIT:
+            if entry_candle_close_value < candle_close_iterate * self.TAKE_PROFIT:
                 return True
         return False
 
