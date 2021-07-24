@@ -77,21 +77,26 @@ class ScalpingTest:
         if self.gettypestrategy() == 'LONG':
             if candle_close < candle_close * self.STOP_LOSS:
                 print("STOP LOSS")
+                return True
 
         if self.gettypestrategy() == 'SHORT':
             if candle_close > candle_close * self.STOP_LOSS:
                 print("STOP LOSS")
+                return True
+        return False
 
     def take_profit(self, candle_close):
 
         if self.gettypestrategy() == 'LONG':
             if candle_close > candle_close * self.TAKE_PROFIT:
                 print("TAKE PROFIT: " + str(candle_close * self.TAKE_PROFIT))
+                return True
 
         if self.gettypestrategy() == 'SHORT':
             if candle_close < candle_close * self.TAKE_PROFIT:
                 print("TAKE PROFIT: " + str(candle_close * self.TAKE_PROFIT))
-
+                return True
+        return False
 
 """
 Classe per l'astrazione dei test long/short utilizzando due ema e una candela : utilizzo delle api in tempo reale
