@@ -17,21 +17,21 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         BackTest.objects.all().delete()
-        df = pd.read_csv("backtest/file/scalping_15min.csv")
+        df = pd.read_csv("backtest/file/BTCUSDT15MCANDLE.csv")
         df.set_index('time')
 
         dizEntry = {}
         counterTp = 0
         counterSl = 0
         counterNotCondition = 0
-        valueEntry = 0
         scalping_test = ScalpingTest()
         scalping_test.setratio(1.0004)
-        scalping_test.settakeprofit(1.005)
-        scalping_test.setstoploss(0.99)
+        scalping_test.settakeprofit(1.004)
+        scalping_test.setstoploss(0.996)
         scalping_test.settypestrategy('LONG')
 
         for k, v in df.iterrows():
+            valueEntry = 0
 
             scalping_test.setvaluecandle(v['close'])
             scalping_test.setema(v['EMA9'], v['EMA24'])
@@ -42,7 +42,6 @@ class Command(BaseCommand):
                 if valueEntry is not None:
                     dizEntry[v['time']] = valueEntry
 
-        print(dizEntry)
         for time_candle, candle_close in dizEntry.items():
             pandasTimeFrmae = df.loc[df['time'] > time_candle]
             for k, v in pandasTimeFrmae.iterrows():
@@ -51,7 +50,6 @@ class Command(BaseCommand):
 
                 if take_profit is True:
                     counterTp += 1
-                    print(v['close'])
                     BackTest.objects.create(
                         algorithm='15min_scalper',
                         entry_candle=candle_close,
@@ -64,7 +62,6 @@ class Command(BaseCommand):
 
                 if stop_loss is True:
                     counterSl += 1
-                    print(v['close'])
 
                     BackTest.objects.create(
                         algorithm='15min_scalper',
