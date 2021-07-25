@@ -1,7 +1,7 @@
 from time import sleep
 
 from django.core.management import BaseCommand
-from backtest.strategy.long.Scalping import ScalpingTest
+from backtest.strategy.long.Scalping import StrategyTest
 from backtest.models import BackTest
 from analytics.models import ExchangeRecord
 import pandas as pd
@@ -21,13 +21,13 @@ class Command(BaseCommand):
         RATIO = 1.00005
 
         BackTest.objects.all().delete()
-        df = pd.read_csv("backtest/file/BINANCE_BTCUSDT_1H.csv")
+        df = pd.read_csv("backtest/file/ScalpingEma9-24-100-1h.csv")
         df.set_index('time')
 
         dizEntry = {}
         counterTp = 0
         counterSl = 0
-        scalping_test = ScalpingTest()
+        scalping_test = StrategyTest()
         scalping_test.setratio(RATIO)
         scalping_test.settakeprofit(TAKE_PROFIT)
         scalping_test.setstoploss(STOP_LOSS)
