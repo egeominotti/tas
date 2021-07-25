@@ -64,21 +64,19 @@ class Command(BaseCommand):
 
             if long is False:
 
-                ema1 = taapi.ema(9, time_frame)
-                ema2 = taapi.ema(24, time_frame)
-                ema3 = taapi.ema(100, time_frame)
+                ema1 = taapi.ema(ema1, time_frame)
+                ema2 = taapi.ema(ema2, time_frame)
+                ema3 = taapi.ema(ema3, time_frame)
 
                 ratio_value = ema1 / ema2
                 if 1 < ratio_value < RATIO:
                     if candle_close > ema3:
 
-                        s1 = "Compro LONG al prezzo: " + str(candle_close)
+                        s1 = "Compro al prezzo: " + str(candle_close)
                         s2 = "TP:" + str(candle_close * TAKE_PROFIT)
                         s3 = "SL:" + str(candle_close * STOP_LOSS)
 
-                        telegram_bot_sendtext(s1)
-                        telegram_bot_sendtext(s2)
-                        telegram_bot_sendtext(s3)
+                        telegram_bot_sendtext(s1 + "\n" + s2 + "\n" + s3)
 
                         print("---------------------------------------------------")
                         print(s1)

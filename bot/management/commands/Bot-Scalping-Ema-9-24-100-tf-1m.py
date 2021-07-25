@@ -48,11 +48,7 @@ class Command(BaseCommand):
             ema1) + "\n-Ema2: " + str(ema2) + "\n -Ema3: " + str(
             ema3) + "\n-Take_profit_value: " + str(TAKE_PROFIT) + "\n-Stop_loss_value: " + str(STOP_LOSS)
 
-        ENV = config('ENVIRONMENT')
-        #
-        # telegram_bot_sendtext(
-        #     "Ciao mi trovo nell'ambiente: " + str(ENV) + ", sto lanciando il BOT: Parametri di configurazione 👇 ")
-        # telegram_bot_sendtext(txt)
+        telegram_bot_sendtext(txt)
 
         taapi = Taapi('BTC/USDT')
         client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
@@ -72,13 +68,11 @@ class Command(BaseCommand):
                 if 1 < ratio_value < RATIO:
                     if candle_close > ema3:
 
-                        s1 = "Compro LONG al prezzo: " + str(candle_close)
+                        s1 = "Buy prezzo: " + str(candle_close)
                         s2 = "TP:" + str(candle_close * TAKE_PROFIT)
                         s3 = "SL:" + str(candle_close * STOP_LOSS)
 
-                        telegram_bot_sendtext(s1)
-                        telegram_bot_sendtext(s2)
-                        telegram_bot_sendtext(s3)
+                        telegram_bot_sendtext(s1 + "\n" + s2 + "\n" + s3)
 
                         print("---------------------------------------------------")
                         print(s1)
