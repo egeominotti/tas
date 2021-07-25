@@ -131,5 +131,5 @@ class Command(BaseCommand):
 
                     long = False
 
-                telegram_bot_sendtext("La posizione e ancora aperta" + str(valueLong))
+                telegram_bot_sendtext("La posizione e ancora aperta: " + str(valueLong))
                 sleep(50)
