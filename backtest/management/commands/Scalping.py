@@ -26,8 +26,8 @@ class Command(BaseCommand):
         counterNotCondition = 0
         scalping_test = ScalpingTest()
         scalping_test.setratio(1.00005)
-        scalping_test.settakeprofit(1.025)
-        scalping_test.setstoploss(0.985)
+        scalping_test.settakeprofit(1.25)
+        scalping_test.setstoploss(0.975)
         scalping_test.settypestrategy('LONG')
 
         for k, v in df.iterrows():
@@ -78,6 +78,10 @@ class Command(BaseCommand):
         print("ENTRY: " + str(len(dizEntry)))
         print("TAKE PROFIT: " + str(counterTp))
         print("STOP LOSS: " + str(counterSl))
-        print("PROFIT RATIO: " + str(counterTp / len(dizEntry)))
-        print("LOSS RATIO: " + str(counterSl / len(dizEntry)))
+
+        profit_ratio = counterTp / len(dizEntry) * 100
+        loss_ratio = counterSl / len(dizEntry) * 100
+
+        print("PROFIT RATIO: " + str(int(profit_ratio)) + "%")
+        print("LOSS RATIO: " + str(int(loss_ratio)) + "%")
         print("-----------------------")
