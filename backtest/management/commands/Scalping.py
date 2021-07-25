@@ -17,7 +17,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         TAKE_PROFIT = 1.02
-        STOP_LOSS = 0.975
+        STOP_LOSS = 0.98
         RATIO = 1.00005
 
         BackTest.objects.all().delete()
@@ -55,7 +55,7 @@ class Command(BaseCommand):
                 if take_profit is True:
                     counterTp += 1
                     BackTest.objects.create(
-                        algorithm='15min_scalper',
+                        algorithm='1h_scalper',
                         entry_candle=candle_close,
                         entry_candle_date=time_candle,
                         candle_take_profit=v['close'],
@@ -68,7 +68,7 @@ class Command(BaseCommand):
                     counterSl += 1
 
                     BackTest.objects.create(
-                        algorithm='15min_scalper',
+                        algorithm='1h_scalper',
                         entry_candle=candle_close,
                         entry_candle_date=time_candle,
                         candle_stop_loss=v['close'],
