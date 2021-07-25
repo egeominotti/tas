@@ -21,7 +21,7 @@ class Command(BaseCommand):
         RATIO = 1.00005
 
         BackTest.objects.all().delete()
-        df = pd.read_csv("backtest/file/ScalpingEma9-24-100-1h.csv")
+        df = pd.read_csv("backtest/file/BINANCE_BTCUSDT_1H.csv")
         df.set_index('time')
 
         dizEntry = {}
