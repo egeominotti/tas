@@ -17,7 +17,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         BackTest.objects.all().delete()
-        df = pd.read_csv("backtest/file/BTCUSDT15MCANDLE.csv")
+        df = pd.read_csv("backtest/file/BINANCE_BTCUSDT_1H.csv")
         df.set_index('time')
 
         dizEntry = {}
@@ -25,16 +25,16 @@ class Command(BaseCommand):
         counterSl = 0
         counterNotCondition = 0
         scalping_test = ScalpingTest()
-        scalping_test.setratio(1.00001)
-        scalping_test.settakeprofit(1.03)
-        scalping_test.setstoploss(0.98)
+        scalping_test.setratio(1.00005)
+        scalping_test.settakeprofit(1.025)
+        scalping_test.setstoploss(0.985)
         scalping_test.settypestrategy('LONG')
 
         for k, v in df.iterrows():
             valueEntry = 0
 
             scalping_test.setvaluecandle(v['close'])
-            scalping_test.setema(v['EMA9'], v['EMA24'])
+            scalping_test.setema(v['EMA9'], v['EMA24'], v['EMA100'])
             scalping_test.settime(v['time'])
 
             # if v['close'] > valueEntry * 1.0025:

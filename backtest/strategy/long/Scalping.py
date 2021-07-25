@@ -13,12 +13,14 @@ class ScalpingTest:
 
     taapi = None
     candle_value = None
-    ema1 = None
-    ema2 = None
     sentinel = False
     value = None
     type = None
     time = None
+    ema1 = None
+    ema2 = None
+    ema3 = None
+    ema4 = None
 
     def settypestrategy(self, type):
         self.type = type
@@ -26,9 +28,11 @@ class ScalpingTest:
     def gettypestrategy(self):
         return self.type
 
-    def setema(self, ema1, ema2):
+    def setema(self, ema1=None, ema2=None, ema3=None, ema4=None):
         self.ema1 = ema1
         self.ema2 = ema2
+        self.ema3 = ema3
+        self.ema4 = ema4
 
     def setvaluecandle(self, candle_value):
         self.candle_value = candle_value
@@ -57,10 +61,9 @@ class ScalpingTest:
 
         if self.gettypestrategy() == 'LONG':
             ratio_value = self.ema1 / self.ema2
-            if ratio_value == 1 or ratio_value < 1.0005:
-                if self.ema1 > self.ema2:
-                    if candle_close >= self.ema1:
-                        return candle_close
+            if ratio_value > 1 or ratio_value < 1.0005:
+                if candle_close > self.ema3:
+                    return candle_close
 
         if self.gettypestrategy() == 'SHORT':
             if self.ema1 <= self.ema2:
