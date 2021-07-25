@@ -96,6 +96,8 @@ class Command(BaseCommand):
 
                         valueLong = candle_close
                         long = True
+                sleep(850)
+
 
             if long is True:
 
