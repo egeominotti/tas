@@ -63,7 +63,6 @@ class Command(BaseCommand):
                 ema3 = taapi.ema(100, time_frame)
 
                 ratio_value = ema1 / ema2
-                # telegram_bot_sendtext("RATIO VALUE: " + str(ratio_value))
                 if 1 < ratio_value < RATIO:
                     if candle_close > ema3:
 
