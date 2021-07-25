@@ -12,6 +12,7 @@ from django.conf import settings
 
 logger = logging.getLogger('main')
 
+
 # https://api.telegram.org/bot1889367095:AAGS13rjA6xWAGvcUTOy1W1vUZvPnNxcDaw/getUpdates
 def telegram_bot_sendtext(bot_message):
     bot_token = '1889367095:AAGS13rjA6xWAGvcUTOy1W1vUZvPnNxcDaw'
@@ -27,18 +28,25 @@ class Command(BaseCommand):
     help = 'Bot-Scalping-Ema-9-24-100'
 
     def handle(self, *args, **kwargs):
-
-        telegram_bot_sendtext("START BOT Bot-Scalping-Ema-9-24-100")
+        TYPE = 'LONG'
         TAKE_PROFIT = 1.02
         STOP_LOSS = 0.98
         RATIO = 1.00005
+        time_frame = '1h'
         QUANTITY = 0.004
         valueLong = 0
+        ema1 = 9
+        ema2 = 24
+        ema3 = 100
 
-        time_frame = '15m'
+        txt = "\n-Strategy:" + str(TYPE) + "\n-Timeframe:" + str(time_frame) + "\n -Ema1:" + str(
+            ema1) + "\n-Ema2:" + str(ema2) + "\n -Ema3:" + str(
+            ema3) + "\n-Take_profit_value:" + str(TAKE_PROFIT) + "\n-Stop_loss_value:" + str(STOP_LOSS)
+
+        telegram_bot_sendtext("Ciao, ho appena lanciato il BOT: parametri sotto ❤️👇 👇 👇 ")
+        telegram_bot_sendtext(txt)
 
         LIVE = False
-
         long = False
         taapi = Taapi('BTC/USDT')
         client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
@@ -55,7 +63,7 @@ class Command(BaseCommand):
                 ema3 = taapi.ema(100, time_frame)
 
                 ratio_value = ema1 / ema2
-                #telegram_bot_sendtext("RATIO VALUE: " + str(ratio_value))
+                # telegram_bot_sendtext("RATIO VALUE: " + str(ratio_value))
                 if 1 < ratio_value < RATIO:
                     if candle_close > ema3:
 
