@@ -98,7 +98,6 @@ class Command(BaseCommand):
                         long = True
                 sleep(850)
 
-
             if long is True:
 
                 candle_close = taapi.candle('1m').get('close')
