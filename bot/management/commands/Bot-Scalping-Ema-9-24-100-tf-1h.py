@@ -131,5 +131,6 @@ class Command(BaseCommand):
 
                     long = False
 
-                telegram_bot_sendtext("La posizione e ancora aperta" + str(valueLong))
+                telegram_bot_sendtext(
+                    "Time frame: " + str(time_frame) + " valore candela di acquisto: " + str(valueLong))
                 sleep(50)
