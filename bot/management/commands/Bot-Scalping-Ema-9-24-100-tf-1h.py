@@ -125,4 +125,5 @@ class Command(BaseCommand):
 
                     long = False
 
-            sleep(30)
+            telegram_bot_sendtext("Tranquilli, sono ancora vivo ma non riesco ancora ad aprire una posizione, mi addormento 30 minuti")
+            sleep(1800)
