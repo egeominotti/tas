@@ -28,9 +28,10 @@ class Command(BaseCommand):
     help = 'Bot-Scalping-Ema-9-24-100-15min'
 
     def handle(self, *args, **kwargs):
+
         TYPE = 'LONG'
-        TAKE_PROFIT = 1.02
-        STOP_LOSS = 0.98
+        TAKE_PROFIT = 1.01
+        STOP_LOSS = 0.995
         RATIO = 1.00005
         time_frame = '15m'
         QUANTITY = 0.004
@@ -98,7 +99,7 @@ class Command(BaseCommand):
 
             if long is True:
 
-                candle_close = taapi.candle(time_frame).get('close')
+                candle_close = taapi.candle('1m').get('close')
 
                 if candle_close > valueLong * TAKE_PROFIT:
 
@@ -131,5 +132,5 @@ class Command(BaseCommand):
                     long = False
 
             telegram_bot_sendtext(
-                "Tranquilli, sono ancora vivo ma non riesco ancora ad aprire una posizione, mi addormento 15 minuti")
+                "Tranquilli, sono ancora vivo ma non riesco ancora ad aprire una posizione, mi addormento 30 secondi")
             sleep(850)

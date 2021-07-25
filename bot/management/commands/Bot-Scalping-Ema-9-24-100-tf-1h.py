@@ -98,7 +98,7 @@ class Command(BaseCommand):
 
             if long is True:
 
-                candle_close = taapi.candle(time_frame).get('close')
+                candle_close = taapi.candle('1m').get('close')
 
                 if candle_close > valueLong * TAKE_PROFIT:
 
@@ -131,5 +131,5 @@ class Command(BaseCommand):
                     long = False
 
             telegram_bot_sendtext(
-                "Tranquilli, sono ancora vivo ma non riesco ancora ad aprire una posizione, mi addormento 30 minuti")
-            sleep(1800)
+                "Tranquilli, sono ancora vivo ma non riesco ancora ad aprire una posizione, mi addormento 30 secondi")
+            sleep(30)
