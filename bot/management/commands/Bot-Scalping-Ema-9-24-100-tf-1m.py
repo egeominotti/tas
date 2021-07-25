@@ -73,12 +73,12 @@ class Command(BaseCommand):
                 if 1 < ratio_value < RATIO:
                     if candle_close > ema3:
 
-                        s0 = "Time frame: " + time_frame
+                        s0 = "Time frame: " + str(time_frame)
                         s1 = "Compro al prezzo: " + str(candle_close)
                         s2 = "TP: " + str(candle_close * TAKE_PROFIT)
                         s3 = "SL: " + str(candle_close * STOP_LOSS)
 
-                        # telegram_bot_sendtext(s0 + "\n" + s1 + "\n" + s2 + "\n" + s3)
+                        telegram_bot_sendtext(s0 + "\n" + s1 + "\n" + s2 + "\n" + s3)
 
                         print("---------------------------------------------------")
                         print(s0)
