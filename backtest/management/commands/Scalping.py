@@ -59,6 +59,7 @@ class Command(BaseCommand):
                         entry_candle=candle_close,
                         entry_candle_date=time_candle,
                         candle_take_profit=v['close'],
+                        candle_take_profit_date=v['time'],
                         take_profit=True,
                     )
 
@@ -72,6 +73,7 @@ class Command(BaseCommand):
                         entry_candle=candle_close,
                         entry_candle_date=time_candle,
                         candle_stop_loss=v['close'],
+                        candle_stop_loss_date=v['time'],
                         stop_loss=True,
                     )
 
