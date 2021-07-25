@@ -48,7 +48,7 @@ class Command(BaseCommand):
         ENV = config('ENVIRONMENT')
 
         telegram_bot_sendtext(
-            "Ciao mi trovo nell'ambiente" + str(ENV) + ", ho appena lanciato il BOT: parametri sotto ❤️👇 👇 👇 ")
+            "Ciao mi trovo nell'ambiente: " + str(ENV) + ", sto lanciando il BOT: Parametri di configurazione 👇 ")
         telegram_bot_sendtext(txt)
 
         taapi = Taapi('BTC/USDT')
