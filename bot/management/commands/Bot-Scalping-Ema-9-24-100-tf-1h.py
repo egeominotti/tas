@@ -47,10 +47,7 @@ class Command(BaseCommand):
             ema1) + "\n-Ema2: " + str(ema2) + "\n -Ema3: " + str(
             ema3) + "\n-Take_profit_value: " + str(TAKE_PROFIT) + "\n-Stop_loss_value: " + str(STOP_LOSS)
 
-        ENV = config('ENVIRONMENT')
 
-        # telegram_bot_sendtext(
-        #     "Ciao mi trovo nell'ambiente: " + str(ENV) + ", sto lanciando il BOT: Parametri di configurazione 👇 ")
         telegram_bot_sendtext(txt)
 
         taapi = Taapi('BTC/USDT')
