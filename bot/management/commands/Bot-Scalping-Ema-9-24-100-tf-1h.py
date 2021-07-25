@@ -1,19 +1,17 @@
-from datetime import datetime
+from binance.enums import *
+from binance import Client
+from decouple import config
 from time import sleep
 from analytics.services.exchangeApi import Taapi
 from django.core.management import BaseCommand
 import logging
-from binance.enums import *
-from binance import Client
-from decouple import config
 
-from dateutil import parser
 
 logger = logging.getLogger('main')
 
 
 class Command(BaseCommand):
-    help = 'Backtesting strategy scalping'
+    help = 'Bot-Scalping-Ema-9-24-100'
 
     def handle(self, *args, **kwargs):
 
@@ -22,6 +20,9 @@ class Command(BaseCommand):
         RATIO = 1.00005
         QUANTITY = 0.004
         valueLong = 0
+
+        time_frame = '1m'
+
         LIVE = False
 
         long = False
@@ -31,18 +32,18 @@ class Command(BaseCommand):
 
         while True:
 
-            candle_close = taapi.candle('1h').get('close')
-            print(candle_close)
+            candle_close = taapi.candle(time_frame).get('close')
 
             if long is False:
 
-                ema1 = taapi.ema(9, '1h')
-                ema2 = taapi.ema(24, '1h')
-                ema3 = taapi.ema(100, '1h')
+                ema1 = taapi.ema(9, time_frame)
+                ema2 = taapi.ema(24, time_frame)
+                ema3 = taapi.ema(100, time_frame)
 
                 ratio_value = ema1 / ema2
                 if 1 < ratio_value < RATIO:
                     if candle_close > ema3:
+
                         print("---------------------------------------------------")
                         print("Compro LONG al prezzo: " + str(candle_close))
                         print("TP:" + str(candle_close * TAKE_PROFIT))
@@ -62,10 +63,11 @@ class Command(BaseCommand):
 
             if long is True:
 
-                candle_close = taapi.candle('1h').get('close')
+                candle_close = taapi.candle(time_frame).get('close')
 
                 if candle_close > valueLong * TAKE_PROFIT:
-                    print("Chiusura posizione long: " + str(valueLong * TAKE_PROFIT))
+
+                    print("TAKE_PROFIT: " + str(valueLong * TAKE_PROFIT))
 
                     if LIVE:
                         client.futures_create_order(
@@ -78,10 +80,10 @@ class Command(BaseCommand):
                     long = False
 
                 if candle_close < valueLong * STOP_LOSS:
-                    print("STOP LOSS")
+
+                    print("STOP LOSS: " + str(valueLong * STOP_LOSS))
 
                     if LIVE:
-
                         client.futures_create_order(
                             symbol='BTCUSDT',
                             side=SIDE_SELL,
