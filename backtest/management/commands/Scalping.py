@@ -16,7 +16,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        TAKE_PROFIT = 1.25
+        TAKE_PROFIT = 1.02
         STOP_LOSS = 0.975
         RATIO = 1.00005
 
