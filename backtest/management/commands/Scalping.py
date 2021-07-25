@@ -16,6 +16,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
+        TAKE_PROFIT = 1.25
+        STOP_LOSS = 0.975
+        RATIO = 1.00005
+
         BackTest.objects.all().delete()
         df = pd.read_csv("backtest/file/BINANCE_BTCUSDT_1H.csv")
         df.set_index('time')
@@ -23,11 +27,10 @@ class Command(BaseCommand):
         dizEntry = {}
         counterTp = 0
         counterSl = 0
-        counterNotCondition = 0
         scalping_test = ScalpingTest()
-        scalping_test.setratio(1.00005)
-        scalping_test.settakeprofit(1.25)
-        scalping_test.setstoploss(0.975)
+        scalping_test.setratio(RATIO)
+        scalping_test.settakeprofit(TAKE_PROFIT)
+        scalping_test.setstoploss(STOP_LOSS)
         scalping_test.settypestrategy('LONG')
 
         for k, v in df.iterrows():
@@ -73,6 +76,7 @@ class Command(BaseCommand):
                     )
 
                     break
+
 
         print("-----------------------")
         print("ENTRY: " + str(len(dizEntry)))
