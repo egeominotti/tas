@@ -49,8 +49,8 @@ class Command(BaseCommand):
 
         ENV = config('ENVIRONMENT')
 
-        telegram_bot_sendtext(
-            "Ciao mi trovo nell'ambiente: " + str(ENV) + ", sto lanciando il BOT: Parametri di configurazione 👇 ")
+        # telegram_bot_sendtext(
+        #     "Ciao mi trovo nell'ambiente: " + str(ENV) + ", sto lanciando il BOT: Parametri di configurazione 👇 ")
         telegram_bot_sendtext(txt)
 
         taapi = Taapi('BTC/USDT')
@@ -63,9 +63,9 @@ class Command(BaseCommand):
 
             if long is False:
 
-                ema1 = taapi.ema(9, time_frame)
-                ema2 = taapi.ema(24, time_frame)
-                ema3 = taapi.ema(100, time_frame)
+                ema1 = taapi.ema(ema1, time_frame)
+                ema2 = taapi.ema(ema2, time_frame)
+                ema3 = taapi.ema(ema3, time_frame)
 
                 ratio_value = ema1 / ema2
                 if 1 < ratio_value < RATIO:
@@ -131,6 +131,5 @@ class Command(BaseCommand):
 
                     long = False
 
-                telegram_bot_sendtext(
-                    "Tranquilli, sono ancora vivo ma non riesco ancora ad aprire una posizione, mi addormento 45 secondi")
-                sleep(30)
+                telegram_bot_sendtext("La posizione e ancora aperta" + str(valueLong))
+                sleep(50)

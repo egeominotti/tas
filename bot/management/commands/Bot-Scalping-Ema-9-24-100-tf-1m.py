@@ -36,9 +36,9 @@ class Command(BaseCommand):
         time_frame = '1m'
         QUANTITY = 0.004
         valueLong = 0
-        ema1 = 9
-        ema2 = 24
-        ema3 = 100
+        ema1 = 5
+        ema2 = 10
+        ema3 = 60
         LIVE = False
         long = False
 
@@ -49,10 +49,10 @@ class Command(BaseCommand):
             ema3) + "\n-Take_profit_value: " + str(TAKE_PROFIT) + "\n-Stop_loss_value: " + str(STOP_LOSS)
 
         ENV = config('ENVIRONMENT')
-
-        telegram_bot_sendtext(
-            "Ciao mi trovo nell'ambiente: " + str(ENV) + ", sto lanciando il BOT: Parametri di configurazione 👇 ")
-        telegram_bot_sendtext(txt)
+        #
+        # telegram_bot_sendtext(
+        #     "Ciao mi trovo nell'ambiente: " + str(ENV) + ", sto lanciando il BOT: Parametri di configurazione 👇 ")
+        # telegram_bot_sendtext(txt)
 
         taapi = Taapi('BTC/USDT')
         client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
@@ -64,9 +64,9 @@ class Command(BaseCommand):
 
             if long is False:
 
-                ema1 = taapi.ema(9, time_frame)
-                ema2 = taapi.ema(24, time_frame)
-                ema3 = taapi.ema(100, time_frame)
+                ema1 = taapi.ema(ema1, time_frame)
+                ema2 = taapi.ema(ema2, time_frame)
+                ema3 = taapi.ema(ema3, time_frame)
 
                 ratio_value = ema1 / ema2
                 if 1 < ratio_value < RATIO:
@@ -132,6 +132,5 @@ class Command(BaseCommand):
 
                     long = False
 
-                telegram_bot_sendtext(
-                    "Tranquilli, sono ancora vivo ma non riesco ancora ad aprire una posizione, mi addormento 30 secondi")
+                telegram_bot_sendtext("La posizione e ancora aperta" + str(valueLong))
                 sleep(50)

@@ -50,8 +50,8 @@ class Command(BaseCommand):
 
         ENV = config('ENVIRONMENT')
 
-        telegram_bot_sendtext(
-            "Ciao mi trovo nell'ambiente: " + str(ENV) + ", sto lanciando il BOT: Parametri di configurazione 👇 ")
+        # telegram_bot_sendtext(
+        #     "Ciao mi trovo nell'ambiente: " + str(ENV) + ", sto lanciando il BOT: Parametri di configurazione 👇 ")
         telegram_bot_sendtext(txt)
 
         taapi = Taapi('BTC/USDT')
@@ -132,6 +132,5 @@ class Command(BaseCommand):
 
                     long = False
 
-                telegram_bot_sendtext(
-                    "Tranquilli, sono ancora vivo ma non riesco ancora ad aprire una posizione, mi addormento 30 secondi")
-                sleep(30)
+                telegram_bot_sendtext("La posizione e ancora aperta" + str(valueLong))
+                sleep(50)
