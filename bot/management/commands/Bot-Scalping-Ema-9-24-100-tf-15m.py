@@ -139,6 +139,6 @@ class Command(BaseCommand):
                     long = False
 
                 telegram_bot_sendtext(
-                    "Time frame del bot: " + str(time_frame) + " - valore candela di acquisto: " + str(
-                        valueLong) + " - valore ultima candela ad un minuto:" + str(candle_close))
+                    "Time frame del bot: \n" + str(time_frame) + " - valore candela di acquisto: \n" + str(
+                        valueLong) + "\n - valore ultima candela ad un minuto:" + str(candle_close))
                 sleep(50)
