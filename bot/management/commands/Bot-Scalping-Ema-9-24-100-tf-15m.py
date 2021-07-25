@@ -61,12 +61,19 @@ class Command(BaseCommand):
         while True:
 
             candle_close = taapi.candle(time_frame).get('close')
+            if candle_close is None:
+                telegram_bot_sendtext("Errore nei dati esco dal bot")
+                break
 
             if long is False:
 
                 ema1 = taapi.ema(ema1, time_frame)
                 ema2 = taapi.ema(ema2, time_frame)
                 ema3 = taapi.ema(ema3, time_frame)
+
+                if ema1 is None or ema2 is None or ema3 is None:
+                    telegram_bot_sendtext("Errore nei dati esco dal bot")
+                    break
 
                 ratio_value = ema1 / ema2
                 if 1 < ratio_value < RATIO:

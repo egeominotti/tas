@@ -42,8 +42,6 @@ class Command(BaseCommand):
         LIVE = False
         long = False
 
-        telegram_bot_sendtext("\n")
-        telegram_bot_sendtext("\n")
         txt = "\n-Strategy: " + str(TYPE) + "\n-Timeframe: " + str(time_frame) + "\n -Ema1: " + str(
             ema1) + "\n-Ema2: " + str(ema2) + "\n -Ema3: " + str(
             ema3) + "\n-Take_profit_value: " + str(TAKE_PROFIT) + "\n-Stop_loss_value: " + str(STOP_LOSS)
@@ -57,12 +55,19 @@ class Command(BaseCommand):
         while True:
 
             candle_close = taapi.candle(time_frame).get('close')
+            if candle_close is None:
+                telegram_bot_sendtext("Errore nei dati esco dal bot")
+                break
 
             if long is False:
 
                 ema1 = taapi.ema(ema1, time_frame)
                 ema2 = taapi.ema(ema2, time_frame)
                 ema3 = taapi.ema(ema3, time_frame)
+
+                if ema1 is None or ema2 is None or ema3 is None:
+                    telegram_bot_sendtext("Errore nei dati esco dal bot")
+                    break
 
                 ratio_value = ema1 / ema2
                 if 1 < ratio_value < RATIO:
@@ -73,9 +78,10 @@ class Command(BaseCommand):
                         s2 = "TP: " + str(candle_close * TAKE_PROFIT)
                         s3 = "SL: " + str(candle_close * STOP_LOSS)
 
-                        telegram_bot_sendtext(s0 + "\n" + s1 + "\n" + s2 + "\n" + s3)
+                        # telegram_bot_sendtext(s0 + "\n" + s1 + "\n" + s2 + "\n" + s3)
 
                         print("---------------------------------------------------")
+                        print(s0)
                         print(s1)
                         print(s2)
                         print(s3)
@@ -91,11 +97,14 @@ class Command(BaseCommand):
 
                         valueLong = candle_close
                         long = True
-                sleep(50)
+                sleep(30)
 
             if long is True:
 
                 candle_close = taapi.candle('1m').get('close')
+                if candle_close is None:
+                    telegram_bot_sendtext("Errore nei dati esco dal bot")
+                    break
 
                 if candle_close > valueLong * TAKE_PROFIT:
 
@@ -128,6 +137,6 @@ class Command(BaseCommand):
                     long = False
 
                 telegram_bot_sendtext(
-                    "Time frame del bot: " + str(time_frame) + " - valore candela di acquisto: " + str(
-                        valueLong) + " - valore ultima candela ad un minuto:" + str(candle_close))
-                sleep(50)
+                    "Time frame del bot: " + str(time_frame) + "\n - valore candela di acquisto: " + str(
+                        valueLong) + "\n - valore ultima candela ad un minuto: " + str(candle_close))
+                sleep(30)
