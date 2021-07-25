@@ -24,7 +24,6 @@ INSTALLED_APPS = [
     'backtest',
 ]
 
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
