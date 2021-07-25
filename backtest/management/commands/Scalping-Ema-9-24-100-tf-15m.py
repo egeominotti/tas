@@ -40,7 +40,6 @@ class Command(BaseCommand):
             scalping_test.setema(v['EMA9'], v['EMA24'], v['EMA100'])
             scalping_test.settime(v['time'])
 
-            # if v['close'] > valueEntry * 1.0025:
             valueEntry = scalping_test.check_entry()
             if valueEntry is not None:
                 dizEntry[v['time']] = valueEntry
