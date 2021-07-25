@@ -45,9 +45,11 @@ class Command(BaseCommand):
             ema1) + "\n-Ema2:" + str(ema2) + "\n -Ema3:" + str(
             ema3) + "\n-Take_profit_value:" + str(TAKE_PROFIT) + "\n-Stop_loss_value:" + str(STOP_LOSS)
 
+        ENV = config('ENVIRONMENT')
+
+        telegram_bot_sendtext("Ambiente: " + str(ENV))
         telegram_bot_sendtext("Ciao, ho appena lanciato il BOT: parametri sotto ❤️👇 👇 👇 ")
         telegram_bot_sendtext(txt)
-
 
         taapi = Taapi('BTC/USDT')
         client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
@@ -126,5 +128,6 @@ class Command(BaseCommand):
 
                     long = False
 
-            telegram_bot_sendtext("Tranquilli, sono ancora vivo ma non riesco ancora ad aprire una posizione, mi addormento 30 minuti")
+            telegram_bot_sendtext(
+                "Tranquilli, sono ancora vivo ma non riesco ancora ad aprire una posizione, mi addormento 30 minuti")
             sleep(1800)
