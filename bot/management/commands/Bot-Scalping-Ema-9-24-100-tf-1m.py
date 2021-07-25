@@ -34,7 +34,7 @@ class Command(BaseCommand):
         STOP_LOSS = 0.995
         RATIO = 1.00005
         time_frame = '1m'
-        QUANTITY = 0.004
+        QUANTITY = 0.002
         valueLong = 0
         ema1 = 5
         ema2 = 10
@@ -101,7 +101,7 @@ class Command(BaseCommand):
 
                         valueLong = candle_close
                         long = True
-                sleep(30)
+                sleep(59)
 
             if long is True:
 
@@ -147,4 +147,4 @@ class Command(BaseCommand):
                     telegram_bot_sendtext(
                         "Time frame del bot: \n" + str(time_frame) + " - posizione aperta con valore: \n" + str(
                             valueLong) + "\n - valore candela ad un minuto close: " + str(candle_close))
-                sleep(50)
+                sleep(59)
