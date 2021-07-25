@@ -11,6 +11,8 @@ import logging
 from django.conf import settings
 
 logger = logging.getLogger('main')
+client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
+client.futures_change_leverage(symbol='BTCUSDT', marginType='ISOLATED', leverage=1)
 
 
 # https://api.telegram.org/bot1889367095:AAGS13rjA6xWAGvcUTOy1W1vUZvPnNxcDaw/getUpdates
@@ -24,10 +26,22 @@ def telegram_bot_sendtext(bot_message):
     return response.json()
 
 
+def get_quantity_precision(currency_symbol):
+    info = client.futures_exchange_info()
+    info = info['symbols']
+    for x in range(len(info)):
+        if info[x]['symbol'] == currency_symbol:
+            return info[x]['pricePrecision']
+    return None
+
+
 class Command(BaseCommand):
     help = 'Bot-Scalping-Ema-9-24-100-15min'
 
     def handle(self, *args, **kwargs):
+
+        # 20 USDT
+        TRADE_SIZE = 30.0
 
         TYPE = 'LONG'
         TAKE_PROFIT = 1.01
@@ -39,8 +53,8 @@ class Command(BaseCommand):
         ema1 = 5
         ema2 = 10
         ema3 = 60
-        LIVE = True
-        long = False
+        LIVE = False
+        sentinel = False
         TELEGRAM_BOT = False
 
         txt = "\n-Strategy: " + str(TYPE) + "\n-Timeframe: " + str(time_frame) + "\n -Ema1: " + str(
@@ -50,8 +64,10 @@ class Command(BaseCommand):
             telegram_bot_sendtext(txt)
 
         taapi = Taapi('BTC/USDT')
-        client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
-        client.futures_change_leverage(symbol='BTCUSDT', marginType='ISOLATED', leverage=1)
+
+        price = client.get_symbol_ticker(symbol="BTCUSDT")
+        print(price)
+        QUANTITY = TRADE_SIZE / float(price.get('price'))
 
         while True:
 
@@ -61,7 +77,7 @@ class Command(BaseCommand):
                     telegram_bot_sendtext("Errore nei dati esco dal bot")
                 break
 
-            if long is False:
+            if sentinel is False:
 
                 ema1 = taapi.ema(ema1, time_frame)
                 ema2 = taapi.ema(ema2, time_frame)
@@ -100,10 +116,10 @@ class Command(BaseCommand):
                             )
 
                         valueLong = candle_close
-                        long = True
+                        sentinel = True
                 sleep(59)
 
-            if long is True:
+            if sentinel is True:
 
                 candle_close = taapi.candle('1m').get('close')
                 if candle_close is None:
@@ -125,7 +141,7 @@ class Command(BaseCommand):
                             quantity=QUANTITY,
                         )
 
-                    long = False
+                    sentinel = False
 
                 if candle_close < valueLong * STOP_LOSS:
 
@@ -141,10 +157,10 @@ class Command(BaseCommand):
                             quantity=QUANTITY,
                         )
 
-                    long = False
+                    sentinel = False
 
-                if TELEGRAM_BOT:
-                    telegram_bot_sendtext(
-                        "Time frame del bot: \n" + str(time_frame) + " - posizione aperta con valore: \n" + str(
-                            valueLong) + "\n - valore candela ad un minuto close: " + str(candle_close))
+                # if TELEGRAM_BOT:
+                #     telegram_bot_sendtext(
+                #         "Time frame del bot: \n" + str(time_frame) + " - posizione aperta con valore: \n" + str(
+                #             valueLong) + "\n - valore candela ad un minuto close: " + str(candle_close))
                 sleep(59)
