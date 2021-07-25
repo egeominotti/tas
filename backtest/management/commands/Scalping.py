@@ -25,9 +25,9 @@ class Command(BaseCommand):
         counterSl = 0
         counterNotCondition = 0
         scalping_test = ScalpingTest()
-        scalping_test.setratio(1.0010)
-        scalping_test.settakeprofit(1.0025)
-        scalping_test.setstoploss(0.99875)
+        scalping_test.setratio(1.00001)
+        scalping_test.settakeprofit(1.03)
+        scalping_test.setstoploss(0.98)
         scalping_test.settypestrategy('LONG')
 
         for k, v in df.iterrows():
