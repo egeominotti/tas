@@ -38,6 +38,8 @@ class Command(BaseCommand):
         ema1 = 9
         ema2 = 24
         ema3 = 100
+        LIVE = False
+        long = False
 
         txt = "\n-Strategy:" + str(TYPE) + "\n-Timeframe:" + str(time_frame) + "\n -Ema1:" + str(
             ema1) + "\n-Ema2:" + str(ema2) + "\n -Ema3:" + str(
@@ -46,8 +48,7 @@ class Command(BaseCommand):
         telegram_bot_sendtext("Ciao, ho appena lanciato il BOT: parametri sotto ❤️👇 👇 👇 ")
         telegram_bot_sendtext(txt)
 
-        LIVE = False
-        long = False
+
         taapi = Taapi('BTC/USDT')
         client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
         client.futures_change_leverage(symbol='BTCUSDT', marginType='ISOLATED', leverage=1)
