@@ -61,7 +61,7 @@ class ScalpingTest:
 
         if self.gettypestrategy() == 'LONG':
             ratio_value = self.ema1 / self.ema2
-            if ratio_value > 1 or ratio_value < 1.0005:
+            if ratio_value > 1 and ratio_value < 1.00005:
                 if candle_close > self.ema3:
                     return candle_close
 
