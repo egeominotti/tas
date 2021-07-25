@@ -15,4 +15,5 @@ django-cors-headers
 schedule
 python-binance
 pandas
-
+python-telegram-bot
+telegram-send
