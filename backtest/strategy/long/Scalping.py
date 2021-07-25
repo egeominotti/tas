@@ -1,5 +1,6 @@
 import datetime
 from analytics.services.exchangeApi import Taapi
+import abc
 
 """
 Classe per astrarre i test passando i valori dai file oppure dal db

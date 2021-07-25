@@ -45,6 +45,7 @@ class Command(BaseCommand):
         for time_candle, candle_close in dizEntry.items():
             pandasTimeFrmae = df.loc[df['time'] > time_candle]
             for k, v in pandasTimeFrmae.iterrows():
+
                 take_profit = scalping_test.take_profit(v['close'], candle_close)
                 stop_loss = scalping_test.stop_loss(v['close'], candle_close)
 
