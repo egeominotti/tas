@@ -12,10 +12,10 @@ from django.conf import settings
 
 logger = logging.getLogger('main')
 
-
+# https://api.telegram.org/bot1889367095:AAGS13rjA6xWAGvcUTOy1W1vUZvPnNxcDaw/getUpdates
 def telegram_bot_sendtext(bot_message):
     bot_token = '1889367095:AAGS13rjA6xWAGvcUTOy1W1vUZvPnNxcDaw'
-    bot_chatID = '655989560'
+    bot_chatID = '-558016221'
     send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
 
     response = requests.get(send_text)
@@ -55,7 +55,7 @@ class Command(BaseCommand):
                 ema3 = taapi.ema(100, time_frame)
 
                 ratio_value = ema1 / ema2
-                telegram_bot_sendtext("RATIO VALUE: " + str(ratio_value))
+                #telegram_bot_sendtext("RATIO VALUE: " + str(ratio_value))
                 if 1 < ratio_value < RATIO:
                     if candle_close > ema3:
 
