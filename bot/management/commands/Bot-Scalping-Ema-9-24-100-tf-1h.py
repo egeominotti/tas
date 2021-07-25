@@ -41,6 +41,8 @@ class Command(BaseCommand):
         LIVE = False
         long = False
 
+        telegram_bot_sendtext("\n")
+        telegram_bot_sendtext("\n")
         txt = "\n-Strategy:" + str(TYPE) + "\n-Timeframe:" + str(time_frame) + "\n -Ema1:" + str(
             ema1) + "\n-Ema2:" + str(ema2) + "\n -Ema3:" + str(
             ema3) + "\n-Take_profit_value:" + str(TAKE_PROFIT) + "\n-Stop_loss_value:" + str(STOP_LOSS)
