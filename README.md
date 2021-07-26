@@ -24,3 +24,7 @@
     0 */12 * * *  /home/tas/venv/bin/python3 /home/tas/manage.py taapiRecordData --tf '12h'
     0 1 * * *  /home/tas/venv/bin/python3 /home/tas/manage.py taapiRecordData --tf '1d'
     0 0 * * 0  /home/tas/venv/bin/python3 /home/tas/manage.py taapiRecordData --tf '1w'
+
+### CoreUI
+    npm install
+    npm install -g @vue/cli@latest
