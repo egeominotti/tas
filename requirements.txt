@@ -22,3 +22,4 @@ technic
 TA-Lib
 numpy
 backtrader
+ccxt
