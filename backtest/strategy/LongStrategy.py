@@ -1,10 +1,12 @@
-from abc import ABCMeta, abstractmethod
-
+import numpy as np
+import pandas
+from datetime import datetime
 from backtest.models import BackTest
-from backtest.services import Strategy
+from backtest.services import StrategyAbstract
+import talib as ta
 
 
-class StrategyLongScalpingEMA(Strategy):
+class StrategyLongScalpingEMA(StrategyAbstract):
 
     def __init__(self, symbol, klines, ratio):
         super().__init__()

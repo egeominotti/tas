@@ -3,7 +3,7 @@ from django.core.management import BaseCommand
 import logging
 from binance import Client
 from decouple import config
-from strategy.long.Strategy import StrategyLongScalpingEMA
+from backtest.strategy.LongStrategy import StrategyLongScalpingEMA
 
 logger = logging.getLogger('main')
 
