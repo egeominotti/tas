@@ -20,4 +20,4 @@ telegram-send
 bta-lib
 technic
 TA-Lib
-talib
+numpy
