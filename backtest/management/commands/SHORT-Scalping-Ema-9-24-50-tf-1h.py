@@ -18,8 +18,8 @@ class Command(BaseCommand):
 
         BackTest.objects.all().delete()
 
-        TAKE_PROFIT = 1.02
-        STOP_LOSS = 0.98
+        TAKE_PROFIT = 0.99
+        STOP_LOSS = 1.003
         RATIO = 1.00005
 
 
@@ -55,7 +55,7 @@ class Command(BaseCommand):
                 if take_profit is True:
                     counterTp += 1
                     BackTest.objects.create(
-                        algorithm='1h_scalper',
+                        algorithm='SHORT-Scalping-Ema-9-24-50-tf-1h',
                         entry_candle=candle_close,
                         entry_candle_date=time_candle,
                         candle_take_profit=v['close'],
@@ -69,7 +69,7 @@ class Command(BaseCommand):
                     counterSl += 1
 
                     BackTest.objects.create(
-                        algorithm='1h_scalper',
+                        algorithm='SHORT-Scalping-Ema-9-24-50-tf-1h',
                         entry_candle=candle_close,
                         entry_candle_date=time_candle,
                         candle_stop_loss=v['close'],
