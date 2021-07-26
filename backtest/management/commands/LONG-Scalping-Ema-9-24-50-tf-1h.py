@@ -13,7 +13,6 @@ logger = logging.getLogger('main')
 
 
 class StrategyLongScalpingEMA(Strategy):
-    computed_data_list = []
 
     def __init__(self, klines):
         super().__init__()
@@ -70,19 +69,20 @@ class StrategyLongScalpingEMA(Strategy):
         Fine logica
         """
 
-    def generate_signals(self) -> object:
+    def generate_signals(self) -> dict:
         diz = {}
         for item in self.computed_data():
             if item is not None:
                 self.logic(item, diz)
         return diz
 
-    def check_entry(self, take_profit, stop_loss):
+    def check_entry(self, take_profit, stop_loss) -> None:
 
         computed_data = self.computed_data()
         signals = self.generate_signals()
 
-        print(signals)
+        print(len(signals))
+        print(len(computed_data))
         """
         Scrivere la logica stop_loss o take_profit
         """
