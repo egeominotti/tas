@@ -69,6 +69,10 @@ class Command(BaseCommand):
         print(price)
         QUANTITY = TRADE_SIZE / float(price.get('price'))
 
+        info = client.get_account()
+        print(info)
+        # set the percentage or fraction you want to invest in each order
+
         while True:
 
             candle_close = taapi.candle(time_frame).get('close')
