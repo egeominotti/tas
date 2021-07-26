@@ -76,34 +76,36 @@ class StrategyLongScalpingEMA(Strategy):
                 self.logic(item, diz)
         return diz
 
-    def check_entry(self, take_profit, stop_loss) -> None:
-
-        computed_data = self.computed_data()
-        signals = self.generate_signals()
-
-        print(len(signals))
-        print(len(computed_data))
-        """
-        Scrivere la logica stop_loss o take_profit
-        """
-
-        return None
+    # def check_entry(self, take_profit, stop_loss) -> None:
+    #
+    #     computed_data = self.computed_data()
+    #     signals = self.generate_signals()
+    #
+    #     print(len(signals))
+    #     print(len(computed_data))
+    #     """
+    #     Scrivere la logica stop_loss o take_profit
+    #     """
+    #
+    #     return None
 
 
 class Command(BaseCommand):
     help = 'Backtesting strategy scalping'
 
     def handle(self, *args, **kwargs):
+
         TAKE_PROFIT = 1.02
         STOP_LOSS = 0.98
         RATIO = 1.00005
 
         now = datetime.now().strftime("%d %b, %Y")
         client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
-        klines = client.get_historical_klines('BTCUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2020", now)
 
+        klines = client.get_historical_klines('BTCUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2017", now)
         st = StrategyLongScalpingEMA(klines)
-        signals = st.check_entry(take_profit=TAKE_PROFIT, stop_loss=STOP_LOSS)
+        signals = st.generate_signals()
+        bars = st.computed_data()
 
         # for time_candle, candle_close in dizEntry.items():
         #     pandasTimeFrmae = df.loc[df['timestamp'] > time_candle]
