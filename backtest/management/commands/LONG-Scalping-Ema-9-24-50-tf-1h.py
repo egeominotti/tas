@@ -21,8 +21,8 @@ class Command(BaseCommand):
         RATIO = 1.00005
 
         BackTest.objects.all().delete()
-        df = pd.read_csv("backtest/file/BINANCE_BTCUSDT_1H.csv")
-        df.set_index('time')
+        df = pd.read_csv("backtest/file/daily.csv")
+        df.set_index('unix')
 
         dizEntry = {}
         counterTp = 0
@@ -36,16 +36,15 @@ class Command(BaseCommand):
         for k, v in df.iterrows():
 
             scalping_test.setvaluecandle(v['close'])
-            scalping_test.setema(v['EMA9'], v['EMA24'], v['EMA50'])
-            scalping_test.settime(v['time'])
+            scalping_test.setema(v['ema9'], v['ema24'], v['ema50'])
+            scalping_test.settime(v['timestamp'])
 
-            # if v['close'] > valueEntry * 1.0025:
             valueEntry = scalping_test.check_entry()
             if valueEntry is not None:
-                dizEntry[v['time']] = valueEntry
+                dizEntry[v['timestamp']] = valueEntry
 
         for time_candle, candle_close in dizEntry.items():
-            pandasTimeFrmae = df.loc[df['time'] > time_candle]
+            pandasTimeFrmae = df.loc[df['timestamp'] > time_candle]
             for k, v in pandasTimeFrmae.iterrows():
 
                 take_profit = scalping_test.take_profit(v['close'], candle_close)
@@ -58,7 +57,7 @@ class Command(BaseCommand):
                         entry_candle=candle_close,
                         entry_candle_date=time_candle,
                         candle_take_profit=v['close'],
-                        candle_take_profit_date=v['time'],
+                        candle_take_profit_date=v['timestamp'],
                         take_profit=True,
                     )
 
@@ -72,7 +71,7 @@ class Command(BaseCommand):
                         entry_candle=candle_close,
                         entry_candle_date=time_candle,
                         candle_stop_loss=v['close'],
-                        candle_stop_loss_date=v['time'],
+                        candle_stop_loss_date=v['timestamp'],
                         stop_loss=True,
                     )
 
