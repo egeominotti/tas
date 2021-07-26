@@ -1,12 +1,8 @@
-from time import sleep
-
 from django.core.management import BaseCommand
 from backtest.strategy.long.Scalping import StrategyTest
 from backtest.models import BackTest
-from analytics.models import ExchangeRecord
 import pandas as pd
 import logging
-from dateutil import parser
 
 logger = logging.getLogger('main')
 
