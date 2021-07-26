@@ -57,8 +57,6 @@ class StrategyLongScalpingEMA(Strategy):
 
         return computed_data
 
-
-
     def generate_signals(self) -> dict:
         diz = {}
         for item in self.computed_data():
@@ -81,12 +79,18 @@ class StrategyLongScalpingEMA(Strategy):
         """
 
     def logic_stop_loss(self, candle_close_entry, candle_iterate, stop_loss):
+        """
+        Scrivere la logica qui
+        """
         if candle_close_entry < candle_iterate * stop_loss:
             return True
         return False
 
     def logic_takeprofit(self, candle_close_entry, candle_iterate, take_profit):
-        if candle_close_entry < candle_iterate * take_profit:
+        """
+        Scrivere la logica qui
+        """
+        if candle_close_entry > candle_iterate * take_profit:
             return True
         return False
 
