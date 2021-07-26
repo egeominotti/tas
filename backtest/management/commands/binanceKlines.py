@@ -9,7 +9,7 @@ import talib as ta
 
 logger = logging.getLogger('main')
 
-file = "backtest/file/daily.csv"
+file = "backtest/file/1h_hystory.csv"
 resultFile = open(file, 'w')
 
 
@@ -40,7 +40,7 @@ class Command(BaseCommand):
         # Timeframe 1m, 15m, 30m, 1h, 2h, 4h, 8h, 12h, 1D,3D,1
 
         client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
-        klines = client.get_historical_klines('BTCUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2020", "26 Jul, 2021")
+        klines = client.get_historical_klines('BTCUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2017", "26 Jul, 2021")
 
         time = [entry[0] / 1000 for entry in klines]
         open = [float(entry[1]) for entry in klines]
