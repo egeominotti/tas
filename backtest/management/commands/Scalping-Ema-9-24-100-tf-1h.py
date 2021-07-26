@@ -34,13 +34,11 @@ class Command(BaseCommand):
         scalping_test.settypestrategy('LONG')
 
         for k, v in df.iterrows():
-            valueEntry = 0
 
-            scalping_test.setvaluecandle(v['close'])
+            scalping_test.setvaluecandle(v['open'])
             scalping_test.setema(v['EMA9'], v['EMA24'], v['EMA100'])
             scalping_test.settime(v['time'])
 
-            # if v['close'] > valueEntry * 1.0025:
             valueEntry = scalping_test.check_entry()
             if valueEntry is not None:
                 dizEntry[v['time']] = valueEntry
@@ -49,8 +47,8 @@ class Command(BaseCommand):
             pandasTimeFrmae = df.loc[df['time'] > time_candle]
             for k, v in pandasTimeFrmae.iterrows():
 
-                take_profit = scalping_test.take_profit(v['close'], candle_close)
-                stop_loss = scalping_test.stop_loss(v['close'], candle_close)
+                take_profit = scalping_test.take_profit(v['open'], candle_close)
+                stop_loss = scalping_test.stop_loss(v['open'], candle_close)
 
                 if take_profit is True:
                     counterTp += 1
@@ -58,7 +56,7 @@ class Command(BaseCommand):
                         algorithm='1h_scalper',
                         entry_candle=candle_close,
                         entry_candle_date=time_candle,
-                        candle_take_profit=v['close'],
+                        candle_take_profit=v['open'],
                         candle_take_profit_date=v['time'],
                         take_profit=True,
                     )
@@ -72,7 +70,7 @@ class Command(BaseCommand):
                         algorithm='1h_scalper',
                         entry_candle=candle_close,
                         entry_candle_date=time_candle,
-                        candle_stop_loss=v['close'],
+                        candle_stop_loss=v['open'],
                         candle_stop_loss_date=v['time'],
                         stop_loss=True,
                     )
