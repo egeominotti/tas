@@ -23,3 +23,4 @@ TA-Lib
 numpy
 backtrader
 ccxt
+backtrader_plotting
