@@ -59,11 +59,12 @@ class StrategyLongScalpingEMA(Strategy):
     def logic(self, item, diz) -> None:
 
         """
-        Scrivere la logica qui0
+        Scrivere la logica qui
         """
         ratio_value = item['ema9'] / item['ema24']
         if 1 < ratio_value < 1.00005:
             if item['close'] > item['ema100']:
+                # Non modificare la parte sottostante
                 diz[item['timestamp']] = item
         """
         Fine logica
@@ -102,10 +103,12 @@ class Command(BaseCommand):
         now = datetime.now().strftime("%d %b, %Y")
         client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
 
-        klines = client.get_historical_klines('BTCUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2017", now)
+        klines = client.get_historical_klines('RVNUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2017", now)
         st = StrategyLongScalpingEMA(klines)
         signals = st.generate_signals()
-        bars = st.computed_data()
+        print(len(signals))
+        computed_bars = st.computed_data()
+        print(len(computed_bars))
 
         # for time_candle, candle_close in dizEntry.items():
         #     pandasTimeFrmae = df.loc[df['timestamp'] > time_candle]
