@@ -28,6 +28,16 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
     -p https://github.com/zsh-users/zsh-autosuggestions \
     -p https://github.com/zsh-users/zsh-completions
 
+
+RUN wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz && \
+  tar -xvzf ta-lib-0.4.0-src.tar.gz && \
+  cd ta-lib/ && \
+  ./configure --prefix=/usr && \
+  make && \
+  make install
+
+RUN rm -R ta-lib ta-lib-0.4.0-src.tar.gz
+
 RUN mkdir /tas
 WORKDIR /tas
 COPY entrypoint.sh /tas/
