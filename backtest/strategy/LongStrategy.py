@@ -2,11 +2,26 @@ import numpy as np
 import pandas
 from datetime import datetime
 from backtest.models import BackTest
-from backtest.services import StrategyAbstract
 import talib as ta
+from abc import ABCMeta, abstractmethod
 
 
-class StrategyLongScalpingEMA(StrategyAbstract):
+class Strategy(object):
+    __metaclass__ = ABCMeta
+
+    def __init__(self):
+        pass
+
+    @abstractmethod
+    def generate_signals(self):
+        raise NotImplementedError("Should implement generate_signals()!")
+
+    @abstractmethod
+    def computed_data(self):
+        raise NotImplementedError("Should implement generate_signals()!")
+
+
+class StrategyLongScalpingEMA(Strategy):
 
     def __init__(self, symbol, klines, ratio):
         super().__init__()
