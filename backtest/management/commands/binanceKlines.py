@@ -40,8 +40,7 @@ class Command(BaseCommand):
 
         csvfile = open(file, 'w', newline='')
         candlestick_write = csv.writer(csvfile, delimiter=',')
-        candlesticks = client.get_historical_klines('BTCUSDT', '1h', "1 Jan, 2021", "30 Jan, 2021")
-
+        candlesticks = client.get_historical_klines('BTCUSDT', '1h', "1 Jan, 2020", "30 Jan, 2021")
 
         candlestick_processed = []
         for data in candlesticks:
@@ -50,18 +49,21 @@ class Command(BaseCommand):
                 "open": data[1],
                 "high": data[2],
                 "low": data[3],
-                "close": data[4]
+                "close": data[4],
+                'volume': data[5]
             }
             candlestick_processed.append(candlestick)
-
+        print(candlestick_processed)
         for candlestick in candlesticks:
-            candlestick[0] = candlestick[0] / 100
+            candlestick[0] = candlestick[0] / 10000  # divide timestamp to ignore miliseconds
             candlestick_write.writerow(candlestick)
 
-        my_data = genfromtxt(file, delimiter='')
-        close = my_data[:, 4]
-        print(close)
-
-        ema9 = talib.EMA(close, timeperiod=9)
-        ema24 = talib.EMA(close, timeperiod=24)
-        ema50 = talib.EMA(close, timeperiod=50)
+        csvfile.close()
+        #
+        # my_data = genfromtxt(file, delimiter='')
+        # close = my_data[:, 4]
+        # print(close)
+        #
+        # ema9 = talib.EMA(close, timeperiod=9)
+        # ema24 = talib.EMA(close, timeperiod=24)
+        # ema50 = talib.EMA(close, timeperiod=50)
