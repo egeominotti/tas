@@ -48,7 +48,6 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
         ema24 = ta.EMA(close_array, timeperiod=24)
         ema100 = ta.EMA(close_array, timeperiod=100)
 
-
         computed_data = []
         lenght = len(time)
         for i in range(lenght):
@@ -106,7 +105,7 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
         return False
 
     def check_entry(self, take_profit, stop_loss):
-        BackTest.objects.all().delete()
+        BackTest.objects.filter(algorithm=self.__class__.__name__).delete()
         counterTP = 0
         counterSL = 0
 
