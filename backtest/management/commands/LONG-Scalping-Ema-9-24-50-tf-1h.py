@@ -1,3 +1,4 @@
+from bisect import bisect
 from datetime import datetime
 
 import numpy as np
@@ -12,31 +13,32 @@ logger = logging.getLogger('main')
 
 
 class StrategyLongScalpingEMA(Strategy):
+    computed_data_list = []
 
-    def __init__(self):
+    def __init__(self, klines):
         super().__init__()
-        self.computed_list = []
+        self.klines = klines
 
-    def compute_data(self, klines):
+    def computed_data(self):
+
         """
-
         :param klines: kline ottenuta da un exchange
         :return: La lista con i valori computati
         """
 
-        time = [entry[0] / 1000 for entry in klines]
-        open = [float(entry[1]) for entry in klines]
-        high = [float(entry[2]) for entry in klines]
-        low = [float(entry[3]) for entry in klines]
-        close = [float(entry[4]) for entry in klines]
-        volume = [float(entry[5]) for entry in klines]
+        time = [entry[0] / 1000 for entry in self.klines]
+        open = [float(entry[1]) for entry in self.klines]
+        high = [float(entry[2]) for entry in self.klines]
+        low = [float(entry[3]) for entry in self.klines]
+        close = [float(entry[4]) for entry in self.klines]
+        volume = [float(entry[5]) for entry in self.klines]
         close_array = np.asarray(close)
 
         ema9 = ta.EMA(close_array, timeperiod=9)
         ema24 = ta.EMA(close_array, timeperiod=24)
         ema100 = ta.EMA(close_array, timeperiod=100)
 
-        computed_list = []
+        computed_data = []
         lenght = len(time)
         for i in range(lenght):
             diz = {
@@ -51,14 +53,14 @@ class StrategyLongScalpingEMA(Strategy):
                 'ema24': ema24[i],
                 'ema100': ema100[i],
             }
-            computed_list.append(diz)
+            computed_data.append(diz)
 
-        self.computed_list = computed_list
+        return computed_data
 
     def generate_signals(self) -> object:
 
         dizSignals = {}
-        for item in self.computed_list:
+        for item in self.computed_data():
             if item is not None:
                 """
                 Scrivere la logica del backtesting qui
@@ -67,26 +69,40 @@ class StrategyLongScalpingEMA(Strategy):
                 if 1 < ratio_value < 1.00005:
                     if item['close'] > item['ema100']:
                         dizSignals[item['timestamp']] = item
-        print(len(dizSignals))
+                """
+                Fine logica
+                """
+
         return dizSignals
+
+    def check_entry(self, take_profit, stop_loss):
+
+        computed_data = self.computed_data()
+        signals = self.generate_signals()
+
+        print(computed_data)
+        print(signals)
+        """
+        Scrivere la logica stop_loss o take_profit
+        """
+
+        return None
+
 
 class Command(BaseCommand):
     help = 'Backtesting strategy scalping'
 
     def handle(self, *args, **kwargs):
-
         TAKE_PROFIT = 1.02
         STOP_LOSS = 0.98
         RATIO = 1.00005
 
         now = datetime.now().strftime("%d %b, %Y")
         client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
-        klines = client.get_historical_klines('BTCUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2017", now)
+        klines = client.get_historical_klines('RVNUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2020", now)
 
-        st = StrategyLongScalpingEMA()
-        st.compute_data(klines)
-        st.generate_signals()
-
+        st = StrategyLongScalpingEMA(klines)
+        signals = st.check_entry(take_profit=TAKE_PROFIT, stop_loss=STOP_LOSS)
 
         # for time_candle, candle_close in dizEntry.items():
         #     pandasTimeFrmae = df.loc[df['timestamp'] > time_candle]

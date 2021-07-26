@@ -55,7 +55,7 @@ class Strategy(object):
         raise NotImplementedError("Should implement generate_signals()!")
 
     @abstractmethod
-    def compute_data(self, kline):
+    def computed_data(self):
         raise NotImplementedError("Should implement generate_signals()!")
 
 class StrategyTest:
