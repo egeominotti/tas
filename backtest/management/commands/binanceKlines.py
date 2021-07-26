@@ -1,46 +1,22 @@
-import csv
-import time
-from time import sleep
-
-import numpy as np
-from django.core.management import BaseCommand
-from backtest.strategy.long.Scalping import StrategyTest
-from backtest.models import BackTest
-from analytics.models import ExchangeRecord
-import pandas as pd
-import logging
-from dateutil import parser
-from binance import Client, BinanceSocketManager
-from decouple import config
-import btalib
-import talib
-import technic
-from talib.abstract import *
-from talib import abstract, SMA, EMA
-import numpy
-from numpy import genfromtxt
-import backtrader as bt
-import ccxt
-import talib as ta
-
 from datetime import datetime
+from binance import Client
+from decouple import config
+from django.core.management import BaseCommand
+import csv
+import numpy as np
+import logging
+import talib as ta
 
 logger = logging.getLogger('main')
 
-client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
+file = "backtest/file/daily.csv"
+resultFile = open(file, 'w')
 
-
-# https://mrjbq7.github.io/ta-lib/func_groups/overlap_studies.html
 
 class Command(BaseCommand):
-    help = 'Backtesting strategy scalping'
+    help = 'Scraping dei dati'
 
     def handle(self, *args, **kwargs):
-        # file = 'backtest/file/daily.csv'
-        #
-        # csvfile = open(file, 'w', newline='')
-        # candlestick_write = csv.writer(csvfile, delimiter=',')
-
         """
         [
           [
@@ -63,7 +39,8 @@ class Command(BaseCommand):
         # listema = [5, 7, 9, 10, 12, 24, 27,30, 42, 50, 60, 100, 200, 223, 365]
         # Timeframe 1m, 15m, 30m, 1h, 2h, 4h, 8h, 12h, 1D,3D,1
 
-        klines = client.get_historical_klines('BTCUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2017", "26 Jul, 2021")
+        client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
+        klines = client.get_historical_klines('BTCUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2020", "26 Jul, 2021")
 
         time = [entry[0] / 1000 for entry in klines]
         open = [float(entry[1]) for entry in klines]
@@ -73,6 +50,7 @@ class Command(BaseCommand):
         volume = [float(entry[5]) for entry in klines]
 
         close_array = np.asarray(close)
+
         ema5 = ta.EMA(close_array, timeperiod=5)
         ema7 = ta.EMA(close_array, timeperiod=7)
         ema9 = ta.EMA(close_array, timeperiod=9)
@@ -89,12 +67,10 @@ class Command(BaseCommand):
         ema223 = ta.EMA(close_array, timeperiod=223)
         ema365 = ta.EMA(close_array, timeperiod=365)
 
-
-        diz = {}
+        listItem = []
         lenght = len(time)
         for i in range(lenght):
-
-            diz[time[i]] = {
+            diz = {
                 'unix': time[i],
                 'timestamp': datetime.fromtimestamp(time[i]),
                 'open': open[i],
@@ -118,4 +94,10 @@ class Command(BaseCommand):
                 'ema223': ema223[i],
                 'ema365': ema365[i]
             }
-        print(diz)
+            listItem.append(diz)
+
+        # Write csv on file
+        with resultFile as output_file:
+            fc = csv.DictWriter(output_file, fieldnames=listItem[0].keys())
+            fc.writeheader()
+            fc.writerows(listItem)
