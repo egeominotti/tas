@@ -48,6 +48,7 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
         ema24 = ta.EMA(close_array, timeperiod=24)
         ema100 = ta.EMA(close_array, timeperiod=100)
 
+
         computed_data = []
         lenght = len(time)
         for i in range(lenght):
