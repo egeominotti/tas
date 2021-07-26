@@ -59,9 +59,9 @@ class Command(BaseCommand):
           ]
         ]
         """
-        klines = client.get_historical_klines('BTCUSDT', Client.KLINE_INTERVAL_1MINUTE, "26 Jul, 2021")
+        klines = client.get_historical_klines('BTCUSDT', Client.KLINE_INTERVAL_1MINUTE, "26 Jul, 2018", "26 Jul, 2021")
 
-        time = [entry[0]/1000 for entry in klines]
+        time = [entry[0] / 1000 for entry in klines]
         open = [float(entry[1]) for entry in klines]
         high = [float(entry[2]) for entry in klines]
         low = [float(entry[3]) for entry in klines]
@@ -71,7 +71,8 @@ class Command(BaseCommand):
         close_array = np.asarray(close)
         ema9 = ta.EMA(close_array, timeperiod=9)
         ema50 = ta.EMA(close_array, timeperiod=50)
-        ema100 = ta.EMA(close_array, timeperiod=100)
+        ema100 = ta.RSI(close_array, timeperiod=100)
+        # upperband, middleband, lowerband = ta.BBANDS(close, timeperiod=5, nbdevup=2, nbdevdn=2, matype=0)
 
         diz = {}
         lenght = len(time)
