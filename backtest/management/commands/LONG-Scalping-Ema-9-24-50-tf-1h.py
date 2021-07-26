@@ -22,7 +22,7 @@ class Command(BaseCommand):
 
         BackTest.objects.all().delete()
         df = pd.read_csv("backtest/file/daily.csv")
-        df.set_index('unix')
+        df.set_index('timestamp')
 
         dizEntry = {}
         counterTp = 0
@@ -36,7 +36,7 @@ class Command(BaseCommand):
         for k, v in df.iterrows():
 
             scalping_test.setvaluecandle(v['close'])
-            scalping_test.setema(v['ema9'], v['ema24'], v['ema50'])
+            scalping_test.setema(v['ema9'], v['ema24'], v['ema100'])
             scalping_test.settime(v['timestamp'])
 
             valueEntry = scalping_test.check_entry()
