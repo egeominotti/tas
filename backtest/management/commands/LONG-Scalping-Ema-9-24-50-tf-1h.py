@@ -104,11 +104,16 @@ class Command(BaseCommand):
         client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
 
         klines = client.get_historical_klines('RVNUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2017", now)
+
         st = StrategyLongScalpingEMA(klines)
         signals = st.generate_signals()
-        print(len(signals))
-        computed_bars = st.computed_data()
-        print(len(computed_bars))
+        computed_bars = st.computed_data()[0]
+
+        # print(len(computed_bars))
+        # print(len(signals))
+        for k, v in signals.items():
+            val = computed_bars[k]
+            print(val)
 
         # for time_candle, candle_close in dizEntry.items():
         #     pandasTimeFrmae = df.loc[df['timestamp'] > time_candle]
