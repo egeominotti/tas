@@ -66,13 +66,15 @@ class StrategyTest:
         return self.candle_value
 
     def stop_loss(self, entry_candle_close_value, candle_close_iterate):
+
         if self.gettypestrategy() == 'LONG':
             if entry_candle_close_value < candle_close_iterate * self.STOP_LOSS:
                 return True
 
         if self.gettypestrategy() == 'SHORT':
-            if entry_candle_close_value > candle_close_iterate * self.STOP_LOSS:
+            if entry_candle_close_value < candle_close_iterate * self.STOP_LOSS:
                 return True
+
         return False
 
     def take_profit(self, entry_candle_close_value, candle_close_iterate):
@@ -84,4 +86,5 @@ class StrategyTest:
         if self.gettypestrategy() == 'SHORT':
             if entry_candle_close_value < candle_close_iterate * self.TAKE_PROFIT:
                 return True
+
         return False
