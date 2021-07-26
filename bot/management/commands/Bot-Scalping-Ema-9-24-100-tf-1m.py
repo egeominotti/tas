@@ -26,6 +26,21 @@ def telegram_bot_sendtext(bot_message):
     return response.json()
 
 
+def get_futures_usdt(is_both=True) -> float:
+    futures_usd = 0.0
+    for asset in client.futures_account_balance():
+        name = asset["asset"]
+        balance = float(asset["balance"])
+        if name == "USDT":
+            futures_usd += balance
+
+        if name == "BNB" and is_both:
+            current_bnb_price_USD = client.get_symbol_ticker(symbol="BNBUSDT")["price"]
+            futures_usd += balance * float(current_bnb_price_USD)
+
+    return float(futures_usd)
+
+
 def get_quantity_precision(currency_symbol):
     info = client.futures_exchange_info()
     info = info['symbols']
@@ -69,8 +84,7 @@ class Command(BaseCommand):
         print(price)
         QUANTITY = TRADE_SIZE / float(price.get('price'))
 
-        info = client.get_account()
-        print(info)
+        print(get_futures_usdt())
         # set the percentage or fraction you want to invest in each order
 
         while True:
