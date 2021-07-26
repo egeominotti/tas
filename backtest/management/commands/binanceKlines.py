@@ -60,10 +60,10 @@ class Command(BaseCommand):
         ]
         """
 
-        # listema = [5, 7, 9, 10, 12, 24, 27, 42, 50, 60, 100, 200, 223, 365]
+        # listema = [5, 7, 9, 10, 12, 24, 27,30, 42, 50, 60, 100, 200, 223, 365]
         # Timeframe 1m, 15m, 30m, 1h, 2h, 4h, 8h, 12h, 1D,3D,1
 
-        klines = client.get_historical_klines('BTCUSDT', Client.KLINE_INTERVAL_1HOUR, "14 Aug, 2020", "26 Jul, 2021")
+        klines = client.get_historical_klines('BTCUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2017", "26 Jul, 2021")
 
         time = [entry[0] / 1000 for entry in klines]
         open = [float(entry[1]) for entry in klines]
@@ -80,6 +80,7 @@ class Command(BaseCommand):
         ema12 = ta.EMA(close_array, timeperiod=12)
         ema24 = ta.EMA(close_array, timeperiod=24)
         ema27 = ta.EMA(close_array, timeperiod=27)
+        ema30 = ta.EMA(close_array, timeperiod=30)
         ema42 = ta.EMA(close_array, timeperiod=42)
         ema50 = ta.EMA(close_array, timeperiod=50)
         ema60 = ta.EMA(close_array, timeperiod=60)
@@ -108,6 +109,7 @@ class Command(BaseCommand):
                 'ema12': ema12[i],
                 'ema24': ema24[i],
                 'ema27': ema27[i],
+                'ema30': ema30[i],
                 'ema42': ema42[i],
                 'ema50': ema50[i],
                 'ema60': ema60[i],
@@ -117,26 +119,3 @@ class Command(BaseCommand):
                 'ema365': ema365[i]
             }
         print(diz)
-
-        # for i in xrange(len(my_lis)):
-        #     open_time = open_time[k]
-        #     close = close[k]
-        #     ema9 = ema9[k]
-        #
-        #     diz = {
-        #         'open_time': open_time,
-        #         'close': close,
-        #         'ema9': ema9
-        #     }
-        # candlestick_processed = []
-        # for data in candlesticks:
-        #     candlestick = {
-        #         "open": data[1],
-        #         "high": data[2],
-        #         "low": data[3],
-        #         "close": data[4],
-        #         'volume': data[5]
-        #     }
-        #     output = EMA(candlestick, timeperiod=25)
-        #     print(output)
-        #     candlestick_processed.append(candlestick)
