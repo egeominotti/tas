@@ -143,3 +143,8 @@ class Command(BaseCommand):
 
         st = StrategyLongScalpingEMA(klines=klines, ratio=1.00005)
         st.check_entry(take_profit=1.021, stop_loss=0.9845)
+
+        klines = client.get_historical_klines('ETHUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2017", now)
+
+        st = StrategyLongScalpingEMA(klines=klines, ratio=1.00005)
+        st.check_entry(take_profit=1.021, stop_loss=0.9845)
