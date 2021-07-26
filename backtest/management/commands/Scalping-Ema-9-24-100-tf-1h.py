@@ -16,9 +16,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        TAKE_PROFIT = 1.02
+        TAKE_PROFIT = 1.01
         STOP_LOSS = 0.98
-        RATIO = 1.00005
+        RATIO = 1.0001
 
         BackTest.objects.all().delete()
         df = pd.read_csv("backtest/file/BINANCE_BTCUSDT_1H.csv")
