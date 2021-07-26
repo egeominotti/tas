@@ -16,11 +16,12 @@ import btalib
 import talib
 import technic
 from talib.abstract import *
-from talib import abstract, SMA
+from talib import abstract, SMA, EMA
 import numpy
 from numpy import genfromtxt
 import backtrader as bt
 import ccxt
+import talib as ta
 
 from datetime import datetime
 
@@ -35,35 +36,76 @@ class Command(BaseCommand):
     help = 'Backtesting strategy scalping'
 
     def handle(self, *args, **kwargs):
+        # file = 'backtest/file/daily.csv'
+        #
+        # csvfile = open(file, 'w', newline='')
+        # candlestick_write = csv.writer(csvfile, delimiter=',')
 
-        file = 'backtest/file/daily.csv'
+        """
+        [
+          [
+            1499040000000,      // Open time
+            "0.01634790",       // Open
+            "0.80000000",       // High
+            "0.01575800",       // Low
+            "0.01577100",       // Close
+            "148976.11427815",  // Volume
+            1499644799999,      // Close time
+            "2434.19055334",    // Quote asset volume
+            308,                // Number of trades
+            "1756.87402397",    // Taker buy base asset volume
+            "28.46694368",      // Taker buy quote asset volume
+            "17928899.62484339" // Ignore.
+          ]
+        ]
+        """
+        klines = client.get_historical_klines('BTCUSDT', Client.KLINE_INTERVAL_1MINUTE, "26 Jul, 2021")
 
-        csvfile = open(file, 'w', newline='')
-        candlestick_write = csv.writer(csvfile, delimiter=',')
-        candlesticks = client.get_historical_klines('BTCUSDT', '1h', "1 Jan, 2020", "30 Jan, 2021")
+        time = [entry[0]/1000 for entry in klines]
+        open = [float(entry[1]) for entry in klines]
+        high = [float(entry[2]) for entry in klines]
+        low = [float(entry[3]) for entry in klines]
+        close = [float(entry[4]) for entry in klines]
+        volume = [float(entry[5]) for entry in klines]
 
-        candlestick_processed = []
-        for data in candlesticks:
-            candlestick = {
-                "time": data[0],
-                "open": data[1],
-                "high": data[2],
-                "low": data[3],
-                "close": data[4],
-                'volume': data[5]
+        close_array = np.asarray(close)
+        ema9 = ta.EMA(close_array, timeperiod=9)
+        ema50 = ta.EMA(close_array, timeperiod=50)
+
+        diz = {}
+        lenght = len(time)
+        for i in range(lenght):
+            diz = {
+                'unix': time[i],
+                'timestamp': datetime.fromtimestamp(time[i]),
+                'open': open[i],
+                'high': high[i],
+                'low': low[i],
+                'close': close[i],
+                'volume': volume[i],
+                'ema9': ema9[i],
+                'ema50': ema50[i]
             }
-            candlestick_processed.append(candlestick)
-        print(candlestick_processed)
-        for candlestick in candlesticks:
-            candlestick[0] = candlestick[0] / 10000  # divide timestamp to ignore miliseconds
-            candlestick_write.writerow(candlestick)
-
-        csvfile.close()
+            print(diz)
+        # for i in xrange(len(my_lis)):
+        #     open_time = open_time[k]
+        #     close = close[k]
+        #     ema9 = ema9[k]
         #
-        # my_data = genfromtxt(file, delimiter='')
-        # close = my_data[:, 4]
-        # print(close)
-        #
-        # ema9 = talib.EMA(close, timeperiod=9)
-        # ema24 = talib.EMA(close, timeperiod=24)
-        # ema50 = talib.EMA(close, timeperiod=50)
+        #     diz = {
+        #         'open_time': open_time,
+        #         'close': close,
+        #         'ema9': ema9
+        #     }
+        # candlestick_processed = []
+        # for data in candlesticks:
+        #     candlestick = {
+        #         "open": data[1],
+        #         "high": data[2],
+        #         "low": data[3],
+        #         "close": data[4],
+        #         'volume': data[5]
+        #     }
+        #     output = EMA(candlestick, timeperiod=25)
+        #     print(output)
+        #     candlestick_processed.append(candlestick)
