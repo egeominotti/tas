@@ -18,7 +18,7 @@ client.futures_change_leverage(symbol='BTCUSDT', marginType='ISOLATED', leverage
 # https://api.telegram.org/bot1889367095:AAGS13rjA6xWAGvcUTOy1W1vUZvPnNxcDaw/getUpdates
 def telegram_bot_sendtext(bot_message):
     bot_token = '1889367095:AAGS13rjA6xWAGvcUTOy1W1vUZvPnNxcDaw'
-    bot_chatID = '-558016221'
+    bot_chatID = '655989560'
     send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
 
     response = requests.get(send_text)
@@ -70,7 +70,7 @@ class Command(BaseCommand):
         ema3 = 60
         LIVE = False
         sentinel = False
-        TELEGRAM_BOT = False
+        TELEGRAM_BOT = True
 
         txt = "\n-Strategy: " + str(TYPE) + "\n-Timeframe: " + str(time_frame) + "\n -Ema1: " + str(
             ema1) + "\n-Ema2: " + str(ema2) + "\n -Ema3: " + str(
@@ -135,7 +135,7 @@ class Command(BaseCommand):
 
                         valueLong = candle_close
                         sentinel = True
-                sleep(59)
+                sleep(60)
 
             if sentinel is True:
 

@@ -38,7 +38,7 @@ class Command(BaseCommand):
         valueLong = 0
         ema1 = 9
         ema2 = 24
-        ema3 = 100
+        ema3 = 50
         LIVE = False
         long = False
 
@@ -137,4 +137,4 @@ class Command(BaseCommand):
                 # telegram_bot_sendtext(
                 #     "Time frame del bot: \n" + str(time_frame) + " - posizione aperta con valore: \n" + str(
                 #         valueLong) + "\n - valore candela ad un minuto close:" + str(candle_close))
-                sleep(60)
+                sleep(1)
