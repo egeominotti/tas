@@ -15,9 +15,10 @@ logger = logging.getLogger('main')
 
 class StrategyLongScalpingEMA(Strategy):
 
-    def __init__(self, klines):
+    def __init__(self, klines, ratio):
         super().__init__()
         self.klines = klines
+        self.ratio = ratio
 
     def computed_data(self) -> list:
 
@@ -70,7 +71,7 @@ class StrategyLongScalpingEMA(Strategy):
         Scrivere la logica qui
         """
         ratio_value = item['ema9'] / item['ema24']
-        if 1 < ratio_value < 1.00005:
+        if 1 < ratio_value < self.ratio:
             if item['close'] > item['ema100']:
                 # Non modificare la parte sottostante
                 diz[item['timestamp']] = item
@@ -140,5 +141,5 @@ class Command(BaseCommand):
 
         klines = client.get_historical_klines('BTCUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2017", now)
 
-        st = StrategyLongScalpingEMA(klines=klines)
+        st = StrategyLongScalpingEMA(klines=klines, ratio=1.0001)
         st.check_entry(take_profit=1.02, stop_loss=0.98)
