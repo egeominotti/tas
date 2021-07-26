@@ -63,7 +63,7 @@ class Command(BaseCommand):
         # listema = [5, 7, 9, 10, 12, 24, 27, 42, 50, 60, 100, 200, 223, 365]
         # Timeframe 1m, 15m, 30m, 1h, 2h, 4h, 8h, 12h, 1D,3D,1
 
-        klines = client.get_historical_klines('BTCUSDT', Client.KLINE_INTERVAL_1MINUTE, "26 Jul, 2018", "26 Jul, 2021")
+        klines = client.get_historical_klines('BTCUSDT', Client.KLINE_INTERVAL_1HOUR, "14 Aug, 2020", "26 Jul, 2021")
 
         time = [entry[0] / 1000 for entry in klines]
         open = [float(entry[1]) for entry in klines]
@@ -87,7 +87,7 @@ class Command(BaseCommand):
         ema200 = ta.EMA(close_array, timeperiod=200)
         ema223 = ta.EMA(close_array, timeperiod=223)
         ema365 = ta.EMA(close_array, timeperiod=365)
-        # upperband, middleband, lowerband = ta.BBANDS(close, timeperiod=5, nbdevup=2, nbdevdn=2, matype=0)
+
 
         diz = {}
         lenght = len(time)
