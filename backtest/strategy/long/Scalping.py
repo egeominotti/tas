@@ -1,20 +1,10 @@
-import datetime
-from analytics.services.exchangeApi import Taapi
-import abc
-
-"""
-Classe per astrarre i test passando i valori dai file oppure dal db
-"""
-
-
 class StrategyTest:
-    TAKE_PROFIT = 1.01
-    STOP_LOSS = 0.95
-    RATIO = 1.0005
+    TAKE_PROFIT = 0
+    STOP_LOSS = 0
+    RATIO = 0
 
     taapi = None
     candle_value = None
-    sentinel = False
     value = None
     type = None
     time = None
@@ -69,7 +59,7 @@ class StrategyTest:
         if self.gettypestrategy() == 'SHORT':
             ratio_value = self.ema2 / self.ema1
             if 1 < ratio_value < self.getratio():
-                if candle_close > self.ema3:
+                if candle_close < self.ema3:
                     return candle_close
 
         return None
