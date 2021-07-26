@@ -34,7 +34,6 @@ class Command(BaseCommand):
         scalping_test.settypestrategy('LONG')
 
         for k, v in df.iterrows():
-            valueEntry = 0
 
             scalping_test.setvaluecandle(v['close'])
             scalping_test.setema(v['EMA9'], v['EMA24'], v['EMA100'])
@@ -78,7 +77,6 @@ class Command(BaseCommand):
                     )
 
                     break
-
 
         print("-----------------------")
         print("ENTRY: " + str(len(dizEntry)))
