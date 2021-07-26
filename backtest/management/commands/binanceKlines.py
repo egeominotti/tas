@@ -71,6 +71,7 @@ class Command(BaseCommand):
         close_array = np.asarray(close)
         ema9 = ta.EMA(close_array, timeperiod=9)
         ema50 = ta.EMA(close_array, timeperiod=50)
+        ema100 = ta.EMA(close_array, timeperiod=100)
 
         diz = {}
         lenght = len(time)
@@ -84,7 +85,8 @@ class Command(BaseCommand):
                 'close': close[i],
                 'volume': volume[i],
                 'ema9': ema9[i],
-                'ema50': ema50[i]
+                'ema50': ema50[i],
+                'ema100': ema100[i]
             }
             print(diz)
         # for i in xrange(len(my_lis)):
