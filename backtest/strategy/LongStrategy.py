@@ -21,7 +21,7 @@ class Strategy(object):
         raise NotImplementedError("Should implement generate_signals()!")
 
 
-class StrategyLongScalpingEMA(Strategy):
+class LongStrategyScalping_EMA_9_24_100(Strategy):
 
     def __init__(self, symbol, klines, ratio):
         super().__init__()

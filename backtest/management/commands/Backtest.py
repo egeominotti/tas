@@ -3,7 +3,7 @@ from django.core.management import BaseCommand
 import logging
 from binance import Client
 from decouple import config
-from backtest.strategy.LongStrategy import StrategyLongScalpingEMA
+from backtest.strategy.LongStrategy import LongStrategyScalping_EMA_9_24_100
 
 logger = logging.getLogger('main')
 
@@ -17,5 +17,5 @@ class Command(BaseCommand):
 
         klines = client.get_historical_klines('BTCUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2017", now)
 
-        st = StrategyLongScalpingEMA(symbol='BTCUSDT', klines=klines, ratio=1.00005)
+        st = LongStrategyScalping_EMA_9_24_100(symbol='BTCUSDT', klines=klines, ratio=1.00005)
         st.check_entry(take_profit=1.021, stop_loss=0.9845)
