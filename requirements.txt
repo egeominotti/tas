@@ -21,3 +21,4 @@ bta-lib
 technic
 TA-Lib
 numpy
+backtrader

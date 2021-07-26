@@ -1,3 +1,4 @@
+import csv
 from time import sleep
 
 from django.core.management import BaseCommand
@@ -14,12 +15,16 @@ import talib
 import technic
 from talib.abstract import *
 from talib import abstract, SMA
+import numpy
+from numpy import genfromtxt
+import backtrader as bt
 
 logger = logging.getLogger('main')
 
 client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
 
 
+# https://mrjbq7.github.io/ta-lib/func_groups/overlap_studies.html
 def get_df(symbol):
     client_columns = ['timestamp', 'open', 'high', 'low', 'close', 'volume',
                       'close_time', 'quote_av', 'trades', 'tb_base_av', 'tb_quote_av', 'ignore']
@@ -31,23 +36,49 @@ def get_df(symbol):
     return df
 
 
+class RSIStrategy(bt.Strategy):
+
+    def __init__(self):
+        self.rsi = bt.talib.RSI(self.data, period=14)
+
+    def next(self):
+        if self.rsi < 30 and not self.position:
+            self.buy(size=1)
+        if self.rsi < 70 and not self.position:
+            self.buy(size=1)
+
+
 class Command(BaseCommand):
     help = 'Backtesting strategy scalping'
 
     def handle(self, *args, **kwargs):
-        # valid intervals - 1m, 3m, 5m, 15m, 30m, 1h, 2h, 4h, 6h, 8h, 12h, 1d, 3d, 1w, 1M
+        file = 'backtest/file/daily.csv'
 
-        #timestamp = client._get_earliest_valid_timestamp('BTCUSDT', '1m')
-        print(get_df('BTCUSDT'))
-        #print(timestamp)
-        # bars = client.get_historical_klines('BTCUSDT', '1d', timestamp, limit=20000)
-        # for line in bars:
-        #     del line[5:]
-        # #print(bars)
-        # btc_df = pd.DataFrame(bars, columns=['date', 'open', 'high', 'low', 'close'])
-        # btc_df.set_index('date', inplace=True)
-        # btc_df.index = pd.to_datetime(btc_df.index, unit='ms')
-        # btc_df['20sma'] = btc_df.close.rolling(20).mean()
-        # sma = btalib.sma(btc_df.close)
-        # print(sma.df)
+        csvfile = open(file, 'w', newline='')
+        candlestick_write = csv.writer(csvfile, delimiter=',')
+        candlesticks = client.get_historical_klines('BTCUSDT', '1h', "1 Jan, 2019", "1 Jan, 2021")
 
+        candlestick_processed = []
+        for data in candlesticks:
+            candlestick = {
+                "time": data[0],
+                "open": data[1],
+                "high": data[2],
+                "low": data[3],
+                "close": data[4]
+            }
+            candlestick_processed.append(candlestick)
+
+        for candlestick in candlesticks:
+            candlestick[0] = candlestick[0] / 100
+            candlestick_write.writerow(candlestick)
+
+        my_data = genfromtxt(file, delimiter='')
+        close = my_data[:, 4]
+
+        ema9 = talib.EMA(close, timeperiod=9)
+        ema24 = talib.EMA(close, timeperiod=24)
+        ema50 = talib.EMA(close, timeperiod=50)
+        print(ema9)
+        print(ema24)
+        print(ema50)
