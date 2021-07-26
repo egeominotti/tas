@@ -79,19 +79,19 @@ class StrategyLongScalpingEMA(Strategy):
         Fine logica
         """
 
-    def logic_stop_loss(self, candle_close_entry, candle_iterate, stop_loss):
+    def logic_stop_loss(self, candle_close_entry, signal_candle_close, stop_loss):
         """
         Scrivere la logica qui
         """
-        if candle_close_entry < candle_iterate * stop_loss:
+        if candle_close_entry < signal_candle_close * stop_loss:
             return True
         return False
 
-    def logic_takeprofit(self, candle_close_entry, candle_iterate, take_profit):
+    def logic_takeprofit(self, candle_close_entry, signal_candle_close, take_profit):
         """
         Scrivere la logica qui
         """
-        if candle_close_entry > candle_iterate * take_profit:
+        if candle_close_entry > signal_candle_close * take_profit:
             return True
         return False
 
@@ -111,11 +111,11 @@ class StrategyLongScalpingEMA(Strategy):
             tf = computed_bars_dataframe.loc[computed_bars_dataframe['timestamp'] > v['timestamp']]
             for j, n in tf.iterrows():
 
-                if self.logic_takeprofit(v['close'], n['close'], take_profit) is True:
+                if self.logic_takeprofit(n['close'], v['close'], take_profit) is True:
                     counterTP += 1
                     break
 
-                if self.logic_stop_loss(v['close'], n['close'], stop_loss) is True:
+                if self.logic_stop_loss(n['close'], v['close'], stop_loss) is True:
                     counterSL += 1
                     break
 
@@ -141,5 +141,5 @@ class Command(BaseCommand):
 
         klines = client.get_historical_klines('BTCUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2017", now)
 
-        st = StrategyLongScalpingEMA(klines=klines, ratio=1.0001)
-        st.check_entry(take_profit=1.02, stop_loss=0.98)
+        st = StrategyLongScalpingEMA(klines=klines, ratio=1.00005)
+        st.check_entry(take_profit=1.021, stop_loss=0.9845)
