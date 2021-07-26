@@ -181,4 +181,4 @@ class Command(BaseCommand):
                 #     telegram_bot_sendtext(
                 #         "Time frame del bot: \n" + str(time_frame) + " - posizione aperta con valore: \n" + str(
                 #             valueLong) + "\n - valore candela ad un minuto close: " + str(candle_close))
-                sleep(59)
+                sleep(1)
