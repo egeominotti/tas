@@ -1,4 +1,5 @@
 class StrategyTest:
+
     TAKE_PROFIT = 0
     STOP_LOSS = 0
     RATIO = 0
@@ -16,9 +17,6 @@ class StrategyTest:
     def settypestrategy(self, type):
         self.type = type
 
-    def gettypestrategy(self):
-        return self.type
-
     def setema(self, ema1=None, ema2=None, ema3=None, ema4=None):
         self.ema1 = ema1
         self.ema2 = ema2
@@ -28,23 +26,20 @@ class StrategyTest:
     def setvaluecandle(self, candle_value):
         self.candle_value = candle_value
 
-    def getvaluecandle(self):
-        return self.candle_value
-
     def settime(self, time):
         self.time = time
 
     def setratio(self, ratio):
         self.RATIO = ratio
 
-    def getratio(self):
-        return self.RATIO
-
     def settakeprofit(self, takeprofit):
         self.TAKE_PROFIT = takeprofit
 
     def setstoploss(self, stoploss):
         self.STOP_LOSS = stoploss
+
+    def gettypestrategy(self):
+        return self.type
 
     def check_entry(self):
 
@@ -63,6 +58,12 @@ class StrategyTest:
                     return candle_close
 
         return None
+
+    def getratio(self):
+        return self.RATIO
+
+    def getvaluecandle(self):
+        return self.candle_value
 
     def stop_loss(self, entry_candle_close_value, candle_close_iterate):
         if self.gettypestrategy() == 'LONG':
