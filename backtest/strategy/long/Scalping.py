@@ -1,8 +1,5 @@
 from abc import ABCMeta, abstractmethod
 
-from binance import Client
-from decouple import config
-
 
 class Portfolio(object):
     """
@@ -50,10 +47,8 @@ class Strategy(object):
 
     __metaclass__ = ABCMeta
 
-    client = None
-
     def __init__(self):
-        self.client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
+        pass
 
     @abstractmethod
     def generate_signals(self):
@@ -62,25 +57,6 @@ class Strategy(object):
     @abstractmethod
     def compute_data(self, kline):
         raise NotImplementedError("Should implement generate_signals()!")
-
-
-class RandomForecastingStrategy(Strategy):
-    """
-    Classe derivata da Strategy per produrre un insieme di segnali che
-    sono long / short generati casualmente. Chiaramente una strategia non
-    corretta, ma perfettamente accettabile per dimostrare il
-    infrastruttura di backtest!
-    """
-
-    def __init__(self, symbol, bars):
-        """Necessita del ticker del simbolo e il dataframe delle barre"""
-        self.symbol = symbol
-        self.bars = bars
-
-    def generate_signals(self):
-        """Creazione del DataFrame pandas dei segnali random."""
-        return None
-
 
 class StrategyTest:
     TAKE_PROFIT = 0

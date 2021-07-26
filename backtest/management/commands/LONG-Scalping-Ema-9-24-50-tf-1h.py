@@ -1,11 +1,8 @@
 from datetime import datetime
 
 import numpy as np
-from binance import Client
 from django.core.management import BaseCommand
-from backtest.strategy.long.Scalping import StrategyTest, Strategy
-from backtest.models import BackTest
-import pandas as pd
+from backtest.strategy.long.Scalping import Strategy
 import logging
 from binance import Client
 from decouple import config
@@ -14,15 +11,11 @@ import talib as ta
 logger = logging.getLogger('main')
 
 
-class StrategyScalpingEMA(Strategy):
+class StrategyLongScalpingEMA(Strategy):
 
-    def __init__(self, symbol, timeframe, firstinterval, secondinterval, ratio):
+    def __init__(self):
         super().__init__()
-        self.symbol = symbol
-        self.timeframe = timeframe
-        self.firstinterval = firstinterval
-        self.secondinterval = secondinterval
-        self.ratio = ratio
+        self.computed_list = []
 
     def compute_data(self, klines):
         """
@@ -43,7 +36,7 @@ class StrategyScalpingEMA(Strategy):
         ema24 = ta.EMA(close_array, timeperiod=24)
         ema100 = ta.EMA(close_array, timeperiod=100)
 
-        listItem = []
+        computed_list = []
         lenght = len(time)
         for i in range(lenght):
             diz = {
@@ -58,56 +51,43 @@ class StrategyScalpingEMA(Strategy):
                 'ema24': ema24[i],
                 'ema100': ema100[i],
             }
-            listItem.append(diz)
+            computed_list.append(diz)
 
-        return listItem
+        self.computed_list = computed_list
 
-    def generate_signals(self):
-        klines = self.client.get_historical_klines(self.symbol, self.timeframe, self.firstinterval, self.secondinterval)
-        object_list = self.compute_data(klines)
+    def generate_signals(self) -> object:
 
-        for item in object_list:
+        dizSignals = {}
+        for item in self.computed_list:
             if item is not None:
+                """
+                Scrivere la logica del backtesting qui
+                """
                 ratio_value = item['ema9'] / item['ema24']
-                if 1 < ratio_value < self.ratio:
+                if 1 < ratio_value < 1.00005:
                     if item['close'] > item['ema100']:
-                        print("genero segnale")
-
+                        dizSignals[item['timestamp']] = item
+        print(len(dizSignals))
+        return dizSignals
 
 class Command(BaseCommand):
     help = 'Backtesting strategy scalping'
 
     def handle(self, *args, **kwargs):
+
         TAKE_PROFIT = 1.02
         STOP_LOSS = 0.98
         RATIO = 1.00005
-        st = StrategyScalpingEMA('BTCUSDT', '1h', '17 Aug, 2017', '26 Jul, 2021', RATIO)
-        print(st.generate_signals())
 
-        #
-        # BackTest.objects.all().delete()
-        # df = pd.read_csv("backtest/file/daily.csv")
-        # df.set_index('timestamp')
-        #
-        # dizEntry = {}
-        # counterTp = 0
-        # counterSl = 0
-        # scalping_test = StrategyTest()
-        # scalping_test.setratio(RATIO)
-        # scalping_test.settakeprofit(TAKE_PROFIT)
-        # scalping_test.setstoploss(STOP_LOSS)
-        # scalping_test.settypestrategy('LONG')
-        #
-        # for k, v in df.iterrows():
-        #
-        #     scalping_test.setvaluecandle(v['close'])
-        #     scalping_test.setema(v['ema9'], v['ema24'], v['ema100'])
-        #     scalping_test.settime(v['timestamp'])
-        #
-        #     valueEntry = scalping_test.check_entry()
-        #     if valueEntry is not None:
-        #         dizEntry[v['timestamp']] = valueEntry
-        #
+        now = datetime.now().strftime("%d %b, %Y")
+        client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
+        klines = client.get_historical_klines('BTCUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2017", now)
+
+        st = StrategyLongScalpingEMA()
+        st.compute_data(klines)
+        st.generate_signals()
+
+
         # for time_candle, candle_close in dizEntry.items():
         #     pandasTimeFrmae = df.loc[df['timestamp'] > time_candle]
         #     for k, v in pandasTimeFrmae.iterrows():
