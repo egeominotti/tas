@@ -15,10 +15,11 @@ logger = logging.getLogger('main')
 
 class StrategyLongScalpingEMA(Strategy):
 
-    def __init__(self, klines, ratio):
+    def __init__(self, symbol, klines, ratio):
         super().__init__()
         self.klines = klines
         self.ratio = ratio
+        self.symbol = symbol
 
     def computed_data(self) -> list:
 
@@ -120,6 +121,7 @@ class StrategyLongScalpingEMA(Strategy):
                     break
 
         print("-----------------------")
+        print("SYMBOL:" + str(self.symbol))
         print("ENTRY: " + str(len(signals)))
         print("TAKE PROFIT: " + str(counterTP))
         print("STOP LOSS: " + str(counterSL))
@@ -141,10 +143,10 @@ class Command(BaseCommand):
 
         klines = client.get_historical_klines('BTCUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2017", now)
 
-        st = StrategyLongScalpingEMA(klines=klines, ratio=1.00005)
+        st = StrategyLongScalpingEMA(symbol='BTCUSDT', klines=klines, ratio=1.00005)
         st.check_entry(take_profit=1.021, stop_loss=0.9845)
 
         klines = client.get_historical_klines('ETHUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2017", now)
 
-        st = StrategyLongScalpingEMA(klines=klines, ratio=1.00005)
+        st = StrategyLongScalpingEMA(symbol='ETHUSDT', klines=klines, ratio=1.00005)
         st.check_entry(take_profit=1.021, stop_loss=0.9845)
