@@ -10,6 +10,8 @@ from binance import Client
 from decouple import config
 import talib as ta
 
+from backtest.models import BackTest
+
 logger = logging.getLogger('main')
 
 
@@ -97,7 +99,7 @@ class StrategyLongScalpingEMA(Strategy):
         return False
 
     def check_entry(self, take_profit, stop_loss):
-
+        BackTest.objects.all().delete()
         counterTP = 0
         counterSL = 0
 
@@ -114,10 +116,26 @@ class StrategyLongScalpingEMA(Strategy):
 
                 if self.logic_takeprofit(n['close'], v['close'], take_profit) is True:
                     counterTP += 1
+                    BackTest.objects.create(
+                        algorithm=self.__class__.__name__,
+                        entry_candle=v['close'],
+                        entry_candle_date=v['timestamp'],
+                        candle_take_profit=v['close'],
+                        candle_take_profit_date=v['timestamp'],
+                        take_profit=True,
+                    )
                     break
 
                 if self.logic_stop_loss(n['close'], v['close'], stop_loss) is True:
                     counterSL += 1
+                    BackTest.objects.create(
+                        algorithm=self.__class__.__name__,
+                        entry_candle=v['close'],
+                        entry_candle_date=v['timestamp'],
+                        candle_stop_loss=n['close'],
+                        candle_stop_loss_date=n['timestamp'],
+                        stop_loss=True,
+                    )
                     break
 
         print("-----------------------")
@@ -144,9 +162,4 @@ class Command(BaseCommand):
         klines = client.get_historical_klines('BTCUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2017", now)
 
         st = StrategyLongScalpingEMA(symbol='BTCUSDT', klines=klines, ratio=1.00005)
-        st.check_entry(take_profit=1.021, stop_loss=0.9845)
-
-        klines = client.get_historical_klines('ETHUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2017", now)
-
-        st = StrategyLongScalpingEMA(symbol='ETHUSDT', klines=klines, ratio=1.00005)
         st.check_entry(take_profit=1.021, stop_loss=0.9845)
