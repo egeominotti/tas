@@ -51,7 +51,7 @@ class Command(BaseCommand):
                 if take_profit is True:
                     counterTp += 1
                     BackTest.objects.create(
-                        algorithm='LONG-Scalping-Ema-9-24-100-tf-1h',
+                        algorithm='LONG-Scalping-Ema-9-24-50-tf-1h',
                         entry_candle=candle_close,
                         entry_candle_date=time_candle,
                         candle_take_profit=v['open'],
@@ -65,7 +65,7 @@ class Command(BaseCommand):
                     counterSl += 1
 
                     BackTest.objects.create(
-                        algorithm='LONG-Scalping-Ema-9-24-100-tf-1h',
+                        algorithm='LONG-Scalping-Ema-9-24-50-tf-1h',
                         entry_candle=candle_close,
                         entry_candle_date=time_candle,
                         candle_stop_loss=v['open'],

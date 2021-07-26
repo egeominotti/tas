@@ -36,7 +36,7 @@ class Command(BaseCommand):
         for k, v in df.iterrows():
 
             scalping_test.setvaluecandle(v['close'])
-            scalping_test.setema(v['EMA9'], v['EMA24'], v['EMA100'])
+            scalping_test.setema(v['EMA9'], v['EMA24'], v['EMA50'])
             scalping_test.settime(v['time'])
 
             # if v['close'] > valueEntry * 1.0025:
