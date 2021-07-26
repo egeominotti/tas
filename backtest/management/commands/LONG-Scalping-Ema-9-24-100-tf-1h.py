@@ -14,8 +14,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        TAKE_PROFIT = 1.01
-        STOP_LOSS = 0.98
+        TAKE_PROFIT = 1.021
+        STOP_LOSS = 0.9845
         RATIO = 1.0001
 
         BackTest.objects.all().delete()

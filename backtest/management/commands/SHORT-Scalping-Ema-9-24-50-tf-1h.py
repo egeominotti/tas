@@ -18,10 +18,9 @@ class Command(BaseCommand):
 
         BackTest.objects.all().delete()
 
-        TAKE_PROFIT = 0.99
-        STOP_LOSS = 1.003
+        TAKE_PROFIT = 0.98
+        STOP_LOSS = 1.02
         RATIO = 1.00005
-
 
         df = pd.read_csv("backtest/file/BINANCE_BTCUSDT_1H.csv")
         df.set_index('time')
