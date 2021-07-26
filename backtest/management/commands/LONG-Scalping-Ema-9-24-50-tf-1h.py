@@ -19,7 +19,7 @@ class StrategyLongScalpingEMA(Strategy):
         super().__init__()
         self.klines = klines
 
-    def computed_data(self):
+    def computed_data(self) -> list:
 
         """
         :param klines: kline ottenuta da un exchange
@@ -57,30 +57,31 @@ class StrategyLongScalpingEMA(Strategy):
 
         return computed_data
 
-    def generate_signals(self) -> object:
+    def logic(self, item, diz) -> None:
 
-        dizSignals = {}
+        """
+        Scrivere la logica qui0
+        """
+        ratio_value = item['ema9'] / item['ema24']
+        if 1 < ratio_value < 1.00005:
+            if item['close'] > item['ema100']:
+                diz[item['timestamp']] = item
+        """
+        Fine logica
+        """
+
+    def generate_signals(self) -> object:
+        diz = {}
         for item in self.computed_data():
             if item is not None:
-                """
-                Scrivere la logica del backtesting qui
-                """
-                ratio_value = item['ema9'] / item['ema24']
-                if 1 < ratio_value < 1.00005:
-                    if item['close'] > item['ema100']:
-                        dizSignals[item['timestamp']] = item
-                """
-                Fine logica
-                """
-
-        return dizSignals
+                self.logic(item, diz)
+        return diz
 
     def check_entry(self, take_profit, stop_loss):
 
         computed_data = self.computed_data()
         signals = self.generate_signals()
 
-        print(computed_data)
         print(signals)
         """
         Scrivere la logica stop_loss o take_profit
@@ -99,7 +100,7 @@ class Command(BaseCommand):
 
         now = datetime.now().strftime("%d %b, %Y")
         client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
-        klines = client.get_historical_klines('RVNUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2020", now)
+        klines = client.get_historical_klines('BTCUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2020", now)
 
         st = StrategyLongScalpingEMA(klines)
         signals = st.check_entry(take_profit=TAKE_PROFIT, stop_loss=STOP_LOSS)
