@@ -35,16 +35,20 @@ class Command(BaseCommand):
 
         crypto = ['BTCUSDT']
         time_frame = ['1h']
+        RATIO = 1.00005
+        TAKE_PROFIT = 1.021
+        STOP_LOSS = 0.9845
+
         for k in crypto:
             for tf in time_frame:
                 klines = client.get_historical_klines(k, tf, "17 Aug, 2017", now)
 
-                st = StrategyChecker(klines=klines, ratio=1.00005)
+                st = StrategyChecker(klines=klines, ratio=RATIO)
                 PortfolioChecker(func_stop_loss=logic_stop_loss,
                                  func_take_profit=logic_takeprofit,
                                  time_frame=tf,
                                  symbol=k,
                                  klines=klines,
                                  signals=st.add_strategy(logic_signals),
-                                 take_profit=1.021,
-                                 stop_loss=0.9845)
+                                 take_profit=TAKE_PROFIT,
+                                 stop_loss=STOP_LOSS)
