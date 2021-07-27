@@ -31,13 +31,15 @@ class Command(BaseCommand):
         RATIO = 1.00005
         TAKE_PROFIT = 1.021
         STOP_LOSS = 0.9845
+        time_frame = '1h'
+
 
         bt = Backtest(
             first_period='17 Jun, 2017',
             logic_entry=logic_entry,
             logic_stoploss=logic_stop_loss,
             logic_takeprofit=logic_takeprofit,
-            time_frame=str('1h'),
+            time_frame=time_frame,
             symbol='BTCUSDT',
             take_profit_value=TAKE_PROFIT,
             stop_loss_value=STOP_LOSS,

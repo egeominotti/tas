@@ -183,6 +183,8 @@ class StrategyChecker(Strategy):
 
 class Backtest:
 
+
+
     def __init__(self,
                  first_period,
                  logic_entry,
@@ -194,27 +196,27 @@ class Backtest:
                  stop_loss_value=0,
                  ratio_value=0
                  ):
-        print(time_frame)
         self.first_period = first_period
         self.logic_entry = logic_entry
         self.logic_stoploss = logic_stoploss
         self.logic_takeprofit = logic_takeprofit
-        self.time_frame = str(time_frame),
+        self.tf = str(time_frame),
         self.symbol = symbol
         self.take_profit_value = take_profit_value
         self.stop_loss_value = stop_loss_value
         self.ratio_value = ratio_value
+        self.tf = ''.join(self.tf)
 
     def run(self):
         now = datetime.now().strftime("%d %b, %Y")
         client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
 
-        klines = client.get_historical_klines(self.symbol, Client.KLINE_INTERVAL_1MINUTE, self.first_period, now)
+        klines = client.get_historical_klines(self.symbol, self.tf, self.first_period, now)
 
         st = StrategyChecker(klines=klines, ratio=self.ratio_value)
         PortfolioChecker(func_stop_loss=self.logic_stoploss,
                          func_take_profit=self.logic_takeprofit,
-                         time_frame=self.time_frame,
+                         time_frame=self.tf,
                          symbol=self.symbol,
                          klines=klines,
                          signals=st.add_strategy(self.logic_entry),
