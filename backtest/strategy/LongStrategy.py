@@ -60,7 +60,7 @@ class PortfolioChecker(Portfolio):
         signals = self.signals
         computed_bars = compute_data(self.klines)
 
-        computed_bars_dataframe = pandas.DataFrame.from_dict(computed_bars, orient='index')
+        computed_bars_dataframe = pandas.DataFrame.from_dict(computed_bars)
 
         for k, v in signals.items():
 
