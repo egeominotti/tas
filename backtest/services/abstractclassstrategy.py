@@ -12,7 +12,7 @@ class Strategy(object):
         raise NotImplementedError("Should implement generate_signals()!")
 
     @abstractmethod
-    def check_entry(self, take_profit, stop_loss):
+    def logic_signals(self, item, diz):
         raise NotImplementedError("Should implement generate_signals()!")
 
 

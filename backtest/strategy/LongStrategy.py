@@ -1,9 +1,5 @@
-import numpy as np
 import pandas
-from datetime import datetime
 from backtest.models import BackTest
-import talib as ta
-from abc import ABCMeta, abstractmethod
 
 from backtest.services.computedata import compute_data
 from backtest.services.abstractclassstrategy import Strategy, Portfolio
