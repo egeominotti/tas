@@ -5,38 +5,25 @@ from backtest.services.computedata import compute_data
 from backtest.services.abstractclassstrategy import Strategy, Portfolio
 
 
-class LongStrategyScalping_EMA_9_24_100(Strategy):
+class StrategyChecker(Strategy):
 
     def __init__(self, klines, ratio):
         super().__init__()
-
         self.klines = klines
         self.ratio = ratio
 
-    def generate_signals(self) -> dict:
+    def add_strategy(self, func) -> dict:
 
         diz = {}
         for item in compute_data(self.klines):
             if item is not None:
-                val = self.logic_signals(item)
+                val = func(item)
                 if val is True:
                     diz[item['timestamp']] = item
         return diz
 
-    def logic_signals(self, item) -> bool:
-        """
-        :param item: Item iterate from computed bars
-        :return: True if match the algorithm Else otherwise
-        """
 
-        ratio_value = item['ema9'] / item['ema24']
-        if 1 < ratio_value < self.ratio:
-            if item['close'] > item['ema100']:
-                return True
-        return False
-
-
-class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
+class PortfolioChecker(Portfolio):
 
     def __init__(self, symbol, time_frame, klines, signals, stop_loss, take_profit):
         super().__init__()

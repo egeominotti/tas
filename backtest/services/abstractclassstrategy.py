@@ -11,9 +11,6 @@ class Strategy(object):
     def generate_signals(self):
         raise NotImplementedError("Should implement generate_signals()!")
 
-    @abstractmethod
-    def logic_signals(self, item):
-        raise NotImplementedError("Should implement generate_signals()!")
 
 
 class Portfolio(object):

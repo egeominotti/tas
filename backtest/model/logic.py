@@ -8,7 +8,7 @@ class Logic(object):
         pass
 
     @abstractmethod
-    def logic_signals(self):
+    def logic_signals(self, item) -> bool:
         raise NotImplementedError("Should implement generate_signals()!")
 
 

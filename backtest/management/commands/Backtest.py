@@ -1,14 +1,30 @@
 from datetime import datetime
-from time import sleep
-
 from django.core.management import BaseCommand
 import logging
 from binance import Client
 from decouple import config
-from backtest.strategy.LongStrategy import LongStrategyScalping_EMA_9_24_100, PortfolioLongStrategyScalping_EMA_9_24_100
-from backtest.model.logic import Logic, LogicStopLoss, LogicTakeProfit
+from backtest.strategy.LongStrategy import StrategyChecker, PortfolioChecker
 
 logger = logging.getLogger('main')
+
+
+def logic_signals(item) -> bool:
+    ratio_value = item['ema9'] / item['ema24']
+    if item['close'] > item['ema100']:
+        return True
+    return False
+
+
+def logic_stop_loss(candle_close_entry, signal_candle_close, stop_loss, current_item):
+    if candle_close_entry < signal_candle_close * stop_loss:
+        return True
+    return False
+
+
+def logic_takeprofit(candle_close_entry, signal_candle_close, take_profit, current_item):
+    if candle_close_entry > signal_candle_close * take_profit:
+        return True
+    return False
 
 
 class Command(BaseCommand):
@@ -19,36 +35,18 @@ class Command(BaseCommand):
         now = datetime.now().strftime("%d %b, %Y")
         client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
 
-        # crypto = ['BTCUSDT', 'ETHUSDT', 'ADAUSDT', 'MATICUSDT', 'BNBUSDT', 'CHZUSDT', 'VETUSDT', 'CAKEUSDT', 'AVAUSDT',
-        #           'DOTUSDT', 'SOLUSDT', 'TRXUSDT', 'TFUELUSDT', 'BTTUSDT']
-        # time_frame = '1h'
-        #
-        # for k in crypto:
-        #     klines = client.get_historical_klines(k, time_frame, "17 Aug, 2017", now)
-        #
-        #     st = LongStrategyScalping_EMA_9_24_100(klines=klines, ratio=1.00005)
-        #     signals = st.generate_signals()
-        #     pf = PortfolioLongStrategyScalping_EMA_9_24_100(time_frame=time_frame, symbol=k,
-        #                                                     klines=klines, signals=signals,
-        #                                                     take_profit=1.021,
-        #                                                     stop_loss=0.9845)
-        #     pf.check_entry()
 
-        crypto = ['BTCUSDT', 'ETHUSDT', 'ADAUSDT', 'MATICUSDT', 'BNBUSDT', 'CHZUSDT', 'VETUSDT', 'CAKEUSDT', 'AVAUSDT',
-                  'DOTUSDT', 'SOLUSDT', 'TRXUSDT', 'TFUELUSDT', 'BTTUSDT']
-        time_frame = ['15m', '30m', '1h', '4h', '8h', '12h', '1d', '3d', '1w', '1M']
+        crypto = ['BTCUSDT']
+        time_frame = ['1d']
 
         for k in crypto:
             for tf in time_frame:
-                klines = client.get_historical_klines(k, tf, "17 Aug, 2017", now)
+                klines = client.get_historical_klines(k, tf, "17 Aug, 2020", now)
 
-                st = LongStrategyScalping_EMA_9_24_100(klines=klines, ratio=1.00005)
-                signals = st.generate_signals()
-                pf = PortfolioLongStrategyScalping_EMA_9_24_100(time_frame=tf,
-                                                                symbol=k,
-                                                                klines=klines,
-                                                                signals=signals,
-                                                                take_profit=1.021,
-                                                                stop_loss=0.9845)
-                pf.check_entry()
-                sleep(10)
+                st = StrategyChecker(klines=klines, ratio=1.00005)
+                signals = st.add_strategy(logic_signals)
+
+                pf = PortfolioChecker(time_frame=tf, symbol=k, klines=klines, signals=signals, take_profit=1.021,
+                                      stop_loss=0.9845)
+                # pf.check_entry()
+                # sleep(10)
