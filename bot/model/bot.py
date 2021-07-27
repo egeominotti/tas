@@ -32,14 +32,19 @@ class Bot:
 
     def run(self, item, sleep_time=0):
 
-        if sleep_time > 0:
-            sleep(sleep_time)
+        while True:
 
-        if self.func_entry(item, self.ratio):
-            return True
+            if sleep_time > 0:
+                sleep(sleep_time)
+
+            if self.func_entry(item, self.ratio):
+
+                while True:
+                    self.stop_loss()
+                    self.take_profit()
 
     def stop_loss(self, item, sleep_time=0):
-        pass
+        self.func_stop_loss()
 
     def take_profit(self, item, sleep_time=0):
-        pass
+        self.func_take_profit()
