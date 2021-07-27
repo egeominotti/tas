@@ -25,6 +25,7 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
 
     def __init__(self, symbol, klines, ratio):
         super().__init__()
+        BackTest.objects.filter(algorithm=self.__class__.__name__).delete()
         self.klines = klines
         self.ratio = ratio
         self.symbol = symbol
@@ -82,7 +83,6 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
         ratio_value = item['ema9'] / item['ema24']
         if 1 < ratio_value < self.ratio:
             if item['close'] > item['ema100']:
-                # Non modificare la parte sottostante
                 diz[item['timestamp']] = item
         """
         Fine logica
@@ -105,7 +105,6 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
         return False
 
     def check_entry(self, take_profit, stop_loss):
-        BackTest.objects.filter(algorithm=self.__class__.__name__).delete()
         counterTP = 0
         counterSL = 0
 
@@ -117,29 +116,38 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
                                                             'volume'])
 
         for k, v in signals.items():
-            tf = computed_bars_dataframe.loc[computed_bars_dataframe['timestamp'] > v['timestamp']]
-            for j, n in tf.iterrows():
+            entry_candle = v['close']
+            entry_candle_timestamp = v['timestamp']
 
-                if self.logic_takeprofit(n['close'], v['close'], take_profit) is True:
+            tf = computed_bars_dataframe.loc[computed_bars_dataframe['timestamp'] > entry_candle_timestamp]
+            for j, n in tf.iterrows():
+                current_candle = n['close']
+                currente_candle_timestamp = n['close']
+
+                if self.logic_takeprofit(current_candle, entry_candle, take_profit) is True:
                     counterTP += 1
+
+                    profit_loss = (current_candle - entry_candle) / entry_candle
                     BackTest.objects.create(
                         algorithm=self.__class__.__name__,
-                        entry_candle=v['close'],
-                        entry_candle_date=v['timestamp'],
-                        candle_take_profit=v['close'],
-                        candle_take_profit_date=v['timestamp'],
+                        entry_candle=entry_candle,
+                        entry_candle_date=entry_candle_timestamp,
+                        candle_take_profit=current_candle,
+                        candle_take_profit_date=currente_candle_timestamp,
                         take_profit=True,
+                        profit_loss=profit_loss,
                     )
+
                     break
 
-                if self.logic_stop_loss(n['close'], v['close'], stop_loss) is True:
+                if self.logic_stop_loss(current_candle, entry_candle, stop_loss) is True:
                     counterSL += 1
                     BackTest.objects.create(
                         algorithm=self.__class__.__name__,
-                        entry_candle=v['close'],
-                        entry_candle_date=v['timestamp'],
-                        candle_stop_loss=n['close'],
-                        candle_stop_loss_date=n['timestamp'],
+                        entry_candle=entry_candle,
+                        entry_candle_date=entry_candle_timestamp,
+                        candle_stop_loss=current_candle,
+                        candle_stop_loss_date=currente_candle_timestamp,
                         stop_loss=True,
                     )
                     break

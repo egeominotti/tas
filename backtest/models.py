@@ -11,4 +11,5 @@ class BackTest(models.Model):
     entry_candle_date = models.DateTimeField(blank=True, null=True)
     candle_stop_loss_date = models.DateTimeField(blank=True, null=True)
     candle_take_profit_date = models.DateTimeField(blank=True, null=True)
+    profit_loss = models.FloatField(default=0, blank=True)
 
