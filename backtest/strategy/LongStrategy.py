@@ -6,32 +6,7 @@ import talib as ta
 from abc import ABCMeta, abstractmethod
 
 from backtest.services.computedata import compute_data
-
-
-class Strategy(object):
-    __metaclass__ = ABCMeta
-
-    def __init__(self):
-        pass
-
-    @abstractmethod
-    def generate_signals(self):
-        raise NotImplementedError("Should implement generate_signals()!")
-
-    @abstractmethod
-    def check_entry(self, take_profit, stop_loss):
-        raise NotImplementedError("Should implement generate_signals()!")
-
-
-class Portfolio(object):
-    __metaclass__ = ABCMeta
-
-    def __init__(self):
-        pass
-
-    @abstractmethod
-    def check_entry(self):
-        raise NotImplementedError("Should implement generate_signals()!")
+from backtest.services.abstractclassstrategy import Strategy, Portfolio
 
 
 class LongStrategyScalping_EMA_9_24_100(Strategy):
