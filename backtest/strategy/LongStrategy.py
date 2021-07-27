@@ -45,8 +45,8 @@ class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
         self.klines, = klines,
         self.signals = signals
         self.name_class = self.__class__.__name__ + "_" + self.symbol
-        # Erase db record
 
+        # Erase db record
         qsBacktest = BackTest.objects.filter(algorithm=self.name_class)
         if qsBacktest.exists():
             qsBacktest.all().delete()
