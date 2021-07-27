@@ -15,6 +15,8 @@ class Command(BaseCommand):
         now = datetime.now().strftime("%d %b, %Y")
         client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
 
+        crypto = ['BTCUSDT', 'ETHUSDT', 'ADAUSDT', 'MATICUSDT', 'BNBUSDT', 'CHZUSDT', 'VETUSDT']
+
         klines = client.get_historical_klines('BTCUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2017", now)
 
         st = LongStrategyScalping_EMA_9_24_100(klines=klines, ratio=1.00005)
