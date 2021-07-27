@@ -29,7 +29,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        TAKE_PROFIT = 1.02
+        TAKE_PROFIT = 1.98
         STOP_LOSS = 0.98
         RATIO = 1.009
         time_frame = '5m'
@@ -38,16 +38,16 @@ class Command(BaseCommand):
         LIVE = False
         sentinel = False
 
+        taapi = Taapi('BTC/USDT')
+        client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
+        client.futures_change_leverage(symbol='BTCUSDT', marginType='ISOLATED', leverage=1)
+
         telegram_bot_sendtext("\n")
         telegram_bot_sendtext("\n")
         txt = "\n-Timeframe: " + str(time_frame) + str(
             TAKE_PROFIT) + "\n-Stop_loss_value: " + str(STOP_LOSS)
 
         telegram_bot_sendtext(txt)
-
-        taapi = Taapi('BTC/USDT')
-        client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
-        client.futures_change_leverage(symbol='BTCUSDT', marginType='ISOLATED', leverage=1)
 
         while True:
 
