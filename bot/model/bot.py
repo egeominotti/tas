@@ -48,7 +48,6 @@ class Bot:
 
             dizIndicator = {}
             for i in self.indicator:
-                print(i)
                 if i == 'ema':
                     if len(self.ema_interval) > 0:
                         for e in self.ema_interval:
@@ -57,6 +56,7 @@ class Bot:
                     dizIndicator[i] = getattr(self.taapi, i)(self.time_frame)
 
             if position is False:
+
                 if self.func_entry(dizIndicator, self.ratio, isbot=True):
                     open_position_value = dizIndicator['candle']['close']
                 sleep(sleep_time_position)

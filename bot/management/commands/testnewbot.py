@@ -20,8 +20,8 @@ class Command(BaseCommand):
         time_frame = '1m'
         quantity = 0.004
 
-        indicator = ['candle', 'rsi', 'bbands', 'ema']
-        ema_interval = ['10', '20', '50']
+        indicator = ['candle', 'rsi', 'bbands', 'ema', 'stoch']
+        ema_interval = ['10', '20', '50', '11']
 
         bot = Bot(
             symbol=symbol,
