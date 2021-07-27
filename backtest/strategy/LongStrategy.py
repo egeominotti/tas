@@ -134,10 +134,14 @@ class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
         print("TAKE PROFIT: " + str(counterTP))
         print("STOP LOSS: " + str(counterSL))
 
-        profit_ratio = counterTP / len(signals) * 100
-        loss_ratio = counterSL / len(signals) * 100
 
-        print("PROFIT RATIO: " + str(int(profit_ratio)) + "%")
-        print("LOSS RATIO: " + str(int(loss_ratio)) + "%")
+        if counterTP > 0 and len(signals) > 0:
+            profit_ratio = counterTP / len(signals) * 100
+            print("PROFIT RATIO: " + str(int(profit_ratio)) + "%")
+
+        if counterSL > 0 and len(signals) > 0:
+            loss_ratio = counterSL / len(signals) * 100
+            print("LOSS RATIO: " + str(int(loss_ratio)) + "%")
+
         print("PROFIT LOSS PERCENTAGE: " + str(round((sum(ls) * 100), 2)) + "%")
         print("-----------------------")
