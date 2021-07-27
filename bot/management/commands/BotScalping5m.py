@@ -31,10 +31,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        bot = Bot()
-
-        value = bot.check()
-        value = bot.run()
 
         take_profit = 1.02
         stop_loss = 0.98

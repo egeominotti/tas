@@ -2,7 +2,7 @@ from time import sleep
 
 from binance import Client
 from decouple import config
-
+from bot.services.telegram import Telegram
 from analytics.services.exchangeApi import Taapi
 
 
@@ -23,6 +23,7 @@ class Bot:
     ):
         # client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
         # client.futures_change_leverage(symbol='BTCUSDT', marginType='ISOLATED', leverage=1)
+        self.telegram = Telegram()
         self.taapi = Taapi(symbol)
         self.time_frame = time_frame
         self.ratio = ratio
@@ -35,6 +36,9 @@ class Bot:
         self.ema_interval = ema_interval
 
     def run(self, sleep_time_position=0, sleep_time_profit_or_loss=0):
+
+        start = "BOT started: into while contidion"
+        self.telegram.send(start)
 
         open_position_value = 0
         position = False
