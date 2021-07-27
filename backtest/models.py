@@ -5,6 +5,7 @@ from analytics.models import CommonTrait
 
 class BackTest(models.Model):
     algorithm = models.CharField(max_length=100, blank=True)
+    time_frame = models.CharField(max_length=10, blank=True)
     symbol = models.CharField(max_length=20, blank=True)
     entry_candle = models.FloatField(default=0, blank=True)
     stop_loss = models.BooleanField(default=False, blank=True)
@@ -20,6 +21,7 @@ class BackTest(models.Model):
 class StatisticsPortfolio(CommonTrait):
     algorithm = models.CharField(max_length=100, blank=True)
     entry = models.IntegerField(default=0, blank=True)
+    time_frame = models.CharField(max_length=10, blank=True)
     take_profit = models.IntegerField(default=0, blank=True)
     stop_loss = models.IntegerField(default=0, blank=True)
     profit_ratio = models.IntegerField(default=0, blank=True)

@@ -36,9 +36,10 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
 
 class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
 
-    def __init__(self, symbol, klines, signals, stop_loss, take_profit):
+    def __init__(self, symbol, time_frame, klines, signals, stop_loss, take_profit):
         super().__init__()
         self.symbol = symbol
+        self.time_frame = time_frame,
         self.stop_loss = stop_loss
         self.take_profit = take_profit
         self.klines, = klines,
@@ -100,6 +101,7 @@ class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
 
                     BackTest.objects.create(
                         symbol=self.symbol,
+                        time_frame=self.time_frame,
                         algorithm=self.name_class,
                         entry_candle=entry_candle,
                         entry_candle_date=entry_candle_timestamp,
@@ -117,6 +119,7 @@ class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
 
                     BackTest.objects.create(
                         symbol=self.symbol,
+                        time_frame=self.time_frame,
                         algorithm=self.name_class,
                         entry_candle=entry_candle,
                         entry_candle_date=entry_candle_timestamp,
@@ -159,6 +162,7 @@ class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
 
         StatisticsPortfolio.objects.create(
             algorithm=str(self.name_class),
+            time_frame=self.time_frame,
             entry=len(signals),
             take_profit=int(counterTP),
             stop_loss=int(counterSL),
