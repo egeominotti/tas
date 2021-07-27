@@ -21,10 +21,10 @@ class Command(BaseCommand):
         RATIO = 1.00005
         TAKE_PROFIT = 1.021
         STOP_LOSS = 0.9845
-        time_frame = '1h'
+        time_frame = '1m'
 
         bt = Backtest(
-            first_period='17 Jun, 2017',
+            first_period='17 Jun, 2020',
             logic_entry=logic_entry,
             logic_stoploss=logic_stop_loss,
             logic_takeprofit=logic_takeprofit,

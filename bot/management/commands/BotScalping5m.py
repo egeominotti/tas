@@ -32,7 +32,7 @@ class Command(BaseCommand):
         TAKE_PROFIT = 1.98
         STOP_LOSS = 0.98
         RATIO = 1.009
-        time_frame = '5m'
+        time_frame = '1m'
         QUANTITY = 0.004
 
         LIVE = False
@@ -44,11 +44,10 @@ class Command(BaseCommand):
 
         telegram_bot_sendtext("\n")
         telegram_bot_sendtext("\n")
-        txt = "\n-Timeframe: " + str(time_frame) + str(
-            TAKE_PROFIT) + "\n-Stop_loss_value: " + str(STOP_LOSS)
 
+
+        txt = "BOT: Started"
         telegram_bot_sendtext(txt)
-
         open_position_value = 0
         while True:
 
@@ -93,6 +92,7 @@ class Command(BaseCommand):
 
                     open_position_value = candle_close
                     open_position = True
+
                     break
 
                 sleep(300)
@@ -100,7 +100,7 @@ class Command(BaseCommand):
         if open_position is True:
             while True:
 
-                candle_close = taapi.candle('5m').get('close')
+                candle_close = taapi.candle(time_frame).get('close')
                 bbands = taapi.bbands(time_frame)
 
                 item = {
