@@ -38,12 +38,13 @@ class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
 
     def __init__(self, symbol, klines, signals, stop_loss, take_profit):
         super().__init__()
-        BackTest.objects.filter(algorithm=self.__class__.__name__).delete()
         self.symbol = symbol
         self.stop_loss = stop_loss
         self.take_profit = take_profit
         self.klines, = klines,
         self.signals = signals
+        self.name_class = self.__class__.__name__ + self.symbol
+        BackTest.objects.filter(algorithm=self.name_class).delete()
 
     def logic_stop_loss(self, candle_close_entry, signal_candle_close, stop_loss):
         """
@@ -91,7 +92,7 @@ class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
 
                     BackTest.objects.create(
                         symbol=self.symbol,
-                        algorithm=self.__class__.__name__,
+                        algorithm=self.name_class,
                         entry_candle=entry_candle,
                         entry_candle_date=entry_candle_timestamp,
                         candle_take_profit=current_candle,
@@ -108,7 +109,7 @@ class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
 
                     BackTest.objects.create(
                         symbol=self.symbol,
-                        algorithm=self.__class__.__name__,
+                        algorithm=self.name_class,
                         entry_candle=entry_candle,
                         entry_candle_date=entry_candle_timestamp,
                         candle_stop_loss=current_candle,
@@ -123,7 +124,7 @@ class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
 
     def output(self, counterTP, counterSL, signals):
         ls = []
-        qs = BackTest.objects.filter(algorithm=self.__class__.__name__)
+        qs = BackTest.objects.filter(algorithm=self.name_class)
         for i in qs: ls.append(i.profit_loss)
 
         print("-----------------------")
