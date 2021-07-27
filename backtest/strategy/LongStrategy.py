@@ -32,6 +32,12 @@ class PortfolioChecker(Portfolio):
         self.name_class = self.__class__.__name__ + "_" + self.symbol + "_TIMEFRAME_" + str(self.tf)
         self.check_entry(func_stop_loss, func_take_profit)
 
+    def check_entry(
+            self,
+            func_stop_loss,
+            func_take_profit
+    ) -> None:
+
         # Erase db record
         qsBacktest = BackTest.objects.filter(algorithm__exact=self.name_class)
         if qsBacktest.exists():
@@ -40,12 +46,6 @@ class PortfolioChecker(Portfolio):
         qsPortfolio = StatisticsPortfolio.objects.filter(algorithm__exact=self.name_class)
         if qsPortfolio.exists():
             qsPortfolio.delete()
-
-    def check_entry(
-            self,
-            func_stop_loss,
-            func_take_profit
-    ) -> None:
 
         """
 
@@ -77,7 +77,6 @@ class PortfolioChecker(Portfolio):
                 percentage = (current_candle - entry_candle) / entry_candle
 
                 if func_take_profit(current_candle, entry_candle, self.take_profit, n) is True:
-
                     counterTP += 1
 
                     BackTest.objects.create(
@@ -94,7 +93,6 @@ class PortfolioChecker(Portfolio):
                     break
 
                 if func_stop_loss(current_candle, entry_candle, self.stop_loss, n) is True:
-
                     counterSL += 1
 
                     BackTest.objects.create(
