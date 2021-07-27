@@ -24,6 +24,10 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
         return diz
 
     def logic_signals(self, item) -> bool:
+        """
+        :param item: Item iterate from computed bars
+        :return: True if match the algorithm Else otherwise
+        """
 
         ratio_value = item['ema9'] / item['ema24']
         if 1 < ratio_value < self.ratio:
