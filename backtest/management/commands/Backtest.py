@@ -9,7 +9,7 @@ logger = logging.getLogger('main')
 
 
 class Command(BaseCommand):
-    help = 'Backtesting strategy scalping'
+    help = 'Backtesting'
 
     def handle(self, *args, **kwargs):
 
