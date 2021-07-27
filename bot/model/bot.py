@@ -1,9 +1,8 @@
 from time import sleep
 
-from binance import Client
-from decouple import config
 from bot.services.telegram import Telegram
 from analytics.services.exchangeApi import Taapi
+from bot.services.binance import BinanceHelper
 
 
 class Bot:
@@ -21,8 +20,6 @@ class Bot:
             indicator,
             ema_interval=None,
     ):
-        # client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
-        # client.futures_change_leverage(symbol='BTCUSDT', marginType='ISOLATED', leverage=1)
         self.telegram = Telegram()
         self.taapi = Taapi(symbol)
         self.time_frame = time_frame
@@ -34,6 +31,10 @@ class Bot:
         self.func_take_profit = func_take_profit
         self.indicator = indicator
         self.ema_interval = ema_interval
+        self.binance = None
+
+    def setexchange(self, symbol, quantity, leverage):
+        self.binance = BinanceHelper(symbol=symbol, quantity=quantity, leverage=leverage)
 
     def run(self, sleep_time_position=0, sleep_time_profit_or_loss=0):
 
