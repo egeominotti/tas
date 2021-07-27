@@ -34,7 +34,7 @@ class Command(BaseCommand):
         time_frame = '1h'
 
         bt = Backtest(
-            first_period='17 Jun, 2020',
+            first_period='17 Jun, 2017',
             logic_entry=logic_entry,
             logic_stoploss=logic_stop_loss,
             logic_takeprofit=logic_takeprofit,
