@@ -27,7 +27,7 @@ class Command(BaseCommand):
                 return True
             return False
 
-        crypto = 'BTCUSDT'
+        crypto = 'ETHUSDT'
         RATIO = 1.00005
         TAKE_PROFIT = 1.021
         STOP_LOSS = 0.9845
