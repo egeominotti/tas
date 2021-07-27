@@ -3,6 +3,7 @@ from django.db import models
 
 class BackTest(models.Model):
     algorithm = models.CharField(max_length=100, blank=True)
+    symbol = models.CharField(max_length=20, blank=True)
     entry_candle = models.FloatField(default=0, blank=True)
     stop_loss = models.BooleanField(default=False, blank=True)
     take_profit = models.BooleanField(default=False, blank=True)
