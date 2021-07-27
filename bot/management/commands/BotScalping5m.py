@@ -40,7 +40,7 @@ class Command(BaseCommand):
 
         telegram_bot_sendtext("\n")
         telegram_bot_sendtext("\n")
-        txt = "\n-Timeframe: " + str(time_frame) + "\n -Ema1: " + "-Take_profit_value: " + str(
+        txt = "\n-Timeframe: " + str(time_frame) + str(
             TAKE_PROFIT) + "\n-Stop_loss_value: " + str(STOP_LOSS)
 
         telegram_bot_sendtext(txt)
@@ -66,7 +66,7 @@ class Command(BaseCommand):
                     'middleband': bbands.get('valueMiddleBand'),
                     'lowerband': bbands.get('valueLowerBand')
                 }
-
+                print(scalping_5m_rsi_bollinger(item, RATIO))
                 if scalping_5m_rsi_bollinger(item, RATIO):
 
                     s0 = "Time frame: " + time_frame
@@ -92,6 +92,7 @@ class Command(BaseCommand):
 
                     valueLong = candle_close
                     sentinel = True
+                sleep(300)
 
             if sentinel is True:
 
@@ -134,7 +135,4 @@ class Command(BaseCommand):
 
                     sentinel = False
 
-                # telegram_bot_sendtext(
-                #     "Time frame del bot: \n" + str(time_frame) + " - posizione aperta con valore: \n" + str(
-                #         valueLong) + "\n - valore candela ad un minuto close:" + str(candle_close))
                 sleep(1)
