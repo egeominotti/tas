@@ -48,6 +48,7 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
         ema9 = ta.EMA(close_array, timeperiod=9)
         ema24 = ta.EMA(close_array, timeperiod=24)
         ema100 = ta.EMA(close_array, timeperiod=100)
+        rsi = ta.RSI(close_array, timeperiod=14)
 
         computed_data = []
         lenght = len(time)
@@ -63,6 +64,7 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
                 'ema9': ema9[i],
                 'ema24': ema24[i],
                 'ema100': ema100[i],
+                'rsi': rsi[i],
             }
             computed_data.append(diz)
 
@@ -174,7 +176,7 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
 
         print("PROFIT RATIO: " + str(int(profit_ratio)) + "%")
         print("LOSS RATIO: " + str(int(loss_ratio)) + "%")
-        print("PROFIT LOSS PERCENTAGE: " + str(sum(ls) * 100) + "%")
+        print("PROFIT LOSS PERCENTAGE: " + str(float(sum(ls) * 100)) + "%")
         print("-----------------------")
 
 
