@@ -12,7 +12,7 @@ class Strategy(object):
     __metaclass__ = ABCMeta
 
     def __init__(self):
-        BackTest.objects.filter(algorithm=self.__class__.__name__).delete()
+        pass
 
     @abstractmethod
     def generate_signals(self):
@@ -20,6 +20,17 @@ class Strategy(object):
 
     @abstractmethod
     def check_entry(self, take_profit, stop_loss):
+        raise NotImplementedError("Should implement generate_signals()!")
+
+
+class Portfolio(object):
+    __metaclass__ = ABCMeta
+
+    def __init__(self):
+        pass
+
+    @abstractmethod
+    def check_entry(self):
         raise NotImplementedError("Should implement generate_signals()!")
 
 
@@ -39,8 +50,6 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
                 self.logic_signals(item, diz)
         return diz
 
-
-
     def logic_signals(self, item, diz) -> None:
 
         """
@@ -53,6 +62,17 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
         """
         Fine logica
         """
+
+
+class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
+
+    def __init__(self, klines, signals, stop_loss, take_profit):
+        super().__init__()
+        BackTest.objects.filter(algorithm=self.__class__.__name__).delete()
+        self.stop_loss = stop_loss
+        self.take_profit = take_profit
+        self.klines, = klines,
+        self.signals = signals
 
     def logic_stop_loss(self, candle_close_entry, signal_candle_close, stop_loss):
         """
@@ -70,12 +90,12 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
             return True
         return False
 
-    def check_entry(self, take_profit, stop_loss):
+    def check_entry(self):
 
         counterTP = 0
         counterSL = 0
 
-        signals = self.generate_signals()
+        signals = self.signals
         computed_bars = compute_data(self.klines)
 
         computed_bars_dataframe = pandas.DataFrame(computed_bars,
@@ -94,7 +114,7 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
                 current_candle = n['close']
                 currente_candle_timestamp = n['timestamp']
 
-                if self.logic_takeprofit(current_candle, entry_candle, take_profit) is True:
+                if self.logic_takeprofit(current_candle, entry_candle, self.take_profit) is True:
                     counterTP += 1
                     profit_percentage = (current_candle - entry_candle) / entry_candle
 
@@ -110,7 +130,7 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
 
                     break
 
-                if self.logic_stop_loss(current_candle, entry_candle, stop_loss) is True:
+                if self.logic_stop_loss(current_candle, entry_candle, self.stop_loss) is True:
                     counterSL += 1
                     stop_loss_percentage = (current_candle - entry_candle) / entry_candle
 
@@ -134,7 +154,6 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
         for i in qs: ls.append(i.profit_loss)
 
         print("-----------------------")
-        print("SYMBOL:" + str(self.symbol))
         print("ENTRY: " + str(len(signals)))
         print("TAKE PROFIT: " + str(counterTP))
         print("STOP LOSS: " + str(counterSL))
