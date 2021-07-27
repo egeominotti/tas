@@ -7,12 +7,11 @@ from backtest.services.abstractclassstrategy import Strategy, Portfolio
 
 class LongStrategyScalping_EMA_9_24_100(Strategy):
 
-    def __init__(self, symbol, klines, ratio):
+    def __init__(self, klines, ratio):
         super().__init__()
 
         self.klines = klines
         self.ratio = ratio
-        self.symbol = symbol
 
     def generate_signals(self) -> dict:
         diz = {}

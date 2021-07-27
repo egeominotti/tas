@@ -17,20 +17,7 @@ class Command(BaseCommand):
 
         klines = client.get_historical_klines('BTCUSDT', Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2017", now)
 
-        st = LongStrategyScalping_EMA_9_24_100\
-            (
-                symbol='BTCUSDT',
-                klines=klines,
-                ratio=1.00005
-             )
-
+        st = LongStrategyScalping_EMA_9_24_100(klines=klines, ratio=1.00005)
         signals = st.generate_signals()
-
-        pf = PortfolioLongStrategyScalping_EMA_9_24_100\
-            (
-                klines=klines,
-                signals=signals,
-                take_profit=1.021,
-                stop_loss=0.9845
-            )
+        pf = PortfolioLongStrategyScalping_EMA_9_24_100(klines=klines,signals=signals,take_profit=1.021,stop_loss=0.9845)
         pf.check_entry()
