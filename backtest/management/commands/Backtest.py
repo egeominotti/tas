@@ -37,7 +37,7 @@ class Command(BaseCommand):
 
         for k in crypto:
             for time in time_frame:
-                klines = client.get_historical_klines(k, time, "17 Aug, 2017", now)
+                klines = client.get_historical_klines(k, time, "17 Aug, 2019", now)
 
                 st = LongStrategyScalping_EMA_9_24_100(klines=klines, ratio=1.00005)
                 signals = st.generate_signals()
