@@ -40,7 +40,6 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
         volume = [float(entry[5]) for entry in self.klines]
 
         close_array = np.asarray(close)
-        open_array = np.asarray(open)
         low_array = np.asarray(low)
         high_array = np.asarray(high)
 
@@ -69,12 +68,6 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
         fastk_rsi, fastd_rsi = ta.STOCHRSI(close_array, timeperiod=14, fastk_period=5, fastd_period=3, fastd_matype=0)
         upperband, middleband, lowerband = ta.BBANDS(close_array, timeperiod=5, nbdevup=2, nbdevdn=2, matype=0)
         ma20 = ta.MA(close_array, timeperiod=20, matype=0)
-
-        print(trix)
-        print(atr)
-        print(macd)
-        print(macdsignal)
-        print(macdhist)
 
         computed_data = []
         lenght = len(time)
