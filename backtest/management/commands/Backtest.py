@@ -41,7 +41,7 @@ class Command(BaseCommand):
 
         for k in crypto:
             for tf in time_frame:
-                klines = client.get_historical_klines(k, tf, "17 Aug, 2017", now)
+                klines = client.get_historical_klines(k, tf, "17 Jun, 2021", now)
 
                 st = StrategyChecker(klines=klines, ratio=RATIO)
                 PortfolioChecker(func_stop_loss=logic_stop_loss,
