@@ -1,33 +1,7 @@
 import pandas
 from backtest.models import BackTest, StatisticsPortfolio
-
 from backtest.services.computedata import compute_data
 from backtest.services.abstractclassstrategy import Strategy, Portfolio
-
-
-class StrategyChecker(Strategy):
-
-    def __init__(
-            self,
-            klines,
-            ratio
-    ):
-        super().__init__()
-        self.klines = klines
-        self.ratio = ratio
-
-    def add_strategy(
-            self,
-            func
-    ) -> dict:
-
-        diz = {}
-        for item in compute_data(self.klines):
-            if item is not None:
-                val = func(item, self.ratio)
-                if val is True:
-                    diz[item['timestamp']] = item
-        return diz
 
 
 class PortfolioChecker(Portfolio):
@@ -102,7 +76,6 @@ class PortfolioChecker(Portfolio):
                 percentage = (current_candle - entry_candle) / entry_candle
 
                 if func_take_profit(current_candle, entry_candle, self.take_profit, n) is True:
-
                     counterTP += 1
                     BackTest.objects.create(
                         symbol=self.symbol,
@@ -118,7 +91,6 @@ class PortfolioChecker(Portfolio):
                     break
 
                 if func_stop_loss(current_candle, entry_candle, self.stop_loss, n) is True:
-
                     counterSL += 1
                     BackTest.objects.create(
                         symbol=self.symbol,
@@ -179,3 +151,64 @@ class PortfolioChecker(Portfolio):
             loss_ratio=loss_ratio,
             profit_loss_percentage=profit_loss_percentage
         )
+
+
+class StrategyChecker(Strategy):
+
+    def __init__(
+            self,
+            klines,
+            ratio
+    ):
+        super().__init__()
+        self.klines = klines
+        self.ratio = ratio
+
+    def add_strategy(
+            self,
+            func
+    ) -> dict:
+
+        diz = {}
+        for item in compute_data(self.klines):
+            if item is not None:
+                val = func(item, self.ratio)
+                if val is True:
+                    diz[item['timestamp']] = item
+        return diz
+
+
+class Backtest:
+
+    def __init__(self,
+                 klines,
+                 logic_entry,
+                 logic_stoploss,
+                 logic_takeprofit,
+                 time_frame,
+                 symbol,
+                 take_profit_value=0,
+                 stop_loss_value=0,
+                 ratio_value=0
+                 ):
+        self.klines = klines
+        self.logic_entry = logic_entry
+        self.logic_stoploss = logic_stoploss
+        self.logic_takeprofit = logic_takeprofit
+        self.time_frame = time_frame,
+        self.symbol = symbol
+        self.take_profit_value = take_profit_value
+        self.stop_loss_value = stop_loss_value
+        self.ratio_value = ratio_value
+
+    def run(self):
+        st = StrategyChecker(klines=self.klines, ratio=self.ratio_value)
+        PortfolioChecker(func_stop_loss=self.logic_stoploss,
+                         func_take_profit=self.logic_takeprofit,
+                         time_frame=self.time_frame,
+                         symbol=self.symbol,
+                         klines=self.klines,
+                         signals=st.add_strategy(self.logic_entry),
+                         take_profit=self.take_profit_value,
+                         stop_loss=self.stop_loss_value
+                         )

@@ -3,7 +3,7 @@ from django.core.management import BaseCommand
 import logging
 from binance import Client
 from decouple import config
-from backtest.strategy.LongStrategy import StrategyChecker, PortfolioChecker
+from backtest.strategy.LongStrategy import Backtest
 
 logger = logging.getLogger('main')
 
@@ -16,7 +16,7 @@ class Command(BaseCommand):
         now = datetime.now().strftime("%d %b, %Y")
         client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
 
-        def logic_signals(item, ratio) -> bool:
+        def logic_entry(item, ratio) -> bool:
             ratio_value = item['ema9'] / item['ema24']
             if 1 < ratio_value < ratio:
                 if item['close'] > item['ema100']:
@@ -41,14 +41,17 @@ class Command(BaseCommand):
 
         for k in crypto:
             for tf in time_frame:
-                klines = client.get_historical_klines(k, tf, "17 Aug, 2017", now)
+                klines = client.get_historical_klines(k, tf, "17 Aug, 2020", now)
 
-                st = StrategyChecker(klines=klines, ratio=RATIO)
-                PortfolioChecker(func_stop_loss=logic_stop_loss,
-                                 func_take_profit=logic_takeprofit,
-                                 time_frame=tf,
-                                 symbol=k,
-                                 klines=klines,
-                                 signals=st.add_strategy(logic_signals),
-                                 take_profit=TAKE_PROFIT,
-                                 stop_loss=STOP_LOSS)
+                bt = Backtest(
+                    klines=klines,
+                    logic_entry=logic_entry,
+                    logic_stoploss=logic_stop_loss,
+                    logic_takeprofit=logic_takeprofit,
+                    time_frame=tf,
+                    symbol=k,
+                    take_profit_value=TAKE_PROFIT,
+                    stop_loss_value=STOP_LOSS,
+                    ratio_value=RATIO
+                )
+                bt.run()
