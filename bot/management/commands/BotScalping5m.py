@@ -4,11 +4,11 @@ from decouple import config
 from time import sleep
 from analytics.services.exchangeApi import Taapi
 from django.core.management import BaseCommand
-import telegram
 import requests
-
 import logging
 from django.conf import settings
+from backtest.strategy.long.logic_function import logic_entry, logic_stop_loss, logic_takeprofit, \
+    scalping_5m_rsi_bollinger, stoploss_scalping_5m_rsi_bollinger, takeprofit_scalping_5m_rsi_bollinger
 
 logger = logging.getLogger('main')
 
@@ -29,24 +29,19 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        TYPE = 'LONG'
-        TAKE_PROFIT = 1.01
-        STOP_LOSS = 0.995
-        RATIO = 1.00005
-        time_frame = '15m'
+        TAKE_PROFIT = 1.02
+        STOP_LOSS = 0.98
+        RATIO = 1.009
+        time_frame = '5m'
         QUANTITY = 0.004
         valueLong = 0
-        ema1 = 9
-        ema2 = 24
-        ema3 = 50
         LIVE = False
         long = False
 
         telegram_bot_sendtext("\n")
         telegram_bot_sendtext("\n")
-        txt = "\n-Strategy: " + str(TYPE) + "\n-Timeframe: " + str(time_frame) + "\n -Ema1: " + str(
-            ema1) + "\n-Ema2: " + str(ema2) + "\n -Ema3: " + str(
-            ema3) + "\n-Take_profit_value: " + str(TAKE_PROFIT) + "\n-Stop_loss_value: " + str(STOP_LOSS)
+        txt = "\n-Timeframe: " + str(time_frame) + "\n -Ema1: " + "-Take_profit_value: " + str(
+            TAKE_PROFIT) + "\n-Stop_loss_value: " + str(STOP_LOSS)
 
         telegram_bot_sendtext(txt)
 
@@ -63,48 +58,54 @@ class Command(BaseCommand):
 
             if long is False:
 
-                ema1 = taapi.ema(ema1, time_frame)
-                ema2 = taapi.ema(ema2, time_frame)
-                ema3 = taapi.ema(ema3, time_frame)
+                rsi = taapi.rsi(time_frame)
+                bbands = taapi.bbands(time_frame)
 
-                if ema1 is None or ema2 is None or ema3 is None:
-                    telegram_bot_sendtext("Errore nei dati esco dal bot")
-                    break
+                item = {
+                    'rsi': rsi.get('value'),
+                    'middleband': bbands.get('valueMiddleBand'),
+                    'lowerband': bbands.get('valueLowerBand')
+                }
 
-                ratio_value = ema1 / ema2
-                if 1 < ratio_value < RATIO:
-                    if candle_close > ema3:
+                if scalping_5m_rsi_bollinger(item, RATIO):
 
-                        s0 = "Time frame: " + time_frame
-                        s1 = "Compro al prezzo: " + str(candle_close)
-                        s2 = "TP: " + str(candle_close * TAKE_PROFIT)
-                        s3 = "SL: " + str(candle_close * STOP_LOSS)
+                    s0 = "Time frame: " + time_frame
+                    s1 = "Compro al prezzo: " + str(candle_close)
+                    s2 = "TP: " + str(candle_close * TAKE_PROFIT)
+                    s3 = "SL: " + str(candle_close * STOP_LOSS)
 
-                        telegram_bot_sendtext(s0 + "\n" + s1 + "\n" + s2 + "\n" + s3)
+                    telegram_bot_sendtext(s0 + "\n" + s1 + "\n" + s2 + "\n" + s3)
 
-                        print("---------------------------------------------------")
-                        print(s1)
-                        print(s2)
-                        print(s3)
-                        print("---------------------------------------------------")
+                    print("---------------------------------------------------")
+                    print(s1)
+                    print(s2)
+                    print(s3)
+                    print("---------------------------------------------------")
 
-                        if LIVE:
-                            client.futures_create_order(
-                                symbol='BTCUSDT',
-                                side=SIDE_BUY,
-                                type=ORDER_TYPE_MARKET,
-                                quantity=QUANTITY,
-                            )
+                    if LIVE:
+                        client.futures_create_order(
+                            symbol='BTCUSDT',
+                            side=SIDE_BUY,
+                            type=ORDER_TYPE_MARKET,
+                            quantity=QUANTITY,
+                        )
 
-                        valueLong = candle_close
-                        long = True
+                    valueLong = candle_close
+                    long = True
                 sleep(850)
 
             if long is True:
 
                 candle_close = taapi.candle('1m').get('close')
+                bbands = taapi.bbands(time_frame)
 
-                if candle_close > valueLong * TAKE_PROFIT:
+                item = {
+                    'middleband': bbands.get('valueMiddleBand'),
+                    'lowerband': bbands.get('valueLowerBand'),
+                    'close': candle_close
+                }
+
+                if takeprofit_scalping_5m_rsi_bollinger(valueLong, candle_close, TAKE_PROFIT, item):
 
                     print("TAKE_PROFIT: " + str(valueLong * TAKE_PROFIT))
                     telegram_bot_sendtext("TAKE_PROFIT: " + str(valueLong * TAKE_PROFIT))
@@ -119,7 +120,7 @@ class Command(BaseCommand):
 
                     long = False
 
-                if candle_close < valueLong * STOP_LOSS:
+                if stoploss_scalping_5m_rsi_bollinger(valueLong, candle_close, STOP_LOSS):
 
                     print("STOP LOSS: " + str(valueLong * STOP_LOSS))
                     telegram_bot_sendtext("STOP LOSS: " + str(valueLong * STOP_LOSS))
