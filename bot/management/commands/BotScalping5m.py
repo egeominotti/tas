@@ -50,16 +50,17 @@ class Command(BaseCommand):
         open_position_value = 0
         while True:
 
-            candle_close = taapi.candle(time_frame).get('close')
-            if candle_close is None:
-                telegram_bot_sendtext("Errore nei dati esco dal bot")
-                break
-
             if open_position is False:
+
+                candle_close = taapi.candle(time_frame).get('close')
+                if candle_close is None:
+                    telegram_bot_sendtext("Errore nei dati esco dal bot")
+                    break
 
                 rsi = taapi.rsi(time_frame)
                 bbands = taapi.bbands(time_frame)
-
+                print(rsi)
+                print(bbands)
                 item = {
                     'rsi': rsi.get('value'),
                     'middleband': bbands.get('valueMiddleBand'),
