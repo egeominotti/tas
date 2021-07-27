@@ -1,5 +1,5 @@
 import pandas
-from backtest.models import BackTest
+from backtest.models import BackTest, StatisticsPortfolio
 
 from backtest.services.computedata import compute_data
 from backtest.services.abstractclassstrategy import Strategy, Portfolio
@@ -44,7 +44,9 @@ class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
         self.klines, = klines,
         self.signals = signals
         self.name_class = self.__class__.__name__ + "_" + self.symbol
+        # Erase db record
         BackTest.objects.filter(algorithm=self.name_class).delete()
+        StatisticsPortfolio.objects.filter(algorithm=self.name_class).delete()
 
     def logic_stop_loss(self, candle_close_entry, signal_candle_close, stop_loss):
         """
@@ -134,14 +136,27 @@ class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
         print("TAKE PROFIT: " + str(counterTP))
         print("STOP LOSS: " + str(counterSL))
 
-
+        profit_ratio = 0
         if counterTP > 0 and len(signals) > 0:
             profit_ratio = counterTP / len(signals) * 100
             print("PROFIT RATIO: " + str(int(profit_ratio)) + "%")
 
+        loss_ratio = 0
         if counterSL > 0 and len(signals) > 0:
             loss_ratio = counterSL / len(signals) * 100
             print("LOSS RATIO: " + str(int(loss_ratio)) + "%")
 
-        print("PROFIT LOSS PERCENTAGE: " + str(round((sum(ls) * 100), 2)) + "%")
+        profit_loss_percentage = round((sum(ls) * 100), 2)
+
+        print("PROFIT LOSS PERCENTAGE: " + str(profit_loss_percentage) + "%")
         print("-----------------------")
+
+        StatisticsPortfolio.objects.create(
+            algorithm=self.name_class,
+            entry=signals,
+            take_profit=counterTP,
+            stop_loss=counterSL,
+            profit_ratio=profit_ratio,
+            loss_ratio=loss_ratio,
+            profit_loss_percentage=profit_loss_percentage
+        )

@@ -16,7 +16,7 @@ class Command(BaseCommand):
         client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
 
         crypto = ['BTCUSDT', 'ETHUSDT', 'ADAUSDT', 'MATICUSDT', 'BNBUSDT', 'CHZUSDT', 'VETUSDT', 'CAKEUSDT', 'AVAUSDT',
-                  'DOTUSDT', 'SOLUSDT', 'TRXUSDT', 'TUFUELUSDT', 'BTTUSDT']
+                  'DOTUSDT', 'SOLUSDT', 'TRXUSDT', 'TFUELUSDT', 'BTTUSDT']
 
         for k in crypto:
             klines = client.get_historical_klines(k, Client.KLINE_INTERVAL_1HOUR, "17 Aug, 2017", now)

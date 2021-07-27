@@ -1,5 +1,7 @@
 from django.db import models
 
+from analytics.models import CommonTrait
+
 
 class BackTest(models.Model):
     algorithm = models.CharField(max_length=100, blank=True)
@@ -14,3 +16,12 @@ class BackTest(models.Model):
     candle_take_profit_date = models.DateTimeField(blank=True, null=True)
     profit_loss = models.FloatField(default=0, blank=True)
 
+
+class StatisticsPortfolio(CommonTrait):
+    algorithm = models.CharField(max_length=100, blank=True)
+    entry = models.IntegerField(default=0, blank=True)
+    take_profit = models.IntegerField(default=0, blank=True)
+    stop_loss = models.IntegerField(default=0, blank=True)
+    profit_ratio = models.IntegerField(default=0, blank=True)
+    loss_ratio = models.IntegerField(default=0, blank=True)
+    profit_loss_percentage = models.FloatField(default=0, blank=True)
