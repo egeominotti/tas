@@ -34,7 +34,7 @@ class Command(BaseCommand):
         take_profit = 1.02
         stop_loss = 0.98
         ratio = 1.0098
-        time_frame = '5m'
+        time_frame = '1m'
         quantity = 0.004
 
         live = False
@@ -102,7 +102,7 @@ class Command(BaseCommand):
 
                     break
 
-                sleep(300)
+                sleep(60)
 
         if open_position is True:
             while True:
@@ -147,4 +147,4 @@ class Command(BaseCommand):
 
                     break
 
-                sleep(300)
+                sleep(60)

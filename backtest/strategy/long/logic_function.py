@@ -29,15 +29,13 @@ def scalping_5m_rsi_bollinger(item, ratio) -> bool:
 
 
 def stoploss_scalping_5m_rsi_bollinger(candle_close_entry, signal_candle_close, stop_loss, item=None) -> bool:
-
     if candle_close_entry < signal_candle_close * stop_loss:
         return True
     return False
 
 
 def takeprofit_scalping_5m_rsi_bollinger(candle_close_entry, signal_candle_close, take_profit, item=None) -> bool:
-    middleband_flag = item['middleband'] * 1.011
-
+    middleband_flag = item['middleband'] * 1.013
     if candle_close_entry >= middleband_flag or item['close'] > signal_candle_close * take_profit:
         return True
     return False
