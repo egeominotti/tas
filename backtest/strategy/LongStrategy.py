@@ -99,10 +99,11 @@ class PortfolioChecker(Portfolio):
                 current_candle = n['close']
                 currente_candle_timestamp = n['timestamp']
 
-                if func_take_profit(current_candle, entry_candle, self.take_profit, n) is True:
-                    counterTP += 1
-                    profit_percentage = (current_candle - entry_candle) / entry_candle
+                percentage = (current_candle - entry_candle) / entry_candle
 
+                if func_take_profit(current_candle, entry_candle, self.take_profit, n) is True:
+
+                    counterTP += 1
                     BackTest.objects.create(
                         symbol=self.symbol,
                         time_frame=self.tf,
@@ -112,15 +113,13 @@ class PortfolioChecker(Portfolio):
                         candle_take_profit=current_candle,
                         candle_take_profit_date=currente_candle_timestamp,
                         take_profit=True,
-                        profit_loss=profit_percentage,
+                        profit_loss=percentage,
                     )
-
                     break
 
                 if func_stop_loss(current_candle, entry_candle, self.stop_loss, n) is True:
-                    counterSL += 1
-                    stop_loss_percentage = (current_candle - entry_candle) / entry_candle
 
+                    counterSL += 1
                     BackTest.objects.create(
                         symbol=self.symbol,
                         time_frame=self.tf,
@@ -130,7 +129,7 @@ class PortfolioChecker(Portfolio):
                         candle_stop_loss=current_candle,
                         candle_stop_loss_date=currente_candle_timestamp,
                         stop_loss=True,
-                        profit_loss=stop_loss_percentage,
+                        profit_loss=percentage,
                     )
 
                     break
