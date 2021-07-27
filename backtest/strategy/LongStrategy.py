@@ -2,6 +2,9 @@ import pandas
 from backtest.models import BackTest, StatisticsPortfolio
 from backtest.services.computedata import compute_data
 from backtest.services.abstractclassstrategy import Strategy, Portfolio
+from binance import Client
+from decouple import config
+from datetime import datetime
 
 
 class PortfolioChecker(Portfolio):
@@ -181,7 +184,7 @@ class StrategyChecker(Strategy):
 class Backtest:
 
     def __init__(self,
-                 klines,
+                 first_period,
                  logic_entry,
                  logic_stoploss,
                  logic_takeprofit,
@@ -191,23 +194,29 @@ class Backtest:
                  stop_loss_value=0,
                  ratio_value=0
                  ):
-        self.klines = klines
+        print(time_frame)
+        self.first_period = first_period
         self.logic_entry = logic_entry
         self.logic_stoploss = logic_stoploss
         self.logic_takeprofit = logic_takeprofit
-        self.time_frame = time_frame,
+        self.time_frame = str(time_frame),
         self.symbol = symbol
         self.take_profit_value = take_profit_value
         self.stop_loss_value = stop_loss_value
         self.ratio_value = ratio_value
 
     def run(self):
-        st = StrategyChecker(klines=self.klines, ratio=self.ratio_value)
+        now = datetime.now().strftime("%d %b, %Y")
+        client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
+
+        klines = client.get_historical_klines(self.symbol, Client.KLINE_INTERVAL_1MINUTE, self.first_period, now)
+
+        st = StrategyChecker(klines=klines, ratio=self.ratio_value)
         PortfolioChecker(func_stop_loss=self.logic_stoploss,
                          func_take_profit=self.logic_takeprofit,
                          time_frame=self.time_frame,
                          symbol=self.symbol,
-                         klines=self.klines,
+                         klines=klines,
                          signals=st.add_strategy(self.logic_entry),
                          take_profit=self.take_profit_value,
                          stop_loss=self.stop_loss_value
