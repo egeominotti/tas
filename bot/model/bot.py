@@ -3,12 +3,8 @@ from services.exchangeApi import Taapi
 
 class BOT:
 
-    def __bool__(self, symbol):
-        self.taapi = Taapi(symbol)
-        self.symbol = symbol
-
-    def run(self):
+    def run(self, func_logic_entry):
         pass
 
-    def check(self):
+    def check(self, func_logic_stoploss, func_logic_takeprofit):
         pass
