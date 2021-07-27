@@ -128,7 +128,6 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
                 currente_candle_timestamp = n['timestamp']
 
                 if self.logic_takeprofit(current_candle, entry_candle, take_profit) is True:
-
                     counterTP += 1
                     profit_percentage = (current_candle - entry_candle) / entry_candle
 
@@ -145,7 +144,6 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
                     break
 
                 if self.logic_stop_loss(current_candle, entry_candle, stop_loss) is True:
-
                     counterSL += 1
                     stop_loss_percentage = (current_candle - entry_candle) / entry_candle
 
@@ -161,6 +159,10 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
 
                     break
 
+        ls = []
+        qs = BackTest.objects.filter(algorithm=self.__class__.__name__)
+        for i in qs: ls.append(i.profit_loss)
+
         print("-----------------------")
         print("SYMBOL:" + str(self.symbol))
         print("ENTRY: " + str(len(signals)))
@@ -172,4 +174,7 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
 
         print("PROFIT RATIO: " + str(int(profit_ratio)) + "%")
         print("LOSS RATIO: " + str(int(loss_ratio)) + "%")
+        print("PROFIT LOSS PERCENTAGE: " + str(sum(ls) * 100) + "%")
         print("-----------------------")
+
+
