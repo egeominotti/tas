@@ -16,17 +16,33 @@ class Command(BaseCommand):
         now = datetime.now().strftime("%d %b, %Y")
         client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
 
+        # crypto = ['BTCUSDT', 'ETHUSDT', 'ADAUSDT', 'MATICUSDT', 'BNBUSDT', 'CHZUSDT', 'VETUSDT', 'CAKEUSDT', 'AVAUSDT',
+        #           'DOTUSDT', 'SOLUSDT', 'TRXUSDT', 'TFUELUSDT', 'BTTUSDT']
+        # time_frame = '1h'
+        #
+        # for k in crypto:
+        #     klines = client.get_historical_klines(k, time_frame, "17 Aug, 2017", now)
+        #
+        #     st = LongStrategyScalping_EMA_9_24_100(klines=klines, ratio=1.00005)
+        #     signals = st.generate_signals()
+        #     pf = PortfolioLongStrategyScalping_EMA_9_24_100(time_frame=time_frame, symbol=k,
+        #                                                     klines=klines, signals=signals,
+        #                                                     take_profit=1.021,
+        #                                                     stop_loss=0.9845)
+        #     pf.check_entry()
+
         crypto = ['BTCUSDT', 'ETHUSDT', 'ADAUSDT', 'MATICUSDT', 'BNBUSDT', 'CHZUSDT', 'VETUSDT', 'CAKEUSDT', 'AVAUSDT',
                   'DOTUSDT', 'SOLUSDT', 'TRXUSDT', 'TFUELUSDT', 'BTTUSDT']
-        time_frame = '1h'
+        time_frame = ['1m', '5m', '15m', '30m', '1h', '2h', '4h', '8h', '12h', '1d', '3d', '1w', '1M']
 
         for k in crypto:
-            klines = client.get_historical_klines(k, time_frame, "17 Aug, 2017", now)
+            for time in time_frame:
+                klines = client.get_historical_klines(k, time, "17 Aug, 2017", now)
 
-            st = LongStrategyScalping_EMA_9_24_100(klines=klines, ratio=1.00005)
-            signals = st.generate_signals()
-            pf = PortfolioLongStrategyScalping_EMA_9_24_100(time_frame=time_frame, symbol=k,
-                                                            klines=klines, signals=signals,
-                                                            take_profit=1.021,
-                                                            stop_loss=0.9845)
-            pf.check_entry()
+                st = LongStrategyScalping_EMA_9_24_100(klines=klines, ratio=1.00005)
+                signals = st.generate_signals()
+                pf = PortfolioLongStrategyScalping_EMA_9_24_100(time_frame=time_frame, symbol=k,
+                                                                klines=klines, signals=signals,
+                                                                take_profit=1.021,
+                                                                stop_loss=0.9845)
+                pf.check_entry()
