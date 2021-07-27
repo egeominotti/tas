@@ -25,7 +25,7 @@ def telegram_bot_sendtext(bot_message):
 
 
 class Command(BaseCommand):
-    help = 'Bot-Scalping-Ema-9-24-100-15min'
+    help = 'BotScalping5m'
 
     def handle(self, *args, **kwargs):
 
@@ -57,7 +57,7 @@ class Command(BaseCommand):
                 break
 
             if sentinel is False:
-
+                sleep(200)
                 rsi = taapi.rsi(time_frame)
                 bbands = taapi.bbands(time_frame)
 
@@ -92,7 +92,6 @@ class Command(BaseCommand):
 
                     valueLong = candle_close
                     sentinel = True
-                sleep(300)
 
             if sentinel is True:
 
