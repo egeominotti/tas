@@ -12,7 +12,6 @@ class Strategy(object):
         raise NotImplementedError("Should implement generate_signals()!")
 
 
-
 class Portfolio(object):
     __metaclass__ = ABCMeta
 
@@ -20,5 +19,5 @@ class Portfolio(object):
         pass
 
     @abstractmethod
-    def check_entry(self):
+    def check_entry(self, func_stop_loss, func_take_profit):
         raise NotImplementedError("Should implement generate_signals()!")

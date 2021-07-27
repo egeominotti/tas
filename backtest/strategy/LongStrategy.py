@@ -25,7 +25,7 @@ class StrategyChecker(Strategy):
 
 class PortfolioChecker(Portfolio):
 
-    def __init__(self, symbol, time_frame, klines, signals, stop_loss, take_profit):
+    def __init__(self, func_stop_loss, func_take_profit, symbol, time_frame, klines, signals, stop_loss, take_profit):
         super().__init__()
         self.symbol = symbol
         self.tf = time_frame,
@@ -34,6 +34,8 @@ class PortfolioChecker(Portfolio):
         self.klines, = klines,
         self.signals = signals
         self.name_class = self.__class__.__name__ + "_" + self.symbol + "_" + str(self.tf)
+
+        self.check_entry(func_stop_loss, func_take_profit)
 
         # Erase db record
         qsBacktest = BackTest.objects.filter(algorithm=self.name_class)
@@ -60,7 +62,7 @@ class PortfolioChecker(Portfolio):
             return True
         return False
 
-    def check_entry(self):
+    def check_entry(self, func_stop_loss, func_take_profit):
 
         counterTP = 0
         counterSL = 0
@@ -84,7 +86,7 @@ class PortfolioChecker(Portfolio):
                 current_candle = n['close']
                 currente_candle_timestamp = n['timestamp']
 
-                if self.logic_takeprofit(current_candle, entry_candle, self.take_profit, n) is True:
+                if func_stop_loss(current_candle, entry_candle, self.take_profit, n) is True:
                     counterTP += 1
                     profit_percentage = (current_candle - entry_candle) / entry_candle
 
@@ -102,7 +104,7 @@ class PortfolioChecker(Portfolio):
 
                     break
 
-                if self.logic_stop_loss(current_candle, entry_candle, self.stop_loss, n) is True:
+                if func_take_profit(current_candle, entry_candle, self.stop_loss, n) is True:
                     counterSL += 1
                     stop_loss_percentage = (current_candle - entry_candle) / entry_candle
 
