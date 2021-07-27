@@ -20,6 +20,9 @@ class Command(BaseCommand):
         time_frame = '1m'
         quantity = 0.004
 
+        indicator = ['candle', 'rsi', 'bbands', 'ema']
+        ema_interval = ['10', '20', '50']
+
         bot = Bot(
             symbol=symbol,
             time_frame=time_frame,
@@ -28,20 +31,9 @@ class Command(BaseCommand):
             stop_loss=stop_loss,
             func_entry=scalping_5m_rsi_bollinger,
             func_stop_loss=stoploss_scalping_5m_rsi_bollinger,
-            func_take_profit=takeprofit_scalping_5m_rsi_bollinger
+            func_take_profit=takeprofit_scalping_5m_rsi_bollinger,
+            indicator=indicator,
+            ema_interval=ema_interval,
         )
 
-        # candle_close = taapi.candle(time_frame).get('close')
-        # rsi = taapi.rsi(time_frame)
-        # bbands = taapi.bbands(time_frame)
-        # print(rsi)
-        # print(bbands)
-        #
-        # item = {
-        #     'candle':
-        #     'rsi': rsi.get('value'),
-        #     'middleband': bbands.get('valueMiddleBand'),
-        #     'lowerband': bbands.get('valueLowerBand')
-        # }
-
-        bot.run({}, 60)
+        bot.run(60)
