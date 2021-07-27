@@ -18,14 +18,11 @@ class Command(BaseCommand):
             return False
 
         def logic_stop_loss(candle_close_entry, signal_candle_close, stop_loss, item) -> bool:
-            print(item)
-
             if candle_close_entry < signal_candle_close * stop_loss:
                 return True
             return False
 
         def logic_takeprofit(candle_close_entry, signal_candle_close, take_profit, item) -> bool:
-            print(item)
             if candle_close_entry > signal_candle_close * take_profit:
                 return True
             return False
