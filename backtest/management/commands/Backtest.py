@@ -16,8 +16,6 @@ class Command(BaseCommand):
         now = datetime.now().strftime("%d %b, %Y")
         client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
 
-
-
         def logic_signals(item) -> bool:
             ratio_value = item['ema9'] / item['ema24']
             if item['close'] > item['ema100']:
@@ -38,7 +36,7 @@ class Command(BaseCommand):
         time_frame = ['1h']
         for k in crypto:
             for tf in time_frame:
-                klines = client.get_historical_klines(k, tf, "17 Aug, 2020", now)
+                klines = client.get_historical_klines(k, tf, "17 Aug, 2017", now)
 
                 st = StrategyChecker(klines=klines, ratio=1.00005)
                 PortfolioChecker(func_stop_loss=logic_stop_loss,

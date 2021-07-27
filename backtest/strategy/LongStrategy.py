@@ -7,12 +7,19 @@ from backtest.services.abstractclassstrategy import Strategy, Portfolio
 
 class StrategyChecker(Strategy):
 
-    def __init__(self, klines, ratio):
+    def __init__(
+            self,
+            klines,
+            ratio
+    ):
         super().__init__()
         self.klines = klines
         self.ratio = ratio
 
-    def add_strategy(self, func) -> dict:
+    def add_strategy(
+            self,
+            func
+    ) -> dict:
 
         diz = {}
         for item in compute_data(self.klines):
@@ -25,7 +32,17 @@ class StrategyChecker(Strategy):
 
 class PortfolioChecker(Portfolio):
 
-    def __init__(self, func_stop_loss, func_take_profit, symbol, time_frame, klines, signals, stop_loss, take_profit):
+    def __init__(
+            self,
+            func_stop_loss,
+            func_take_profit,
+            symbol,
+            time_frame,
+            klines,
+            signals,
+            stop_loss,
+            take_profit
+    ):
         super().__init__()
         self.symbol = symbol
         self.tf = time_frame,
@@ -46,23 +63,18 @@ class PortfolioChecker(Portfolio):
         if qsPortfolio.exists():
             qsPortfolio.all().delete()
 
-    def logic_stop_loss(self, candle_close_entry, signal_candle_close, stop_loss, current_item):
-        """
-        Scrivere la logica qui
-        """
-        if candle_close_entry < signal_candle_close * stop_loss:
-            return True
-        return False
+    def check_entry(
+            self,
+            func_stop_loss,
+            func_take_profit
+    ) -> None:
 
-    def logic_takeprofit(self, candle_close_entry, signal_candle_close, take_profit, current_item):
         """
-        Scrivere la logica qui
-        """
-        if candle_close_entry > signal_candle_close * take_profit:
-            return True
-        return False
 
-    def check_entry(self, func_stop_loss, func_take_profit):
+        :param func_stop_loss: Funzione di stop loss
+        :param func_take_profit: Funziona di take profit
+        :return: None
+        """
 
         counterTP = 0
         counterSL = 0
@@ -124,7 +136,13 @@ class PortfolioChecker(Portfolio):
 
         self.output(counterTP, counterSL, signals)
 
-    def output(self, counterTP, counterSL, signals):
+    def output(
+            self,
+            counterTP,
+            counterSL,
+            signals
+    ) -> None:
+
         ls = []
         qs = BackTest.objects.filter(algorithm=self.name_class)
         for i in qs: ls.append(i.profit_loss)
