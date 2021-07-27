@@ -33,7 +33,6 @@ class Command(BaseCommand):
         STOP_LOSS = 0.9845
         time_frame = '1h'
 
-
         bt = Backtest(
             first_period='17 Jun, 2017',
             logic_entry=logic_entry,

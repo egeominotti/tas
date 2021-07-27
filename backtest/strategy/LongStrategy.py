@@ -29,7 +29,7 @@ class PortfolioChecker(Portfolio):
         self.klines, = klines,
         self.signals = signals
         self.name_class = self.__class__.__name__ + "_" + self.symbol + "_" + str(self.tf)
-
+        self.tf = ''.join(self.tf)
         self.check_entry(func_stop_loss, func_take_profit)
 
         # Erase db record
