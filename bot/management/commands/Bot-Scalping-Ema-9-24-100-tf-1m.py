@@ -70,7 +70,7 @@ class Command(BaseCommand):
         ema3 = 60
         LIVE = False
         sentinel = False
-        TELEGRAM_BOT = True
+        TELEGRAM_BOT = False
 
         txt = "\n-Strategy: " + str(TYPE) + "\n-Timeframe: " + str(time_frame) + "\n -Ema1: " + str(
             ema1) + "\n-Ema2: " + str(ema2) + "\n -Ema3: " + str(
