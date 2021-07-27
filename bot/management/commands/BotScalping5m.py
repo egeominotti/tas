@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from binance.enums import *
 from binance import Client
 from decouple import config
@@ -45,7 +47,9 @@ class Command(BaseCommand):
         telegram_bot_sendtext("\n")
         telegram_bot_sendtext("\n")
 
-        txt = "BOT: Started"
+        now = datetime.now()
+
+        txt = "BOT: Started at " + str(now)
         telegram_bot_sendtext(txt)
         open_position_value = 0
 
