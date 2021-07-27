@@ -7,7 +7,7 @@ class Taapi:
     BASE = None
     EXCHANGE = 'binance'
     BASE_URL = 'https://api.taapi.io/'
-    API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVnZW9taW5vdHRpQGdtYWlsLmNvbSIsImlhdCI6MTYyNzQyMTQ1MywiZXhwIjo3OTM0NjIxNDUzfQ.TwdHW14fwKlBtqp2Ba5i8K5zRV4GgTRhyYkglI9qSuA'
+    API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBpZXJyaTkzQGdtYWlsLmNvbSIsImlhdCI6MTYyNzAzNTMzNSwiZXhwIjo3OTM0MjM1MzM1fQ.m1f7RuvDmmdrTd1l8W7SSd_DVZxn9eabEjCoE8zED-Y'
 
     def __init__(self, symbol, api_extra=None):
         self.symbol = symbol

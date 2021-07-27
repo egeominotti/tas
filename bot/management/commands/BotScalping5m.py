@@ -48,6 +48,7 @@ class Command(BaseCommand):
         txt = "BOT: Started"
         telegram_bot_sendtext(txt)
         open_position_value = 0
+
         while True:
 
             if open_position is False:
@@ -57,10 +58,12 @@ class Command(BaseCommand):
                     telegram_bot_sendtext("Errore nei dati esco dal bot")
                     break
 
+                sleep(5)
                 rsi = taapi.rsi(time_frame)
                 bbands = taapi.bbands(time_frame)
                 print(rsi)
                 print(bbands)
+
                 item = {
                     'rsi': rsi.get('value'),
                     'middleband': bbands.get('valueMiddleBand'),
