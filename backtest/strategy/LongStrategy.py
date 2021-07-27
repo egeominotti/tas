@@ -125,11 +125,13 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
             for j, n in tf.iterrows():
 
                 current_candle = n['close']
-                currente_candle_timestamp = n['close']
+                currente_candle_timestamp = n['timestamp']
 
                 if self.logic_takeprofit(current_candle, entry_candle, take_profit) is True:
-                    profit_percentage = (current_candle - entry_candle) / entry_candle
+
                     counterTP += 1
+                    profit_percentage = (current_candle - entry_candle) / entry_candle
+
                     BackTest.objects.create(
                         algorithm=self.__class__.__name__,
                         entry_candle=entry_candle,
@@ -143,8 +145,10 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
                     break
 
                 if self.logic_stop_loss(current_candle, entry_candle, stop_loss) is True:
-                    stop_loss_percentage = (current_candle - entry_candle) / entry_candle
+
                     counterSL += 1
+                    stop_loss_percentage = (current_candle - entry_candle) / entry_candle
+
                     BackTest.objects.create(
                         algorithm=self.__class__.__name__,
                         entry_candle=entry_candle,
@@ -154,6 +158,7 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
                         stop_loss=True,
                         profit_loss=stop_loss_percentage,
                     )
+
                     break
 
         print("-----------------------")
