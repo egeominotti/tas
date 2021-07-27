@@ -57,7 +57,7 @@ class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
         if qsPortfolio.exists():
             qsPortfolio.all().delete()
 
-    def logic_stop_loss(self, candle_close_entry, signal_candle_close, stop_loss, item):
+    def logic_stop_loss(self, candle_close_entry, signal_candle_close, stop_loss, current_item):
         """
         Scrivere la logica qui
         """
@@ -65,7 +65,7 @@ class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
             return True
         return False
 
-    def logic_takeprofit(self, candle_close_entry, signal_candle_close, take_profit, item):
+    def logic_takeprofit(self, candle_close_entry, signal_candle_close, take_profit, current_item):
         """
         Scrivere la logica qui
         """
