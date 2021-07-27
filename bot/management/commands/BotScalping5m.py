@@ -36,7 +36,7 @@ class Command(BaseCommand):
         QUANTITY = 0.004
         valueLong = 0
         LIVE = False
-        long = False
+        sentinel = False
 
         telegram_bot_sendtext("\n")
         telegram_bot_sendtext("\n")
@@ -56,7 +56,7 @@ class Command(BaseCommand):
                 telegram_bot_sendtext("Errore nei dati esco dal bot")
                 break
 
-            if long is False:
+            if sentinel is False:
 
                 rsi = taapi.rsi(time_frame)
                 bbands = taapi.bbands(time_frame)
@@ -91,10 +91,9 @@ class Command(BaseCommand):
                         )
 
                     valueLong = candle_close
-                    long = True
-                sleep(850)
+                    sentinel = True
 
-            if long is True:
+            if sentinel is True:
 
                 candle_close = taapi.candle('1m').get('close')
                 bbands = taapi.bbands(time_frame)
@@ -118,7 +117,7 @@ class Command(BaseCommand):
                             quantity=QUANTITY,
                         )
 
-                    long = False
+                    sentinel = False
 
                 if stoploss_scalping_5m_rsi_bollinger(valueLong, candle_close, STOP_LOSS):
 
@@ -133,7 +132,7 @@ class Command(BaseCommand):
                             quantity=QUANTITY,
                         )
 
-                    long = False
+                    sentinel = False
 
                 # telegram_bot_sendtext(
                 #     "Time frame del bot: \n" + str(time_frame) + " - posizione aperta con valore: \n" + str(
