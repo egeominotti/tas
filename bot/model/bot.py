@@ -34,10 +34,12 @@ class Bot:
         self.indicator = indicator
         self.ema_interval = ema_interval
 
-    def run(self, sleep_time=0):
-        while True:
+    def run(self, sleep_time_position=0, sleep_time_profit_or_loss=0):
 
-            sleep(sleep_time)
+        open_position_value = 0
+        position = False
+
+        while True:
 
             dizIndicator = {}
             for i in self.indicator:
@@ -48,24 +50,24 @@ class Bot:
                             dizIndicator[i + "_" + str(e)] = getattr(self.taapi, i)(e, self.time_frame)
                 else:
                     dizIndicator[i] = getattr(self.taapi, i)(self.time_frame)
-            print(dizIndicator)
 
-            if self.func_entry(dizIndicator, self.ratio, True):
-                print("entro")
+            if position is False:
+                if self.func_entry(dizIndicator, self.ratio, isbot=True):
+                    open_position_value = dizIndicator['candle']['close']
+                sleep(sleep_time_position)
 
-        # while True:
-        #
-        #     if sleep_time > 0:
-        #         sleep(sleep_time)
-        #
-        #     if self.func_entry(item, self.ratio):
-        #
-        #         while True:
-        #             self.stop_loss()
-        #             self.take_profit()
+            if position is True:
 
-    def stop_loss(self, sleep_time=0):
-        self.func_stop_loss()
+                candle_close_value = getattr(self.taapi, 'candle')(self.time_frame)['candle']['close']
 
-    def take_profit(self, sleep_time=0):
-        self.func_take_profit()
+                value = self.func_stop_loss(open_position_value, candle_close_value, self.stop_loss)
+                if value is True:
+                    print("TAKE_PROFIT: " + str(open_position_value * self.take_profit))
+                    position = False
+
+                value = self.func_take_profit(open_position_value, candle_close_value, self.take_profit, isbot=True)
+                if value is True:
+                    print("STOP LOSS: " + str(open_position_value * self.stop_loss))
+                    position = False
+
+                sleep(sleep_time_profit_or_loss)

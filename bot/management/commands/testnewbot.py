@@ -13,6 +13,7 @@ class Command(BaseCommand):
     help = 'testbot'
 
     def handle(self, *args, **kwargs):
+
         take_profit = 1.02
         stop_loss = 0.98
         ratio = 1.0098
@@ -36,4 +37,4 @@ class Command(BaseCommand):
             ema_interval=ema_interval,
         )
 
-        bot.run(60)
+        bot.run(50)

@@ -19,7 +19,6 @@ def logic_takeprofit(candle_close_entry, signal_candle_close, take_profit, item)
 
 
 def scalping_5m_rsi_bollinger(item, ratio, isbot=False) -> bool:
-
     if isbot:
         ratio_value = item['bbands']['valueMiddleBand'] / item['bbands']['valueLowerBand']
         if ratio_value >= ratio:
@@ -40,8 +39,14 @@ def stoploss_scalping_5m_rsi_bollinger(candle_close_entry, signal_candle_close, 
     return False
 
 
-def takeprofit_scalping_5m_rsi_bollinger(candle_close_entry, signal_candle_close, take_profit, item=None) -> bool:
-    middleband_flag = item['middleband'] * 1.013
-    if candle_close_entry >= middleband_flag or item['close'] > signal_candle_close * take_profit:
-        return True
+def takeprofit_scalping_5m_rsi_bollinger(candle_close_entry, signal_candle_close, take_profit, item=None,
+                                         isbot=False) -> bool:
+    if isbot:
+        middleband_flag = item['bbands']['valueMiddleBand'] * 1.013
+        if candle_close_entry >= middleband_flag or item['candle']['close'] > signal_candle_close * take_profit:
+            return True
+    else:
+        middleband_flag = item['middleband'] * 1.013
+        if candle_close_entry >= middleband_flag or item['close'] > signal_candle_close * take_profit:
+            return True
     return False
