@@ -19,7 +19,9 @@ def logic_takeprofit(candle_close_entry, signal_candle_close, take_profit, item)
 
 
 def scalping_5m_rsi_bollinger(item, ratio) -> bool:
+
     ratio_value = item['middleband'] / item['lowerband']
+
     if ratio_value >= ratio:
         if item['rsi'] > 30:
             return True
@@ -27,6 +29,7 @@ def scalping_5m_rsi_bollinger(item, ratio) -> bool:
 
 
 def stoploss_scalping_5m_rsi_bollinger(candle_close_entry, signal_candle_close, stop_loss, item=None) -> bool:
+
     if candle_close_entry < signal_candle_close * stop_loss:
         return True
     return False
