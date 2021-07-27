@@ -58,6 +58,7 @@ class Command(BaseCommand):
 
             if sentinel is False:
                 sleep(200)
+
                 rsi = taapi.rsi(time_frame)
                 bbands = taapi.bbands(time_frame)
 
@@ -66,6 +67,7 @@ class Command(BaseCommand):
                     'middleband': bbands.get('valueMiddleBand'),
                     'lowerband': bbands.get('valueLowerBand')
                 }
+
                 print(scalping_5m_rsi_bollinger(item, RATIO))
                 if scalping_5m_rsi_bollinger(item, RATIO):
 
