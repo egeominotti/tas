@@ -99,7 +99,7 @@ class PortfolioChecker(Portfolio):
                 current_candle = n['close']
                 currente_candle_timestamp = n['timestamp']
 
-                if func_stop_loss(current_candle, entry_candle, self.take_profit, n) is True:
+                if func_take_profit(current_candle, entry_candle, self.take_profit, n) is True:
                     counterTP += 1
                     profit_percentage = (current_candle - entry_candle) / entry_candle
 
@@ -117,7 +117,7 @@ class PortfolioChecker(Portfolio):
 
                     break
 
-                if func_take_profit(current_candle, entry_candle, self.stop_loss, n) is True:
+                if func_stop_loss(current_candle, entry_candle, self.stop_loss, n) is True:
                     counterSL += 1
                     stop_loss_percentage = (current_candle - entry_candle) / entry_candle
 
