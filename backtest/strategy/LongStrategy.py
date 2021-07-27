@@ -183,8 +183,6 @@ class StrategyChecker(Strategy):
 
 class Backtest:
 
-
-
     def __init__(self,
                  first_period,
                  logic_entry,
