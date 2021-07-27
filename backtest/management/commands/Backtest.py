@@ -1,7 +1,7 @@
 from django.core.management import BaseCommand
 import logging
 from backtest.model.backtest import Backtest
-from backtest.strategy.long.strategy_long import logic_entry, logic_stop_loss, logic_takeprofit
+from backtest.strategy.long.logic_function import logic_entry, logic_stop_loss, logic_takeprofit
 
 logger = logging.getLogger('main')
 
