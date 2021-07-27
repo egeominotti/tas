@@ -6,7 +6,6 @@ import csv
 import numpy as np
 import logging
 import talib as ta
-import backtrader as bt
 
 logger = logging.getLogger('main')
 

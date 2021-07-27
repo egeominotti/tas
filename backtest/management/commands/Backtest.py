@@ -1,6 +1,7 @@
 from django.core.management import BaseCommand
 import logging
-from backtest.strategy.LongStrategy import Backtest
+from backtest.model.backtest import Backtest
+from backtest.strategy.long.strategy_long import logic_entry, logic_stop_loss, logic_takeprofit
 
 logger = logging.getLogger('main')
 
@@ -9,23 +10,6 @@ class Command(BaseCommand):
     help = 'Backtesting'
 
     def handle(self, *args, **kwargs):
-
-        def logic_entry(item, ratio) -> bool:
-            ratio_value = item['ema9'] / item['ema24']
-            if 1 < ratio_value < ratio:
-                if item['close'] > item['ema100']:
-                    return True
-            return False
-
-        def logic_stop_loss(candle_close_entry, signal_candle_close, stop_loss, item) -> bool:
-            if candle_close_entry < signal_candle_close * stop_loss:
-                return True
-            return False
-
-        def logic_takeprofit(candle_close_entry, signal_candle_close, take_profit, item) -> bool:
-            if candle_close_entry > signal_candle_close * take_profit:
-                return True
-            return False
 
         crypto = 'ETHUSDT'
         RATIO = 1.00005
