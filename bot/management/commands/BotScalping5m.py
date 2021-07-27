@@ -1,6 +1,5 @@
 from datetime import datetime
 
-from binance.enums import *
 from binance import Client
 from decouple import config
 from time import sleep
@@ -12,6 +11,7 @@ from django.conf import settings
 from backtest.strategy.long.logic_function import logic_entry, logic_stop_loss, logic_takeprofit, \
     scalping_5m_rsi_bollinger, stoploss_scalping_5m_rsi_bollinger, takeprofit_scalping_5m_rsi_bollinger
 
+from bot.model.bot import Bot
 logger = logging.getLogger('main')
 
 
@@ -30,6 +30,11 @@ class Command(BaseCommand):
     help = 'BotScalping5m'
 
     def handle(self, *args, **kwargs):
+
+        bot = Bot()
+
+        value = bot.check()
+        value = bot.run()
 
         take_profit = 1.02
         stop_loss = 0.98
@@ -89,13 +94,13 @@ class Command(BaseCommand):
                     print(s3)
                     print("---------------------------------------------------")
 
-                    if live:
-                        client.futures_create_order(
-                            symbol='BTCUSDT',
-                            side=SIDE_BUY,
-                            type=ORDER_TYPE_MARKET,
-                            quantity=quantity,
-                        )
+                    # if live:
+                    #     client.futures_create_order(
+                    #         symbol='BTCUSDT',
+                    #         side=SIDE_BUY,
+                    #         type=ORDER_TYPE_MARKET,
+                    #         quantity=quantity,
+                    #     )
 
                     open_position_value = candle_close
                     open_position = True
@@ -121,14 +126,14 @@ class Command(BaseCommand):
 
                     print("TAKE_PROFIT: " + str(open_position_value * take_profit))
                     telegram_bot_sendtext("TAKE_PROFIT: " + str(open_position_value * take_profit))
-
-                    if live:
-                        client.futures_create_order(
-                            symbol='BTCUSDT',
-                            side=SIDE_SELL,
-                            type=ORDER_TYPE_MARKET,
-                            quantity=quantity,
-                        )
+                    #
+                    # if live:
+                    #     client.futures_create_order(
+                    #         symbol='BTCUSDT',
+                    #         side=SIDE_SELL,
+                    #         type=ORDER_TYPE_MARKET,
+                    #         quantity=quantity,
+                    #     )
 
                     break
 
@@ -137,13 +142,13 @@ class Command(BaseCommand):
                     print("STOP LOSS: " + str(open_position_value * stop_loss))
                     telegram_bot_sendtext("STOP LOSS: " + str(open_position_value * stop_loss))
 
-                    if live:
-                        client.futures_create_order(
-                            symbol='BTCUSDT',
-                            side=SIDE_SELL,
-                            type=ORDER_TYPE_MARKET,
-                            quantity=quantity,
-                        )
+                    # if live:
+                    #     client.futures_create_order(
+                    #         symbol='BTCUSDT',
+                    #         side=SIDE_SELL,
+                    #         type=ORDER_TYPE_MARKET,
+                    #         quantity=quantity,
+                    #     )
 
                     break
 
