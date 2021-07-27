@@ -43,7 +43,7 @@ class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
         self.take_profit = take_profit
         self.klines, = klines,
         self.signals = signals
-        self.name_class = self.__class__.__name__ + self.symbol
+        self.name_class = self.__class__.__name__ + "_" + self.symbol
         BackTest.objects.filter(algorithm=self.name_class).delete()
 
     def logic_stop_loss(self, candle_close_entry, signal_candle_close, stop_loss):
