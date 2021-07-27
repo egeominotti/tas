@@ -27,7 +27,7 @@ class Command(BaseCommand):
                 return True
             return False
 
-        crypto = ['BTCUSDT']
+        crypto = 'BTCUSDT'
         RATIO = 1.00005
         TAKE_PROFIT = 1.021
         STOP_LOSS = 0.9845
@@ -40,7 +40,7 @@ class Command(BaseCommand):
             logic_stoploss=logic_stop_loss,
             logic_takeprofit=logic_takeprofit,
             time_frame=time_frame,
-            symbol='BTCUSDT',
+            symbol=crypto,
             take_profit_value=TAKE_PROFIT,
             stop_loss_value=STOP_LOSS,
             ratio_value=RATIO
