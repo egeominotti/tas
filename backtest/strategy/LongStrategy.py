@@ -14,24 +14,22 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
         self.ratio = ratio
 
     def generate_signals(self) -> dict:
+
         diz = {}
         for item in compute_data(self.klines):
             if item is not None:
-                self.logic_signals(item, diz)
+                val = self.logic_signals(item)
+                if val is True:
+                    diz[item['timestamp']] = item
         return diz
 
-    def logic_signals(self, item, diz) -> None:
+    def logic_signals(self, item) -> bool:
 
-        """
-        Scrivere la logica qui
-        """
         ratio_value = item['ema9'] / item['ema24']
         if 1 < ratio_value < self.ratio:
             if item['close'] > item['ema100']:
-                diz[item['timestamp']] = item
-        """
-        Fine logica
-        """
+                return True
+        return False
 
 
 class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):

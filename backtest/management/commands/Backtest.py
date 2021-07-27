@@ -6,6 +6,7 @@ import logging
 from binance import Client
 from decouple import config
 from backtest.strategy.LongStrategy import LongStrategyScalping_EMA_9_24_100, PortfolioLongStrategyScalping_EMA_9_24_100
+from backtest.model.logic import Logic, LogicStopLoss, LogicTakeProfit
 
 logger = logging.getLogger('main')
 
