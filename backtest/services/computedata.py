@@ -4,6 +4,7 @@ import talib as ta
 
 
 def compute_data(klines):
+
     time = [entry[0] / 1000 for entry in klines]
     open = [float(entry[1]) for entry in klines]
     high = [float(entry[2]) for entry in klines]
@@ -43,7 +44,9 @@ def compute_data(klines):
 
     computed_data = []
     lenght = len(time)
+
     for i in range(lenght):
+
         diz = {
             'unix': time[i],
             'timestamp': datetime.fromtimestamp(time[i]),
@@ -84,6 +87,7 @@ def compute_data(klines):
             'ma20': ma20[i],
 
         }
+
         computed_data.append(diz)
 
     return computed_data
