@@ -36,17 +36,15 @@ class Command(BaseCommand):
         time_frame = ['4h', '8h', '12h', '1d', '3d', '1w', '1M']
 
         for k in crypto:
-            for time in time_frame:
-                print(time)
-                print(time)
-                print(time)
-                print(time)
-                klines = client.get_historical_klines(k, time, "17 Aug, 2017", now)
+            for tf in time_frame:
+                klines = client.get_historical_klines(k, tf, "17 Aug, 2017", now)
 
                 st = LongStrategyScalping_EMA_9_24_100(klines=klines, ratio=1.00005)
                 signals = st.generate_signals()
-                pf = PortfolioLongStrategyScalping_EMA_9_24_100(time_frame=time, symbol=k,
-                                                                klines=klines, signals=signals,
+                pf = PortfolioLongStrategyScalping_EMA_9_24_100(time_frame=tf,
+                                                                symbol=k,
+                                                                klines=klines,
+                                                                signals=signals,
                                                                 take_profit=1.021,
                                                                 stop_loss=0.9845)
                 pf.check_entry()

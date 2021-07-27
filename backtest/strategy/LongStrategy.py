@@ -40,7 +40,7 @@ class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
         super().__init__()
         print(time_frame)
         self.symbol = symbol
-        self.tf = time_frame[0],
+        self.tf = time_frame,
         self.stop_loss = stop_loss
         self.take_profit = take_profit
         self.klines, = klines,
