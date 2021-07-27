@@ -116,11 +116,14 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
                                                             'volume'])
 
         for k, v in signals.items():
+
             entry_candle = v['close']
             entry_candle_timestamp = v['timestamp']
 
             tf = computed_bars_dataframe.loc[computed_bars_dataframe['timestamp'] > entry_candle_timestamp]
+
             for j, n in tf.iterrows():
+
                 current_candle = n['close']
                 currente_candle_timestamp = n['close']
 
