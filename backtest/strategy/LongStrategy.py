@@ -60,9 +60,7 @@ class PortfolioChecker(Portfolio):
         signals = self.signals
         computed_bars = compute_data(self.klines)
 
-        computed_bars_dataframe = pandas.DataFrame(computed_bars,
-                                                   columns=['unix', 'timestamp', 'open', 'high', 'low', 'close',
-                                                            'volume'])
+        computed_bars_dataframe = pandas.DataFrame.from_dict(computed_bars, orient='index')
 
         for k, v in signals.items():
 
