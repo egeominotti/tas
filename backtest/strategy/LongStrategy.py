@@ -44,6 +44,7 @@ class PortfolioChecker(Portfolio):
             take_profit
     ):
         super().__init__()
+
         self.symbol = symbol
         self.tf = time_frame,
         self.stop_loss = stop_loss
