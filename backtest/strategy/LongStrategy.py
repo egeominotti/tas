@@ -35,11 +35,11 @@ class PortfolioChecker(Portfolio):
         # Erase db record
         qsBacktest = BackTest.objects.filter(algorithm=self.name_class)
         if qsBacktest.exists():
-            qsBacktest.all().delete()
+            qsBacktest.delete()
 
         qsPortfolio = StatisticsPortfolio.objects.filter(algorithm=self.name_class)
         if qsPortfolio.exists():
-            qsPortfolio.all().delete()
+            qsPortfolio.delete()
 
     def check_entry(
             self,
