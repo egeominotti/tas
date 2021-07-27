@@ -1,4 +1,6 @@
 from datetime import datetime
+from time import sleep
+
 from django.core.management import BaseCommand
 import logging
 from binance import Client
@@ -48,3 +50,4 @@ class Command(BaseCommand):
                                                                 take_profit=1.021,
                                                                 stop_loss=0.9845)
                 pf.check_entry()
+                sleep(10)
