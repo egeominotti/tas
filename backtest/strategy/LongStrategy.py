@@ -38,13 +38,14 @@ class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
 
     def __init__(self, symbol, time_frame, klines, signals, stop_loss, take_profit):
         super().__init__()
+        print(time_frame)
         self.symbol = symbol
-        self.time_frame = time_frame,
+        self.tf = time_frame[0],
         self.stop_loss = stop_loss
         self.take_profit = take_profit
         self.klines, = klines,
         self.signals = signals
-        self.name_class = self.__class__.__name__ + "_" + self.symbol
+        self.name_class = self.__class__.__name__ + "_" + self.symbol + "_" + str(self.tf)
 
         # Erase db record
         qsBacktest = BackTest.objects.filter(algorithm=self.name_class)
@@ -101,7 +102,7 @@ class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
 
                     BackTest.objects.create(
                         symbol=self.symbol,
-                        time_frame=self.time_frame,
+                        time_frame=self.tf,
                         algorithm=self.name_class,
                         entry_candle=entry_candle,
                         entry_candle_date=entry_candle_timestamp,
@@ -119,7 +120,7 @@ class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
 
                     BackTest.objects.create(
                         symbol=self.symbol,
-                        time_frame=self.time_frame,
+                        time_frame=self.tf,
                         algorithm=self.name_class,
                         entry_candle=entry_candle,
                         entry_candle_date=entry_candle_timestamp,
@@ -138,9 +139,9 @@ class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
         qs = BackTest.objects.filter(algorithm=self.name_class)
         for i in qs: ls.append(i.profit_loss)
 
-        print("-----------------------")
+        print("-----------------------------------")
         print("SYMBOL: " + self.symbol)
-
+        print("TIME FRAME: " + str(self.tf))
         print("ENTRY: " + str(len(signals)))
         print("TAKE PROFIT: " + str(counterTP))
         print("STOP LOSS: " + str(counterSL))
@@ -158,11 +159,11 @@ class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
         profit_loss_percentage = round((sum(ls) * 100), 2)
 
         print("PROFIT LOSS PERCENTAGE: " + str(profit_loss_percentage) + "%")
-        print("-----------------------")
+        print("-----------------------------------")
 
         StatisticsPortfolio.objects.create(
             algorithm=str(self.name_class),
-            time_frame=self.time_frame,
+            time_frame=self.tf,
             entry=len(signals),
             take_profit=int(counterTP),
             stop_loss=int(counterSL),
