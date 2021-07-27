@@ -176,7 +176,5 @@ class LongStrategyScalping_EMA_9_24_100(Strategy):
 
         print("PROFIT RATIO: " + str(int(profit_ratio)) + "%")
         print("LOSS RATIO: " + str(int(loss_ratio)) + "%")
-        print("PROFIT LOSS PERCENTAGE: " + str(float(sum(ls) * 100)) + "%")
+        print("PROFIT LOSS PERCENTAGE: " + str(round((sum(ls) * 100), 2)) + "%")
         print("-----------------------")
-
-
