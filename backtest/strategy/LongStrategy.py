@@ -7,12 +7,10 @@ from backtest.services.abstractclassstrategy import Strategy, Portfolio
 
 class StrategyChecker(Strategy):
 
-    def __init__(self, func, klines, ratio):
+    def __init__(self, klines, ratio):
         super().__init__()
-        self.func = func
         self.klines = klines
         self.ratio = ratio
-        self.add_strategy(func)
 
     def add_strategy(self, func) -> dict:
 

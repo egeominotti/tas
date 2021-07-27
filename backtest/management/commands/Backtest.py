@@ -39,7 +39,12 @@ class Command(BaseCommand):
             for tf in time_frame:
                 klines = client.get_historical_klines(k, tf, "17 Aug, 2020", now)
 
-                signals = StrategyChecker(func=logic_signals, klines=klines, ratio=1.00005)
-                pf = PortfolioChecker(func_stop_loss=logic_stop_loss, func_take_profit=logic_takeprofit, time_frame=tf,
-                                      symbol=k, klines=klines, signals=signals, take_profit=1.021,
+                st = StrategyChecker(klines=klines, ratio=1.00005)
+                pf = PortfolioChecker(func_stop_loss=logic_stop_loss,
+                                      func_take_profit=logic_takeprofit,
+                                      time_frame=tf,
+                                      symbol=k,
+                                      klines=klines,
+                                      signals=st.add_strategy(logic_signals),
+                                      take_profit=1.021,
                                       stop_loss=0.9845)
