@@ -45,8 +45,12 @@ class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
         self.signals = signals
         self.name_class = self.__class__.__name__ + "_" + self.symbol
         # Erase db record
-        BackTest.objects.filter(algorithm=self.name_class).delete()
-        StatisticsPortfolio.objects.filter(algorithm=self.name_class).delete()
+
+        if BackTest.objects.filter(algorithm=self.name_class).exists():
+            BackTest.objects.filter(algorithm=self.name_class).delete()
+
+        if StatisticsPortfolio.objects.filter(algorithm=self.name_class).exists():
+            StatisticsPortfolio.objects.filter(algorithm=self.name_class).delete()
 
     def logic_stop_loss(self, candle_close_entry, signal_candle_close, stop_loss):
         """
@@ -152,11 +156,11 @@ class PortfolioLongStrategyScalping_EMA_9_24_100(Portfolio):
         print("-----------------------")
 
         StatisticsPortfolio.objects.create(
-            algorithm=self.name_class,
-            entry=signals,
-            take_profit=counterTP,
-            stop_loss=counterSL,
-            profit_ratio=profit_ratio,
+            algorithm=str(self.name_class),
+            entry=len(signals),
+            take_profit=int(counterTP),
+            stop_loss=int(counterSL),
+            profit_ratio=int(profit_ratio),
             loss_ratio=loss_ratio,
             profit_loss_percentage=profit_loss_percentage
         )
