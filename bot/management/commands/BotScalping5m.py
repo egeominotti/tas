@@ -57,7 +57,8 @@ class Command(BaseCommand):
                 break
 
             if sentinel is False:
-                sleep(200)
+
+                sleep(300)
 
                 rsi = taapi.rsi(time_frame)
                 bbands = taapi.bbands(time_frame)
@@ -68,7 +69,6 @@ class Command(BaseCommand):
                     'lowerband': bbands.get('valueLowerBand')
                 }
 
-                print(scalping_5m_rsi_bollinger(item, RATIO))
                 if scalping_5m_rsi_bollinger(item, RATIO):
 
                     s0 = "Time frame: " + time_frame
@@ -97,7 +97,9 @@ class Command(BaseCommand):
 
             if sentinel is True:
 
-                candle_close = taapi.candle('1m').get('close')
+                sleep(300)
+
+                candle_close = taapi.candle('5m').get('close')
                 bbands = taapi.bbands(time_frame)
 
                 item = {
@@ -105,6 +107,7 @@ class Command(BaseCommand):
                     'lowerband': bbands.get('valueLowerBand'),
                     'close': candle_close
                 }
+                print(item)
 
                 if takeprofit_scalping_5m_rsi_bollinger(valueLong, candle_close, TAKE_PROFIT, item):
 
@@ -136,4 +139,4 @@ class Command(BaseCommand):
 
                     sentinel = False
 
-                sleep(1)
+
