@@ -38,6 +38,9 @@ class PortfolioChecker(Portfolio):
             func_take_profit
     ) -> None:
 
+        function_name_take_profit = func_stop_loss.__name__
+        function_name_stop_loss = func_take_profit.__name__
+
         # Erase db record
         qsBacktest = BackTest.objects.filter(algorithm__exact=self.name_class)
         if qsBacktest.exists():
@@ -109,13 +112,16 @@ class PortfolioChecker(Portfolio):
 
                     break
 
-        self.output(counterTP, counterSL, signals)
+        self.output(counterTP, counterSL, signals, function_name_take_profit, function_name_stop_loss)
 
     def output(
             self,
             counterTP,
             counterSL,
-            signals
+            signals,
+            function_name_take_profit,
+            function_name_stop_loss
+
     ) -> None:
 
         ls = []
@@ -152,7 +158,9 @@ class PortfolioChecker(Portfolio):
             stop_loss=int(counterSL),
             profit_ratio=int(profit_ratio),
             loss_ratio=loss_ratio,
-            profit_loss_percentage=profit_loss_percentage
+            profit_loss_percentage=profit_loss_percentage,
+            function_name_take_profit=function_name_take_profit,
+            function_name_stop_loss=function_name_stop_loss,
         )
 
 

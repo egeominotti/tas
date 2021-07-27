@@ -16,6 +16,7 @@ class BackTest(models.Model):
     candle_stop_loss_date = models.DateTimeField(blank=True, null=True)
     candle_take_profit_date = models.DateTimeField(blank=True, null=True)
     profit_loss = models.FloatField(default=0, blank=True)
+    function_name_logic_entry = models.CharField(max_length=100, blank=True)
 
 
 class StatisticsPortfolio(CommonTrait):
@@ -27,3 +28,5 @@ class StatisticsPortfolio(CommonTrait):
     profit_ratio = models.IntegerField(default=0, blank=True)
     loss_ratio = models.IntegerField(default=0, blank=True)
     profit_loss_percentage = models.FloatField(default=0, blank=True)
+    function_name_take_profit = models.CharField(max_length=100, blank=True)
+    function_name_stop_loss = models.CharField(max_length=100, blank=True)
