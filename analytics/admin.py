@@ -1,5 +1,5 @@
 from django.contrib import admin
-from analytics.models import ExchangeRecord
+from analytics.models import Importer
 
 
 class ExchangeRecordAdmin(admin.ModelAdmin):
@@ -18,4 +18,4 @@ class ExchangeRecordAdmin(admin.ModelAdmin):
         return False
 
 
-admin.site.register(ExchangeRecord, ExchangeRecordAdmin)
+admin.site.register(Importer, ExchangeRecordAdmin)

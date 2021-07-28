@@ -17,7 +17,7 @@ class ByBt(CommonTrait):
     candle = models.IntegerField(default=0, blank=True)
 
 
-class ExchangeRecord(models.Model):
+class Importer(models.Model):
     symbol = models.CharField(max_length=15, blank=False, null=False)
     tf = models.CharField(max_length=15, blank=False, null=False)
     # KLINE
@@ -29,22 +29,22 @@ class ExchangeRecord(models.Model):
     close = models.FloatField(default=0, blank=False)
     volume = models.FloatField(default=0, blank=False)
     # INDICATORS
-    ema = models.JSONField(blank=False, null=False)
-    macd = models.JSONField(blank=True, null=True)
-    fibonacciretracement = models.JSONField(blank=True, null=True)
-    bbands = models.JSONField(blank=True, null=True)
-    rsi = models.JSONField(blank=True, null=True)
-    stochrsi = models.JSONField(blank=True, null=True)
-    atr = models.JSONField(blank=True, null=True)
-    pivotpoints = models.JSONField(blank=True, null=True)
-    cci = models.JSONField(blank=True, null=True)
-    volatility = models.JSONField(blank=True, null=True)
-    stoch = models.JSONField(blank=True, null=True)
-    trix = models.JSONField(blank=True, null=True)
-    ma = models.JSONField(blank=True, null=True)
-    breakaway = models.JSONField(blank=True, null=True)
-    hammer = models.JSONField(blank=True, null=True)
-    doji = models.JSONField(blank=True, null=True)
+    # ema = models.JSONField(blank=True, null=True)
+    # macd = models.JSONField(blank=True, null=True)
+    # fibonacciretracement = models.JSONField(blank=True, null=True)
+    # bbands = models.JSONField(blank=True, null=True)
+    # rsi = models.JSONField(blank=True, null=True)
+    # stochrsi = models.JSONField(blank=True, null=True)
+    # atr = models.JSONField(blank=True, null=True)
+    # pivotpoints = models.JSONField(blank=True, null=True)
+    # cci = models.JSONField(blank=True, null=True)
+    # volatility = models.JSONField(blank=True, null=True)
+    # stoch = models.JSONField(blank=True, null=True)
+    # trix = models.JSONField(blank=True, null=True)
+    # ma = models.JSONField(blank=True, null=True)
+    # breakaway = models.JSONField(blank=True, null=True)
+    # hammer = models.JSONField(blank=True, null=True)
+    # doji = models.JSONField(blank=True, null=True)
 
     def __str__(self):
         return str(self.id)
