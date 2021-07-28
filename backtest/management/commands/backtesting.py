@@ -17,14 +17,14 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        crypto = 'ETHUSDT'
+        crypto = 'BTCUSDT'
         RATIO = 1.00005
         TAKE_PROFIT = 1.021
         STOP_LOSS = 0.9845
         time_frame = '1h'
 
         bt = Backtest(
-            first_period='17 Jun, 2021',
+            first_period='17 Jun, 2020',
             logic_entry=logic_entry,
             logic_stoploss=logic_stop_loss,
             logic_takeprofit=logic_takeprofit,
