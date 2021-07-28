@@ -7,11 +7,9 @@ from decouple import config
 from django.core.management import BaseCommand
 from django.db.models import Q
 from numpyencoder import NumpyEncoder
-
 from analytics.models import Importer
 import logging
-
-from services.telegram import Telegram
+from bot.services.telegram import Telegram
 
 logger = logging.getLogger('main')
 client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
