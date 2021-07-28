@@ -9,6 +9,7 @@ from django.db.models import Q
 from numpyencoder import NumpyEncoder
 from analytics.models import Importer
 import logging
+
 from bot.services.telegram import Telegram
 
 logger = logging.getLogger('main')
