@@ -17,7 +17,9 @@ client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
 
 def save(klines_computed, symbol, time_frame):
     keyToRemove = ['timestamp', 'unix', 'open', 'high', 'low', 'close', 'volume']
+
     for item in klines_computed:
+
         qs = Importer.objects.filter(Q(symbol=symbol) & Q(tf=time_frame) & Q(timestamp=item['timestamp']))
         if not qs.exists():
 
