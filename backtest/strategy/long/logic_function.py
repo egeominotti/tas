@@ -1,12 +1,3 @@
-from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
-
-from binance import Client
-from decouple import config
-
-from backtest.services.computedata import compute_data
-
-
 def logic_entry(item, ratio) -> bool:
     ratio_value = item['ema9'] / item['ema24']
     if 1 < ratio_value < ratio:
