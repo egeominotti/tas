@@ -23,7 +23,6 @@ INSTALLED_APPS = [
     'analytics',
     'bot',
     'backtest',
-    'storages',
 ]
 
 LOGGING = {

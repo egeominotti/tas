@@ -10,7 +10,7 @@ then
 
     echo "PostgreSQL started"
 fi
-sleep 10
+sleep 30
 
 pip3 install -r requirements.txt
 python3 manage.py migrate --noinput
