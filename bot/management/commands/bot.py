@@ -49,17 +49,8 @@ class Command(BaseCommand):
             indicators = []
             qs = Bot.objects.all()
             for k in qs:
-                print(k.strategy.name)
-                print(k.strategy.ratio)
-                print(k.strategy.take_profit)
-                print(k.strategy.stop_loss)
-                print(k.strategy.logic_entry_function)
-                print(k.strategy.logic_takeprofit_function)
-                print(k.strategy.logic_stoploss_function)
-                print(k.indicators.all())
                 for i in k.indicators.all():
                     indicators.append(i.indicator)
-                print(indicators)
 
                 bot = TradinBot(
                     symbol=k.symbol_taapi,
