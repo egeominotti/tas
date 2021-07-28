@@ -42,12 +42,31 @@ class Indicator(CommonTrait):
             return str(self.indicator)
 
 
+class SymbolTaapiApi(CommonTrait):
+    symbol = models.CharField(max_length=20, blank=False)
+
+    def __str__(self):
+        if self.symbol is not None:
+            return str(self.symbol)
+
+
+class SymbolExchange(CommonTrait):
+    symbol = models.CharField(max_length=20, blank=False)
+
+
+def __str__(self):
+    if self.symbol is not None:
+        return str(self.symbol)
+
+
 class Bot(CommonTrait):
     name = models.CharField(max_length=100, blank=False)
     status = models.CharField(max_length=50, choices=BOT_STATUS, default=BOT_STATUS[0][0],
                               blank=False, null=False)
-    symbol_taapi = models.CharField(max_length=15, blank=False)
-    symbol_exchange = models.CharField(max_length=10, blank=False)
+
+    symbol_taapi = models.ForeignKey(BinanceAccount, on_delete=models.SET_NULL, null=True, blank=True)
+    symbol_exchange = models.ForeignKey(BinanceAccount, on_delete=models.SET_NULL, null=True, blank=True)
+
     sleep_run = models.IntegerField(default=0, blank=True)
     sleep_profitloss = models.IntegerField(default=0, blank=True)
     # indicator = ['candle', 'rsi', 'bbands', 'ema', 'stoch']
