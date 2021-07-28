@@ -11,6 +11,8 @@ from numpyencoder import NumpyEncoder
 from analytics.models import Importer
 import logging
 
+from services.telegram import Telegram
+
 logger = logging.getLogger('main')
 client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
 
@@ -52,6 +54,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
+        telegram = Telegram()
         symbols = ['BTCUSDT']
         tf = ['5m', '15m', '30m', '1h', '2h', '4h', '8h', '12h', '1d', '3d' '1M']
 
@@ -71,6 +74,8 @@ class Command(BaseCommand):
                         klines = client.get_historical_klines(symbol, time_frame, '17 Aug, 2017', now)
                         klines_computed = compute_data(klines)
                     except Exception as e:
+                        start = "Errore importazione dei dati: " + str(e) + " " + str(symbol) + " " + str(time_frame)
+                        telegram.send(start)
                         continue
 
             if klines_computed is not None:
