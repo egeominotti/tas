@@ -1,5 +1,5 @@
 from django.core.management import BaseCommand
-from bot.model.bot import TradinBot
+from bot.model.bot import TradingBot
 import logging
 from bot.models import Bot
 
@@ -46,7 +46,7 @@ class Command(BaseCommand):
             for i in k.indicators.all():
                 indicators.append(i.indicator)
 
-            bot = TradinBot(
+            bot = TradingBot(
                 symbol=k.symbol_taapi,
                 time_frame=k.strategy.time_frame,
                 ratio=k.strategy.ratio,

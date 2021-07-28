@@ -5,7 +5,7 @@ from analytics.services.exchangeApi import Taapi
 from bot.services.binance import BinanceHelper
 
 
-class TradinBot:
+class TradingBot:
 
     def __init__(
             self,
