@@ -6,7 +6,7 @@ class Bot(CommonTrait):
     symbol_taapi = models.CharField(max_length=15, blank=False)
     symbol_exchange = models.CharField(max_length=10, blank=False)
     time_frame = models.CharField(max_length=10, blank=False)
-    ratio = models.IntegerField(default=0, blank=True)
+    ratio = models.FloatField(default=0, blank=False)
     take_profit = models.FloatField(default=0, blank=False)
     stop_loss = models.FloatField(default=0, blank=False)
     sleep_run = models.IntegerField(default=0, blank=True)
