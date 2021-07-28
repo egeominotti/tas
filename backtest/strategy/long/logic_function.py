@@ -1,3 +1,12 @@
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+
+from binance import Client
+from decouple import config
+
+from backtest.services.computedata import compute_data
+
+
 def logic_entry(item, ratio) -> bool:
     ratio_value = item['ema9'] / item['ema24']
     if 1 < ratio_value < ratio:
@@ -25,6 +34,18 @@ def scalping_5m_rsi_bollinger(item, ratio, isbot=False) -> bool:
             if item['rsi']['value'] > 30:
                 return True
     else:
+        client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
+        klines = client.get_historical_klines('BTCUSDT', '5m', item['timestamp'].strftime("%d %b, %Y"))
+        computed_data = compute_data(klines)
+        print(item['timestamp'])
+        current_rsi = item['rsi']
+        prev_rsi = computed_data[-1]['rsi']
+
+        print(current_rsi)
+        print(item['timestamp'])
+        print(prev_rsi)
+        print(computed_data[-1]['timestamp'])
+
         ratio_value = item['middleband'] / item['lowerband']
         if ratio_value >= ratio:
             if item['rsi'] > 30:

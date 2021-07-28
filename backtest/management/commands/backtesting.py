@@ -15,10 +15,10 @@ class Command(BaseCommand):
         RATIO = 1.00005
         TAKE_PROFIT = 1.021
         STOP_LOSS = 0.9845
-        time_frame = '1h'
+        time_frame = '5m'
 
         bt = Backtest(
-            first_period='25 Aug, 2020',
+            first_period='01 Jul, 2021',
             logic_entry=scalping_5m_rsi_bollinger,
             logic_stoploss=stoploss_scalping_5m_rsi_bollinger,
             logic_takeprofit=takeprofit_scalping_5m_rsi_bollinger,

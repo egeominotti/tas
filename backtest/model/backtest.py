@@ -181,7 +181,8 @@ class StrategyChecker(Strategy):
     ) -> dict:
 
         diz = {}
-        for item in compute_data(self.klines):
+        computed_data = compute_data(self.klines)
+        for item in computed_data:
             if item is not None:
                 val = func(item, self.ratio)
                 if val is True:
