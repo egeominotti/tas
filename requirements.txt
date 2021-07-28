@@ -30,3 +30,4 @@ django-dbbackup
 boto3
 botocore
 boto
+django-storages
