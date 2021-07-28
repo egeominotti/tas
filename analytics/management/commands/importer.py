@@ -14,7 +14,7 @@ client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
 
 
 class Command(BaseCommand):
-    help = 'Prende gli indici delle candele a '
+    help = 'Salva tutti i dati di binance'
 
     def handle(self, *args, **kwargs):
 
