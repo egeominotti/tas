@@ -30,7 +30,7 @@ class Command(BaseCommand):
                 for j in tf:
 
                     try:
-                        klines = client.get_historical_klines(k, j, '01 Aug, 2017', now)
+                        klines = client.get_historical_klines(k, j, '17 Aug, 2017', now)
                     except Exception as e:
                         continue
 
