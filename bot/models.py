@@ -4,8 +4,7 @@ from analytics.models import CommonTrait
 from django.conf import settings
 
 BOT_STATUS = (
-    ('DISABLE', 'DISABLE'),
-    ('ENABLE', 'ENABLE'),
+    ('DISABLED', 'DISABLED'),
     ('RUNNING', 'RUNNING'),
 )
 
