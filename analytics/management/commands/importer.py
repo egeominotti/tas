@@ -21,6 +21,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         now = datetime.now().strftime("%d %b, %Y")
+        keyToRemove = ['timestamp', 'unix', 'open', 'high', 'low', 'close', 'volume']
         symbols = ['BTCUSDT']
         tf = ['5m', '15m', '30m', '1h', '2h', '4h', '8h', '12h', '1d', '3d' '1M']
 
@@ -37,7 +38,7 @@ class Command(BaseCommand):
                     for item in klines_computed:
                         qs = Importer.objects.filter(Q(symbol=k) & Q(timestamp=item['timestamp']))
                         if qs.count() == 0:
-                            keyToRemove = ['timestamp', 'unix', 'open', 'high', 'low', 'close', 'volume']
+
                             imp = Importer.objects.create(
                                 symbol=k,
                                 tf=j,
@@ -56,6 +57,7 @@ class Command(BaseCommand):
                             Importer.objects.filter(id=imp.id).update(
                                 indicators=json.dumps(item, cls=NumpyEncoder)
                             )
+
                     # sleep(15)
             # for j in Importer.objects.all():
             #     data = json.loads(j.indicators)
