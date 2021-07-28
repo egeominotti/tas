@@ -15,53 +15,63 @@ logger = logging.getLogger('main')
 client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
 
 
+def save(klines_computed, symbol, time_frame):
+    keyToRemove = ['timestamp', 'unix', 'open', 'high', 'low', 'close', 'volume']
+    for item in klines_computed:
+        qs = Importer.objects.filter(Q(symbol=symbol) & Q(tf=time_frame) & Q(timestamp=item['timestamp']))
+        if not qs.exists():
+            print(symbol)
+
+            imp = Importer.objects.create(
+                symbol=symbol,
+                tf=time_frame,
+                unix=item['unix'],
+                timestamp=item['timestamp'],
+                open=item['open'],
+                high=item['high'],
+                low=item['low'],
+                close=item['close'],
+                volume=item['volume'],
+            )
+
+            for key in keyToRemove:
+                del item[key]
+
+            Importer.objects.filter(id=imp.id).update(
+                indicators=json.dumps(item, cls=NumpyEncoder)
+            )
+    del item
+
+
 class Command(BaseCommand):
     help = 'Salva tutti i dati di binance'
 
     def handle(self, *args, **kwargs):
 
         now = datetime.now().strftime("%d %b, %Y")
-        keyToRemove = ['timestamp', 'unix', 'open', 'high', 'low', 'close', 'volume']
+
         symbols = ['BTCUSDT']
-        tf = ['1m', '5m', '15m', '30m', '1h', '2h', '4h', '8h', '12h', '1d', '3d' '1M']
+        # tf = ['1m', '5m', '15m', '30m', '1h', '2h', '4h', '8h', '12h', '1d', '3d' '1M']
+        tf = ['1d']
 
         while True:
-            for k in symbols:
-                symbol = k
-                for j in tf:
-                    time_frame = j
 
+            klines_computed = None
+            symbol = None
+            time_frame = None
+
+            for symbol in symbols:
+                symbol = symbol
+                for time_frame in tf:
+                    time_frame = time_frame
+                    print(symbol)
+                    print(time_frame)
                     try:
                         klines = client.get_historical_klines(symbol, time_frame, '17 Aug, 2017', now)
+                        klines_computed = compute_data(klines)
                     except Exception as e:
                         continue
 
-                    klines_computed = compute_data(klines)
-                    for item in klines_computed:
-
-                        qs = Importer.objects.filter(Q(symbol=symbol) & Q(timestamp=item['timestamp']))
-                        if not qs.exists():
-
-                            imp = Importer.objects.create(
-                                symbol=symbol,
-                                tf=symbol,
-                                unix=item['unix'],
-                                timestamp=item['timestamp'],
-                                open=item['open'],
-                                high=item['high'],
-                                low=item['low'],
-                                close=item['close'],
-                                volume=item['volume'],
-                            )
-
-                            for k in keyToRemove:
-                                del item[k]
-
-                            Importer.objects.filter(id=imp.id).update(
-                                indicators=json.dumps(item, cls=NumpyEncoder)
-                            )
-
-                    #sleep(30)
-            # for j in Importer.objects.all():
-            #     data = json.loads(j.indicators)
-            #     print(data['ema24'])
+            if klines_computed is not None:
+                save(klines_computed, symbol, time_frame)
+                continue

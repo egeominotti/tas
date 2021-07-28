@@ -1,4 +1,4 @@
-FROM nikolaik/python-nodejs:latest
+FROM python:3.9
 
 # set env variables
 ENV PYTHONDONTWRITEBYTECODE 1
