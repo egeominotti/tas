@@ -63,8 +63,8 @@ class StrategyDispatcherAdmin(admin.ModelAdmin):
 
 
 class TimeFrameAdmin(admin.ModelAdmin):
-    search_fields = ['time_frame']
-    list_per_page = 50
+    #search_fields = ['time_frame']
+    list_per_page = 20
     ordering = ('id',)
     list_display = ('id', 'time_frame')
     exclude = ['flgEnable', ]

@@ -13,8 +13,9 @@ class TimeFrame(CommonTrait):
     time_frame = models.CharField(max_length=10, blank=False)
 
     def __str__(self):
-        if self.time_frame is not None:
-            return str(self.time_frame)
+        if len(self.time_frame) > 0:
+            if self.time_frame is not None:
+                return str(self.time_frame)
 
 
 class Strategy(CommonTrait):
