@@ -26,3 +26,7 @@ ccxt
 backtrader_plotting
 Celery
 numpyencoder
+django-dbbackup
+boto3
+botocore
+boto
