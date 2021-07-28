@@ -6,8 +6,8 @@ python-decouple
 djangorestframework
 gunicorn
 redis
-psycopg2
-psycopg2-binary
+psycopg2==2.9.1
+psycopg2-binary==2.9.1
 requests
 django-filter
 django-cors-headers
