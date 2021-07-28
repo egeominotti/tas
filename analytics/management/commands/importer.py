@@ -60,6 +60,7 @@ class Command(BaseCommand):
         while True:
 
             try:
+
                 now = datetime.now().strftime("%d %b, %Y")
                 klines_computed = None
                 symbol = None
