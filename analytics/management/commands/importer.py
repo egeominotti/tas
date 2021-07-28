@@ -1,4 +1,5 @@
 from datetime import datetime
+from time import sleep
 
 from binance import Client
 from decouple import config
@@ -18,19 +19,18 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         while True:
-
+            now = datetime.now().strftime("%d %b, %Y")
             symbols = [
-                'BTCUSDT',
+                'BTCUSDT', 'ETHUSDT', 'BNBUSDT'
             ]
-            tf = ['1h', '1M']
+            tf = ['5m', '15m', '30m', '1h', '2h', '4h', '8h', '12h', '1d', '3d' '1M']
 
             for k in symbols:
                 for j in tf:
-                    now = datetime.now().strftime("%d %b, %Y")
-                    klines = client.get_historical_klines(k, j, '01 Aug, 2020', now)
+                    klines = client.get_historical_klines(k, j, '01 Aug, 2017', now)
 
                     for entry in klines:
-                        time = entry[0] / 10000
+                        time = entry[0] / 1000
                         open = float(entry[1])
                         high = float(entry[2])
                         low = float(entry[3])
@@ -50,3 +50,5 @@ class Command(BaseCommand):
                                 close=close,
                                 volume=volume,
                             )
+
+                    sleep(60)
