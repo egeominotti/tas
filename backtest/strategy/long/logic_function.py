@@ -35,17 +35,10 @@ def scalping_5m_rsi_bollinger(item, ratio, isbot=False) -> bool:
                 return True
     else:
         client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
-        klines = client.get_historical_klines('BTCUSDT', '5m', item['timestamp'].strftime("%d %b, %Y"))
+        klines = client.get_historical_klines('BTCUSDT', '5m', item['timestamp'].strftime("%d %b, %Y"), "5 min ago UTC")
+        print(klines)
         computed_data = compute_data(klines)
-        print(item['timestamp'])
         current_rsi = item['rsi']
-        prev_rsi = computed_data[-1]['rsi']
-
-        print(current_rsi)
-        print(item['timestamp'])
-        print(prev_rsi)
-        print(computed_data[-1]['timestamp'])
-
         ratio_value = item['middleband'] / item['lowerband']
         if ratio_value >= ratio:
             if item['rsi'] > 30:
