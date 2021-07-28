@@ -34,6 +34,8 @@ class TradinBot:
         self.binance = None
 
         print(self.func_entry)
+        print(self.func_stop_loss)
+        print(self.func_take_profit)
 
     def setexchange(self, symbol, quantity, leverage):
         self.binance = BinanceHelper(symbol=symbol, quantity=quantity, leverage=leverage)
