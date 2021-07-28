@@ -55,6 +55,7 @@ class Bot(CommonTrait):
     # ema_interval = models.TEX(blank=True, null=True)
     indicators = models.ManyToManyField(Indicator)
     quantity_investement = models.FloatField(default=0, blank=False)
+    leverage = models.IntegerField(default=0, blank=False)
     live = models.BooleanField(default=False)
     binance_account = models.ForeignKey(BinanceAccount, on_delete=models.SET_NULL, null=True, blank=True)
     strategy = models.ForeignKey(Strategy, on_delete=models.SET_NULL, null=True, blank=True)
