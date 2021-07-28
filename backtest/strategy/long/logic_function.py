@@ -1,3 +1,7 @@
+from dateutil.relativedelta import relativedelta
+
+from analytics.models import Importer
+from backtest.services.computedata import compute_data
 """
 STRATEGY : 1
 """
@@ -35,6 +39,15 @@ def scalping_5m_rsi_bollinger(item, ratio, isbot=False) -> bool:
             if item['rsi']['value'] > 30:
                 return True
     else:
+
+        #prev = item['timestamp'] - relativedelta(minutes=5)
+        # qs = Importer.objects.filter(tf='5m', symbol='BTCUSDT', timestamp__lt=item['timestamp'])
+        # list = []
+        # for k in qs:
+        #     list.append(k)
+        # klines = compute_data(qs)
+        # print(klines)
+
         ratio_value = item['middleband'] / item['lowerband']
         if ratio_value >= ratio:
             if item['rsi'] > 30:

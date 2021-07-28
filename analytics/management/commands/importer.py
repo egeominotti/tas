@@ -1,10 +1,12 @@
+import json
 from datetime import datetime
 from time import sleep
-
+from backtest.services.computedata import compute_data
 from binance import Client
 from decouple import config
 from django.core.management import BaseCommand
 from django.db.models import Q
+from numpyencoder import NumpyEncoder
 
 from analytics.models import Importer
 import logging
@@ -18,13 +20,11 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        while True:
-            now = datetime.now().strftime("%d %b, %Y")
-            symbols = [
-                'BTCUSDT', 'ETHUSDT', 'BNBUSDT'
-            ]
-            tf = ['1m', '5m', '15m', '30m', '1h', '2h', '4h', '8h', '12h', '1d', '3d' '1M']
+        now = datetime.now().strftime("%d %b, %Y")
+        symbols = ['BTCUSDT']
+        tf = ['5m', '15m', '30m', '1h', '2h', '4h', '8h', '12h', '1d', '3d' '1M']
 
+        while True:
             for k in symbols:
                 for j in tf:
 
@@ -33,27 +33,30 @@ class Command(BaseCommand):
                     except Exception as e:
                         continue
 
-                    for entry in klines:
-
-                        time = entry[0] / 1000
-                        open = float(entry[1])
-                        high = float(entry[2])
-                        low = float(entry[3])
-                        close = float(entry[4])
-                        volume = float(entry[5])
-
-                        qs = Importer.objects.filter(Q(symbol=k) & Q(timestamp=datetime.fromtimestamp(time)))
+                    klines_computed = compute_data(klines)
+                    for item in klines_computed:
+                        qs = Importer.objects.filter(Q(symbol=k) & Q(timestamp=item['timestamp']))
                         if qs.count() == 0:
-                            Importer.objects.create(
+                            keyToRemove = ['timestamp', 'unix', 'open', 'high', 'low', 'close', 'volume']
+                            imp = Importer.objects.create(
                                 symbol=k,
                                 tf=j,
-                                unix=time,
-                                timestamp=datetime.fromtimestamp(time),
-                                open=open,
-                                high=high,
-                                low=low,
-                                close=close,
-                                volume=volume,
+                                unix=item['unix'],
+                                timestamp=item['timestamp'],
+                                open=item['open'],
+                                high=item['high'],
+                                low=item['low'],
+                                close=item['close'],
+                                volume=item['volume'],
                             )
 
-                    sleep(15)
+                            for k in keyToRemove:
+                                del item[k]
+
+                            Importer.objects.filter(id=imp.id).update(
+                                indicators=json.dumps(item, cls=NumpyEncoder)
+                            )
+                    # sleep(15)
+            # for j in Importer.objects.all():
+            #     data = json.loads(j.indicators)
+            #     print(data['ema24'])

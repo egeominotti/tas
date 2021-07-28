@@ -25,3 +25,4 @@ backtrader
 ccxt
 backtrader_plotting
 Celery
+numpyencoder

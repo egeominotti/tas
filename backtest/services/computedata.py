@@ -27,8 +27,10 @@ def compute_data(klines):
     ema50 = ta.EMA(close_array, timeperiod=50)
     ema60 = ta.EMA(close_array, timeperiod=60)
     ema100 = ta.EMA(close_array, timeperiod=100)
+    ema189 = ta.EMA(close_array, timeperiod=189)
     ema200 = ta.EMA(close_array, timeperiod=200)
     ema223 = ta.EMA(close_array, timeperiod=223)
+    ema288 = ta.EMA(close_array, timeperiod=288)
     ema365 = ta.EMA(close_array, timeperiod=365)
 
     rsi = ta.RSI(close_array, timeperiod=14)
@@ -41,6 +43,7 @@ def compute_data(klines):
     fastk_rsi, fastd_rsi = ta.STOCHRSI(close_array, timeperiod=14, fastk_period=5, fastd_period=3, fastd_matype=0)
     upperband, middleband, lowerband = ta.BBANDS(close_array, timeperiod=5, nbdevup=2, nbdevdn=2, matype=0)
     ma20 = ta.MA(close_array, timeperiod=20, matype=0)
+    ma20_rsi = ta.MA(rsi, timeperiod=20, matype=0)
     doji = ta.CDLDOJI(open_array, high_array, low_array, close_array)
     white_soldier = ta.CDL3WHITESOLDIERS(open_array, high_array, low_array, close_array)
     hammer = ta.CDLHAMMER(open_array, high_array, low_array, close_array)
@@ -69,8 +72,10 @@ def compute_data(klines):
             'ema50': ema50[i],
             'ema60': ema60[i],
             'ema100': ema100[i],
+            'ema189': ema189[i],
             'ema200': ema200[i],
             'ema223': ema223[i],
+            'ema288': ema288[i],
             'ema365': ema365[i],
             'rsi': rsi[i],
             'macd': macd[i],
@@ -88,6 +93,7 @@ def compute_data(klines):
             'middleband': middleband[i],
             'lowerband': lowerband[i],
             'ma20': ma20[i],
+            'ma20_rsi': ma20_rsi[i],
             'doji': doji[i],
             'white_soldier': white_soldier[i],
             'hammer': hammer[i],
