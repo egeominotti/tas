@@ -10,11 +10,12 @@ then
 
     echo "PostgreSQL started"
 fi
-sleep 30
+sleep 5
 
 pip3 install -r requirements.txt
+python3 manage.py reset_schema --noinput
+python3 manage.py migrate --noinput
 python3 manage.py dbrestore --noinput
 python3 manage.py migrate --noinput
-python3 manage.py collectstatic --noinput
 
 exec "$@"
