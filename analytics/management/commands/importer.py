@@ -27,7 +27,11 @@ class Command(BaseCommand):
 
             for k in symbols:
                 for j in tf:
-                    klines = client.get_historical_klines(k, j, '01 Aug, 2017', now)
+
+                    try:
+                        klines = client.get_historical_klines(k, j, '01 Aug, 2017', now)
+                    except Exception as e:
+                        continue
 
                     for entry in klines:
                         time = entry[0] / 1000
