@@ -27,7 +27,7 @@ RUN wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz && \
 
 RUN rm -R ta-lib ta-lib-0.4.0-src.tar.gz
 
-# Remove dependencies
+
 RUN apk del .tmp-build-deps
 
 RUN mkdir /tas
@@ -37,5 +37,6 @@ COPY requirements.txt /tas/
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 COPY . /tas/
+
 ENTRYPOINT ["/tas/entrypoint.sh"]
 
