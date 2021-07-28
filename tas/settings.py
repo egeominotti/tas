@@ -27,7 +27,16 @@ INSTALLED_APPS = [
     'analytics',
     'bot',
     'backtest',
+    'dbbackup',
 ]
+
+DBBACKUP_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_DEFAULT_ACL = None
+DBBACKUP_STORAGE_OPTIONS = {
+    'access_key': config('DBBACKUP_STORAGE_OPTIONS_ACCESS_KEY'),
+    'secret_key': config('DBBACKUP_STORAGE_OPTIONS_SECRET_KEY'),
+    'bucket_name': 'tastradingsystem'
+}
 
 LOGGING = {
     'version': 1,
