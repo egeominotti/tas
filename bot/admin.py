@@ -1,5 +1,5 @@
 from django.contrib import admin
-from bot.models import Bot, Indicator, BinanceAccount, StrategyDispatcher
+from bot.models import Bot, Indicator, BinanceAccount, Strategy
 
 
 class BotAdmin(admin.ModelAdmin):
@@ -7,7 +7,8 @@ class BotAdmin(admin.ModelAdmin):
     list_per_page = 50
     ordering = ('id',)
     list_display = (
-        'id', 'name', 'status', 'time_frame', 'ratio', 'take_profit', 'stop_loss', 'strategy', 'binance_account')
+        'id', 'name', 'status', 'strategy', 'sleep_run', 'sleep_profitloss', 'quantity_investement', 'binance_account',
+        'live')
     exclude = ['flgEnable', ]
 
 
@@ -38,4 +39,4 @@ class StrategyDispatcherAdmin(admin.ModelAdmin):
 admin.site.register(Bot, BotAdmin)
 admin.site.register(Indicator, IndicatorAdmin)
 admin.site.register(BinanceAccount, BinanceAccountAdmin)
-admin.site.register(StrategyDispatcher, StrategyDispatcherAdmin)
+admin.site.register(Strategy, StrategyDispatcherAdmin)
