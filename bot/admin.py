@@ -1,5 +1,5 @@
 from django.contrib import admin
-from bot.models import Bot, Indicator, BinanceAccount, Strategy, SymbolTaapiApi, SymbolExchange
+from bot.models import Bot, Indicator, BinanceAccount, Strategy, SymbolTaapiApi, SymbolExchange, TimeFrame
 
 
 class SymbolExchangeAdmin(admin.ModelAdmin):
@@ -34,12 +34,12 @@ class BotAdmin(admin.ModelAdmin):
     list_per_page = 50
     ordering = ('id',)
     list_display = (
-        'id', 'status', 'strategy', 'sleep_run', 'sleep_profitloss', 'quantity_investement', 'binance_account','live')
+        'id', 'status', 'strategy', 'sleep_run', 'sleep_profitloss', 'quantity_investement', 'binance_account', 'live')
     exclude = ['flgEnable', ]
 
 
 class IndicatorAdmin(admin.ModelAdmin):
-    search_fields = ['tf']
+    search_fields = ['indicator']
     list_per_page = 50
     ordering = ('id',)
     list_display = ('id', 'indicator',)
@@ -47,7 +47,7 @@ class IndicatorAdmin(admin.ModelAdmin):
 
 
 class BinanceAccountAdmin(admin.ModelAdmin):
-    search_fields = ['tf']
+    search_fields = ['user']
     list_per_page = 50
     ordering = ('id',)
     list_display = ('id', 'user', 'api_key', 'api_secret')
@@ -55,15 +55,24 @@ class BinanceAccountAdmin(admin.ModelAdmin):
 
 
 class StrategyDispatcherAdmin(admin.ModelAdmin):
-    search_fields = ['tf']
+    search_fields = ['name']
     list_per_page = 50
     ordering = ('id',)
     list_display = ('id', 'name', 'logic_entry_function', 'logic_takeprofit_function', 'logic_stoploss_function',)
     exclude = ['flgEnable', ]
 
 
+class TimeFrameAdmin(admin.ModelAdmin):
+    search_fields = ['time_frame']
+    list_per_page = 50
+    ordering = ('id',)
+    list_display = ('id', 'time_frame')
+    exclude = ['flgEnable', ]
+
+
 admin.site.register(Bot, BotAdmin)
 admin.site.register(Indicator, IndicatorAdmin)
+admin.site.register(TimeFrame, TimeFrameAdmin)
 admin.site.register(SymbolExchange, SymbolExchangeAdmin)
 admin.site.register(SymbolTaapiApi, SymbolTaapiApiAmin)
 admin.site.register(BinanceAccount, BinanceAccountAdmin)

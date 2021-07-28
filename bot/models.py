@@ -9,9 +9,17 @@ BOT_STATUS = (
 )
 
 
+class TimeFrame(CommonTrait):
+    time_frame = models.CharField(max_length=10, blank=False)
+
+    def __str__(self):
+        if self.time_frame is not None:
+            return str(self.time_frame)
+
+
 class Strategy(CommonTrait):
     name = models.CharField(max_length=200, blank=False)
-    time_frame = models.CharField(max_length=10, blank=False)
+    time_frame = models.ForeignKey(TimeFrame, on_delete=models.SET_NULL, null=True, blank=True)
     ratio = models.FloatField(default=0, blank=False)
     take_profit = models.FloatField(default=0, blank=False)
     stop_loss = models.FloatField(default=0, blank=False)
