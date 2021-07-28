@@ -23,7 +23,7 @@ class Command(BaseCommand):
         now = datetime.now().strftime("%d %b, %Y")
         keyToRemove = ['timestamp', 'unix', 'open', 'high', 'low', 'close', 'volume']
         symbols = ['BTCUSDT']
-        tf = ['5m', '15m', '30m', '1h', '2h', '4h', '8h', '12h', '1d', '3d' '1M']
+        tf = ['1m', '5m', '15m', '30m', '1h', '2h', '4h', '8h', '12h', '1d', '3d' '1M']
 
         while True:
             for k in symbols:
