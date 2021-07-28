@@ -1,3 +1,8 @@
+"""
+STRATEGY : 1
+"""
+
+
 def logic_entry(item, ratio) -> bool:
     ratio_value = item['ema9'] / item['ema24']
     if 1 < ratio_value < ratio:
@@ -16,6 +21,11 @@ def logic_takeprofit(candle_close_entry, signal_candle_close, take_profit, item)
     if candle_close_entry > signal_candle_close * take_profit:
         return True
     return False
+
+
+"""
+STRATEGY : 2
+"""
 
 
 def scalping_5m_rsi_bollinger(item, ratio, isbot=False) -> bool:
