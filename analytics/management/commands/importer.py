@@ -39,8 +39,8 @@ def save(klines_computed, symbol, time_frame):
             Importer.objects \
                 .filter(id=imp.id) \
                 .update(
-                    indicators=json.dumps(item, cls=NumpyEncoder)
-                )
+                indicators=json.dumps(item, cls=NumpyEncoder)
+            )
 
     del item
 
@@ -50,13 +50,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        now = datetime.now().strftime("%d %b, %Y")
-
         symbols = ['BTCUSDT']
-        tf = ['1m', '5m', '15m', '30m', '1h', '2h', '4h', '8h', '12h', '1d', '3d' '1M']
+        tf = ['5m', '15m', '30m', '1h', '2h', '4h', '8h', '12h', '1d', '3d' '1M']
 
         while True:
 
+            now = datetime.now().strftime("%d %b, %Y")
             klines_computed = None
             symbol = None
             time_frame = None
