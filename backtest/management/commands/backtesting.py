@@ -13,7 +13,7 @@ logger = logging.getLogger('main')
 
 
 class Command(BaseCommand):
-    help = 'Backtesting'
+    help = 'backtesting'
 
     def handle(self, *args, **kwargs):
 
