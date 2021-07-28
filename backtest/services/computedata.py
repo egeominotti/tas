@@ -44,6 +44,7 @@ def compute_data(klines):
     doji = ta.CDLDOJI(open_array, high_array, low_array, close_array)
     white_soldier = ta.CDL3WHITESOLDIERS(open_array, high_array, low_array, close_array)
     hammer = ta.CDLHAMMER(open_array, high_array, low_array, close_array)
+    adx = ta.ADX(high_array, low_array, close_array, timeperiod=14)
 
     computed_data = []
     lenght = len(time)
@@ -90,6 +91,7 @@ def compute_data(klines):
             'doji': doji[i],
             'white_soldier': white_soldier[i],
             'hammer': hammer[i],
+            'adx': adx[i]
         }
 
         computed_data.append(diz)
