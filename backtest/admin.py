@@ -13,6 +13,15 @@ class BackTestAdmin(admin.ModelAdmin):
         'candle_take_profit')
     exclude = ['flgEnable', ]
 
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return True
+
+    def has_add_permission(self, request, obj=None):
+        return True
+
 
 class StatisticsPortfolioAdmin(admin.ModelAdmin):
     search_fields = ['tf']
@@ -21,6 +30,15 @@ class StatisticsPortfolioAdmin(admin.ModelAdmin):
     list_display = ('id', 'algorithm', 'entry', 'time_frame', 'take_profit', 'stop_loss', 'profit_ratio', 'loss_ratio',
                     'profit_loss_percentage', 'function_name_take_profit', 'function_name_stop_loss')
     exclude = ['flgEnable', ]
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return True
+
+    def has_add_permission(self, request, obj=None):
+        return True
 
 
 admin.site.register(BackTest, BackTestAdmin)
