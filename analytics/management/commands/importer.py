@@ -59,25 +59,32 @@ class Command(BaseCommand):
 
         while True:
 
-            now = datetime.now().strftime("%d %b, %Y")
-            klines_computed = None
-            symbol = None
-            time_frame = None
+            try:
+                now = datetime.now().strftime("%d %b, %Y")
+                klines_computed = None
+                symbol = None
+                time_frame = None
 
-            for symbol in symbols:
-                symbol = symbol
-                for time_frame in tf:
-                    time_frame = time_frame
+                for symbol in symbols:
+                    symbol = symbol
+                    for time_frame in tf:
+                        time_frame = time_frame
 
-                    try:
-                        klines = client.get_historical_klines(symbol, time_frame, '17 Aug, 2017', now)
-                        klines_computed = compute_data(klines)
-                    except Exception as e:
-                        start = "Errore importazione dei dati: " + str(e) + " " + str(symbol) + " " + str(time_frame)
-                        telegram.send(start)
-                        continue
+                        try:
+                            klines = client.get_historical_klines(symbol, time_frame, '17 Aug, 2017', now)
+                            klines_computed = compute_data(klines)
+                        except Exception as e:
+                            start = "Errore importazione dei dati: " + str(e) + " " + str(symbol) + " " + str(
+                                time_frame)
+                            telegram.send(start)
+                            continue
 
-            if klines_computed is not None:
-                save(klines_computed, symbol, time_frame)
-                sleep(60)
+                if klines_computed is not None:
+                    save(klines_computed, symbol, time_frame)
+                    sleep(60)
+                    continue
+
+            except Exception as e:
+                start = "Errore importazione dei dati: " + str(e) + " "
+                telegram.send(start)
                 continue
