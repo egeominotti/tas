@@ -1,23 +1,13 @@
-FROM python:3.9.6-slim-buster
+FROM python:3.9.6-alpine
 
-# set env variables
+
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN apt-get update && apt-get install -y --no-install-recommends python3-pip \
-                                         python3-dev \
-                                         libpq-dev \
-                                         postgresql \
-                                         postgresql-contrib \
-                                         gdal-bin \
-                                         postgis \
-                                         nodejs \
-                                         libpq-dev \
-                                         musl-dev \
-                                         gcc \
-                                         wget \
-                                         curl \
-                                         git
+RUN apk add --update --no-cache postgresql-client
+
+RUN apk add --update --no-cache --virtual .tmp-build-deps \
+	 musl-dev gcc libc-dev linux-headers postgresql-dev wget g++ make curl
 
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.1/zsh-in-docker.sh)" -- \
     -t https://github.com/denysdovhan/spaceship-prompt \
@@ -37,6 +27,9 @@ RUN wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz && \
   make install
 
 RUN rm -R ta-lib ta-lib-0.4.0-src.tar.gz
+
+# Remove dependencies
+RUN apk del .tmp-build-deps
 
 RUN mkdir /tas
 WORKDIR /tas
