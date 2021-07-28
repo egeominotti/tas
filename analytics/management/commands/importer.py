@@ -34,6 +34,7 @@ class Command(BaseCommand):
                         continue
 
                     for entry in klines:
+
                         time = entry[0] / 1000
                         open = float(entry[1])
                         high = float(entry[2])
@@ -55,4 +56,4 @@ class Command(BaseCommand):
                                 volume=volume,
                             )
 
-                    sleep(60)
+                    sleep(15)
