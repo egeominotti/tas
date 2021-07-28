@@ -1,6 +1,7 @@
 from django.core.management import BaseCommand
 from bot.model.bot import Bot
 import logging
+from bot.models import Bot
 
 from backtest.strategy.long.logic_function import \
     logic_entry, \
@@ -17,6 +18,7 @@ class Command(BaseCommand):
     help = 'bot'
 
     def handle(self, *args, **kwargs):
+
         take_profit = 1.02
         stop_loss = 0.98
         ratio = 1.0098
