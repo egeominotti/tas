@@ -13,6 +13,8 @@ services:
       - 8000:8000
     env_file:
       - .env.dev
+    depends_on:
+      - postgres_db
 
   postgres_db:
     container_name: tas_db
@@ -23,8 +25,7 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
       - .env.dev
-    depends_on:
-      - tas_dev
+
 
 #  vuejs:
 #    build:
