@@ -1,5 +1,32 @@
 from django.contrib import admin
-from bot.models import Bot, Indicator, BinanceAccount, Strategy
+from bot.models import Bot, Indicator, BinanceAccount, Strategy, SymbolTaapiApi, SymbolExchange
+
+
+class SymbolExchangeAdmin(admin.ModelAdmin):
+    search_fields = ['tf']
+    list_per_page = 50
+    ordering = ('id',)
+    list_display = (
+        'id', 'symbol')
+    exclude = ['flgEnable', ]
+
+
+class SymbolTaapiApiAmin(admin.ModelAdmin):
+    search_fields = ['tf']
+    list_per_page = 50
+    ordering = ('id',)
+    list_display = (
+        'id', 'symbol')
+    exclude = ['flgEnable', ]
+
+
+class SymbolTaapiApiAdmin(admin.ModelAdmin):
+    search_fields = ['tf']
+    list_per_page = 50
+    ordering = ('id',)
+    list_display = (
+        'id', 'symbol')
+    exclude = ['flgEnable', ]
 
 
 class BotAdmin(admin.ModelAdmin):
@@ -7,8 +34,7 @@ class BotAdmin(admin.ModelAdmin):
     list_per_page = 50
     ordering = ('id',)
     list_display = (
-        'id', 'name', 'status', 'strategy', 'sleep_run', 'sleep_profitloss', 'quantity_investement', 'binance_account',
-        'live')
+        'id', 'name', 'status', 'strategy', 'sleep_run', 'sleep_profitloss', 'quantity_investement', 'binance_account','live')
     exclude = ['flgEnable', ]
 
 
@@ -38,5 +64,7 @@ class StrategyDispatcherAdmin(admin.ModelAdmin):
 
 admin.site.register(Bot, BotAdmin)
 admin.site.register(Indicator, IndicatorAdmin)
+admin.site.register(SymbolExchange, SymbolExchangeAdmin)
+admin.site.register(SymbolTaapiApi, SymbolTaapiApiAmin)
 admin.site.register(BinanceAccount, BinanceAccountAdmin)
 admin.site.register(Strategy, StrategyDispatcherAdmin)
