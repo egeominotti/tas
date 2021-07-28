@@ -58,7 +58,7 @@ class Command(BaseCommand):
                                 indicators=json.dumps(item, cls=NumpyEncoder)
                             )
 
-                    # sleep(15)
+                    sleep(30)
             # for j in Importer.objects.all():
             #     data = json.loads(j.indicators)
             #     print(data['ema24'])
