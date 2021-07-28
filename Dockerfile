@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.9.6-buster
 
 # set env variables
 ENV PYTHONDONTWRITEBYTECODE 1

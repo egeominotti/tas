@@ -18,7 +18,7 @@ services:
 
   postgres_db:
     container_name: tas_db
-    image: kartoza/postgis:13-3
+    image: postgres:13-alpine3.13
     ports:
       - 5432:5432
     volumes:
