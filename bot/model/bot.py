@@ -33,6 +33,8 @@ class TradinBot:
         self.ema_interval = ema_interval
         self.binance = None
 
+        print(self.func_entry)
+
     def setexchange(self, symbol, quantity, leverage):
         self.binance = BinanceHelper(symbol=symbol, quantity=quantity, leverage=leverage)
 
