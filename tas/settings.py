@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'analytics',
     'bot',
     'backtest',
+    'rest_framework',
 ]
 
 LOGGING = {

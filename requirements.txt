@@ -9,7 +9,6 @@ redis
 psycopg2
 psycopg2-binary
 requests
-markdown
 django-filter
 django-cors-headers
 schedule
