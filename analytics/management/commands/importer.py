@@ -27,21 +27,23 @@ class Command(BaseCommand):
 
         while True:
             for k in symbols:
+                symbol = k
                 for j in tf:
-
+                    time_frame = j
                     try:
-                        klines = client.get_historical_klines(k, j, '17 Aug, 2017', now)
+                        klines = client.get_historical_klines(symbol, time_frame, '17 Aug, 2017', now)
                     except Exception as e:
                         continue
 
                     klines_computed = compute_data(klines)
                     for item in klines_computed:
-                        qs = Importer.objects.filter(Q(symbol=k) & Q(timestamp=item['timestamp']))
-                        if qs.count() == 0:
+
+                        qs = Importer.objects.filter(Q(symbol=symbol) & Q(timestamp=item['timestamp']))
+                        if not qs.exists():
 
                             imp = Importer.objects.create(
-                                symbol=k,
-                                tf=j,
+                                symbol=symbol,
+                                tf=symbol,
                                 unix=item['unix'],
                                 timestamp=item['timestamp'],
                                 open=item['open'],
@@ -58,7 +60,7 @@ class Command(BaseCommand):
                                 indicators=json.dumps(item, cls=NumpyEncoder)
                             )
 
-                    sleep(30)
+                    #sleep(30)
             # for j in Importer.objects.all():
             #     data = json.loads(j.indicators)
             #     print(data['ema24'])
