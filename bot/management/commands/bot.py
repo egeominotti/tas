@@ -3,13 +3,8 @@ from bot.model.bot import TradinBot
 import logging
 from bot.models import Bot
 
-from backtest.strategy.long.logic_function import \
-    logic_entry, \
-    logic_stop_loss, \
-    logic_takeprofit, \
-    scalping_5m_rsi_bollinger, \
-    stoploss_scalping_5m_rsi_bollinger, \
-    takeprofit_scalping_5m_rsi_bollinger
+from backtest.strategy.long.logic_function import *
+from backtest.strategy.short.logic_function import *
 
 logger = logging.getLogger('main')
 

@@ -56,6 +56,8 @@ class TradinBot:
                     dizIndicator[i] = getattr(self.taapi, i)(self.time_frame)
 
             if position is False:
+                start = "BOT started: into while contidion"
+                self.telegram.send(start)
 
                 if self.func_entry(dizIndicator, self.ratio, isbot=True):
                     open_position_value = dizIndicator['candle']['close']
