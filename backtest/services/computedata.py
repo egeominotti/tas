@@ -4,7 +4,6 @@ import talib as ta
 
 
 def compute_data(klines):
-
     time = [entry[0] / 1000 for entry in klines]
     open = [float(entry[1]) for entry in klines]
     high = [float(entry[2]) for entry in klines]
@@ -13,6 +12,7 @@ def compute_data(klines):
     volume = [float(entry[5]) for entry in klines]
 
     close_array = np.asarray(close)
+    open_array = np.asarray(open)
     low_array = np.asarray(low)
     high_array = np.asarray(high)
 
@@ -41,12 +41,14 @@ def compute_data(klines):
     fastk_rsi, fastd_rsi = ta.STOCHRSI(close_array, timeperiod=14, fastk_period=5, fastd_period=3, fastd_matype=0)
     upperband, middleband, lowerband = ta.BBANDS(close_array, timeperiod=5, nbdevup=2, nbdevdn=2, matype=0)
     ma20 = ta.MA(close_array, timeperiod=20, matype=0)
+    doji = ta.CDLDOJI(open_array, high_array, low_array, close_array)
+    white_soldier = ta.CDL3WHITESOLDIERS(open_array, high_array, low_array, close_array)
+    hammer = ta.CDLHAMMER(open_array, high_array, low_array, close_array)
 
     computed_data = []
     lenght = len(time)
 
     for i in range(lenght):
-
         diz = {
             'unix': time[i],
             'timestamp': datetime.fromtimestamp(time[i]),
@@ -85,7 +87,9 @@ def compute_data(klines):
             'middleband': middleband[i],
             'lowerband': lowerband[i],
             'ma20': ma20[i],
-
+            'doji': doji[i],
+            'white_soldier': white_soldier[i],
+            'hammer': hammer[i],
         }
 
         computed_data.append(diz)
