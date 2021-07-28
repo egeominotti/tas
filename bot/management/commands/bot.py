@@ -1,16 +1,20 @@
 from django.core.management import BaseCommand
-import logging
-from django.conf import settings
-from backtest.strategy.long.logic_function import logic_entry, logic_stop_loss, logic_takeprofit, \
-    scalping_5m_rsi_bollinger, stoploss_scalping_5m_rsi_bollinger, takeprofit_scalping_5m_rsi_bollinger
-
 from bot.model.bot import Bot
+import logging
+
+from backtest.strategy.long.logic_function import \
+    logic_entry, \
+    logic_stop_loss, \
+    logic_takeprofit, \
+    scalping_5m_rsi_bollinger, \
+    stoploss_scalping_5m_rsi_bollinger, \
+    takeprofit_scalping_5m_rsi_bollinger
 
 logger = logging.getLogger('main')
 
 
 class Command(BaseCommand):
-    help = 'testbot'
+    help = 'bot'
 
     def handle(self, *args, **kwargs):
         take_profit = 1.02
