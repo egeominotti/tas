@@ -1,13 +1,7 @@
 from django.core.management import BaseCommand
 import logging
 from backtest.model.backtest import Backtest
-from backtest.strategy.long.logic_function import \
-    logic_entry, \
-    logic_stop_loss, \
-    logic_takeprofit, \
-    scalping_5m_rsi_bollinger, \
-    stoploss_scalping_5m_rsi_bollinger, \
-    takeprofit_scalping_5m_rsi_bollinger
+from backtest.strategy.long.logic_function import *
 
 logger = logging.getLogger('main')
 
@@ -24,10 +18,10 @@ class Command(BaseCommand):
         time_frame = '1h'
 
         bt = Backtest(
-            first_period='17 Jun, 2020',
-            logic_entry=logic_entry,
-            logic_stoploss=logic_stop_loss,
-            logic_takeprofit=logic_takeprofit,
+            first_period='25 Aug, 2020',
+            logic_entry=scalping_5m_rsi_bollinger,
+            logic_stoploss=stoploss_scalping_5m_rsi_bollinger,
+            logic_takeprofit=takeprofit_scalping_5m_rsi_bollinger,
             time_frame=time_frame,
             symbol=crypto,
             take_profit_value=TAKE_PROFIT,
