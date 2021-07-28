@@ -30,6 +30,7 @@ class Command(BaseCommand):
                 symbol = k
                 for j in tf:
                     time_frame = j
+
                     try:
                         klines = client.get_historical_klines(symbol, time_frame, '17 Aug, 2017', now)
                     except Exception as e:
