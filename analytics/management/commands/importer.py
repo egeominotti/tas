@@ -62,24 +62,24 @@ class Command(BaseCommand):
 
                 for s in SymbolExchange.objects.all().order_by('symbol'):
                     for t in TimeFrame.objects.all().order_by('time_frame'):
-                        try:
 
-                            print(s.symbol)
-                            print(t.time_frame)
+                        if s.to_import and t.to_import:
 
-                            klines = client.get_historical_klines(s.symbol, t.time_frame, '17 Aug, 2017', now)
+                            try:
 
-                            if len(klines) > 0:
-                                klines_computed = compute_data(klines)
-                                save(klines_computed, s.symbol, t.time_frame)
-                                sleep(5)
+                                klines = client.get_historical_klines(s.symbol, t.time_frame, '17 Aug, 2017', now)
 
-                        except Exception as e:
+                                if len(klines) > 0:
+                                    klines_computed = compute_data(klines)
+                                    save(klines_computed, s.symbol, t.time_frame)
+                                    sleep(5)
 
-                            start = "Errore importazione dei dati: " + str(e) + " " + str(s.symbol) + " " + str(
-                                t.time_frame)
-                            telegram.send(start)
-                            continue
+                            except Exception as e:
+
+                                start = "Errore importazione dei dati: " + str(e) + " " + str(s.symbol) + " " + str(
+                                    t.time_frame)
+                                telegram.send(start)
+                                continue
 
             except Exception as e:
                 start = "Errore importazione dei dati: " + str(e) + " "
