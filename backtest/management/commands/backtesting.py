@@ -19,9 +19,9 @@ class Command(BaseCommand):
 
         bt = Backtest(
             first_period='17 Aug, 2017',
-            logic_entry=logic_entry(),
-            logic_stoploss=logic_stop_loss(),
-            logic_takeprofit=logic_takeprofit(),
+            logic_entry=eval('logic_entry'),
+            logic_stoploss=eval('logic_stop_loss'),
+            logic_takeprofit=eval('logic_takeprofit'),
             time_frame=time_frame,
             symbol=crypto,
             take_profit_value=TAKE_PROFIT,

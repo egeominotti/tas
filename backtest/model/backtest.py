@@ -191,9 +191,10 @@ class StrategyChecker(Strategy):
 
         diz = {}
         computed_data = compute_data(self.klines)
-        print(computed_data)
+
         for item in computed_data:
             if item is not None:
+                item['ratio'] = self.ratio
                 val = func(item)
                 if val is True:
                     diz[item['timestamp']] = item
