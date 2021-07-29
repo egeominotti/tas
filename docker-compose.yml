@@ -26,7 +26,7 @@ services:
     env_file:
       - .env.dev
 
-  local_redis:
+  redis:
     container_name: tas_redis
     image: redis:6.2.5-alpine
     restart: always
@@ -48,3 +48,4 @@ services:
 
 volumes:
   postgres_data:
+  redis-data:
