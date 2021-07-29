@@ -21,15 +21,15 @@ class SymbolTaapiApiAmin(admin.ModelAdmin):
 
 
 class BotAdmin(admin.ModelAdmin):
-    search_fields = ['tf']
+    search_fields = ['name']
     list_per_page = 50
     ordering = ('id',)
     list_display = (
         'name', 'status', 'execution', 'live', 'strategy', 'symbol_taapi', 'symbol_exchange', 'sleep_run',
         'sleep_profitloss',
         'quantity_investment',
-        'leverage', 'binance_account',)
-    readonly_fields = ('execution',)
+        'leverage', 'binance_account', 'created_at', 'updated_at',)
+    readonly_fields = ('name', 'execution',)
     exclude = ['flgEnable', ]
 
 

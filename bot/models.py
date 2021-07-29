@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from analytics.models import CommonTrait
 from django_q.tasks import async_task
+import uuid
 
 BOT_STATUS = (
     ('STOP', 'STOP'),
@@ -78,20 +79,20 @@ class BotLogger(CommonTrait):
 
 
 class Bot(CommonTrait):
-    name = models.CharField(max_length=100, blank=False)
+    name = models.CharField(max_length=100, blank=False, null=False)
     status = models.CharField(max_length=50, choices=BOT_STATUS, default=BOT_STATUS[0][0],
                               blank=False, null=False)
 
-    symbol_taapi = models.ForeignKey(SymbolTaapiApi, on_delete=models.SET_NULL, null=True, blank=True)
-    symbol_exchange = models.ForeignKey(SymbolExchange, on_delete=models.SET_NULL, null=True, blank=True)
+    symbol_taapi = models.ForeignKey(SymbolTaapiApi, on_delete=models.CASCADE, null=False, blank=False)
+    symbol_exchange = models.ForeignKey(SymbolExchange, on_delete=models.CASCADE, null=False, blank=False)
 
-    sleep_run = models.IntegerField(default=0, blank=True)
-    sleep_profitloss = models.IntegerField(default=0, blank=True)
+    sleep_run = models.IntegerField(default=0, blank=False, null=False)
+    sleep_profitloss = models.IntegerField(default=0, blank=False, null=False)
     quantity_investment = models.FloatField(default=0, blank=False)
     leverage = models.IntegerField(default=0, blank=False)
     live = models.BooleanField(default=False)
     binance_account = models.ForeignKey(BinanceAccount, on_delete=models.SET_NULL, null=True, blank=True)
-    strategy = models.ForeignKey(Strategy, on_delete=models.SET_NULL, null=True, blank=True)
+    strategy = models.ForeignKey(Strategy, on_delete=models.CASCADE, null=False, blank=False)
     execution = models.BooleanField(default=False)
 
     def __str__(self):
@@ -99,6 +100,8 @@ class Bot(CommonTrait):
             return str(self.name)
 
     def save(self, *args, **kwargs):
+
+        self.name = 'bot_' + str(uuid.uuid4().hex)
         super().save(*args, **kwargs)
 
         if self.status == 'START':

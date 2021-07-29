@@ -39,15 +39,18 @@ class TradingBot:
         self.func_entry = func_entry
         self.func_stop_loss = func_stop_loss
         self.func_take_profit = func_take_profit
-        self.binance = BinanceHelper(
-            api_key=binance.api_key,
-            api_secret=binance.api_secret,
-            symbol=symbol_exchange,
-            quantity=quantity_investment,
-            leverage=leverage
-        )
         self.logger = logger
         self.bot_object = bot_object
+
+        self.binance = None
+        if self.current_bot.live:
+            self.binance = BinanceHelper(
+                api_key=binance.api_key,
+                api_secret=binance.api_secret,
+                symbol=symbol_exchange,
+                quantity=quantity_investment,
+                leverage=leverage
+            )
 
     def run(self, sleep_time_position=0, sleep_time_profit_or_loss=0):
 
