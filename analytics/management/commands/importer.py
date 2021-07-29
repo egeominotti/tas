@@ -10,6 +10,7 @@ from numpyencoder import NumpyEncoder
 from analytics.models import Importer
 import logging
 from bot.models import TimeFrame, SymbolExchange
+
 from bot.services.telegram import Telegram
 
 logger = logging.getLogger('main')
@@ -63,10 +64,10 @@ class Command(BaseCommand):
                 symbol = None
                 time_frame = None
 
-                for symbol in SymbolExchange.objects.all():
-                    symbol = symbol
-                    for time_frame in TimeFrame.objects.all().exclude(time_frame='1m'):
-                        time_frame = time_frame
+                for s in SymbolExchange.objects.all():
+                    symbol = s.symbol
+                    for t in TimeFrame.objects.all().exclude(time_frame='1m'):
+                        time_frame = t.time_frame
 
                         try:
                             klines = client.get_historical_klines(symbol, time_frame, '17 Aug, 2017', now)
