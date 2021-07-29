@@ -7,7 +7,7 @@ class SymbolExchangeAdmin(admin.ModelAdmin):
     list_per_page = 50
     ordering = ('id',)
     list_display = (
-        'id', 'to_import', 'symbol')
+        'symbol', 'to_import')
     exclude = ['flgEnable', ]
 
 
@@ -16,7 +16,7 @@ class SymbolTaapiApiAmin(admin.ModelAdmin):
     list_per_page = 50
     ordering = ('id',)
     list_display = (
-        'id', 'symbol')
+        'symbol',)
     exclude = ['flgEnable', ]
 
 
@@ -49,7 +49,7 @@ class TimeFrameAdmin(admin.ModelAdmin):
     # search_fields = ['time_frame']
     list_per_page = 20
     ordering = ('id',)
-    list_display = ('id', 'to_import', 'time_frame')
+    list_display = ('time_frame', 'to_import')
     exclude = ['flgEnable', ]
 
 
