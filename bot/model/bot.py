@@ -61,7 +61,7 @@ class TradingBot:
             bot=self.current_bot
         )
 
-        start = "BOT started: into while contidion"
+        start = "BOT started:" + "symbol: " + str(self.symbol) + " time frame: " + str(self.time_frame)
         self.telegram.send(start)
 
         open_position_value = 0
@@ -70,7 +70,7 @@ class TradingBot:
         while True:
 
             if self.bot_object.objects.get(id=self.current_bot.id).status == 'DISABLED':
-                start = "BOT stopped from gui: into while contidion"
+                start = "STOP BOT from gui"
                 self.telegram.send(start)
                 break
 
