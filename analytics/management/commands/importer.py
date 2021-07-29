@@ -46,8 +46,6 @@ def save(klines_computed, symbol, time_frame):
                 indicators=json.dumps(item, cls=NumpyEncoder)
             )
 
-    del item
-
 
 class Command(BaseCommand):
     help = 'Salva tutti i dati di binance'
