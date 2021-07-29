@@ -10,6 +10,9 @@ STRATEGY : 1
 
 
 def logic_entry(item, bot=False) -> bool:
+    """
+    Casistica usata dal bot
+    """
     if bot:
 
         time_frame = item['time_frame']
@@ -26,8 +29,11 @@ def logic_entry(item, bot=False) -> bool:
         if 1 < ratio_value < ratio:
             if candle_close['close'] > ema100:
                 return candle_close
-    else:
 
+    else:
+        """
+        Casistica usata dal backtest
+        """
         ratio_value = item['ema9'] / item['ema24']
         if 1 < ratio_value < item['ratio']:
             if item['close'] > item['ema100']:
