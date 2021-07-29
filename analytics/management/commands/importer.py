@@ -72,7 +72,7 @@ class Command(BaseCommand):
                             if len(klines) > 0:
                                 klines_computed = compute_data(klines)
                                 save(klines_computed, s.symbol, t.time_frame)
-                                sleep(60)
+                                sleep(5)
 
                         except Exception as e:
 
