@@ -9,7 +9,7 @@ from django.db.models import Q
 from numpyencoder import NumpyEncoder
 from analytics.models import Importer
 import logging
-from bot.models import TimeFrame
+from bot.models import TimeFrame, SymbolExchange
 
 from bot.services.telegram import Telegram
 
@@ -55,19 +55,16 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         telegram = Telegram()
-        symbols = ['BTCUSDT']
-        #tf = ['5m', '15m', '30m', '1h', '2h', '4h', '8h', '12h', '1d', '3d' '1M']
 
         while True:
 
             try:
-
                 now = datetime.now().strftime("%d %b, %Y")
                 klines_computed = None
                 symbol = None
                 time_frame = None
 
-                for symbol in symbols:
+                for symbol in SymbolExchange.objects.all():
                     symbol = symbol
                     for time_frame in TimeFrame.objects.all().exclude(time_frame='1m'):
                         time_frame = time_frame
