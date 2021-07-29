@@ -148,9 +148,6 @@ class TradingBot:
 
                         position = False
 
-
-
-
             except Exception as e:
                 self.bot_object.objects.filter(id=self.current_bot.id).update(status='STOP')
                 self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
