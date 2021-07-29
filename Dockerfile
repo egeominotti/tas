@@ -1,15 +1,15 @@
-FROM python:3.9
+FROM python:3.9.6-slim-buster
 
 # set env variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+
 
 RUN apt-get update && apt-get install -y --no-install-recommends python3-pip \
                                          python3-dev \
                                          libpq-dev \
                                          postgresql \
                                          postgresql-contrib \
-                                         gdal-bin \
                                          postgis \
                                          nodejs \
                                          libpq-dev \
