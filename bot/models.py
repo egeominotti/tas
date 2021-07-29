@@ -1,11 +1,11 @@
 from django.contrib.auth.models import User
 from django.db import models
 from analytics.models import CommonTrait
-from django.conf import settings
-from django.core.management import call_command
+from bot.services.runnerbot import runnerbot
 
 BOT_STATUS = (
     ('DISABLED', 'DISABLED'),
+    ('ENABLED', 'ENABLED'),
     ('RUNNING', 'RUNNING'),
 )
 
@@ -99,6 +99,8 @@ class Bot(CommonTrait):
             return str(self.name)
 
     def save(self, *args, **kwargs):
-        print(self)
-        call_command('runnerbot')
+        runnerbot(self, BotLogger)
+        # t = Thread(target=runnerbot, args=(self, BotLogger))
+        # t.start()
+
         super().save(*args, **kwargs)

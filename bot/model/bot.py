@@ -5,7 +5,6 @@ import datetime
 from bot.services.telegram import Telegram
 from analytics.services.exchangeApi import Taapi
 from bot.services.binance import BinanceHelper
-from bot.models import BotLogger
 
 
 class TradingBot:
@@ -24,7 +23,8 @@ class TradingBot:
             func_entry,
             func_stop_loss,
             func_take_profit,
-            binance
+            binance,
+            logger
     ):
         self.current_bot = current_bot
         self.telegram = Telegram()
@@ -47,8 +47,13 @@ class TradingBot:
             quantity=quantity_investment,
             leverage=leverage
         )
+        self.logger = logger
 
     def run(self, sleep_time_position=0, sleep_time_profit_or_loss=0):
+
+        self.logger.objects.create(
+            bot=self.current_bot
+        )
 
         # start = "BOT started: into while contidion"
         # self.telegram.send(start)
@@ -76,7 +81,7 @@ class TradingBot:
                 if func_entry_value is not False:
                     now = datetime.datetime.now()
 
-                    BotLogger.objects.create(
+                    self.logger.objects.create(
                         entry_candle=func_entry_value,
                         entry_candle_date=now,
                         bot=self.current_bot
@@ -93,7 +98,7 @@ class TradingBot:
 
                     now = datetime.datetime.now()
 
-                    BotLogger.objects.create(
+                    self.logger.objects.create(
                         candle_take_profit=value,
                         candle_take_profit_date=now,
                         bot=self.current_bot
@@ -108,7 +113,7 @@ class TradingBot:
 
                     now = datetime.datetime.now()
 
-                    BotLogger.objects.create(
+                    self.logger.objects.create(
                         candle_stop_loss=value,
                         candle_stop_loss_date=now,
                         bot=self.current_bot
