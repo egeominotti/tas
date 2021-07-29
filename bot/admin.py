@@ -71,10 +71,12 @@ class TimeFrameAdmin(admin.ModelAdmin):
 
 
 class BotLoggerAdmin(admin.ModelAdmin):
+    search_fields = ['bot__name']
     list_per_page = 20
     ordering = ('id',)
     list_display = (
-        'id', 'entry_candle', 'entry_candle_date', 'take_profit', 'candle_take_profit', 'candle_take_profit_date',
+        'id', 'created_at', 'entry_candle', 'entry_candle_date', 'take_profit', 'candle_take_profit',
+        'candle_take_profit_date',
         'stop_loss', 'candle_stop_loss', 'candle_stop_loss_date', 'bot')
     exclude = ['flgEnable', ]
 
