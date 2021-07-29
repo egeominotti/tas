@@ -67,6 +67,7 @@ class SymbolExchange(CommonTrait):
         if self.symbol is not None:
             return str(self.symbol)
 
+
 class BotLogger(CommonTrait):
     entry_candle = models.FloatField(default=0, blank=True)
     stop_loss = models.BooleanField(default=False, blank=True)
@@ -77,6 +78,11 @@ class BotLogger(CommonTrait):
     candle_stop_loss_date = models.DateTimeField(blank=True, null=True)
     candle_take_profit_date = models.DateTimeField(blank=True, null=True)
     bot = models.ForeignKey('Bot', on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        if self.bot is not None:
+            return str(self.bot.name)
+
 
 class Bot(CommonTrait):
     name = models.CharField(max_length=100, blank=False)
@@ -102,4 +108,3 @@ class Bot(CommonTrait):
         print(self)
         call_command('runnerbot')
         super().save(*args, **kwargs)
-

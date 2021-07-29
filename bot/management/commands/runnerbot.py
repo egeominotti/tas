@@ -13,20 +13,21 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         qs = Bot.objects.all()
-        for k in qs:
-            print(k)
+        for trading_bot in qs:
+            print(trading_bot)
             bot = TradingBot(
-                symbol=k.symbol_taapi.symbol,
-                symbol_exchange=k.symbol_exchange.symbol,
-                time_frame=k.strategy.time_frame.time_frame,
-                ratio=k.strategy.ratio,
-                take_profit=k.strategy.take_profit,
-                stop_loss=k.strategy.stop_loss,
-                leverage=k.leverage,
-                quantity_investment=k.quantity_investment,
-                func_entry=eval(k.strategy.logic_entry_function),
-                func_stop_loss=eval(k.strategy.logic_stoploss_function),
-                func_take_profit=eval(k.strategy.logic_takeprofit_function),
-                binance=k.binance_account
+                current_bot=trading_bot,
+                symbol=trading_bot.symbol_taapi.symbol,
+                symbol_exchange=trading_bot.symbol_exchange.symbol,
+                time_frame=trading_bot.strategy.time_frame.time_frame,
+                ratio=trading_bot.strategy.ratio,
+                take_profit=trading_bot.strategy.take_profit,
+                stop_loss=trading_bot.strategy.stop_loss,
+                leverage=trading_bot.leverage,
+                quantity_investment=trading_bot.quantity_investment,
+                func_entry=eval(trading_bot.strategy.logic_entry_function),
+                func_stop_loss=eval(trading_bot.strategy.logic_stoploss_function),
+                func_take_profit=eval(trading_bot.strategy.logic_takeprofit_function),
+                binance=trading_bot.binance_account
             )
-            bot.run(k.sleep_run, k.sleep_profitloss)
+            bot.run(trading_bot.sleep_run, trading_bot.sleep_profitloss)

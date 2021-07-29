@@ -1,14 +1,18 @@
 from time import sleep
 
+import datetime
+
 from bot.services.telegram import Telegram
 from analytics.services.exchangeApi import Taapi
 from bot.services.binance import BinanceHelper
+from bot.models import BotLogger
 
 
 class TradingBot:
 
     def __init__(
             self,
+            current_bot,
             symbol,
             symbol_exchange,
             time_frame,
@@ -22,6 +26,7 @@ class TradingBot:
             func_take_profit,
             binance
     ):
+        self.current_bot = current_bot
         self.telegram = Telegram()
         self.symbol = symbol
         self.symbol_exchange = symbol_exchange
@@ -69,6 +74,14 @@ class TradingBot:
 
                 func_entry_value = self.func_entry(item=item, bot=True)
                 if func_entry_value is not False:
+                    now = datetime.datetime.now()
+
+                    BotLogger.objects.create(
+                        entry_candle=func_entry_value,
+                        entry_candle_date=now,
+                        bot=self.current_bot
+                    )
+
                     open_position_value = func_entry_value
                 sleep(sleep_time_position)
 
@@ -77,11 +90,30 @@ class TradingBot:
                 value = self.func_stop_loss(item=item, bot=True)
                 if value is True:
                     print("TAKE_PROFIT: " + str(open_position_value * self.take_profit))
+
+                    now = datetime.datetime.now()
+
+                    BotLogger.objects.create(
+                        candle_take_profit=value,
+                        candle_take_profit_date=now,
+                        bot=self.current_bot
+                    )
+
                     position = False
 
                 value = self.func_take_profit(item=item, bot=True)
                 if value is True:
+
                     print("STOP LOSS: " + str(open_position_value * self.stop_loss))
+
+                    now = datetime.datetime.now()
+
+                    BotLogger.objects.create(
+                        candle_stop_loss=value,
+                        candle_stop_loss_date=now,
+                        bot=self.current_bot
+                    )
+
                     position = False
 
                 sleep(sleep_time_profit_or_loss)
