@@ -78,10 +78,6 @@ class Bot(CommonTrait):
 
     sleep_run = models.IntegerField(default=0, blank=True)
     sleep_profitloss = models.IntegerField(default=0, blank=True)
-    # indicator = ['candle', 'rsi', 'bbands', 'ema', 'stoch']
-    # ema_interval = ['10', '20', '50', '11']
-    # ema_interval = models.TEX(blank=True, null=True)
-    #indicators = models.ManyToManyField(Indicator)
     quantity_investement = models.FloatField(default=0, blank=False)
     leverage = models.IntegerField(default=0, blank=False)
     live = models.BooleanField(default=False)
