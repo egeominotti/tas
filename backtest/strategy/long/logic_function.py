@@ -11,12 +11,18 @@ STRATEGY : 1
 
 def logic_entry(item, isbot=False) -> bool:
     if isbot:
-        # taapi = Taapi('BTCUSDT')
-        ratio_value = item['ema9'] / item['ema24']
-        if 1 < ratio_value < ratio:
-            if item['close'] > item['ema100']:
+
+        taapi = Taapi(item['symbol'])
+        candle_close = taapi.candle(item['time_frame'])
+        ema9 = taapi.ema(item['time_frame'], 9)
+        ema24 = taapi.ema(item['time_frame'], 24)
+        ema100 = taapi.ema(item['time_frame'], 100)
+        ratio_value = ema9 / ema24
+        if 1 < ratio_value < item['ratio']:
+            if candle_close['close'] > ema100:
                 return True
     else:
+
         ratio_value = item['ema9'] / item['ema24']
         if 1 < ratio_value < item['ratio']:
             if item['close'] > item['ema100']:
@@ -25,15 +31,12 @@ def logic_entry(item, isbot=False) -> bool:
 
 
 def logic_stop_loss(item, isbot=True) -> bool:
-
     if candle_close_entry < signal_candle_close * stop_loss:
         return True
     return False
 
 
 def logic_takeprofit(item, isbot=True) -> bool:
-
-
     if candle_close_entry > signal_candle_close * take_profit:
         return True
     return False
