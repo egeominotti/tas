@@ -94,6 +94,10 @@ class TradingBot:
 
                 if position is False:
 
+                    if self.stop():
+                        break
+                    sleep(sleep_time_position)
+
                     func_entry_value = self.func_entry(item=item, bot=True)
                     if func_entry_value is not False:
                         now = datetime.datetime.now()
@@ -106,11 +110,11 @@ class TradingBot:
 
                         open_position_value = func_entry_value
 
+                if position is True:
+
                     if self.stop():
                         break
-                    sleep(sleep_time_position)
-
-                if position is True:
+                    sleep(sleep_time_profit_or_loss)
 
                     value = self.func_stop_loss(item=item, bot=True)
                     if value is True:
@@ -140,9 +144,7 @@ class TradingBot:
 
                         position = False
 
-                    if self.stop():
-                        break
-                    sleep(sleep_time_profit_or_loss)
+
 
 
             except Exception as e:
