@@ -1,9 +1,7 @@
 import csv
-from backtest.models import *
 from django.contrib import admin
 from django.http import HttpResponse
-
-from backtest.models import BackTest, StatisticsPortfolio
+from backtest.models import *
 
 
 class ExportCsvMixin:
@@ -106,9 +104,33 @@ class TimeFrameAdmin(admin.ModelAdmin):
     exclude = ['flgEnable', ]
 
 
+class LogicEntryAdmin(admin.ModelAdmin):
+    list_per_page = 20
+    ordering = ('id',)
+    list_display = ('id', 'name')
+    exclude = ['flgEnable', ]
+
+
+class LogicTakepProfitAdmin(admin.ModelAdmin):
+    list_per_page = 20
+    ordering = ('id',)
+    list_display = ('id', 'name')
+    exclude = ['flgEnable', ]
+
+
+class LogicStopLossAdmin(admin.ModelAdmin):
+    list_per_page = 20
+    ordering = ('id',)
+    list_display = ('id', 'name')
+    exclude = ['flgEnable', ]
+
+
 admin.site.register(TimeFrame, TimeFrameAdmin)
 admin.site.register(SymbolExchange, SymbolExchangeAdmin)
 admin.site.register(SymbolTaapiApi, SymbolTaapiApiAmin)
 admin.site.register(Strategy, StrategyDispatcherAdmin)
+admin.site.register(LogicEntry, LogicEntryAdmin)
+admin.site.register(LogicTakepProfit, LogicTakepProfitAdmin)
+admin.site.register(LogicStopLoss, LogicStopLossAdmin)
 admin.site.register(BackTest, BackTestAdmin)
 admin.site.register(StatisticsPortfolio, StatisticsPortfolioAdmin)
