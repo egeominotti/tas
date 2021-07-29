@@ -1,6 +1,4 @@
-from threading import Thread
 from bot.model.bot import TradingBot
-from multiprocessing import Process, Queue
 
 """
 Logic function
@@ -11,9 +9,9 @@ from backtest.strategy.short.logic_function import *
 
 
 def runnerbot(trading_bot, logger):
-    print(trading_bot)
 
-    if trading_bot.status == 'RUNNING':
+    if trading_bot.status == 'ENABLED':
+
         bot = TradingBot(
             current_bot=trading_bot,
             symbol=trading_bot.symbol_taapi.symbol,
