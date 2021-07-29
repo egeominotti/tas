@@ -66,13 +66,20 @@ class Command(BaseCommand):
 
                 for s in SymbolExchange.objects.all():
                     symbol = s.symbol
+                    print(symbol)
                     for t in TimeFrame.objects.all().exclude(time_frame='1m'):
                         time_frame = t.time_frame
-
+                        print(time_frame)
                         try:
+
                             klines = client.get_historical_klines(symbol, time_frame, '17 Aug, 2017', now)
                             klines_computed = compute_data(klines)
+                            start = "Ho scaricato: " + str(
+                                len(klines_computed)) + " candele" + " time_frame: " + time_frame + " symbol: " + symbol
+                            telegram.send(start)
+
                         except Exception as e:
+
                             start = "Errore importazione dei dati: " + str(e) + " " + str(symbol) + " " + str(
                                 time_frame)
                             telegram.send(start)
