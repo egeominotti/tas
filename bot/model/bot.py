@@ -19,7 +19,7 @@ class TradingBot:
             func_entry,
             func_stop_loss,
             func_take_profit,
-            ema_interval=None,
+            binance
     ):
         self.telegram = Telegram()
         self.symbol = symbol
@@ -33,11 +33,13 @@ class TradingBot:
         self.func_entry = func_entry
         self.func_stop_loss = func_stop_loss
         self.func_take_profit = func_take_profit
-        self.ema_interval = ema_interval
-        self.binance = None
-
-    def setexchange(self, symbol, quantity, leverage):
-        self.binance = BinanceHelper(symbol=symbol, quantity=quantity, leverage=leverage)
+        self.binance = BinanceHelper(
+            api_key=binance.api_key,
+            api_secret=binance.api_secret,
+            symbol=symbol,
+            quantity=quantity_investement,
+            leverage=leverage
+        )
 
     def run(self, sleep_time_position=0, sleep_time_profit_or_loss=0):
 

@@ -4,11 +4,11 @@ from decouple import config
 
 
 class BinanceHelper:
-    def __init__(self, symbol, quantity, leverage=1):
-        self.client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
-        self.client.futures_change_leverage(symbol=symbol, marginType='ISOLATED', leverage=leverage)
-        self.quantity = quantity
+    def __init__(self, api_key, api_secret, symbol, quantity, leverage):
         self.symbol = symbol
+        self.quantity = quantity
+        self.client = Client(api_key, api_secret)
+        self.client.futures_change_leverage(symbol=symbol, marginType='ISOLATED', leverage=leverage)
 
     def sell(self):
         self.client.futures_create_order(

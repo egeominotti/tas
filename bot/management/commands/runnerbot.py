@@ -12,7 +12,6 @@ class Command(BaseCommand):
     help = 'RunnerBot'
 
     def handle(self, *args, **kwargs):
-
         qs = Bot.objects.all()
         for k in qs:
             print(k)
@@ -22,11 +21,11 @@ class Command(BaseCommand):
                 ratio=k.strategy.ratio,
                 take_profit=k.strategy.take_profit,
                 stop_loss=k.strategy.stop_loss,
-                leverage = k.leverage,
-                quantity_investement = k.quantity_investement,
+                leverage=k.leverage,
+                quantity_investement=k.quantity_investement,
                 func_entry=eval(k.strategy.logic_entry_function),
                 func_stop_loss=eval(k.strategy.logic_stoploss_function),
                 func_take_profit=eval(k.strategy.logic_takeprofit_function),
+                binance=k.binance_account
             )
-            bot.setexchange(k.symbol_exchange, k.quantity_investement, k.leverage)
             bot.run(k.sleep_run, k.sleep_profitloss)
