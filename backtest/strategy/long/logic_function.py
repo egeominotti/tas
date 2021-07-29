@@ -42,16 +42,31 @@ def logic_entry(item, bot=False) -> bool:
 
 
 def logic_stop_loss(item, bot=True) -> bool:
-    print(item)
-    return False
+    if bot:
+        time_frame = item['time_frame']
+        symbol = item['symbol']
+        stop_loss = item['stop_loss']
+        taapi = Taapi(symbol)
+        candle_close = taapi.candle(time_frame)
+        if item['open_position_value'] < candle_close * stop_loss:
+            return True
+        return False
+
     # if candle_close_entry < signal_candle_close * stop_loss:
     #     return True
     # return False
 
 
 def logic_takeprofit(item, bot=True) -> bool:
-    print(item)
-    return False
+    if bot:
+        time_frame = item['time_frame']
+        symbol = item['symbol']
+        take_profit = item['take_profit']
+        taapi = Taapi(symbol)
+        candle_close = taapi.candle(time_frame)
+        if item['open_position_value'] > candle_close * take_profit:
+            return True
+        return False
 
     # if candle_close_entry > signal_candle_close * take_profit:
     #     return True

@@ -53,6 +53,7 @@ class TradingBot:
         print("sono dentro run")
         print("sono dentro run")
         print("sono dentro run")
+
         self.bot_object.objects.filter(id=self.current_bot.id).update(
             status='RUNNING'
         )
@@ -84,9 +85,6 @@ class TradingBot:
             }
 
             if position is False:
-
-                # start = "BOT started: into while contidion"
-                # self.telegram.send(start)
 
                 func_entry_value = self.func_entry(item=item, bot=True)
                 if func_entry_value is not False:
