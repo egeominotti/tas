@@ -55,25 +55,26 @@ class TradingBot:
     def stop(self):
         status = self.bot_object.objects.get(id=self.current_bot.id).status
         if status == 'STOP':
+            now = datetime.datetime.now()
             self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
-            start = "BOT stopped:" + "symbol: " + str(self.symbol) + " time frame: " + str(self.time_frame)
+            start = "BOT stopped:" + "symbol: " + str(self.symbol) + " time frame: " + str(
+                self.time_frame) + " stopped at: " + str(now)
             self.telegram.send(start)
             return True
 
+    def start(self):
+
+        self.bot_object.objects.filter(id=self.current_bot.id).update(execution=True)
+        self.logger.objects.create(bot=self.current_bot)
+
+        now = datetime.datetime.now()
+        start = "BOT started:" + "symbol: " + str(self.symbol) + " time frame: " + str(
+            self.time_frame) + " started: " + str(now)
+        self.telegram.send(start)
+
     def run(self, sleep_time_position=0, sleep_time_profit_or_loss=0):
 
-        print("Sono entrato nel bot")
-
-        self.bot_object.objects.filter(id=self.current_bot.id).update(
-            execution=True
-        )
-
-        self.logger.objects.create(
-            bot=self.current_bot
-        )
-
-        start = "BOT started:" + "symbol: " + str(self.symbol) + " time frame: " + str(self.time_frame)
-        self.telegram.send(start)
+        self.start()
 
         open_position_value = 0
         position = False
