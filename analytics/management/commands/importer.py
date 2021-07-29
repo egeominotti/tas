@@ -61,10 +61,10 @@ class Command(BaseCommand):
                 now = datetime.now().strftime("%d %b, %Y")
 
                 for s in SymbolExchange.objects.all():
-                    for t in TimeFrame.objects.all().exclude(time_frame='1m').exclude(time_frame='5m'):
+                    for t in TimeFrame.objects.all():
                         try:
 
-                            klines = client.get_historical_klines(s.symbol, t.time_frame, '17 Aug, 2020', now)
+                            klines = client.get_historical_klines(s.symbol, t.time_frame, '17 Aug, 2017', now)
 
                             if len(klines) > 0:
                                 klines_computed = compute_data(klines)
