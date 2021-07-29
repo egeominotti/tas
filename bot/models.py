@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from analytics.models import CommonTrait
-from bot.services.runnerbot import runnerbot
+from django_q.tasks import async_task
 
 BOT_STATUS = (
     ('DISABLED', 'DISABLED'),
@@ -99,9 +99,9 @@ class Bot(CommonTrait):
             return str(self.name)
 
     def save(self, *args, **kwargs):
-
-        runnerbot(self, BotLogger)
+        super().save(*args, **kwargs)
+        async_task("bot.services.runner.runnerbot", self, BotLogger)
+        # runnerbot(self, BotLogger)
         # t = Thread(target=runnerbot, args=(self, BotLogger))
         # t.start()
-
-        super().save(*args, **kwargs)
+        async_task("bot.services.runner.test")

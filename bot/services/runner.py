@@ -1,3 +1,5 @@
+from time import sleep
+
 from bot.model.bot import TradingBot
 
 """
@@ -8,10 +10,14 @@ from backtest.strategy.long.logic_function import *
 from backtest.strategy.short.logic_function import *
 
 
+def test():
+    sleep(10)
+    return 10
+
+
 def runnerbot(trading_bot, logger):
-
+    print("sono dentro runner bot")
     if trading_bot.status == 'ENABLED':
-
         bot = TradingBot(
             current_bot=trading_bot,
             symbol=trading_bot.symbol_taapi.symbol,
