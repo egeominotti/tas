@@ -99,6 +99,7 @@ class Bot(CommonTrait):
             return str(self.name)
 
     def save(self, *args, **kwargs):
+
         runnerbot(self, BotLogger)
         # t = Thread(target=runnerbot, args=(self, BotLogger))
         # t.start()
