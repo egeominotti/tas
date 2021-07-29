@@ -56,7 +56,7 @@ class TradingBot:
         print("sono dentro run")
 
         self.bot_object.objects.filter(id=self.current_bot.id).update(
-            status='RUNNING'
+            execution=True
         )
 
         self.logger.objects.create(
@@ -72,7 +72,8 @@ class TradingBot:
         while True:
             try:
 
-                if self.bot_object.objects.get(id=self.current_bot.id).status == 'DISABLED':
+                if self.bot_object.objects.get(id=self.current_bot.id).status == 'STOP':
+                    self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
                     start = "STOP BOT from gui"
                     self.telegram.send(start)
                     break
@@ -134,7 +135,8 @@ class TradingBot:
                     sleep(sleep_time_profit_or_loss)
 
             except Exception as e:
-                self.bot_object.objects.filter(id=self.current_bot.id).update(status='DISABLED')
+                self.bot_object.objects.filter(id=self.current_bot.id).update(status='STOP')
+                self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
                 start = "Errore imprevisto nel bot: " + str(e)
                 self.telegram.send(start)
                 break

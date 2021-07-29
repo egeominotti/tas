@@ -6,9 +6,9 @@ from django_q.tasks import async_task
 from bot.services.runner import runnerbot
 
 BOT_STATUS = (
-    ('DISABLED', 'DISABLED'),
-    ('ENABLED', 'ENABLED'),
-    ('RUNNING', 'RUNNING'),
+    ('STOP', 'STOP'),
+    ('START', 'START'),
+    # ('RUNNING', 'RUNNING'),
 )
 
 
@@ -95,6 +95,7 @@ class Bot(CommonTrait):
     live = models.BooleanField(default=False)
     binance_account = models.ForeignKey(BinanceAccount, on_delete=models.SET_NULL, null=True, blank=True)
     strategy = models.ForeignKey(Strategy, on_delete=models.SET_NULL, null=True, blank=True)
+    execution = models.BooleanField(default=False)
 
     def __str__(self):
         if self.name is not None:
@@ -102,6 +103,6 @@ class Bot(CommonTrait):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        if self.status == 'ENABLED':
+
+        if self.status == 'START':
             async_task("bot.services.runner.runnerbot", self, Bot, BotLogger)
-        # runnerbot(self, Bot, BotLogger)
