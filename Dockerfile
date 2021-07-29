@@ -1,29 +1,10 @@
-FROM python:3.9.6-buster
+FROM python:3.9.6-alpine
 
-# set env variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN apt-get update && apt-get install -y --no-install-recommends python3-pip \
-                                         python3-dev \
-                                         libpq-dev \
-                                         postgresql \
-                                         postgresql-contrib \
-                                         libpq-dev \
-                                         musl-dev \
-                                         gcc \
-                                         wget \
-                                         curl \
-                                         g++
-
-#RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.1/zsh-in-docker.sh)" -- \
-#    -t https://github.com/denysdovhan/spaceship-prompt \
-#    -a 'SPACESHIP_PROMPT_ADD_NEWLINE="false"' \
-#    -a 'SPACESHIP_PROMPT_SEPARATE_LINE="false"' \
-#    -p git \
-#    -p ssh-agent \
-#    -p https://github.com/zsh-users/zsh-autosuggestions \
-#    -p https://github.com/zsh-users/zsh-completions
+RUN apk update \
+    && apk add postgresql-dev gcc python3-dev musl-dev gcc wget curl g++ make
 
 
 RUN wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz && \
