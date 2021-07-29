@@ -17,6 +17,7 @@ class Command(BaseCommand):
             print(k)
             bot = TradingBot(
                 symbol=k.symbol_taapi.symbol,
+                symbol_exchange=k.symbol_exchange.symbol,
                 time_frame=k.strategy.time_frame.time_frame,
                 ratio=k.strategy.ratio,
                 take_profit=k.strategy.take_profit,

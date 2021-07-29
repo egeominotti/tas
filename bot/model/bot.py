@@ -10,6 +10,7 @@ class TradingBot:
     def __init__(
             self,
             symbol,
+            symbol_exchange,
             time_frame,
             ratio,
             stop_loss,
@@ -23,6 +24,7 @@ class TradingBot:
     ):
         self.telegram = Telegram()
         self.symbol = symbol
+        self.symbol_exchange = symbol_exchange
         self.taapi = Taapi(symbol)
         self.time_frame = time_frame
         self.ratio = ratio
@@ -36,7 +38,7 @@ class TradingBot:
         self.binance = BinanceHelper(
             api_key=binance.api_key,
             api_secret=binance.api_secret,
-            symbol=symbol,
+            symbol=symbol_exchange,
             quantity=quantity_investement,
             leverage=leverage
         )

@@ -1,6 +1,5 @@
 from binance import Client
 from binance.enums import *
-from decouple import config
 
 
 class BinanceHelper:
