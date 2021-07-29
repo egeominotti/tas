@@ -1,7 +1,8 @@
 import pandas
 from backtest.models import BackTest, StatisticsPortfolio
 from backtest.services.computedata import compute_data
-from backtest.services.abstractclassstrategy import Strategy, Portfolio
+from backtest.model.portfolio import Portfolio
+from backtest.model.strategy import Strategy
 from binance import Client
 from decouple import config
 from datetime import datetime
