@@ -1,7 +1,5 @@
 from time import sleep
-
 import datetime
-
 from bot.services.telegram import Telegram
 from analytics.services.exchangeApi import Taapi
 from bot.services.binance import BinanceHelper
@@ -24,7 +22,8 @@ class TradingBot:
             func_stop_loss,
             func_take_profit,
             binance,
-            logger
+            logger,
+            bot_object
     ):
         self.current_bot = current_bot
         self.telegram = Telegram()
@@ -48,20 +47,32 @@ class TradingBot:
             leverage=leverage
         )
         self.logger = logger
+        self.bot_object = bot_object
 
     def run(self, sleep_time_position=0, sleep_time_profit_or_loss=0):
+        print("sono dentro run")
+        print("sono dentro run")
+        print("sono dentro run")
+        self.bot_object.objects.filter(id=self.current_bot.id).update(
+            status='RUNNING'
+        )
 
         self.logger.objects.create(
             bot=self.current_bot
         )
 
-        # start = "BOT started: into while contidion"
-        # self.telegram.send(start)
+        start = "BOT started: into while contidion"
+        self.telegram.send(start)
 
         open_position_value = 0
         position = False
 
         while True:
+
+            if self.bot_object.objects.filter(id=self.current_bot.id).status == 'DISABLED':
+                start = "BOT stopped from gui: into while contidion"
+                self.telegram.send(start)
+                break
 
             item = {
                 'stop_loss': self.stop_loss,
@@ -108,7 +119,6 @@ class TradingBot:
 
                 value = self.func_take_profit(item=item, bot=True)
                 if value is True:
-
                     print("STOP LOSS: " + str(open_position_value * self.stop_loss))
 
                     now = datetime.datetime.now()

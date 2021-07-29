@@ -3,6 +3,8 @@ from django.db import models
 from analytics.models import CommonTrait
 from django_q.tasks import async_task
 
+from bot.services.runner import runnerbot
+
 BOT_STATUS = (
     ('DISABLED', 'DISABLED'),
     ('ENABLED', 'ENABLED'),
@@ -100,5 +102,5 @@ class Bot(CommonTrait):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        async_task("bot.services.runner.runnerbot", self, BotLogger)
-        #async_task("bot.services.runner.test")
+        async_task("bot.services.runner.runnerbot", self, Bot, BotLogger)
+        # runnerbot(self, Bot, BotLogger)
