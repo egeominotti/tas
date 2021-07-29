@@ -12,8 +12,8 @@ class Command(BaseCommand):
     help = 'RunnerBot'
 
     def handle(self, *args, **kwargs):
-        qs = Bot.objects.all()
 
+        k = Bot.objects.all()
         bot = TradingBot(
             symbol=k.symbol_taapi,
             time_frame=k.strategy.time_frame,
