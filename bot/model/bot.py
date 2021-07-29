@@ -69,7 +69,7 @@ class TradingBot:
 
         while True:
 
-            if self.bot_object.objects.filter(id=self.current_bot.id).status == 'DISABLED':
+            if self.bot_object.objects.get(id=self.current_bot.id).status == 'DISABLED':
                 start = "BOT stopped from gui: into while contidion"
                 self.telegram.send(start)
                 break

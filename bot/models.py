@@ -102,5 +102,6 @@ class Bot(CommonTrait):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        async_task("bot.services.runner.runnerbot", self, Bot, BotLogger)
+        if self.status == 'ENABLED':
+            async_task("bot.services.runner.runnerbot", self, Bot, BotLogger)
         # runnerbot(self, Bot, BotLogger)
