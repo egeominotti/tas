@@ -12,6 +12,7 @@ class Command(BaseCommand):
     help = 'RunnerBot'
 
     def handle(self, *args, **kwargs):
+
         qs = Bot.objects.all()
         for trading_bot in qs:
             print(trading_bot)
