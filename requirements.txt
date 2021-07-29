@@ -30,3 +30,8 @@ boto3
 botocore
 boto
 django-storages
+django-q
+psutil
+hiredis
+pymongo
+iron-mq

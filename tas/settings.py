@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'bot',
     'backtest',
     'dbbackup',
+    'django_q',
 ]
 
 DBBACKUP_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
@@ -116,12 +117,22 @@ DATABASES = {
     }
 }
 
-BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'Africa/Nairobi'
+Q_CLUSTER = {
+    'name': 'tas',
+    'workers': 8,
+    'recycle': 500,
+    'timeout': 60,
+    'compress': True,
+    'save_limit': 250,
+    'queue_limit': 500,
+    'cpu_affinity': 1,
+    'label': 'Django Q',
+    'redis': {
+        'host': 'localhost',
+        'port': 6379,
+        'db': 0, }
+}
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
