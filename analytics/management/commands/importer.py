@@ -9,7 +9,7 @@ from django.db.models import Q
 from numpyencoder import NumpyEncoder
 from analytics.models import Importer
 import logging
-from bot.models import TimeFrame, SymbolExchange
+from backtest.models import TimeFrame, SymbolExchange
 
 from bot.services.telegram import Telegram
 
