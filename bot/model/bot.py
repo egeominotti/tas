@@ -56,7 +56,7 @@ class TradingBot:
         status = self.bot_object.objects.get(id=self.current_bot.id).status
         if status == 'STOP':
             self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
-            start = "STOP BOT from gui"
+            start = "BOT stopped:" + "symbol: " + str(self.symbol) + " time frame: " + str(self.time_frame)
             self.telegram.send(start)
             return True
 
