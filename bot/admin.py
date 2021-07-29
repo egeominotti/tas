@@ -77,3 +77,4 @@ admin.site.register(SymbolExchange, SymbolExchangeAdmin)
 admin.site.register(SymbolTaapiApi, SymbolTaapiApiAmin)
 admin.site.register(BinanceAccount, BinanceAccountAdmin)
 admin.site.register(Strategy, StrategyDispatcherAdmin)
+admin.site.site_header = 'Amministrazione TAS'
