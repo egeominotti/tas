@@ -45,6 +45,9 @@ def logic_entry(item, bot=False) -> bool:
 
 def logic_stop_loss(item, bot=True) -> bool:
     if bot:
+        """
+        Casistica usata dal bot
+        """
         time_frame = item['time_frame']
         symbol = item['symbol']
         stop_loss = item['stop_loss']
@@ -54,6 +57,9 @@ def logic_stop_loss(item, bot=True) -> bool:
             return True
         return False
     else:
+        """
+         Casistica usata dal backtesting
+        """
         if item['open_candle'] < item['close_candle'] * item['stop_loss']:
             return True
         return False
@@ -61,6 +67,9 @@ def logic_stop_loss(item, bot=True) -> bool:
 
 def logic_takeprofit(item, bot=True) -> bool:
     if bot:
+        """
+        Casistica usata dal bot
+        """
         time_frame = item['time_frame']
         symbol = item['symbol']
         take_profit = item['take_profit']
@@ -70,6 +79,9 @@ def logic_takeprofit(item, bot=True) -> bool:
             return True
         return False
     else:
+        """
+         Casistica usata dal backtesting
+        """
         if item['open_candle'] > item['close_candle'] * item['take_profit']:
             return True
         return False
