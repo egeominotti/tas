@@ -54,8 +54,8 @@ class TradingBot:
 
     def stop(self):
 
-        if not self.bot_object.objects.filter(id=self.current_bot.id).exists():
-            return True
+        # if not self.bot_object.objects.filter(id=self.current_bot.id).exists():
+        #     return True
 
         status = self.bot_object.objects.get(id=self.current_bot.id).status
         if status == 'STOP':
