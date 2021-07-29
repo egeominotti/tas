@@ -13,6 +13,8 @@ class TradingBot:
             time_frame,
             ratio,
             stop_loss,
+            leverage,
+            quantity_investement,
             take_profit,
             func_entry,
             func_stop_loss,
@@ -25,6 +27,8 @@ class TradingBot:
         self.time_frame = time_frame
         self.ratio = ratio
         self.stop_loss = stop_loss
+        self.leverage = leverage
+        self.quantity_investement = quantity_investement
         self.take_profit = take_profit
         self.func_entry = func_entry
         self.func_stop_loss = func_stop_loss
