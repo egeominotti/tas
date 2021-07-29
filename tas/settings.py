@@ -117,22 +117,41 @@ DATABASES = {
     }
 }
 
-Q_CLUSTER = {
-    'name': 'tas',
-    'workers': 8,
-    'recycle': 500,
-    'timeout': 60,
-    'compress': True,
-    'save_limit': 250,
-    'queue_limit': 500,
-    'cpu_affinity': 1,
-    'label': 'Django Q',
-    'redis': {
-        'host': 'localhost',
-        'port': 6379,
-        'db': 0, }
-}
+if 'dev' in ENV:
 
+    Q_CLUSTER = {
+        'name': 'tas',
+        'workers': 8,
+        'recycle': 500,
+        'timeout': 60,
+        'compress': True,
+        'save_limit': 250,
+        'queue_limit': 500,
+        'cpu_affinity': 1,
+        'label': 'Django Q',
+        'redis': {
+            'host': 'tas_redis',
+            'port': 6379,
+            'db': 0, }
+    }
+
+else:
+
+    Q_CLUSTER = {
+        'name': 'tas',
+        'workers': 8,
+        'recycle': 500,
+        'timeout': 60,
+        'compress': True,
+        'save_limit': 250,
+        'queue_limit': 500,
+        'cpu_affinity': 1,
+        'label': 'Django Q',
+        'redis': {
+            'host': 'localhost',
+            'port': 6379,
+            'db': 0, }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
