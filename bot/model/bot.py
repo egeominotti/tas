@@ -51,6 +51,7 @@ class TradingBot:
         while True:
 
             if position is False:
+
                 start = "BOT started: into while contidion"
                 self.telegram.send(start)
 

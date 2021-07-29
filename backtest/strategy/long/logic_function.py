@@ -18,19 +18,22 @@ def logic_entry(item, isbot=False) -> bool:
                 return True
     else:
         ratio_value = item['ema9'] / item['ema24']
-        if 1 < ratio_value < ratio:
+        if 1 < ratio_value < item['ratio']:
             if item['close'] > item['ema100']:
                 return True
     return False
 
 
 def logic_stop_loss(item, isbot=True) -> bool:
+
     if candle_close_entry < signal_candle_close * stop_loss:
         return True
     return False
 
 
 def logic_takeprofit(item, isbot=True) -> bool:
+
+
     if candle_close_entry > signal_candle_close * take_profit:
         return True
     return False
