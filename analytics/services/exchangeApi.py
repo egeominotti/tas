@@ -16,12 +16,17 @@ class Taapi:
             self.base = 'secret=' + api_extra + "&exchange=" + self.EXCHANGE + "&symbol=" + self.symbol
 
     # https://taapi.io/indicators/exponential-moving-average/
-    def ema(self, ema, interval, backtracks=None):
+    def ema(self, ema, interval, backtrack=None, backtracks=None):
         if backtracks is not None:
             return json.loads(
                 requests.get(
                     self.BASE_URL + 'ema?' + self.base + "&interval=" + str(interval) + "&optInTimePeriod=" + str(
                         ema) + "&backtracks=" + str(backtracks)).content)
+        elif backtrack is not None:
+            return json.loads(
+                requests.get(
+                    self.BASE_URL + 'ema?' + self.base + "&interval=" + str(interval) + "&optInTimePeriod=" + str(
+                        ema) + "&backtrack=" + str(backtracks)).content)
         else:
             return json.loads(
                 requests.get(
@@ -119,11 +124,24 @@ class Taapi:
             requests.get(
                 self.BASE_URL + 'hammer?' + self.base + "&interval=" + str(interval)).content)
 
-    def candle(self, interval):
-        return json.loads(
-            requests.get(
-                self.BASE_URL + 'candle?' + self.base + "&interval=" + str(interval)).content)
+    # https://taapi.io/indicators/candle/
+    def candle(self, interval, backtrack=None, backtracks=None):
+        if backtrack is not None:
+            return json.loads(
+                requests.get(
+                    self.BASE_URL + 'candle?' + self.base + "&interval=" + str(interval) + "&backtack=" + str(
+                        backtrack)).content)
+        elif backtracks is not None:
+            return json.loads(
+                requests.get(
+                    self.BASE_URL + 'candle?' + self.base + "&interval=" + str(interval) + "&backtacks=" + str(
+                        backtrack)).content)
+        else:
+            return json.loads(
+                requests.get(
+                    self.BASE_URL + 'candle?' + self.base + "&interval=" + str(interval)).content)
 
+    # https://taapi.io/indicators/candles/
     def candles(self, interval, period):
         return json.loads(
             requests.get(
