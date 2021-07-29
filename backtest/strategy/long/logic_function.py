@@ -9,9 +9,9 @@ STRATEGY : 1
 """
 
 
-def logic_entry(item, isbot=False) -> bool:
-    if isbot:
-
+def logic_entry(item, bot=False) -> bool:
+    if bot:
+        print("ok")
         taapi = Taapi(item['symbol'])
         candle_close = taapi.candle(item['time_frame'])
         ema9 = taapi.ema(item['time_frame'], 9)
@@ -30,16 +30,18 @@ def logic_entry(item, isbot=False) -> bool:
     return False
 
 
-def logic_stop_loss(item, isbot=True) -> bool:
-    if candle_close_entry < signal_candle_close * stop_loss:
-        return True
-    return False
+def logic_stop_loss(item, bot=True) -> bool:
+    print(item)
+    # if candle_close_entry < signal_candle_close * stop_loss:
+    #     return True
+    # return False
 
 
-def logic_takeprofit(item, isbot=True) -> bool:
-    if candle_close_entry > signal_candle_close * take_profit:
-        return True
-    return False
+def logic_takeprofit(item, bot=True) -> bool:
+    print(item)
+    # if candle_close_entry > signal_candle_close * take_profit:
+    #     return True
+    # return False
 
 
 """
