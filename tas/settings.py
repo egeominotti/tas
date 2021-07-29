@@ -8,9 +8,8 @@ ENV = config('ENVIRONMENT')
 SECRET_KEY = config('SECRET_KEY')
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-if 'dev' in ENV:
-    DEBUG = True
-else:
+DEBUG = True
+if 'production' in ENV:
     DEBUG = False
 
 ALLOWED_HOSTS = ['*']
@@ -145,4 +144,3 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "tas/static")]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-HAS_GDAL = False
