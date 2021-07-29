@@ -2,6 +2,7 @@ import json
 
 from dateutil.relativedelta import relativedelta
 from analytics.models import Importer
+from analytics.services.exchangeApi import Taapi
 
 """
 STRATEGY : 1
@@ -9,10 +10,17 @@ STRATEGY : 1
 
 
 def logic_entry(item, ratio, isbot=False) -> bool:
-    ratio_value = item['ema9'] / item['ema24']
-    if 1 < ratio_value < ratio:
-        if item['close'] > item['ema100']:
-            return True
+    if isbot:
+        taapi = Taapi('BTCUSDT')
+        ratio_value = item['ema9'] / item['ema24']
+        if 1 < ratio_value < ratio:
+            if item['close'] > item['ema100']:
+                return True
+    else:
+        ratio_value = item['ema9'] / item['ema24']
+        if 1 < ratio_value < ratio:
+            if item['close'] > item['ema100']:
+                return True
     return False
 
 
