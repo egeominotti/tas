@@ -69,7 +69,7 @@ class TradingBot:
 
         now = datetime.datetime.now()
         start = "BOT started:" + "symbol: " + str(self.symbol) + " time frame: " + str(
-            self.time_frame) + " started: " + str(now)
+            self.time_frame) + " started at: " + str(now)
         self.telegram.send(start)
 
     def run(self, sleep_time_position=0, sleep_time_profit_or_loss=0):
