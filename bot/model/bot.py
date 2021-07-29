@@ -64,7 +64,8 @@ class TradingBot:
                 item = {
                     'stop_loss': self.stop_loss,
                     'take_profit': self.take_profit,
-                    'open_position_value': open_position_value}
+                    'open_position_value': open_position_value
+                }
 
                 value = self.func_stop_loss(item=item, bot=True)
                 if value is True:
