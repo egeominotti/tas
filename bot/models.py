@@ -44,14 +44,6 @@ class BinanceAccount(CommonTrait):
             return str(self.user)
 
 
-class Indicator(CommonTrait):
-    indicator = models.CharField(max_length=15, blank=False)
-
-    def __str__(self):
-        if self.indicator is not None:
-            return str(self.indicator)
-
-
 class SymbolTaapiApi(CommonTrait):
     symbol = models.CharField(max_length=20, blank=False)
 

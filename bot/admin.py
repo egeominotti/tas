@@ -1,5 +1,5 @@
 from django.contrib import admin
-from bot.models import Bot, BotLogger, Indicator, BinanceAccount, Strategy, SymbolTaapiApi, SymbolExchange, TimeFrame
+from bot.models import Bot, BotLogger, BinanceAccount, Strategy, SymbolTaapiApi, SymbolExchange, TimeFrame
 
 
 class SymbolExchangeAdmin(admin.ModelAdmin):
@@ -35,14 +35,6 @@ class BotAdmin(admin.ModelAdmin):
     ordering = ('id',)
     list_display = (
         'id', 'status', 'strategy', 'sleep_run', 'sleep_profitloss', 'quantity_investment', 'binance_account', 'live')
-    exclude = ['flgEnable', ]
-
-
-class IndicatorAdmin(admin.ModelAdmin):
-    search_fields = ['indicator']
-    list_per_page = 50
-    ordering = ('id',)
-    list_display = ('id', 'indicator',)
     exclude = ['flgEnable', ]
 
 
@@ -92,7 +84,6 @@ class BotLoggerAdmin(admin.ModelAdmin):
 
 admin.site.register(BotLogger, BotLoggerAdmin)
 admin.site.register(Bot, BotAdmin)
-admin.site.register(Indicator, IndicatorAdmin)
 admin.site.register(TimeFrame, TimeFrameAdmin)
 admin.site.register(SymbolExchange, SymbolExchangeAdmin)
 admin.site.register(SymbolTaapiApi, SymbolTaapiApiAmin)
