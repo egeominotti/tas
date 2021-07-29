@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from analytics.models import CommonTrait
 from django.conf import settings
+from django.core.management import call_command
 
 BOT_STATUS = (
     ('DISABLED', 'DISABLED'),
@@ -80,7 +81,7 @@ class Bot(CommonTrait):
     # indicator = ['candle', 'rsi', 'bbands', 'ema', 'stoch']
     # ema_interval = ['10', '20', '50', '11']
     # ema_interval = models.TEX(blank=True, null=True)
-    indicators = models.ManyToManyField(Indicator)
+    #indicators = models.ManyToManyField(Indicator)
     quantity_investement = models.FloatField(default=0, blank=False)
     leverage = models.IntegerField(default=0, blank=False)
     live = models.BooleanField(default=False)
@@ -90,3 +91,9 @@ class Bot(CommonTrait):
     def __str__(self):
         if self.name is not None:
             return str(self.name)
+
+    def save(self, *args, **kwargs):
+        print(self)
+        call_command('runnerbot')
+        super().save(*args, **kwargs)
+
