@@ -54,8 +54,9 @@ class TradingBot:
                 start = "BOT started: into while contidion"
                 self.telegram.send(start)
 
-                if self.func_entry(item=data, bot=True):
-                    open_position_value = 0
+                func_entry_value = self.func_entry(item=data, bot=True)
+                if func_entry_value is not False:
+                    open_position_value = func_entry_value
                 sleep(sleep_time_position)
 
             if position is True:

@@ -25,7 +25,7 @@ def logic_entry(item, bot=False) -> bool:
         ratio_value = ema9 / ema24
         if 1 < ratio_value < ratio:
             if candle_close['close'] > ema100:
-                return True
+                return candle_close
     else:
 
         ratio_value = item['ema9'] / item['ema24']
