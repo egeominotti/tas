@@ -73,6 +73,9 @@ class TimeFrameAdmin(admin.ModelAdmin):
 class BotLoggerAdmin(admin.ModelAdmin):
     list_per_page = 20
     ordering = ('id',)
+    list_display = (
+        'id', 'entry_candle', 'entry_candle_date', 'take_profit', 'candle_take_profit', 'candle_take_profit_date',
+        'stop_loss', 'candle_stop_loss', 'candle_stop_loss_date', 'bot')
     exclude = ['flgEnable', ]
 
     def has_delete_permission(self, request, obj=None):
@@ -83,6 +86,7 @@ class BotLoggerAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request, obj=None):
         return False
+
 
 admin.site.register(BotLogger, BotLoggerAdmin)
 admin.site.register(Bot, BotAdmin)
