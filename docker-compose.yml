@@ -1,6 +1,7 @@
 version: '3.9'
 
 services:
+
   tas_dev:
     build:
       context: .
@@ -17,12 +18,14 @@ services:
       - postgres_db
 
   djangoq:
-    build: .
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     command: python manage.py qcluster
     volumes:
-       - .:/tas
-    ports:
-      - "8000:8000"
+      - .:/tas
+    env_file:
+      - .env.dev
     depends_on:
       - redis
 
