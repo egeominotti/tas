@@ -29,7 +29,7 @@ class TradingBot:
         self.func_entry = func_entry
         self.func_stop_loss = func_stop_loss
         self.func_take_profit = func_take_profit
-        self.indicator = indicator
+        #self.indicator = indicator
         self.ema_interval = ema_interval
         self.binance = None
 
@@ -50,26 +50,27 @@ class TradingBot:
 
         while True:
 
-            dizIndicator = {}
-            for i in self.indicator:
-                if i == 'ema':
-                    if len(self.ema_interval) > 0:
-                        for e in self.ema_interval:
-                            dizIndicator[i + "_" + str(e)] = getattr(self.taapi, i)(e, self.time_frame)
-                else:
-                    dizIndicator[i] = getattr(self.taapi, i)(self.time_frame)
+            # dizIndicator = {}
+            # for i in self.indicator:
+            #     if i == 'ema':
+            #         if len(self.ema_interval) > 0:
+            #             for e in self.ema_interval:
+            #                 dizIndicator[i + "_" + str(e)] = getattr(self.taapi, i)(e, self.time_frame)
+            #     else:
+            #         dizIndicator[i] = getattr(self.taapi, i)(self.time_frame)
 
             if position is False:
                 start = "BOT started: into while contidion"
                 self.telegram.send(start)
 
-                if self.func_entry(dizIndicator, self.ratio, isbot=True):
-                    open_position_value = dizIndicator['candle']['close']
+                if self.func_entry(self.ratio, isbot=True):
+                    open_position_value = 0
+                    #open_position_value = dizIndicator['candle']['close']
                 sleep(sleep_time_position)
 
             if position is True:
 
-                candle_close_value = getattr(self.taapi, 'candle')(self.time_frame)['candle']['close']
+                #candle_close_value = getattr(self.taapi, 'candle')(self.time_frame)['candle']['close']
 
                 value = self.func_stop_loss(open_position_value, candle_close_value, self.stop_loss)
                 if value is True:

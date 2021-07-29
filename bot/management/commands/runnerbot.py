@@ -9,7 +9,7 @@ logger = logging.getLogger('main')
 
 
 class Command(BaseCommand):
-    help = 'bot'
+    help = 'RunnerBot'
 
     def handle(self, *args, **kwargs):
 
@@ -39,13 +39,12 @@ class Command(BaseCommand):
         # bot.setexchange('BTCUSDT', quantity, 1)
         # bot.run(50)
 
-        indicators = []
+        #indicators = []
         qs = Bot.objects.all()
-
         for k in qs:
 
-            for i in k.indicators.all():
-                indicators.append(i.indicator)
+            # for i in k.indicators.all():
+            #     indicators.append(i.indicator)
 
             bot = TradingBot(
                 symbol=k.symbol_taapi,
@@ -56,8 +55,8 @@ class Command(BaseCommand):
                 func_entry=eval(k.strategy.logic_entry_function),
                 func_stop_loss=eval(k.strategy.logic_stoploss_function),
                 func_take_profit=eval(k.strategy.logic_takeprofit_function),
-                indicator=indicators,
-                # ema_interval=ema_interval,
+                #indicator=indicators,
+                #ema_interval=ema_interval,
             )
             bot.setexchange(k.symbol_exchange, k.quantity_investement, k.leverage)
             bot.run(k.sleep_run, k.sleep_profitloss)

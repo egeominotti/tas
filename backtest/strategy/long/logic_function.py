@@ -8,7 +8,7 @@ STRATEGY : 1
 """
 
 
-def logic_entry(item, ratio) -> bool:
+def logic_entry(item, ratio, isbot=False) -> bool:
     ratio_value = item['ema9'] / item['ema24']
     if 1 < ratio_value < ratio:
         if item['close'] > item['ema100']:
@@ -16,13 +16,13 @@ def logic_entry(item, ratio) -> bool:
     return False
 
 
-def logic_stop_loss(candle_close_entry, signal_candle_close, stop_loss, item) -> bool:
+def logic_stop_loss(candle_close_entry, signal_candle_close, stop_loss) -> bool:
     if candle_close_entry < signal_candle_close * stop_loss:
         return True
     return False
 
 
-def logic_takeprofit(candle_close_entry, signal_candle_close, take_profit, item) -> bool:
+def logic_takeprofit(candle_close_entry, signal_candle_close, take_profit) -> bool:
     if candle_close_entry > signal_candle_close * take_profit:
         return True
     return False
