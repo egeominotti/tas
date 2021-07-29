@@ -101,7 +101,4 @@ class Bot(CommonTrait):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         async_task("bot.services.runner.runnerbot", self, BotLogger)
-        # runnerbot(self, BotLogger)
-        # t = Thread(target=runnerbot, args=(self, BotLogger))
-        # t.start()
-        async_task("bot.services.runner.test")
+        #async_task("bot.services.runner.test")
