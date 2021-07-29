@@ -19,9 +19,9 @@ class Command(BaseCommand):
 
         bt = Backtest(
             first_period='17 Aug, 2017',
-            logic_entry=scalping_5m_rsi_bollinger,
-            logic_stoploss=stoploss_scalping_5m_rsi_bollinger,
-            logic_takeprofit=takeprofit_scalping_5m_rsi_bollinger,
+            logic_entry=logic_entry(),
+            logic_stoploss=logic_stop_loss(),
+            logic_takeprofit=logic_takeprofit(),
             time_frame=time_frame,
             symbol=crypto,
             take_profit_value=TAKE_PROFIT,

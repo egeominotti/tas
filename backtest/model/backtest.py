@@ -80,7 +80,15 @@ class PortfolioChecker(Portfolio):
 
                 percentage = (current_candle - entry_candle) / entry_candle
 
-                if func_take_profit(current_candle, entry_candle, self.take_profit, n) is True:
+                item = {
+                    'time_frame': self.tf,
+                    'symbol': self.symbol,
+                    'stop_loss': self.stop_loss,
+                    'open_candle': entry_candle,
+                    'close_candle': current_candle
+                }
+
+                if func_take_profit(item) is True:
                     counterTP += 1
 
                     BackTest.objects.create(
@@ -96,7 +104,7 @@ class PortfolioChecker(Portfolio):
                     )
                     break
 
-                if func_stop_loss(current_candle, entry_candle, self.stop_loss, n) is True:
+                if func_stop_loss(item) is True:
                     counterSL += 1
 
                     BackTest.objects.create(
@@ -183,9 +191,10 @@ class StrategyChecker(Strategy):
 
         diz = {}
         computed_data = compute_data(self.klines)
+        print(computed_data)
         for item in computed_data:
             if item is not None:
-                val = func(item, self.ratio)
+                val = func(item)
                 if val is True:
                     diz[item['timestamp']] = item
         return diz
