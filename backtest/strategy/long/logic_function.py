@@ -14,7 +14,10 @@ def logic_entry(item, bot=False) -> bool:
     Casistica usata dal bot
     """
     if bot:
-
+        print(item)
+        print(item)
+        print(item)
+        print(item)
         time_frame = item['time_frame']
         symbol = item['symbol']
         ratio = item['ratio']

@@ -45,10 +45,6 @@ class TradingBot:
 
     def run(self, sleep_time_position=0, sleep_time_profit_or_loss=0):
 
-        data = {
-            'symbol': self.symbol,
-            'time_frame': self.time_frame
-        }
 
         start = "BOT started: into while contidion"
         self.telegram.send(start)
@@ -57,23 +53,27 @@ class TradingBot:
         position = False
 
         while True:
+
+            item = {
+                'stop_loss': self.stop_loss,
+                'take_profit': self.take_profit,
+                'open_position_value': open_position_value,
+                'symbol': self.symbol,
+                'time_frame': self.time_frame,
+                'ratio': self.ratio
+            }
+
             if position is False:
 
                 start = "BOT started: into while contidion"
                 self.telegram.send(start)
 
-                func_entry_value = self.func_entry(item=data, bot=True)
+                func_entry_value = self.func_entry(item=item, bot=True)
                 if func_entry_value is not False:
                     open_position_value = func_entry_value
                 sleep(sleep_time_position)
 
             if position is True:
-
-                item = {
-                    'stop_loss': self.stop_loss,
-                    'take_profit': self.take_profit,
-                    'open_position_value': open_position_value
-                }
 
                 value = self.func_stop_loss(item=item, bot=True)
                 if value is True:
