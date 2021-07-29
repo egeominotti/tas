@@ -3,12 +3,9 @@ from django.db import models
 from analytics.models import CommonTrait
 from django_q.tasks import async_task
 
-from bot.services.runner import runnerbot
-
 BOT_STATUS = (
     ('STOP', 'STOP'),
     ('START', 'START'),
-    # ('RUNNING', 'RUNNING'),
 )
 
 
