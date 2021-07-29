@@ -78,7 +78,7 @@ class Bot(CommonTrait):
 
     sleep_run = models.IntegerField(default=0, blank=True)
     sleep_profitloss = models.IntegerField(default=0, blank=True)
-    quantity_investement = models.FloatField(default=0, blank=False)
+    quantity_investment = models.FloatField(default=0, blank=False)
     leverage = models.IntegerField(default=0, blank=False)
     live = models.BooleanField(default=False)
     binance_account = models.ForeignKey(BinanceAccount, on_delete=models.SET_NULL, null=True, blank=True)

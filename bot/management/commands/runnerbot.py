@@ -23,7 +23,7 @@ class Command(BaseCommand):
                 take_profit=k.strategy.take_profit,
                 stop_loss=k.strategy.stop_loss,
                 leverage=k.leverage,
-                quantity_investement=k.quantity_investement,
+                quantity_investment=k.quantity_investment,
                 func_entry=eval(k.strategy.logic_entry_function),
                 func_stop_loss=eval(k.strategy.logic_stoploss_function),
                 func_take_profit=eval(k.strategy.logic_takeprofit_function),

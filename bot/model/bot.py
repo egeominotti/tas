@@ -15,7 +15,7 @@ class TradingBot:
             ratio,
             stop_loss,
             leverage,
-            quantity_investement,
+            quantity_investment,
             take_profit,
             func_entry,
             func_stop_loss,
@@ -30,7 +30,7 @@ class TradingBot:
         self.ratio = ratio
         self.stop_loss = stop_loss
         self.leverage = leverage
-        self.quantity_investement = quantity_investement
+        self.quantity_investment = quantity_investment
         self.take_profit = take_profit
         self.func_entry = func_entry
         self.func_stop_loss = func_stop_loss
@@ -45,9 +45,8 @@ class TradingBot:
 
     def run(self, sleep_time_position=0, sleep_time_profit_or_loss=0):
 
-
-        start = "BOT started: into while contidion"
-        self.telegram.send(start)
+        # start = "BOT started: into while contidion"
+        # self.telegram.send(start)
 
         open_position_value = 0
         position = False
@@ -65,8 +64,8 @@ class TradingBot:
 
             if position is False:
 
-                start = "BOT started: into while contidion"
-                self.telegram.send(start)
+                # start = "BOT started: into while contidion"
+                # self.telegram.send(start)
 
                 func_entry_value = self.func_entry(item=item, bot=True)
                 if func_entry_value is not False:
