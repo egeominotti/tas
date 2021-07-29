@@ -2,7 +2,7 @@ from time import sleep
 import datetime
 from bot.services.telegram import Telegram
 from analytics.services.exchangeApi import Taapi
-from bot.services.binance import BinanceHelper
+from exchange.model.binance import BinanceHelper
 
 
 class TradingBot:
