@@ -121,13 +121,13 @@ if 'dev' in ENV:
 
     Q_CLUSTER = {
         'name': 'tas',
-        'workers': 8,
+        'workers': 16,
         'recycle': 500,
         'timeout': 60,
         'compress': True,
         'save_limit': 250,
         'queue_limit': 500,
-        'cpu_affinity': 1,
+        'cpu_affinity': 2,
         'label': 'Django Q',
         'redis': {
             'host': 'tas_redis',
@@ -139,13 +139,13 @@ else:
 
     Q_CLUSTER = {
         'name': 'tas',
-        'workers': 8,
+        'workers': 2,
         'recycle': 500,
         'timeout': 60,
         'compress': True,
         'save_limit': 250,
         'queue_limit': 500,
-        'cpu_affinity': 1,
+        'cpu_affinity': 2,
         'label': 'Django Q',
         'redis': {
             'host': 'localhost',
