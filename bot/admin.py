@@ -1,5 +1,5 @@
 from django.contrib import admin
-from bot.models import Bot, Indicator, BinanceAccount, Strategy, SymbolTaapiApi, SymbolExchange, TimeFrame
+from bot.models import Bot, BotLogger, Indicator, BinanceAccount, Strategy, SymbolTaapiApi, SymbolExchange, TimeFrame
 
 
 class SymbolExchangeAdmin(admin.ModelAdmin):
@@ -63,13 +63,28 @@ class StrategyDispatcherAdmin(admin.ModelAdmin):
 
 
 class TimeFrameAdmin(admin.ModelAdmin):
-    #search_fields = ['time_frame']
+    # search_fields = ['time_frame']
     list_per_page = 20
     ordering = ('id',)
     list_display = ('id', 'time_frame')
     exclude = ['flgEnable', ]
 
 
+class BotLoggerAdmin(admin.ModelAdmin):
+    list_per_page = 20
+    ordering = ('id',)
+    exclude = ['flgEnable', ]
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+admin.site.register(BotLogger, BotLoggerAdmin)
 admin.site.register(Bot, BotAdmin)
 admin.site.register(Indicator, IndicatorAdmin)
 admin.site.register(TimeFrame, TimeFrameAdmin)
