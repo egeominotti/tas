@@ -18,12 +18,13 @@ client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
 
 
 def save(klines_computed, symbol, time_frame):
+
     keyToRemove = ['timestamp', 'unix', 'open', 'high', 'low', 'close', 'volume']
 
     for item in klines_computed:
 
         qs = Importer.objects.filter(Q(symbol=symbol) & Q(tf=time_frame) & Q(timestamp=item['timestamp']))
-        if not qs.exists():
+        if len(qs) == 0:
 
             imp = Importer.objects.create(
                 symbol=symbol,
@@ -58,23 +59,27 @@ class Command(BaseCommand):
 
             try:
                 now = datetime.now().strftime("%d %b, %Y")
-                klines_computed = None
-                symbol = None
-                time_frame = None
 
                 for s in SymbolExchange.objects.all():
                     symbol = s.symbol
                     print(symbol)
-                    for t in TimeFrame.objects.all().exclude(time_frame='1m'):
+                    for t in TimeFrame.objects.all().exclude(time_frame='1m').exclude(time_frame='5m'):
                         time_frame = t.time_frame
                         print(time_frame)
                         try:
 
-                            klines = client.get_historical_klines(symbol, time_frame, '17 Aug, 2017', now)
+                            klines = client.get_historical_klines(symbol, time_frame, '17 Aug, 2020', now)
                             klines_computed = compute_data(klines)
+
                             start = "Ho scaricato: " + str(
-                                len(klines_computed)) + " candele" + " time_frame: " + time_frame + " symbol: " + symbol
+                                len(klines_computed)) + " candele" + " time_frame: " + str(
+                                time_frame) + " symbol: " + str(symbol)
                             telegram.send(start)
+
+                            if klines_computed is not None:
+                                save(klines_computed, symbol, time_frame)
+                                sleep(60)
+                                continue
 
                         except Exception as e:
 
@@ -82,11 +87,6 @@ class Command(BaseCommand):
                                 time_frame)
                             telegram.send(start)
                             continue
-
-                if klines_computed is not None:
-                    save(klines_computed, symbol, time_frame)
-                    sleep(60)
-                    continue
 
             except Exception as e:
                 start = "Errore importazione dei dati: " + str(e) + " "

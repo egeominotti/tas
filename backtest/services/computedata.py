@@ -4,6 +4,7 @@ import talib as ta
 
 
 def compute_data(klines):
+
     time = [entry[0] / 1000 for entry in klines]
     open = [float(entry[1]) for entry in klines]
     high = [float(entry[2]) for entry in klines]

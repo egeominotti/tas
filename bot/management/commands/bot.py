@@ -2,7 +2,6 @@ from django.core.management import BaseCommand
 from bot.model.bot import TradingBot
 import logging
 from bot.models import Bot
-
 from backtest.strategy.long.logic_function import *
 from backtest.strategy.short.logic_function import *
 
@@ -42,7 +41,9 @@ class Command(BaseCommand):
 
         indicators = []
         qs = Bot.objects.all()
+
         for k in qs:
+
             for i in k.indicators.all():
                 indicators.append(i.indicator)
 
