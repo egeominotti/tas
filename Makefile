@@ -19,6 +19,9 @@ restart:
 django:
 	docker exec -ti tas_developmet bash
 
+djangoq:
+	docker exec -ti tas_djangoq
+
 migrate:
 	docker exec -ti tas_development python3 manage.py migrate
 

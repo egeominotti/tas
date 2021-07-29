@@ -51,9 +51,7 @@ class TradingBot:
 
     def run(self, sleep_time_position=0, sleep_time_profit_or_loss=0):
 
-        print("sono dentro run")
-        print("sono dentro run")
-        print("sono dentro run")
+        print("Sono entrato nel bot")
 
         self.bot_object.objects.filter(id=self.current_bot.id).update(
             execution=True
