@@ -1,5 +1,3 @@
-from celery import shared_task
-
 from bot.model.bot import TradingBot
 
 """
@@ -10,9 +8,10 @@ from backtest.strategy.long.logic_function import *
 from backtest.strategy.short.logic_function import *
 
 
-@shared_task(bind=True)
 def runnerbot(trading_bot, logger):
+
     if trading_bot.status == 'ENABLED':
+
         bot = TradingBot(
             current_bot=trading_bot,
             symbol=trading_bot.symbol_taapi.symbol,
