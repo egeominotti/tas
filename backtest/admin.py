@@ -94,7 +94,7 @@ class StrategyDispatcherAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_per_page = 50
     ordering = ('id',)
-    list_display = ('id', 'name', 'logic_entry_function', 'logic_takeprofit_function', 'logic_stoploss_function',)
+    list_display = ('id', 'name', 'logic_entry', 'logic_takeprofit', 'logic_stoploss',)
     exclude = ['flgEnable', ]
 
 

@@ -59,15 +59,41 @@ class SymbolExchange(CommonTrait):
             return str(self.symbol)
 
 
+class LogicEntry(CommonTrait):
+    name = models.CharField(max_length=200, blank=False)
+
+    def __str__(self):
+        if self.name is not None:
+            return str(self.name)
+
+
+class LogicTakepProfit(CommonTrait):
+    name = models.CharField(max_length=200, blank=False)
+
+    def __str__(self):
+        if self.name is not None:
+            return str(self.name)
+
+
+class LogicStopLoss(CommonTrait):
+    name = models.CharField(max_length=200, blank=False)
+
+    def __str__(self):
+        if self.name is not None:
+            return str(self.name)
+
+
 class Strategy(CommonTrait):
     name = models.CharField(max_length=200, blank=False)
     time_frame = models.ForeignKey(TimeFrame, on_delete=models.CASCADE, null=False, blank=False)
     ratio = models.FloatField(default=0, blank=False)
     take_profit = models.FloatField(default=0, blank=False)
     stop_loss = models.FloatField(default=0, blank=False)
-    logic_entry_function = models.CharField(max_length=200, blank=False)
-    logic_takeprofit_function = models.CharField(max_length=200, blank=False)
-    logic_stoploss_function = models.CharField(max_length=200, blank=False)
+
+    logic_entry = models.ForeignKey(LogicEntry, on_delete=models.CASCADE, null=False, blank=False)
+    logic_takeprofit = models.ForeignKey(LogicTakepProfit, on_delete=models.CASCADE, null=False, blank=False)
+    logic_stoploss = models.ForeignKey(LogicStopLoss, on_delete=models.CASCADE, null=False, blank=False)
+
     symbol_taapi = models.ForeignKey('SymbolTaapiApi', on_delete=models.CASCADE, null=False, blank=False)
     symbol_exchange = models.ForeignKey('SymbolExchange', on_delete=models.CASCADE, null=False, blank=False)
     sleep_run = models.IntegerField(default=0, blank=False, null=False)
