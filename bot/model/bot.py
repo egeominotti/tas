@@ -39,7 +39,7 @@ class TradingBot:
             api_key=binance.api_key,
             api_secret=binance.api_secret,
             symbol=symbol_exchange,
-            quantity=quantity_investement,
+            quantity=quantity_investment,
             leverage=leverage
         )
 
