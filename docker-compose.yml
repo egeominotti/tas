@@ -16,6 +16,16 @@ services:
     depends_on:
       - postgres_db
 
+  djangoq:
+    build: .
+    command: python manage.py qcluster
+    volumes:
+       - .:/tas
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+
   postgres_db:
     container_name: tas_db
     image: postgres:13-alpine3.13
