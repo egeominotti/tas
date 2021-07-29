@@ -52,6 +52,14 @@ class TradingBot:
                 leverage=leverage
             )
 
+    def stop(self):
+        status = self.bot_object.objects.get(id=self.current_bot.id).status
+        if status == 'STOP':
+            self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
+            start = "STOP BOT from gui"
+            self.telegram.send(start)
+            return True
+
     def run(self, sleep_time_position=0, sleep_time_profit_or_loss=0):
 
         print("Sono entrato nel bot")
@@ -71,13 +79,8 @@ class TradingBot:
         position = False
 
         while True:
-            try:
 
-                if self.bot_object.objects.get(id=self.current_bot.id).status == 'STOP':
-                    self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
-                    start = "STOP BOT from gui"
-                    self.telegram.send(start)
-                    break
+            try:
 
                 item = {
                     'stop_loss': self.stop_loss,
@@ -101,6 +104,9 @@ class TradingBot:
                         )
 
                         open_position_value = func_entry_value
+
+                    if self.stop():
+                        break
                     sleep(sleep_time_position)
 
                 if position is True:
@@ -133,7 +139,10 @@ class TradingBot:
 
                         position = False
 
+                    if self.stop():
+                        break
                     sleep(sleep_time_profit_or_loss)
+
 
             except Exception as e:
                 self.bot_object.objects.filter(id=self.current_bot.id).update(status='STOP')
