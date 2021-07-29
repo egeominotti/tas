@@ -1,23 +1,5 @@
 from django.contrib import admin
-from bot.models import Bot, BotLogger, BinanceAccount, Strategy, SymbolTaapiApi, SymbolExchange, TimeFrame
-
-
-class SymbolExchangeAdmin(admin.ModelAdmin):
-    search_fields = ['tf']
-    list_per_page = 50
-    ordering = ('id',)
-    list_display = (
-        'symbol', 'to_import')
-    exclude = ['flgEnable', ]
-
-
-class SymbolTaapiApiAmin(admin.ModelAdmin):
-    search_fields = ['tf']
-    list_per_page = 50
-    ordering = ('id',)
-    list_display = (
-        'symbol',)
-    exclude = ['flgEnable', ]
+from bot.models import Bot, BotLogger
 
 
 class BotAdmin(admin.ModelAdmin):
@@ -25,35 +7,9 @@ class BotAdmin(admin.ModelAdmin):
     list_per_page = 50
     ordering = ('id',)
     list_display = (
-        'name', 'status', 'execution', 'live', 'strategy', 'symbol_taapi', 'symbol_exchange', 'sleep_run',
-        'sleep_profitloss',
-        'quantity_investment',
+        'name', 'status', 'execution', 'live', 'strategy', 'quantity_investment',
         'leverage', 'binance_account', 'created_at', 'updated_at',)
     readonly_fields = ('name', 'execution',)
-    exclude = ['flgEnable', ]
-
-
-class BinanceAccountAdmin(admin.ModelAdmin):
-    search_fields = ['user']
-    list_per_page = 50
-    ordering = ('id',)
-    list_display = ('id', 'user', 'api_key', 'api_secret')
-    exclude = ['flgEnable', ]
-
-
-class StrategyDispatcherAdmin(admin.ModelAdmin):
-    search_fields = ['name']
-    list_per_page = 50
-    ordering = ('id',)
-    list_display = ('id', 'name', 'logic_entry_function', 'logic_takeprofit_function', 'logic_stoploss_function',)
-    exclude = ['flgEnable', ]
-
-
-class TimeFrameAdmin(admin.ModelAdmin):
-    # search_fields = ['time_frame']
-    list_per_page = 20
-    ordering = ('id',)
-    list_display = ('time_frame', 'to_import')
     exclude = ['flgEnable', ]
 
 
@@ -79,9 +35,5 @@ class BotLoggerAdmin(admin.ModelAdmin):
 
 admin.site.register(BotLogger, BotLoggerAdmin)
 admin.site.register(Bot, BotAdmin)
-admin.site.register(TimeFrame, TimeFrameAdmin)
-admin.site.register(SymbolExchange, SymbolExchangeAdmin)
-admin.site.register(SymbolTaapiApi, SymbolTaapiApiAmin)
-admin.site.register(BinanceAccount, BinanceAccountAdmin)
-admin.site.register(Strategy, StrategyDispatcherAdmin)
+
 admin.site.site_header = 'Amministrazione TAS'

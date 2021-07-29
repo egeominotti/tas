@@ -1,7 +1,5 @@
 import csv
-
-from django.contrib import admin
-
+from backtest.models import *
 from django.contrib import admin
 from django.http import HttpResponse
 
@@ -66,5 +64,51 @@ class StatisticsPortfolioAdmin(admin.ModelAdmin):
         return True
 
 
+class SymbolExchangeAdmin(admin.ModelAdmin):
+    search_fields = ['tf']
+    list_per_page = 50
+    ordering = ('id',)
+    list_display = (
+        'symbol', 'to_import')
+    exclude = ['flgEnable', ]
+
+
+class SymbolTaapiApiAmin(admin.ModelAdmin):
+    search_fields = ['tf']
+    list_per_page = 50
+    ordering = ('id',)
+    list_display = (
+        'symbol',)
+    exclude = ['flgEnable', ]
+
+
+class BinanceAccountAdmin(admin.ModelAdmin):
+    search_fields = ['user']
+    list_per_page = 50
+    ordering = ('id',)
+    list_display = ('id', 'user', 'api_key', 'api_secret')
+    exclude = ['flgEnable', ]
+
+
+class StrategyDispatcherAdmin(admin.ModelAdmin):
+    search_fields = ['name']
+    list_per_page = 50
+    ordering = ('id',)
+    list_display = ('id', 'name', 'logic_entry_function', 'logic_takeprofit_function', 'logic_stoploss_function',)
+    exclude = ['flgEnable', ]
+
+
+class TimeFrameAdmin(admin.ModelAdmin):
+    # search_fields = ['time_frame']
+    list_per_page = 20
+    ordering = ('id',)
+    list_display = ('time_frame', 'to_import')
+    exclude = ['flgEnable', ]
+
+
+admin.site.register(TimeFrame, TimeFrameAdmin)
+admin.site.register(SymbolExchange, SymbolExchangeAdmin)
+admin.site.register(SymbolTaapiApi, SymbolTaapiApiAmin)
+admin.site.register(Strategy, StrategyDispatcherAdmin)
 admin.site.register(BackTest, BackTestAdmin)
 admin.site.register(StatisticsPortfolio, StatisticsPortfolioAdmin)
