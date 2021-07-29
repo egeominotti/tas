@@ -18,7 +18,6 @@ client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
 
 
 def save(klines_computed, symbol, time_frame):
-
     keyToRemove = ['timestamp', 'unix', 'open', 'high', 'low', 'close', 'volume']
 
     for item in klines_computed:
@@ -58,6 +57,7 @@ class Command(BaseCommand):
         while True:
 
             try:
+
                 now = datetime.now().strftime("%d %b, %Y")
 
                 for s in SymbolExchange.objects.all():
@@ -71,15 +71,9 @@ class Command(BaseCommand):
                             klines = client.get_historical_klines(symbol, time_frame, '17 Aug, 2020', now)
                             klines_computed = compute_data(klines)
 
-                            start = "Ho scaricato: " + str(
-                                len(klines_computed)) + " candele" + " time_frame: " + str(
-                                time_frame) + " symbol: " + str(symbol)
-                            telegram.send(start)
-
-                            if klines_computed is not None:
+                            if len(klines_computed) > 0:
                                 save(klines_computed, symbol, time_frame)
                                 sleep(60)
-                                continue
 
                         except Exception as e:
 
