@@ -39,14 +39,14 @@ class TimeFrameAdmin(admin.ModelAdmin):
     list_display = ('time_frame', 'to_import')
     exclude = ['flgEnable', ]
 
-    def has_delete_permission(self, request, obj=None):
-        return False
-
-    def has_change_permission(self, request, obj=None):
-        return False
-
-    def has_add_permission(self, request, obj=None):
-        return False
+    # def has_delete_permission(self, request, obj=None):
+    #     return False
+    #
+    # def has_change_permission(self, request, obj=None):
+    #     return False
+    #
+    # def has_add_permission(self, request, obj=None):
+    #     return False
 
 
 class SymbolExchangeAdmin(admin.ModelAdmin):
