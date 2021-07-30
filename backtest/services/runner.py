@@ -9,11 +9,13 @@ from backtest.strategy.short.logic_function import *
 
 
 def get_backtesting_hook(task):
-    print(task.result)
-    print("HO FINITO")
-    print("HO FINITO")
-    print("HO FINITO")
-    print("HO FINITO")
+    from backtest.models import BackTest
+    if isinstance(task.result, dict):
+        print("ok")
+        BackTest.objects.filter(id=task.result.get('id')).update(scheduled=True)
+
+    if isinstance(task.result, bool):
+        print("error scheduled")
 
 
 def backtesting(instance):
