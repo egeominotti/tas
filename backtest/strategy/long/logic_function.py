@@ -57,7 +57,7 @@ def logic_stop_loss(item, bot=False):
             taapi = Taapi(symbol)
             candle_close = taapi.candle(time_frame)
 
-            if item['open_position_value'] * stop_loss <= candle_close:
+            if candle_close <= item['open_position_value'] * stop_loss:
                 return True
 
             return False
@@ -68,7 +68,7 @@ def logic_stop_loss(item, bot=False):
         """
          Casistica usata dal backtesting
         """
-        if item['open_candle'] * item['stop_loss'] <= item['close_candle']:
+        if item['close_candle'] <= item['open_candle'] * item['stop_loss']:
             return True
         return False
 
@@ -87,7 +87,7 @@ def logic_takeprofit(item, bot=False):
             taapi = Taapi(symbol)
             candle_close = taapi.candle(time_frame)
 
-            if item['open_position_value'] * take_profit >= candle_close:
+            if candle_close >= item['open_position_value'] * take_profit:
                 return True
 
             return False
@@ -98,7 +98,7 @@ def logic_takeprofit(item, bot=False):
         """
          Casistica usata dal backtesting
         """
-        if item['open_candle'] * item['take_profit'] >= item['close_candle']:
+        if item['close_candle'] >= item['open_candle'] * item['take_profit']:
             return True
         return False
 
