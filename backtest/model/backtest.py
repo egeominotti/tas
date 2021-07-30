@@ -242,3 +242,5 @@ class Backtest:
                          take_profit=self.take_profit_value,
                          stop_loss=self.stop_loss_value
                          )
+        if len(klines) > 0:
+            return True
