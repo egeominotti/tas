@@ -106,6 +106,10 @@ class TradingBot:
                     sleep(sleep_time_position)
 
                     func_entry_value = self.func_entry(item=item, bot=True)
+
+                    if isinstance(func_entry_value, Exception):
+                        break
+
                     if isinstance(func_entry_value, float):
                         now = datetime.datetime.now()
                         emtry_text = "ENTRY: " + " candela: " + str(func_entry_value) + " time: " + str(now)
@@ -130,6 +134,10 @@ class TradingBot:
                     sleep(sleep_time_profit_or_loss)
 
                     value = self.func_stop_loss(item=item, bot=True)
+
+                    if isinstance(value, Exception):
+                        break
+
                     if value is True:
                         stop_loss_text = "STOP LOSS: " + str(open_position_value * self.stop_loss)
                         self.telegram.send(stop_loss_text)
@@ -144,6 +152,10 @@ class TradingBot:
                         position = False
 
                     value = self.func_take_profit(item=item, bot=True)
+
+                    if isinstance(value, Exception):
+                        break
+
                     if value is True:
                         take_profit_text = "TAKE_PROFIT: " + str(open_position_value * self.take_profit)
                         self.telegram.send(take_profit_text)
