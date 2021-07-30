@@ -1,3 +1,4 @@
+import json
 import pandas
 from backtest.models import BackTestLog, StatisticsPortfolio
 from backtest.services.computedata import compute_data
@@ -132,7 +133,7 @@ class PortfolioChecker(Portfolio):
             function_name_take_profit,
             function_name_stop_loss
 
-    ) -> None:
+    ):
 
         ls = []
         qs = BackTestLog.objects.filter(algorithm=self.name_class)
@@ -172,6 +173,10 @@ class PortfolioChecker(Portfolio):
             function_name_take_profit=function_name_take_profit,
             function_name_stop_loss=function_name_stop_loss,
         )
+        diz = {
+            'result': True
+        }
+        return json.dumps(diz)
 
 
 class StrategyChecker(Strategy):

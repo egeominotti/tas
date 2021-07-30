@@ -8,10 +8,18 @@ from backtest.strategy.long.logic_function import *
 from backtest.strategy.short.logic_function import *
 
 
+def get_backtesting_hook(task):
+    print(task.result)
+    print("HO FINITO")
+    print("HO FINITO")
+    print("HO FINITO")
+    print("HO FINITO")
+
+
 def backtesting(instance):
     print(instance.start_period.strftime("%d %b, %Y"))
     bt = Backtest(
-        first_period=instance.start_period.strftime("%d %b, %Y"),
+        first_period=instance.start_period.strftime("%d %b,%Y"),
         logic_entry=eval(instance.strategy.logic_entry.name),
         logic_stoploss=eval(instance.strategy.logic_stoploss.name),
         logic_takeprofit=eval(instance.strategy.logic_takeprofit.name),

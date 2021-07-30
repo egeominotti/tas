@@ -24,11 +24,11 @@ class BackTest(models.Model):
     strategy = models.ForeignKey(Strategy, on_delete=models.CASCADE, null=False, blank=False)
     start_period = models.DateField(blank=True, null=True)
     end_period = models.DateField(blank=True, null=True)
+    scheduled = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
-        #async_task("backtest.services.runner.backtesting", self)
         super().save(*args, **kwargs)
-        async_task("backtest.services.runner.backtesting", self)
+        async_task("backtest.services.runner.backtesting", self, hook="backtest.services.runner.get_backtesting_hook")
 
 
 class StatisticsPortfolio(CommonTrait):
