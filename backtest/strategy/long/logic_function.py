@@ -91,44 +91,46 @@ def logic_takeprofit(item, bot=False) -> bool:
 STRATEGY : 2
 """
 
-# def scalping_5m_rsi_bollinger(item, ratio, bot=False) -> bool:
-#     if bot:
-#         ratio_value = item['bbands']['valueMiddleBand'] / item['bbands']['valueLowerBand']
-#         if ratio_value >= ratio:
-#             if item['rsi']['value'] > 30:
-#                 return True
-#     else:
-#         prev = item['timestamp'] - relativedelta(days=1)
-#         qs = Importer.objects.get(tf='1d', timestamp=item['timestamp'])
-#         indicatos = json.loads(qs.indicators)
-#
-#         print(prev)
-#         print(indicatos['rsi'])
-#         print(item['timestamp'])
-#         print(item['rsi'])
-#
-#         ratio_value = item['middleband'] / item['lowerband']
-#         if ratio_value >= ratio:
-#             if item['rsi'] > 30:
-#                 return True
-#
-#     return False
-#
-#
-# def stoploss_scalping_5m_rsi_bollinger(candle_close_entry, signal_candle_close, stop_loss, item=None) -> bool:
-#     if candle_close_entry < signal_candle_close * stop_loss:
-#         return True
-#     return False
-#
-#
-# def takeprofit_scalping_5m_rsi_bollinger(candle_close_entry, signal_candle_close, take_profit, item=None,
-#                                          bot=False) -> bool:
-#     if isbot:
-#         middleband_flag = item['bbands']['valueMiddleBand'] * 1.013
-#         if candle_close_entry >= middleband_flag or item['candle']['close'] > signal_candle_close * take_profit:
-#             return True
-#     else:
-#         middleband_flag = item['middleband'] * 1.013
-#         if candle_close_entry >= middleband_flag or item['close'] > signal_candle_close * take_profit:
-#             return True
-#     return False
+
+def scalping_5m_rsi_bollinger(item, bot=False) -> bool:
+    if bot:
+        ratio = item['ratio']
+        ratio_value = item['bbands']['valueMiddleBand'] / item['bbands']['valueLowerBand']
+        if ratio_value >= ratio:
+            if item['rsi']['value'] > 30:
+                return True
+    else:
+        prev = item['timestamp'] - relativedelta(days=1)
+        qs = Importer.objects.get(tf='1d', timestamp=item['timestamp'])
+        indicatos = json.loads(qs.indicators)
+
+        print(prev)
+        print(indicatos['rsi'])
+        print(item['timestamp'])
+        print(item['rsi'])
+
+        ratio_value = item['middleband'] / item['lowerband']
+        if ratio_value >=  item['ratio']:
+            if item['rsi'] > 30:
+                return True
+
+    return False
+
+
+def stoploss_scalping_5m_rsi_bollinger(item=None, bot=False) -> bool:
+    if item['open_candle'] > item['close_candle'] * item['take_profit']:
+        return True
+    return False
+
+
+def takeprofit_scalping_5m_rsi_bollinger(item, bot=False) -> bool:
+    pass
+    # if bot:
+    #     middleband_flag = item['bbands']['valueMiddleBand'] * 1.013
+    #     if candle_close_entry >= middleband_flag or item['candle']['close'] > signal_candle_close * take_profit:
+    #         return True
+    # else:
+    #     middleband_flag = item['middleband'] * 1.013
+    #     if candle_close_entry >= middleband_flag or item['close'] > signal_candle_close * take_profit:
+    #         return True
+    # return False
