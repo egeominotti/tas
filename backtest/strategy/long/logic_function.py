@@ -71,7 +71,7 @@ def logic_stop_loss(item, bot=False):
             print(candle_close)
 
             if candle_close <= item['open_position_value'] * stop_loss:
-                return True
+                return candle_close
 
             return False
 
@@ -105,7 +105,7 @@ def logic_takeprofit(item, bot=False):
             print(candle_close)
 
             if candle_close >= item['open_position_value'] * take_profit:
-                return True
+                return candle_close
 
             return False
 

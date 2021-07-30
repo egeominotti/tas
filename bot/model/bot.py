@@ -140,8 +140,9 @@ class TradingBot:
                         self.telegram.send(error)
                         break
 
-                    if isinstance(value, bool):
-                        stop_loss_text = "STOP LOSS: " + str(open_position_value * self.stop_loss)
+                    if isinstance(value, float):
+
+                        stop_loss_text = "STOP LOSS: " + str(value * self.stop_loss)
                         self.telegram.send(stop_loss_text)
 
                         now = datetime.datetime.now()
@@ -161,8 +162,8 @@ class TradingBot:
                         self.telegram.send(error)
                         break
 
-                    if isinstance(value, bool):
-                        take_profit_text = "TAKE_PROFIT: " + str(open_position_value * self.take_profit)
+                    if isinstance(value, float):
+                        take_profit_text = "TAKE_PROFIT: " + str(value * self.take_profit)
                         self.telegram.send(take_profit_text)
 
                         now = datetime.datetime.now()
