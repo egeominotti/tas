@@ -1,4 +1,5 @@
 from django.db import models
+from django_q.tasks import async_task
 from strategy.models import Strategy
 from analytics.models import CommonTrait
 
@@ -23,6 +24,10 @@ class BackTest(models.Model):
     strategy = models.ForeignKey(Strategy, on_delete=models.CASCADE, null=False, blank=False)
     start_period = models.DateField(blank=True, null=True)
     end_period = models.DateField(blank=True, null=True)
+
+    def post_save(self, *args, **kwargs):
+        async_task("backtest.services.runner.backtesting", self)
+        super().save(*args, **kwargs)
 
 
 class StatisticsPortfolio(CommonTrait):
