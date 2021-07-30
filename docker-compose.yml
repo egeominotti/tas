@@ -31,7 +31,7 @@ services:
 
   postgres_db:
     container_name: tas_db
-    image: postgres:13-alpine3.13
+    image: postgres:13.3-buster
     ports:
       - 5432:5432
     volumes:
@@ -41,7 +41,7 @@ services:
 
   redis:
     container_name: tas_redis
-    image: redis:6.2.5-alpine
+    image: redis:6.2.5-buster
     restart: always
     volumes:
       - redis-data:/data

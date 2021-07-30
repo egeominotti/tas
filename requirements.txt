@@ -37,3 +37,5 @@ pymongo
 iron-mq
 django-admin-csvexport
 django-extensions
+supervisor
+django-redis

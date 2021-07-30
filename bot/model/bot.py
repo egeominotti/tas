@@ -101,10 +101,6 @@ class TradingBot:
                 """
                 if position is False:
 
-                    if self.stop():
-                        break
-                    sleep(sleep_time_position)
-
                     func_entry_value = self.func_entry(item=item, bot=True)
 
                     if isinstance(func_entry_value, Exception):
@@ -113,8 +109,8 @@ class TradingBot:
 
                     if isinstance(func_entry_value, float):
                         now = datetime.datetime.now()
-                        emtry_text = "ENTRY: " + " candela: " + str(func_entry_value) + " time: " + str(now)
-                        self.telegram.send(emtry_text)
+                        entry_text = "ENTRY: " + " candela: " + str(func_entry_value) + " time: " + str(now)
+                        self.telegram.send(entry_text)
 
                         self.logger.objects.create(
                             entry_candle=func_entry_value,
@@ -124,6 +120,10 @@ class TradingBot:
 
                         open_position_value = func_entry_value
                         position = True
+
+                    if self.stop():
+                        break
+                    sleep(sleep_time_position)
 
                 """
                 Se viene aperta una posizione allora verifica le condizioni stoploss e takeprofit
