@@ -10,15 +10,29 @@ from backtest.strategy.short.logic_function import *
 
 def get_backtesting_hook(task):
     from backtest.models import BackTest
-    print(task.result)
-    print(task.result)
-    print(task.result)
+
     if isinstance(task.result, dict):
+
         # BackTest.objects.filter(id=task.result.get('id')).update(scheduled=True)
         BackTest.objects.filter(id=task.result.get('id')).delete()
         qs = BackTestLog.objects.filter(time_frame=task.result.get('time_frame'), symbol=task.result.get('symbol'))
+
+        lenlist = len(qs)
+        index = 0
         for k in qs:
-            print(k)
+            index += 1
+            if index < lenlist - 1:
+
+                next_obj = BackTestLog.objects.filter(time_frame=task.result.get('time_frame'),
+                                                      symbol=task.result.get('symbol'),
+                                                      entry_candle_date__gt=k.entry_candle_date).first()
+
+                if k.candle_stop_loss_date < next_obj.entry_candle_date or k.candle_take_profit_date < next_obj.entry_candle_date:
+                    print("elimino la successiva riga")
+                    print(k)
+                    BackTestLog.objects.filter(time_frame=task.result.get('time_frame'),
+                                               symbol=task.result.get('symbol'),
+                                               entry_candle_date__exact=next_obj.entry_candle_date).delete()
 
     if isinstance(task.result, bool):
         BackTest.objects.filter(id=task.result.get('id')).update(error=True)
