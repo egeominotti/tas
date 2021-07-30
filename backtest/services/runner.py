@@ -89,7 +89,7 @@ def get_backtesting_hook(task):
         # composite_value = sum_composite_loss + sum_composite_profit
 
         initial_investment = backtest_instance.initial_investment
-        total = sum_takeprofit + sum_loss
+        total = sum_takeprofit - sum_loss
 
         sd = initial_investment - (total * initial_investment)
 
