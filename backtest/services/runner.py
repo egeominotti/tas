@@ -30,9 +30,22 @@ def get_backtesting_hook(task):
                 print(next_obj)
                 print(next_obj.entry_candle_date)
 
-                if k.candle_stop_loss_date is not None and k.candle_take_profit_date is not None:
+                if k.candle_stop_loss_date is not None:
+                    if next_obj.entry_candle_date < k.candle_stop_loss_date:
+                        print(k.candle_stop_loss_date)
+                        print(k.candle_take_profit_date)
+                        print(next_obj.entry_candle_date)
+                        print("elimino la successiva riga")
+                        print(k)
+                        BackTestLog.objects.filter(time_frame=task.result.get('time_frame'),
+                                                   symbol=task.result.get('symbol'),
+                                                   entry_candle_date__exact=next_obj.entry_candle_date).delete()
 
-                    if k.candle_stop_loss_date < next_obj.entry_candle_date or k.candle_take_profit_date < next_obj.entry_candle_date:
+                if k.candle_take_profit_date is not None:
+                    if next_obj.entry_candle_date < k.candle_take_profit_date:
+                        print(k.candle_stop_loss_date)
+                        print(k.candle_take_profit_date)
+                        print(next_obj.entry_candle_date)
                         print("elimino la successiva riga")
                         print(k)
                         BackTestLog.objects.filter(time_frame=task.result.get('time_frame'),
