@@ -26,15 +26,11 @@ def logic_entry(item, bot=False):
             ema100 = taapi.ema(100, time_frame)
 
 
-
             ratio_value = ema9 / ema24
-            print(ratio_value)
-            print(ratio_value)
-            print(ratio_value)
-            print(ratio_value)
             if candle_close['close'] > ema100:
                 return candle_close['close']
             return False
+
         except Exception as e:
             return e
     else:
