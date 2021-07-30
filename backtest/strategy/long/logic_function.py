@@ -31,6 +31,7 @@ def logic_entry(item, bot=False) -> bool:
         if 1 < ratio_value < ratio:
             if candle_close['close'] > ema100:
                 return candle_close
+        return False
 
     else:
         """
@@ -40,7 +41,7 @@ def logic_entry(item, bot=False) -> bool:
         if 1 < ratio_value < item['ratio']:
             if item['close'] > item['ema100']:
                 return True
-    return False
+        return False
 
 
 def logic_stop_loss(item, bot=False) -> bool:

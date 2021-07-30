@@ -138,27 +138,27 @@ class PortfolioChecker(Portfolio):
         qs = BackTestLog.objects.filter(algorithm=self.name_class)
         for i in qs: ls.append(i.profit_loss)
 
-        print("-----------------------------------")
-        print("SYMBOL: " + self.symbol)
-        print("TIME FRAME: " + str(self.tf))
-        print("ENTRY: " + str(len(signals)))
-        print("TAKE PROFIT: " + str(counterTP))
-        print("STOP LOSS: " + str(counterSL))
+        # print("-----------------------------------")
+        # print("SYMBOL: " + self.symbol)
+        # print("TIME FRAME: " + str(self.tf))
+        # print("ENTRY: " + str(len(signals)))
+        # print("TAKE PROFIT: " + str(counterTP))
+        # print("STOP LOSS: " + str(counterSL))
 
         profit_ratio = 0
         if counterTP > 0 and len(signals) > 0:
             profit_ratio = counterTP / len(signals) * 100
-            print("PROFIT RATIO: " + str(int(profit_ratio)) + "%")
+            # print("PROFIT RATIO: " + str(int(profit_ratio)) + "%")
 
         loss_ratio = 0
         if counterSL > 0 and len(signals) > 0:
             loss_ratio = counterSL / len(signals) * 100
-            print("LOSS RATIO: " + str(int(loss_ratio)) + "%")
+            # print("LOSS RATIO: " + str(int(loss_ratio)) + "%")
 
         profit_loss_percentage = round((sum(ls) * 100), 2)
-
-        print("PROFIT LOSS PERCENTAGE: " + str(profit_loss_percentage) + "%")
-        print("-----------------------------------")
+        #
+        # print("PROFIT LOSS PERCENTAGE: " + str(profit_loss_percentage) + "%")
+        # print("-----------------------------------")
 
         StatisticsPortfolio.objects.create(
             algorithm=str(self.name_class),

@@ -1,4 +1,4 @@
-from backtest.model.backtest import Backtest
+from backtest.model.backtest import Backtest, BackTestLog
 
 """
 Logic function
@@ -10,10 +10,15 @@ from backtest.strategy.short.logic_function import *
 
 def get_backtesting_hook(task):
     from backtest.models import BackTest
-
+    print(task.result)
+    print(task.result)
+    print(task.result)
     if isinstance(task.result, dict):
         # BackTest.objects.filter(id=task.result.get('id')).update(scheduled=True)
         BackTest.objects.filter(id=task.result.get('id')).delete()
+        qs = BackTestLog.objects.filter(time_frame=task.result.get('time_frame'), symbol=task.result.get('symbol'))
+        for k in qs:
+            print(k)
 
     if isinstance(task.result, bool):
         BackTest.objects.filter(id=task.result.get('id')).update(error=True)
@@ -36,7 +41,9 @@ def backtesting(instance):
 
         item = {
             'result': return_value,
-            'id': instance.id
+            'id': instance.id,
+            'symbol': instance.strategy.symbol_exchange.symbol,
+            'time_frame': instance.strategy.time_frame.time_frame
         }
         return item
 
