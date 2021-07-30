@@ -10,6 +10,9 @@ from backtest.strategy.short.logic_function import *
 
 
 def get_backtesting_hook(task):
+    """
+    DATA ANALYSIS BACKTESTING
+    """
     from backtest.models import BackTest
 
     if isinstance(task.result, dict):
