@@ -26,8 +26,9 @@ def logic_entry(item, bot=False):
             ema100 = taapi.ema(100, time_frame)
 
             ratio_value = ema9 / ema24
-            if candle_close['close'] > ema100:
-                return candle_close['close']
+            if 1 < ratio_value < ratio:
+                if candle_close > ema100:
+                    return True
             return False
 
         except Exception as e:

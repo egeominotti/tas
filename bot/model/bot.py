@@ -134,7 +134,6 @@ class TradingBot:
                     print("Provo a cercare una take profit o stop loss")
                     value = self.func_stop_loss(item=item, bot=True)
 
-                    print("STOP LOSS: " +  value)
                     if isinstance(value, Exception):
                         error = "ERROR" + str(value)
                         self.telegram.send(error)
