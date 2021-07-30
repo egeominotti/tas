@@ -30,3 +30,4 @@ def backtesting(instance):
         ratio_value=instance.strategy.ratio,
     )
     bt.run()
+    return True
