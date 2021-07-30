@@ -132,7 +132,6 @@ class StrategyChecker(Strategy):
 
         diz = {}
         computed_data = compute_data(self.klines)
-
         for item in computed_data:
             if item is not None:
                 item['ratio'] = self.ratio
@@ -173,7 +172,6 @@ class Backtest:
         client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
 
         klines = client.get_historical_klines(self.symbol, self.tf, self.first_period, now)
-
         st = StrategyChecker(klines=klines, ratio=self.ratio_value)
         PortfolioChecker(instance=self.instance,
                          func_stop_loss=self.logic_stoploss,
