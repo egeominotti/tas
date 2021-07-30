@@ -12,6 +12,9 @@ class BackTest(models.Model):
     error = models.BooleanField(default=False)
     initial_investment = models.FloatField(default=0, blank=True)
 
+    def __str__(self):
+        return self.strategy.name
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         async_task("backtest.services.runner.backtesting", self, hook="backtest.services.runner.get_backtesting_hook")

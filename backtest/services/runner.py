@@ -17,7 +17,6 @@ def get_backtesting_hook(task):
         backtest_instance = BackTest.objects.get(id=task.result.get('id'))
 
         BackTest.objects.filter(id=task.result.get('id')).update(scheduled=True)
-        BackTest.objects.filter(id=task.result.get('id')).delete()
         qs = BackTestLog.objects.filter(time_frame=task.result.get('time_frame'), symbol=task.result.get('symbol'))
 
         for k in qs:
@@ -45,13 +44,13 @@ def get_backtesting_hook(task):
         qs = BackTestLog.objects.filter(time_frame=task.result.get('time_frame'), symbol=task.result.get('symbol'))
 
         StatisticsPortfolio.objects.create(
-            backtest= backtest_instance,
+            backtest=backtest_instance,
             time_frame=task.result.get('time_frame'),
             entry=len(qs),
-            #take_profit=int(counterTP),
-            #stop_loss=int(counterSL),
-            #profit_ratio=int(profit_ratio),
-            #loss_ratio=loss_ratio,
+            # take_profit=int(counterTP),
+            # stop_loss=int(counterSL),
+            # profit_ratio=int(profit_ratio),
+            # loss_ratio=loss_ratio,
         )
 
     if isinstance(task.result, bool):

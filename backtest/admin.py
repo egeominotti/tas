@@ -11,7 +11,7 @@ class BackTestLogAdmin(admin.ModelAdmin):
     list_per_page = 50
     ordering = ('id',)
     list_display = (
-        'time_frame', 'symbol', 'entry_candle_date', 'entry_candle',
+        'backtest', 'time_frame', 'symbol', 'entry_candle_date', 'entry_candle',
         'candle_stop_loss_date', 'candle_stop_loss', 'stop_loss',
         'candle_take_profit_date', 'candle_take_profit', 'take_profit',)
     exclude = ['flgEnable', ]
@@ -28,7 +28,7 @@ class StatisticsPortfolioAdmin(admin.ModelAdmin):
     list_per_page = 50
     ordering = ('id',)
     actions = [csvexport]
-    list_display = ('entry', 'time_frame', 'take_profit', 'stop_loss', 'profit_ratio', 'loss_ratio',
+    list_display = ('backtest', 'entry', 'time_frame', 'take_profit', 'stop_loss', 'profit_ratio', 'loss_ratio',
                     'profit_loss_percentage',)
     exclude = ['flgEnable', ]
 
