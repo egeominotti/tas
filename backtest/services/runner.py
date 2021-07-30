@@ -43,14 +43,39 @@ def get_backtesting_hook(task):
 
         qs = BackTestLog.objects.filter(time_frame=task.result.get('time_frame'), symbol=task.result.get('symbol'))
 
+        initial_investment = backtest_instance.initial_investment
+        sum_loss = 0
+        sum_profit = 0
+        counter_stoploss = 0
+        counter_takeprofit = 0
+        sum_composite_loss = 0
+        sum_composite_profit = 0
+
+        for k in qs:
+
+            if k.stop_loss is True:
+                counter_stoploss += 1
+                loss_value = (k.entry_candle - k.candle_stop_loss) / k.entry_candle
+                sum_composite_loss += loss_value
+                sum_loss += initial_investment * loss_value
+
+            if k.take_profit is True:
+                counter_takeprofit += 1
+                profit_value = (k.entry_candle - k.take_profit) / k.entry_candle
+                sum_composite_profit += profit_value
+                sum_profit += initial_investment * profit_value
+
+        net_profit = ((sum_loss + sum_profit) / initial_investment) * 100
+        composite_value = sum_composite_loss + sum_composite_profit
+
         StatisticsPortfolio.objects.create(
             backtest=backtest_instance,
             time_frame=task.result.get('time_frame'),
             entry=len(qs),
-            # take_profit=int(counterTP),
-            # stop_loss=int(counterSL),
-            # profit_ratio=int(profit_ratio),
-            # loss_ratio=loss_ratio,
+            take_profit=counter_takeprofit,
+            stop_loss=counter_stoploss,
+            net_profit=net_profit,
+            composite_value=composite_value
         )
 
     if isinstance(task.result, bool):
