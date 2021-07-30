@@ -110,7 +110,7 @@ def scalping_5m_rsi_bollinger(item, bot=False) -> bool:
         print(item['rsi'])
 
         ratio_value = item['middleband'] / item['lowerband']
-        if ratio_value >=  item['ratio']:
+        if ratio_value >= item['ratio']:
             if item['rsi'] > 30:
                 return True
 
