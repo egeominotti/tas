@@ -168,10 +168,16 @@ class Backtest:
         self.tf = ''.join(self.tf)
 
     def run(self):
+
         now = datetime.now().strftime("%d %b, %Y")
         client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
 
-        klines = client.get_historical_klines(self.symbol, self.tf, self.first_period, now)
+        klines = None
+        try:
+            klines = client.get_historical_klines(self.symbol, self.tf, self.first_period, now)
+        except Exception as e:
+            exit(1)
+
         st = StrategyChecker(klines=klines, ratio=self.ratio_value)
         PortfolioChecker(instance=self.instance,
                          func_stop_loss=self.logic_stoploss,
