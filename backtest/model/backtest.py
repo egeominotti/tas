@@ -1,4 +1,3 @@
-import json
 import pandas
 from backtest.models import BackTestLog, StatisticsPortfolio
 from backtest.services.computedata import compute_data
@@ -38,7 +37,7 @@ class PortfolioChecker(Portfolio):
             self,
             func_stop_loss,
             func_take_profit
-    ) -> None:
+    ) -> bool:
 
         function_name_take_profit = func_stop_loss.__name__
         function_name_stop_loss = func_take_profit.__name__
@@ -125,6 +124,8 @@ class PortfolioChecker(Portfolio):
 
         self.output(counterTP, counterSL, signals, function_name_take_profit, function_name_stop_loss)
 
+        return True
+
     def output(
             self,
             counterTP,
@@ -133,7 +134,7 @@ class PortfolioChecker(Portfolio):
             function_name_take_profit,
             function_name_stop_loss
 
-    ):
+    ) -> bool:
 
         ls = []
         qs = BackTestLog.objects.filter(algorithm=self.name_class)
@@ -173,10 +174,7 @@ class PortfolioChecker(Portfolio):
             function_name_take_profit=function_name_take_profit,
             function_name_stop_loss=function_name_stop_loss,
         )
-        diz = {
-            'result': True
-        }
-        return json.dumps(diz)
+        return True
 
 
 class StrategyChecker(Strategy):
@@ -238,12 +236,15 @@ class Backtest:
         klines = client.get_historical_klines(self.symbol, self.tf, self.first_period, now)
 
         st = StrategyChecker(klines=klines, ratio=self.ratio_value)
-        PortfolioChecker(func_stop_loss=self.logic_stoploss,
-                         func_take_profit=self.logic_takeprofit,
-                         time_frame=self.tf,
-                         symbol=self.symbol,
-                         klines=klines,
-                         signals=st.add_strategy(self.logic_entry),
-                         take_profit=self.take_profit_value,
-                         stop_loss=self.stop_loss_value
-                         )
+        pc = PortfolioChecker(func_stop_loss=self.logic_stoploss,
+                              func_take_profit=self.logic_takeprofit,
+                              time_frame=self.tf,
+                              symbol=self.symbol,
+                              klines=klines,
+                              signals=st.add_strategy(self.logic_entry),
+                              take_profit=self.take_profit_value,
+                              stop_loss=self.stop_loss_value
+                              )
+        print(pc)
+        print(pc)
+        return pc
