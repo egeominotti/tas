@@ -25,15 +25,15 @@ def get_backtesting_hook(task):
         for k in qs:
 
             if k.candle_stop_loss_date is not None:
-                loss_percentage = (k.candle_stop_loss - k.entry_candle) / k.entry_candle
+                loss_percentage = (k.entry_candle - k.candle_stop_loss) / k.entry_candle
                 BackTestLog.objects.filter(id=k.id).update(
-                    loss_percentage=loss_percentage
+                    loss_percentage=loss_percentage * 100
                 )
 
             if k.candle_take_profit_date is not None:
-                profit_percentage = (k.candle_take_profit - k.entry_candle) / k.entry_candle
+                profit_percentage = (k.entry_candle - k.candle_take_profit) / k.entry_candle
                 BackTestLog.objects.filter(id=k.id).update(
-                    profit_percentage=profit_percentage
+                    profit_percentage=profit_percentage * 100
                 )
 
             if BackTestLog.objects.filter(time_frame=task.result.get('time_frame'),
