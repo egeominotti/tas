@@ -20,12 +20,12 @@ def logic_entry(item, bot=False):
             ratio = item['ratio']
 
             taapi = Taapi(symbol)
-            candle_close = taapi.candle(time_frame)
+            candle_close = taapi.candle(time_frame).get('close')
             ema9 = taapi.ema(9, time_frame)
             ema24 = taapi.ema(24, time_frame)
             ema100 = taapi.ema(100, time_frame)
 
-            print("SONO IN logic_entry")
+            print("sono dentro logic_entry")
             print(item)
             print("candle close:" + str(candle_close))
             print("ema9: " + str(ema9))
@@ -34,8 +34,8 @@ def logic_entry(item, bot=False):
 
             ratio_value = ema9 / ema24
             if 1 < ratio_value < ratio:
-                if candle_close.get('close') > ema100:
-                    return candle_close.get('close')
+                if candle_close > ema100:
+                    return candle_close
             return False
 
         except Exception as e:
@@ -62,7 +62,7 @@ def logic_stop_loss(item, bot=False):
             symbol = item['symbol']
             stop_loss = item['stop_loss']
             taapi = Taapi(symbol)
-            candle_close = taapi.candle(time_frame)
+            candle_close = taapi.candle(time_frame).get('close')
 
             print("sono dentro logic_stop_loss")
             print(item)
@@ -97,7 +97,7 @@ def logic_takeprofit(item, bot=False):
             symbol = item['symbol']
             take_profit = item['take_profit']
             taapi = Taapi(symbol)
-            candle_close = taapi.candle(time_frame)
+            candle_close = taapi.candle(time_frame).get('close')
 
             print("sono dentro logic_takeprofit")
             print(item)
