@@ -113,6 +113,7 @@ class TradingBot:
                         )
 
                         open_position_value = func_entry_value
+                        position = True
 
                 if position is True:
 
