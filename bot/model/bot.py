@@ -96,6 +96,9 @@ class TradingBot:
                     'ratio': self.ratio
                 }
 
+                """
+                Finche non viene trovata una entry utile continua ad eseguire
+                """
                 if position is False:
 
                     if self.stop():
@@ -106,6 +109,9 @@ class TradingBot:
                     if isinstance(func_entry_value, float):
 
                         now = datetime.datetime.now()
+                        emtry_text = "ENTRY: " + " candela: " + str(func_entry_value) + " time: " + str(now)
+                        self.telegram.send(emtry_text)
+
                         self.logger.objects.create(
                             entry_candle=func_entry_value,
                             entry_candle_date=now,
@@ -115,6 +121,9 @@ class TradingBot:
                         open_position_value = func_entry_value
                         position = True
 
+                """
+                Se viene aperta una posizione allora verifica le condizioni stoploss e takeprofit
+                """
                 if position is True:
 
                     if self.stop():
@@ -124,8 +133,8 @@ class TradingBot:
                     value = self.func_stop_loss(item=item, bot=True)
                     if value is True:
 
-                        stop_loss = "STOP LOSS: " + str(open_position_value * self.stop_loss)
-                        self.telegram.send(stop_loss)
+                        stop_loss_text = "STOP LOSS: " + str(open_position_value * self.stop_loss)
+                        self.telegram.send(stop_loss_text)
 
                         now = datetime.datetime.now()
                         self.logger.objects.create(
@@ -139,8 +148,8 @@ class TradingBot:
                     value = self.func_take_profit(item=item, bot=True)
                     if value is True:
 
-                        take_profit = "TAKE_PROFIT: " + str(open_position_value * self.take_profit)
-                        self.telegram.send(take_profit)
+                        take_profit_text = "TAKE_PROFIT: " + str(open_position_value * self.take_profit)
+                        self.telegram.send(take_profit_text)
 
                         now = datetime.datetime.now()
                         self.logger.objects.create(
