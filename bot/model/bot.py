@@ -108,6 +108,7 @@ class TradingBot:
                         self.telegram.send(error)
 
                     if isinstance(func_entry_value, float):
+
                         now = datetime.datetime.now()
                         entry_text = "ENTRY: " + " candela: " + str(func_entry_value) + " time: " + str(now)
                         self.telegram.send(entry_text)

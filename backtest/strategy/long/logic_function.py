@@ -10,8 +10,7 @@ STRATEGY : 1
 
 def logic_entry(item, bot=False):
     if bot:
-        print("sono dentro logic entry")
-        print(item)
+
         try:
             """
             Casistica usata dal bot
@@ -26,12 +25,17 @@ def logic_entry(item, bot=False):
             ema24 = taapi.ema(24, time_frame)
             ema100 = taapi.ema(100, time_frame)
 
-            print(candle_close)
-            print(ema100)
+            print("SONO IN logic_entry")
+            print(item)
+            print("candle close:" + str(candle_close))
+            print("ema9: " + str(ema9))
+            print("ema 24: " + str(ema24))
+            print("ema 100:" + str(ema100))
+
             ratio_value = ema9 / ema24
             if 1 < ratio_value < ratio:
                 if candle_close > ema100:
-                    return True
+                    return candle_close
             return False
 
         except Exception as e:
@@ -49,8 +53,7 @@ def logic_entry(item, bot=False):
 
 def logic_stop_loss(item, bot=False):
     if bot:
-        print("sono dentro stop loss")
-        print(item)
+
         try:
             """
             Casistica usata dal bot
@@ -60,8 +63,13 @@ def logic_stop_loss(item, bot=False):
             stop_loss = item['stop_loss']
             taapi = Taapi(symbol)
             candle_close = taapi.candle(time_frame)
-            print(candle_close)
+
+            print("sono dentro logic_stop_loss")
             print(item)
+            print(candle_close)
+            print(symbol)
+            print(candle_close)
+
             if candle_close <= item['open_position_value'] * stop_loss:
                 return True
 
@@ -80,8 +88,6 @@ def logic_stop_loss(item, bot=False):
 
 def logic_takeprofit(item, bot=False):
     if bot:
-        print("SONO DENTRO TAKR PROFIT")
-        print(item)
 
         try:
             """
@@ -92,8 +98,11 @@ def logic_takeprofit(item, bot=False):
             take_profit = item['take_profit']
             taapi = Taapi(symbol)
             candle_close = taapi.candle(time_frame)
-            print(candle_close)
+
+            print("sono dentro logic_takeprofit")
             print(item)
+            print(symbol)
+            print(candle_close)
 
             if candle_close >= item['open_position_value'] * take_profit:
                 return True
