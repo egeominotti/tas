@@ -63,8 +63,6 @@ class Command(BaseCommand):
 
                         if s.to_import and t.to_import:
 
-                            print(s.symbol)
-                            print(t.time_frame)
                             try:
                                 now = datetime.now().strftime("%d %b, %Y")
                                 klines = client.get_historical_klines(s.symbol, t.time_frame, '17 Aug, 2017', now)
