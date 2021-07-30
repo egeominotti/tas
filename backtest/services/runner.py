@@ -91,7 +91,7 @@ def get_backtesting_hook(task):
         initial_investment = backtest_instance.initial_investment
         total = sum_takeprofit + sum_loss
 
-        sd = (total * initial_investment) - initial_investment
+        sd = initial_investment - (total * initial_investment)
 
         StatisticsPortfolio.objects.create(
             backtest=backtest_instance,
@@ -100,8 +100,8 @@ def get_backtesting_hook(task):
             take_profit=counter_takeprofit,
             stop_loss=counter_stoploss,
             initial_investment=backtest_instance.initial_investment,
-            current_wallet=total * initial_investment,
-            composite_value=sd
+            current_wallet=sd,
+            composite_value=total * initial_investment
         )
 
     if isinstance(task.result, bool):
