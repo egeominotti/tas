@@ -103,9 +103,9 @@ class TradingBot:
                     sleep(sleep_time_position)
 
                     func_entry_value = self.func_entry(item=item, bot=True)
-                    if func_entry_value is not False:
-                        now = datetime.datetime.now()
+                    if isinstance(func_entry_value, float):
 
+                        now = datetime.datetime.now()
                         self.logger.objects.create(
                             entry_candle=func_entry_value,
                             entry_candle_date=now,
@@ -123,10 +123,11 @@ class TradingBot:
 
                     value = self.func_stop_loss(item=item, bot=True)
                     if value is True:
-                        print("TAKE_PROFIT: " + str(open_position_value * self.take_profit))
+
+                        stop_loss = "STOP LOSS: " + str(open_position_value * self.stop_loss)
+                        self.telegram.send(stop_loss)
 
                         now = datetime.datetime.now()
-
                         self.logger.objects.create(
                             candle_take_profit=value,
                             candle_take_profit_date=now,
@@ -137,10 +138,11 @@ class TradingBot:
 
                     value = self.func_take_profit(item=item, bot=True)
                     if value is True:
-                        print("STOP LOSS: " + str(open_position_value * self.stop_loss))
+
+                        take_profit = "TAKE_PROFIT: " + str(open_position_value * self.take_profit)
+                        self.telegram.send(take_profit)
 
                         now = datetime.datetime.now()
-
                         self.logger.objects.create(
                             candle_stop_loss=value,
                             candle_stop_loss_date=now,
