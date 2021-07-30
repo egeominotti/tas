@@ -32,14 +32,7 @@ class BackTestLogAdmin(admin.ModelAdmin):
     actions = ["export_as_csv"]
     exclude = ['flgEnable', ]
 
-    def has_delete_permission(self, request, obj=None):
-        return False
 
-    def has_change_permission(self, request, obj=None):
-        return True
-
-    def has_add_permission(self, request, obj=None):
-        return True
 
 
 class StatisticsPortfolioAdmin(admin.ModelAdmin):
@@ -65,8 +58,8 @@ class StatisticsPortfolioAdmin(admin.ModelAdmin):
 class BackTestAdmin(admin.ModelAdmin):
     list_per_page = 20
     ordering = ('id',)
-    list_display = ('id', 'scheduled', 'strategy', 'start_period', 'start_period')
-    readonly_fields = ('scheduled',)
+    list_display = ('strategy', 'start_period', 'start_period', 'scheduled', 'error')
+    readonly_fields = ('scheduled', 'error')
     exclude = ['flgEnable', ]
 
 

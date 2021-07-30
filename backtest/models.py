@@ -25,6 +25,7 @@ class BackTest(models.Model):
     start_period = models.DateField(blank=True, null=True)
     end_period = models.DateField(blank=True, null=True)
     scheduled = models.BooleanField(default=False)
+    error = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

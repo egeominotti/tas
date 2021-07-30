@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'backtest',
     'exchange',
     'strategy',
+    'csvexport',
     'dbbackup',
     'django_q',
 ]
