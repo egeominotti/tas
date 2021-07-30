@@ -69,8 +69,6 @@ class Command(BaseCommand):
                                 now = datetime.now().strftime("%d %b, %Y")
                                 klines = client.get_historical_klines(s.symbol, t.time_frame, '17 Aug, 2017', now)
 
-                                print(klines)
-
                                 if len(klines) > 0:
                                     klines_computed = compute_data(klines)
                                     save(klines_computed, s.symbol, t.time_frame)
