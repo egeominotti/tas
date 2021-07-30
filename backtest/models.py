@@ -33,6 +33,8 @@ class BackTestLog(models.Model):
     candle_stop_loss_date = models.DateTimeField(blank=True, null=True)
     candle_take_profit_date = models.DateTimeField(blank=True, null=True)
     profit_loss = models.FloatField(default=0, blank=True)
+    loss_percentage = models.FloatField(default=0, blank=True)
+    profit_percentage = models.FloatField(default=0, blank=True)
 
 
 class StatisticsPortfolio(CommonTrait):

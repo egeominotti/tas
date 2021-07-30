@@ -12,8 +12,8 @@ class BackTestLogAdmin(admin.ModelAdmin):
     ordering = ('id',)
     list_display = (
         'backtest', 'time_frame', 'symbol', 'entry_candle_date', 'entry_candle',
-        'candle_stop_loss_date', 'candle_stop_loss', 'stop_loss',
-        'candle_take_profit_date', 'candle_take_profit', 'take_profit',)
+        'candle_stop_loss_date', 'candle_stop_loss', 'stop_loss', 'loss_percentage',
+        'candle_take_profit_date', 'candle_take_profit', 'take_profit', 'profit_percentage')
     exclude = ['flgEnable', ]
 
     def has_change_permission(self, request, obj=None):
@@ -28,7 +28,8 @@ class StatisticsPortfolioAdmin(admin.ModelAdmin):
     list_per_page = 50
     ordering = ('id',)
     actions = [csvexport]
-    list_display = ('backtest', 'entry', 'time_frame', 'take_profit', 'stop_loss', 'net_profit', 'composite_value')
+    list_display = (
+        'backtest', 'initial_investment', 'net_profit', 'composite_value', 'entry', 'take_profit', 'stop_loss')
     exclude = ['flgEnable', ]
 
     def has_change_permission(self, request, obj=None):
