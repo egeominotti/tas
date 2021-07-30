@@ -43,7 +43,7 @@ class PortfolioChecker(Portfolio):
         function_name_stop_loss = func_take_profit.__name__
 
         # Erase db record
-        qsBacktest = BackTest.objects.filter(algorithm__exact=self.name_class)
+        qsBacktest = BackTestLog.objects.filter(algorithm__exact=self.name_class)
         if qsBacktest.exists():
             qsBacktest.delete()
 

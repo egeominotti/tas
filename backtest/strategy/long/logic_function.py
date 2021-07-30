@@ -43,7 +43,7 @@ def logic_entry(item, bot=False) -> bool:
     return False
 
 
-def logic_stop_loss(item, bot=True) -> bool:
+def logic_stop_loss(item, bot=False) -> bool:
     if bot:
         """
         Casistica usata dal bot
@@ -65,7 +65,7 @@ def logic_stop_loss(item, bot=True) -> bool:
         return False
 
 
-def logic_takeprofit(item, bot=True) -> bool:
+def logic_takeprofit(item, bot=False) -> bool:
     if bot:
         """
         Casistica usata dal bot

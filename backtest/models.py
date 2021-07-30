@@ -25,9 +25,10 @@ class BackTest(models.Model):
     start_period = models.DateField(blank=True, null=True)
     end_period = models.DateField(blank=True, null=True)
 
-    def post_save(self, *args, **kwargs):
-        async_task("backtest.services.runner.backtesting", self)
+    def save(self, *args, **kwargs):
+        #async_task("backtest.services.runner.backtesting", self)
         super().save(*args, **kwargs)
+        async_task("backtest.services.runner.backtesting", self)
 
 
 class StatisticsPortfolio(CommonTrait):
