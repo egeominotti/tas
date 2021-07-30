@@ -28,8 +28,7 @@ class StatisticsPortfolioAdmin(admin.ModelAdmin):
     list_per_page = 50
     ordering = ('id',)
     actions = [csvexport]
-    list_display = ('backtest', 'entry', 'time_frame', 'take_profit', 'stop_loss', 'profit_ratio', 'loss_ratio',
-                    'profit_loss_percentage',)
+    list_display = ('backtest', 'entry', 'time_frame', 'take_profit', 'stop_loss', 'net_profit', 'composite_value')
     exclude = ['flgEnable', ]
 
     def has_change_permission(self, request, obj=None):
