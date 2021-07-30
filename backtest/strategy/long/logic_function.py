@@ -34,8 +34,8 @@ def logic_entry(item, bot=False):
 
             ratio_value = ema9 / ema24
             if 1 < ratio_value < ratio:
-                if candle_close > ema100:
-                    return candle_close
+                if candle_close.get('close') > ema100:
+                    return candle_close.get('close')
             return False
 
         except Exception as e:
