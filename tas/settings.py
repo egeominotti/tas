@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'bot',
     'backtest',
     'exchange',
+    'strategy',
     'dbbackup',
     'django_q',
 ]

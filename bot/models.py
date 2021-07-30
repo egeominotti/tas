@@ -1,9 +1,8 @@
-from django.contrib.auth.models import User
 from exchange.models import BinanceAccount
 from django.db import models
 from analytics.models import CommonTrait
 from django_q.tasks import async_task
-from backtest.models import Strategy
+from strategy.models import Strategy
 import uuid
 
 BOT_STATUS = (
