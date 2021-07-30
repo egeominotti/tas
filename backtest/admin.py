@@ -22,7 +22,7 @@ class ExportCsvMixin:
     export_as_csv.short_description = "Esporta elementi selezionati"
 
 
-class BackTestAdmin(admin.ModelAdmin):
+class BackTestLogAdmin(admin.ModelAdmin):
     search_fields = ['tf']
     list_per_page = 50
     ordering = ('id',)
@@ -112,6 +112,7 @@ class TimeFrameAdmin(admin.ModelAdmin):
     def has_add_permission(self, request, obj=None):
         return False
 
+
 class LogicEntryAdmin(admin.ModelAdmin):
     list_per_page = 20
     ordering = ('id',)
@@ -133,6 +134,13 @@ class LogicStopLossAdmin(admin.ModelAdmin):
     exclude = ['flgEnable', ]
 
 
+class BackTestAdmin(admin.ModelAdmin):
+    list_per_page = 20
+    ordering = ('id',)
+    list_display = ('id', 'strategy', 'start_period', 'start_period')
+    exclude = ['flgEnable', ]
+
+
 admin.site.register(TimeFrame, TimeFrameAdmin)
 admin.site.register(SymbolExchange, SymbolExchangeAdmin)
 admin.site.register(SymbolTaapiApi, SymbolTaapiApiAmin)
@@ -140,5 +148,6 @@ admin.site.register(Strategy, StrategyDispatcherAdmin)
 admin.site.register(LogicEntry, LogicEntryAdmin)
 admin.site.register(LogicTakepProfit, LogicTakepProfitAdmin)
 admin.site.register(LogicStopLoss, LogicStopLossAdmin)
+admin.site.register(BackTestLog, BackTestLogAdmin)
 admin.site.register(BackTest, BackTestAdmin)
 admin.site.register(StatisticsPortfolio, StatisticsPortfolioAdmin)

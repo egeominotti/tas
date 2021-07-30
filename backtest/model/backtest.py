@@ -1,5 +1,5 @@
 import pandas
-from backtest.models import BackTest, StatisticsPortfolio
+from backtest.models import BackTestLog, StatisticsPortfolio
 from backtest.services.computedata import compute_data
 from backtest.model.portfolio import Portfolio
 from backtest.model.strategy import Strategy
@@ -92,7 +92,7 @@ class PortfolioChecker(Portfolio):
                 if func_take_profit(item) is True:
                     counterTP += 1
 
-                    BackTest.objects.create(
+                    BackTestLog.objects.create(
                         symbol=self.symbol,
                         time_frame=self.tf,
                         algorithm=self.name_class,
@@ -108,7 +108,7 @@ class PortfolioChecker(Portfolio):
                 if func_stop_loss(item) is True:
                     counterSL += 1
 
-                    BackTest.objects.create(
+                    BackTestLog.objects.create(
                         symbol=self.symbol,
                         time_frame=self.tf,
                         algorithm=self.name_class,
@@ -135,7 +135,7 @@ class PortfolioChecker(Portfolio):
     ) -> None:
 
         ls = []
-        qs = BackTest.objects.filter(algorithm=self.name_class)
+        qs = BackTestLog.objects.filter(algorithm=self.name_class)
         for i in qs: ls.append(i.profit_loss)
 
         print("-----------------------------------")

@@ -3,7 +3,7 @@ from django.db import models
 from analytics.models import CommonTrait
 
 
-class BackTest(models.Model):
+class BackTestLog(models.Model):
     algorithm = models.CharField(max_length=100, blank=True)
     time_frame = models.CharField(max_length=10, blank=True)
     symbol = models.CharField(max_length=20, blank=True)
@@ -17,6 +17,12 @@ class BackTest(models.Model):
     candle_take_profit_date = models.DateTimeField(blank=True, null=True)
     profit_loss = models.FloatField(default=0, blank=True)
     function_name_logic_entry = models.CharField(max_length=100, blank=True)
+
+
+class BackTest(models.Model):
+    strategy = models.ForeignKey('Strategy', on_delete=models.CASCADE, null=False, blank=False)
+    start_period = models.DateField(blank=True, null=True)
+    end_period = models.DateField(blank=True, null=True)
 
 
 class StatisticsPortfolio(CommonTrait):
