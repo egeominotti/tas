@@ -9,7 +9,7 @@ from django.db.models import Q
 from numpyencoder import NumpyEncoder
 from analytics.models import Importer
 import logging
-from backtest.models import TimeFrame, SymbolExchange
+from strategy.models import TimeFrame, SymbolExchange
 
 from bot.services.telegram import Telegram
 
@@ -60,8 +60,8 @@ class Command(BaseCommand):
 
                 now = datetime.now().strftime("%d %b, %Y")
 
-                for s in SymbolExchange.objects.all().order_by('symbol'):
-                    for t in TimeFrame.objects.all().order_by('time_frame'):
+                for s in SymbolExchange.objects.all():
+                    for t in TimeFrame.objects.all():
 
                         if s.to_import and t.to_import:
 
