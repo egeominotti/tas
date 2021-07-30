@@ -40,17 +40,15 @@ class PortfolioChecker(Portfolio):
             func_take_profit
     ) -> None:
 
-        function_name_take_profit = func_stop_loss.__name__
-        function_name_stop_loss = func_take_profit.__name__
 
         # # Erase db record
-        # qsBacktest = BackTestLog.objects.filter(algorithm__exact=self.name_class)
-        # if qsBacktest.exists():
-        #     qsBacktest.delete()
-        #
-        # qsPortfolio = StatisticsPortfolio.objects.filter(algorithm__exact=self.name_class)
-        # if qsPortfolio.exists():
-        #     qsPortfolio.delete()
+        qsBacktest = BackTestLog.objects.filter(backtest=self.instance)
+        if qsBacktest.exists():
+            qsBacktest.delete()
+
+        qsPortfolio = StatisticsPortfolio.objects.filter(backtest=self.instance)
+        if qsPortfolio.exists():
+            qsPortfolio.delete()
 
         """
 
@@ -101,7 +99,6 @@ class PortfolioChecker(Portfolio):
                     break
 
                 if func_stop_loss(item) is True:
-
                     BackTestLog.objects.create(
                         backtest=self.instance,
                         symbol=self.symbol,
