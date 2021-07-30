@@ -23,9 +23,8 @@ def logic_entry(item, bot=False) -> bool:
         ema24 = taapi.ema(24, time_frame)
         ema100 = taapi.ema(100, time_frame)
 
-        print(ema9)
-        print(ema24)
-        print(ema100)
+        if ema9 or ema24 or ema100 is None:
+            exit(1)
 
         ratio_value = ema9 / ema24
         if 1 < ratio_value < ratio:
