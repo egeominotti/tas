@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'strategy',
     'csvexport',
     'dbbackup',
+    'django_extensions',
     'django_q',
 ]
 
@@ -64,7 +65,6 @@ LOGGING = {
         }
     }
 }
-
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',

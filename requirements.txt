@@ -36,3 +36,4 @@ hiredis
 pymongo
 iron-mq
 django-admin-csvexport
+django-extensions
