@@ -12,6 +12,7 @@ class PortfolioChecker(Portfolio):
 
     def __init__(
             self,
+            instance,
             func_stop_loss,
             func_take_profit,
             symbol,
@@ -22,7 +23,7 @@ class PortfolioChecker(Portfolio):
             take_profit
     ):
         super().__init__()
-
+        self.instance = instance
         self.symbol = symbol
         self.tf = time_frame,
         self.stop_loss = stop_loss
@@ -42,14 +43,14 @@ class PortfolioChecker(Portfolio):
         function_name_take_profit = func_stop_loss.__name__
         function_name_stop_loss = func_take_profit.__name__
 
-        # Erase db record
-        qsBacktest = BackTestLog.objects.filter(algorithm__exact=self.name_class)
-        if qsBacktest.exists():
-            qsBacktest.delete()
-
-        qsPortfolio = StatisticsPortfolio.objects.filter(algorithm__exact=self.name_class)
-        if qsPortfolio.exists():
-            qsPortfolio.delete()
+        # # Erase db record
+        # qsBacktest = BackTestLog.objects.filter(algorithm__exact=self.name_class)
+        # if qsBacktest.exists():
+        #     qsBacktest.delete()
+        #
+        # qsPortfolio = StatisticsPortfolio.objects.filter(algorithm__exact=self.name_class)
+        # if qsPortfolio.exists():
+        #     qsPortfolio.delete()
 
         """
 
@@ -58,12 +59,8 @@ class PortfolioChecker(Portfolio):
         :return: None
         """
 
-        counterTP = 0
-        counterSL = 0
-
         signals = self.signals
         computed_bars = compute_data(self.klines)
-
         computed_bars_dataframe = pandas.DataFrame.from_dict(computed_bars)
 
         for k, v in signals.items():
@@ -90,9 +87,8 @@ class PortfolioChecker(Portfolio):
                 }
 
                 if func_take_profit(item) is True:
-                    counterTP += 1
-
                     BackTestLog.objects.create(
+                        backtest=self.instance,
                         symbol=self.symbol,
                         time_frame=self.tf,
                         algorithm=self.name_class,
@@ -106,9 +102,9 @@ class PortfolioChecker(Portfolio):
                     break
 
                 if func_stop_loss(item) is True:
-                    counterSL += 1
 
                     BackTestLog.objects.create(
+                        backtest=self.instance,
                         symbol=self.symbol,
                         time_frame=self.tf,
                         algorithm=self.name_class,
@@ -121,57 +117,6 @@ class PortfolioChecker(Portfolio):
                     )
 
                     break
-
-        self.output(counterTP, counterSL, signals, function_name_take_profit, function_name_stop_loss)
-
-    def output(
-            self,
-            counterTP,
-            counterSL,
-            signals,
-            function_name_take_profit,
-            function_name_stop_loss
-
-    ) -> None:
-
-        ls = []
-        qs = BackTestLog.objects.filter(algorithm=self.name_class)
-        for i in qs: ls.append(i.profit_loss)
-
-        # print("-----------------------------------")
-        # print("SYMBOL: " + self.symbol)
-        # print("TIME FRAME: " + str(self.tf))
-        # print("ENTRY: " + str(len(signals)))
-        # print("TAKE PROFIT: " + str(counterTP))
-        # print("STOP LOSS: " + str(counterSL))
-
-        profit_ratio = 0
-        if counterTP > 0 and len(signals) > 0:
-            profit_ratio = counterTP / len(signals) * 100
-            # print("PROFIT RATIO: " + str(int(profit_ratio)) + "%")
-
-        loss_ratio = 0
-        if counterSL > 0 and len(signals) > 0:
-            loss_ratio = counterSL / len(signals) * 100
-            # print("LOSS RATIO: " + str(int(loss_ratio)) + "%")
-
-        profit_loss_percentage = round((sum(ls) * 100), 2)
-        #
-        # print("PROFIT LOSS PERCENTAGE: " + str(profit_loss_percentage) + "%")
-        # print("-----------------------------------")
-
-        StatisticsPortfolio.objects.create(
-            algorithm=str(self.name_class),
-            time_frame=self.tf,
-            entry=len(signals),
-            take_profit=int(counterTP),
-            stop_loss=int(counterSL),
-            profit_ratio=int(profit_ratio),
-            loss_ratio=loss_ratio,
-            profit_loss_percentage=profit_loss_percentage,
-            function_name_take_profit=function_name_take_profit,
-            function_name_stop_loss=function_name_stop_loss,
-        )
 
 
 class StrategyChecker(Strategy):
@@ -205,6 +150,7 @@ class StrategyChecker(Strategy):
 class Backtest:
 
     def __init__(self,
+                 instance,
                  first_period,
                  logic_entry,
                  logic_stoploss,
@@ -215,6 +161,7 @@ class Backtest:
                  stop_loss_value=0,
                  ratio_value=0
                  ):
+        self.instance = instance
         self.first_period = first_period
         self.logic_entry = logic_entry
         self.logic_stoploss = logic_stoploss
@@ -233,7 +180,8 @@ class Backtest:
         klines = client.get_historical_klines(self.symbol, self.tf, self.first_period, now)
 
         st = StrategyChecker(klines=klines, ratio=self.ratio_value)
-        PortfolioChecker(func_stop_loss=self.logic_stoploss,
+        PortfolioChecker(instance=self.instance,
+                         func_stop_loss=self.logic_stoploss,
                          func_take_profit=self.logic_takeprofit,
                          time_frame=self.tf,
                          symbol=self.symbol,

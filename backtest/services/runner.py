@@ -1,4 +1,5 @@
 from backtest.model.backtest import Backtest, BackTestLog
+from backtest.models import StatisticsPortfolio
 
 """
 Logic function
@@ -13,7 +14,9 @@ def get_backtesting_hook(task):
 
     if isinstance(task.result, dict):
 
-        # BackTest.objects.filter(id=task.result.get('id')).update(scheduled=True)
+        backtest_instance = BackTest.objects.get(id=task.result.get('id'))
+
+        BackTest.objects.filter(id=task.result.get('id')).update(scheduled=True)
         BackTest.objects.filter(id=task.result.get('id')).delete()
         qs = BackTestLog.objects.filter(time_frame=task.result.get('time_frame'), symbol=task.result.get('symbol'))
 
@@ -27,30 +30,29 @@ def get_backtesting_hook(task):
                                                       symbol=task.result.get('symbol'),
                                                       entry_candle_date__gt=k.entry_candle_date).first()
 
-                print(next_obj)
-                print(next_obj.entry_candle_date)
-
                 if k.candle_stop_loss_date is not None:
                     if next_obj.entry_candle_date < k.candle_stop_loss_date:
-                        print(k.candle_stop_loss_date)
-                        print(k.candle_take_profit_date)
-                        print(next_obj.entry_candle_date)
-                        print("elimino la successiva riga")
-                        print(k)
                         BackTestLog.objects.filter(time_frame=task.result.get('time_frame'),
                                                    symbol=task.result.get('symbol'),
                                                    entry_candle_date__exact=next_obj.entry_candle_date).delete()
 
                 if k.candle_take_profit_date is not None:
                     if next_obj.entry_candle_date < k.candle_take_profit_date:
-                        print(k.candle_stop_loss_date)
-                        print(k.candle_take_profit_date)
-                        print(next_obj.entry_candle_date)
-                        print("elimino la successiva riga")
-                        print(k)
                         BackTestLog.objects.filter(time_frame=task.result.get('time_frame'),
                                                    symbol=task.result.get('symbol'),
                                                    entry_candle_date__exact=next_obj.entry_candle_date).delete()
+
+        qs = BackTestLog.objects.filter(time_frame=task.result.get('time_frame'), symbol=task.result.get('symbol'))
+
+        StatisticsPortfolio.objects.create(
+            backtest= backtest_instance,
+            time_frame=task.result.get('time_frame'),
+            entry=len(qs),
+            #take_profit=int(counterTP),
+            #stop_loss=int(counterSL),
+            #profit_ratio=int(profit_ratio),
+            #loss_ratio=loss_ratio,
+        )
 
     if isinstance(task.result, bool):
         BackTest.objects.filter(id=task.result.get('id')).update(error=True)
@@ -59,6 +61,7 @@ def get_backtesting_hook(task):
 def backtesting(instance):
     if instance is not None:
         bt = Backtest(
+            instance=instance,
             first_period=instance.start_period.strftime("%d %b,%Y"),
             logic_entry=eval(instance.strategy.logic_entry.name),
             logic_stoploss=eval(instance.strategy.logic_stoploss.name),
