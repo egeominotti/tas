@@ -85,16 +85,16 @@ class TradingBot:
 
         while True:
 
-            try:
+            item = {
+                'stop_loss': self.stop_loss,
+                'take_profit': self.take_profit,
+                'open_position_value': open_position_value,
+                'symbol': self.symbol,
+                'time_frame': self.time_frame,
+                'ratio': self.ratio
+            }
 
-                item = {
-                    'stop_loss': self.stop_loss,
-                    'take_profit': self.take_profit,
-                    'open_position_value': open_position_value,
-                    'symbol': self.symbol,
-                    'time_frame': self.time_frame,
-                    'ratio': self.ratio
-                }
+            try:
 
                 """
                 Finche non viene trovata una entry utile continua ad eseguire
@@ -107,7 +107,6 @@ class TradingBot:
 
                     func_entry_value = self.func_entry(item=item, bot=True)
                     if isinstance(func_entry_value, float):
-
                         now = datetime.datetime.now()
                         emtry_text = "ENTRY: " + " candela: " + str(func_entry_value) + " time: " + str(now)
                         self.telegram.send(emtry_text)
@@ -132,7 +131,6 @@ class TradingBot:
 
                     value = self.func_stop_loss(item=item, bot=True)
                     if value is True:
-
                         stop_loss_text = "STOP LOSS: " + str(open_position_value * self.stop_loss)
                         self.telegram.send(stop_loss_text)
 
@@ -147,7 +145,6 @@ class TradingBot:
 
                     value = self.func_take_profit(item=item, bot=True)
                     if value is True:
-
                         take_profit_text = "TAKE_PROFIT: " + str(open_position_value * self.take_profit)
                         self.telegram.send(take_profit_text)
 

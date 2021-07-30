@@ -8,30 +8,33 @@ STRATEGY : 1
 """
 
 
-def logic_entry(item, bot=False) -> bool:
+def logic_entry(item, bot=False):
     if bot:
-        """
-        Casistica usata dal bot
-        """
-        time_frame = item['time_frame']
-        symbol = item['symbol']
-        ratio = item['ratio']
 
-        taapi = Taapi(symbol)
-        candle_close = taapi.candle(time_frame)
-        ema9 = taapi.ema(9, time_frame)
-        ema24 = taapi.ema(24, time_frame)
-        ema100 = taapi.ema(100, time_frame)
+        try:
+            """
+            Casistica usata dal bot
+            """
+            time_frame = item['time_frame']
+            symbol = item['symbol']
+            ratio = item['ratio']
 
-        if ema9 or ema24 or ema100 is None:
-            exit(1)
+            taapi = Taapi(symbol)
+            candle_close = taapi.candle(time_frame)
+            ema9 = taapi.ema(9, time_frame)
+            ema24 = taapi.ema(24, time_frame)
+            ema100 = taapi.ema(100, time_frame)
 
-        ratio_value = ema9 / ema24
-        if 1 < ratio_value < ratio:
-            if candle_close['close'] > ema100:
-                return candle_close
-        return False
+            if ema9 or ema24 or ema100 is None:
+                exit(1)
 
+            ratio_value = ema9 / ema24
+            if 1 < ratio_value < ratio:
+                if candle_close['close'] > ema100:
+                    return candle_close
+            return False
+        except Exception as e:
+            return e
     else:
         """
         Casistica usata dal backtesting
@@ -43,19 +46,22 @@ def logic_entry(item, bot=False) -> bool:
         return False
 
 
-def logic_stop_loss(item, bot=False) -> bool:
+def logic_stop_loss(item, bot=False):
     if bot:
-        """
-        Casistica usata dal bot
-        """
-        time_frame = item['time_frame']
-        symbol = item['symbol']
-        stop_loss = item['stop_loss']
-        taapi = Taapi(symbol)
-        candle_close = taapi.candle(time_frame)
-        if item['open_position_value'] < candle_close * stop_loss:
-            return True
-        return False
+        try:
+            """
+            Casistica usata dal bot
+            """
+            time_frame = item['time_frame']
+            symbol = item['symbol']
+            stop_loss = item['stop_loss']
+            taapi = Taapi(symbol)
+            candle_close = taapi.candle(time_frame)
+            if item['open_position_value'] < candle_close * stop_loss:
+                return True
+            return False
+        except Exception as e:
+            return e
     else:
         """
          Casistica usata dal backtesting
@@ -65,19 +71,22 @@ def logic_stop_loss(item, bot=False) -> bool:
         return False
 
 
-def logic_takeprofit(item, bot=False) -> bool:
+def logic_takeprofit(item, bot=False):
     if bot:
-        """
-        Casistica usata dal bot
-        """
-        time_frame = item['time_frame']
-        symbol = item['symbol']
-        take_profit = item['take_profit']
-        taapi = Taapi(symbol)
-        candle_close = taapi.candle(time_frame)
-        if item['open_position_value'] > candle_close * take_profit:
-            return True
-        return False
+        try:
+            """
+            Casistica usata dal bot
+            """
+            time_frame = item['time_frame']
+            symbol = item['symbol']
+            take_profit = item['take_profit']
+            taapi = Taapi(symbol)
+            candle_close = taapi.candle(time_frame)
+            if item['open_position_value'] > candle_close * take_profit:
+                return True
+            return False
+        except Exception as e:
+            return e
     else:
         """
          Casistica usata dal backtesting
