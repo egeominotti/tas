@@ -31,7 +31,7 @@ def get_backtesting_hook(task):
                 )
 
             if k.candle_take_profit_date is not None:
-                profit_percentage = (k.cande_take_profit - k.entry_candle) / k.entry_candle
+                profit_percentage = (k.candle_take_profit - k.entry_candle) / k.entry_candle
                 BackTestLog.objects.filter(id=k.id).update(
                     profit_percentage=profit_percentage
                 )
