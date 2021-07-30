@@ -46,6 +46,7 @@ def logic_entry(item, bot=False):
 
 def logic_stop_loss(item, bot=False):
     if bot:
+        print(item)
         try:
             """
             Casistica usata dal bot
@@ -66,13 +67,15 @@ def logic_stop_loss(item, bot=False):
         """
          Casistica usata dal backtesting
         """
-        if item['open_candle'] < item['close_candle'] * item['stop_loss']:
+        if item['close_candle'] * item['stop_loss'] <= item['open_candle']:
             return True
         return False
 
 
 def logic_takeprofit(item, bot=False):
     if bot:
+        print(item)
+
         try:
             """
             Casistica usata dal bot
@@ -92,7 +95,7 @@ def logic_takeprofit(item, bot=False):
         """
          Casistica usata dal backtesting
         """
-        if item['open_candle'] > item['close_candle'] * item['take_profit']:
+        if item['close_candle'] * item['take_profit'] >= item['open_candle']:
             return True
         return False
 
