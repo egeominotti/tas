@@ -69,7 +69,7 @@ class TradingBot:
     def start(self):
 
         self.bot_object.objects.filter(id=self.current_bot.id).update(execution=True)
-        self.logger.objects.create(bot=self.current_bot)
+        #self.logger.objects.create(bot=self.current_bot)
 
         now = datetime.datetime.now()
         start = "BOT started:" + "symbol: " + str(self.symbol) + " time frame: " + str(
@@ -148,6 +148,7 @@ class TradingBot:
                         self.logger.objects.create(
                             candle_take_profit=value,
                             candle_take_profit_date=now,
+                            stop_loss=True,
                             bot=self.current_bot
                         )
 
@@ -168,6 +169,7 @@ class TradingBot:
                         self.logger.objects.create(
                             candle_stop_loss=value,
                             candle_stop_loss_date=now,
+                            take_profit=True,
                             bot=self.current_bot
                         )
 

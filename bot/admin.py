@@ -20,7 +20,7 @@ class BotLoggerAdmin(admin.ModelAdmin):
     list_display = (
         'bot', 'created_at', 'entry_candle', 'entry_candle_date', 'take_profit', 'candle_take_profit',
         'candle_take_profit_date',
-        'stop_loss', 'candle_stop_loss', 'candle_stop_loss_date', 'bot')
+        'stop_loss', 'candle_stop_loss', 'candle_stop_loss_date')
     exclude = ['flgEnable', ]
 
     def has_delete_permission(self, request, obj=None):
