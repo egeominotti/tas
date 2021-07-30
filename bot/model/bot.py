@@ -41,6 +41,7 @@ class TradingBot:
         self.func_take_profit = func_take_profit
         self.logger = logger
         self.bot_object = bot_object
+        self.logger_id = None
 
         self.binance = None
         if self.current_bot.live:
@@ -69,7 +70,7 @@ class TradingBot:
     def start(self):
 
         self.bot_object.objects.filter(id=self.current_bot.id).update(execution=True)
-        # self.logger.objects.create(bot=self.current_bot)
+        self.logger_id = self.logger.objects.create(bot=self.current_bot)
 
         now = datetime.datetime.now()
         start = "BOT started:" + "symbol: " + str(self.symbol) + " time frame: " + str(
@@ -113,11 +114,15 @@ class TradingBot:
                         entry_text = "ENTRY: " + " candela: " + str(func_entry_value) + " time: " + str(now)
                         self.telegram.send(entry_text)
 
-                        self.logger.objects.create(
+                        self.logger.objects.filter(id=self.logger_id.id).update(
                             entry_candle=func_entry_value,
                             entry_candle_date=now,
-                            bot=self.current_bot
                         )
+                        # self.logger.objects.create(
+                        #     entry_candle=func_entry_value,
+                        #     entry_candle_date=now,
+                        #     bot=self.current_bot
+                        # )
 
                         if self.current_bot.live:
                             self.binance.buy()
@@ -148,12 +153,18 @@ class TradingBot:
                         stop_loss_text = "STOP LOSS: " + str(value * self.stop_loss)
                         self.telegram.send(stop_loss_text)
 
+                        # now = datetime.datetime.now()
+                        #  self.logger.objects.create(
+                        #      candle_take_profit=value,
+                        #      candle_take_profit_date=now,
+                        #      stop_loss=True,
+                        #    bot=self.current_bot
+                        # )
                         now = datetime.datetime.now()
-                        self.logger.objects.create(
+                        self.logger.objects.filter(id=self.logger_id.id).update(
                             candle_take_profit=value,
                             candle_take_profit_date=now,
                             stop_loss=True,
-                            bot=self.current_bot
                         )
 
                         if self.current_bot.live:
@@ -173,12 +184,19 @@ class TradingBot:
                         take_profit_text = "TAKE_PROFIT: " + str(value * self.take_profit)
                         self.telegram.send(take_profit_text)
 
+                        # now = datetime.datetime.now()
+                        # self.logger.objects.create(
+                        #     candle_stop_loss=value,
+                        #     candle_stop_loss_date=now,
+                        #     take_profit=True,
+                        #     bot=self.current_bot
+                        # )
+
                         now = datetime.datetime.now()
-                        self.logger.objects.create(
+                        self.logger.objects.filter(id=self.logger_id.id).update(
                             candle_stop_loss=value,
                             candle_stop_loss_date=now,
                             take_profit=True,
-                            bot=self.current_bot
                         )
 
                         if self.current_bot.live:

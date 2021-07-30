@@ -2,6 +2,9 @@ import json
 from dateutil.relativedelta import relativedelta
 from analytics.models import Importer
 from analytics.services.exchangeApi import Taapi
+import logging
+
+logger = logging.getLogger(__name__)
 
 """
 STRATEGY : 1
@@ -9,7 +12,6 @@ STRATEGY : 1
 
 
 def logic_entry(item, bot=False):
-
     if bot:
         try:
             """
@@ -32,6 +34,13 @@ def logic_entry(item, bot=False):
             print("ema 24: " + str(ema24))
             print("ema 100:" + str(ema100))
 
+            logger.info("Sono dentro logic entry")
+            logger.info("item passato a logic entry: " + item)
+            logger.info("ema9: " + str(ema9))
+            logger.info("ema 24: " + str(ema24))
+            logger.info("ema 100:" + str(ema100))
+            logger.info("ratio ema9/ema24:" + str(ema9 / ema24))
+
             ratio_value = ema9 / ema24
             if 1 < ratio_value < ratio:
                 if candle_close > ema100:
@@ -39,6 +48,7 @@ def logic_entry(item, bot=False):
             return False
 
         except Exception as e:
+            logger.exception("Exception logic entry: " + str(e))
             return e
     else:
         """
@@ -52,7 +62,6 @@ def logic_entry(item, bot=False):
 
 
 def logic_stop_loss(item, bot=False):
-
     if bot:
         try:
             """
@@ -76,6 +85,7 @@ def logic_stop_loss(item, bot=False):
             return False
 
         except Exception as e:
+            logger.exception("Exception logic stop loss: " + str(e))
             return e
     else:
         """
@@ -87,7 +97,6 @@ def logic_stop_loss(item, bot=False):
 
 
 def logic_takeprofit(item, bot=False):
-
     if bot:
         try:
             """
@@ -110,6 +119,7 @@ def logic_takeprofit(item, bot=False):
             return False
 
         except Exception as e:
+            logger.exception("Exception logic take profit: " + str(e))
             return e
     else:
         """

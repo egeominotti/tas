@@ -39,3 +39,4 @@ django-admin-csvexport
 django-extensions
 supervisor
 django-redis
+sentry-sdk
