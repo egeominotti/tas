@@ -77,6 +77,7 @@ def get_backtesting_hook(task):
             entry=len(qs),
             take_profit=counter_takeprofit,
             stop_loss=counter_stoploss,
+            initial_investment=backtest_instance.initial_investment,
             net_profit=net_profit,
             composite_value=composite_value
         )
