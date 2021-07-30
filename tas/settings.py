@@ -6,7 +6,7 @@ from sentry_sdk.integrations.django import DjangoIntegration
 
 # https://docs.sentry.io/platforms/python/guides/django/
 sentry_sdk.init(
-    dsn="https://602a007a26e74390a71da401e7ae0682@o936455.ingest.sentry.io/5886812",
+    dsn="https://93af08de894149c8a7b98eb9dc26cc43@o936455.ingest.sentry.io/5886814",
     integrations=[DjangoIntegration()],
 
     # Set traces_sample_rate to 1.0 to capture 100%
@@ -18,7 +18,6 @@ sentry_sdk.init(
     # django.contrib.auth) you may enable sending PII data.
     send_default_pii=True
 )
-
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 ENV = config('ENVIRONMENT')
