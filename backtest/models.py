@@ -47,5 +47,5 @@ class StatisticsPortfolio(CommonTrait):
     loss_ratio = models.IntegerField(default=0, blank=True)
     profit_loss_percentage = models.FloatField(default=0, blank=True)
     initial_investment = models.FloatField(default=0, blank=True)
-    net_profit = models.FloatField(default=0, blank=True)
+    current_wallet = models.FloatField(default=0, blank=True)
     composite_value = models.FloatField(default=0, blank=True)
