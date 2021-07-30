@@ -40,7 +40,6 @@ class PortfolioChecker(Portfolio):
             func_take_profit
     ) -> None:
 
-
         # # Erase db record
         qsBacktest = BackTestLog.objects.filter(backtest=self.instance)
         if qsBacktest.exists():
@@ -178,16 +177,20 @@ class Backtest:
         except Exception as e:
             exit(1)
 
-        st = StrategyChecker(klines=klines, ratio=self.ratio_value)
-        PortfolioChecker(instance=self.instance,
-                         func_stop_loss=self.logic_stoploss,
-                         func_take_profit=self.logic_takeprofit,
-                         time_frame=self.tf,
-                         symbol=self.symbol,
-                         klines=klines,
-                         signals=st.add_strategy(self.logic_entry),
-                         take_profit=self.take_profit_value,
-                         stop_loss=self.stop_loss_value
-                         )
         if len(klines) > 0:
+            st = StrategyChecker(klines=klines, ratio=self.ratio_value)
+            PortfolioChecker(instance=self.instance,
+                             func_stop_loss=self.logic_stoploss,
+                             func_take_profit=self.logic_takeprofit,
+                             time_frame=self.tf,
+                             symbol=self.symbol,
+                             klines=klines,
+                             signals=st.add_strategy(self.logic_entry),
+                             take_profit=self.take_profit_value,
+                             stop_loss=self.stop_loss_value
+                             )
+
             return True
+
+        if len(klines) == 0:
+            exit(1)
