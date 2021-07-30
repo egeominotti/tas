@@ -9,8 +9,8 @@ STRATEGY : 1
 
 
 def logic_entry(item, bot=False):
-    if bot:
 
+    if bot:
         try:
             """
             Casistica usata dal bot
@@ -52,8 +52,8 @@ def logic_entry(item, bot=False):
 
 
 def logic_stop_loss(item, bot=False):
-    if bot:
 
+    if bot:
         try:
             """
             Casistica usata dal bot
@@ -87,8 +87,8 @@ def logic_stop_loss(item, bot=False):
 
 
 def logic_takeprofit(item, bot=False):
-    if bot:
 
+    if bot:
         try:
             """
             Casistica usata dal bot
