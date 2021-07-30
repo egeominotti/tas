@@ -108,7 +108,8 @@ class TradingBot:
                     func_entry_value = self.func_entry(item=item, bot=True)
 
                     if isinstance(func_entry_value, Exception):
-                        break
+                        error = "ERROR" + str(func_entry_value)
+                        self.telegram.send(error)
 
                     if isinstance(func_entry_value, float):
                         now = datetime.datetime.now()
@@ -136,6 +137,8 @@ class TradingBot:
                     value = self.func_stop_loss(item=item, bot=True)
 
                     if isinstance(value, Exception):
+                        error = "ERROR" + str(value)
+                        self.telegram.send(error)
                         break
 
                     if value is True:
@@ -154,6 +157,8 @@ class TradingBot:
                     value = self.func_take_profit(item=item, bot=True)
 
                     if isinstance(value, Exception):
+                        error = "ERROR" + str(value)
+                        self.telegram.send(error)
                         break
 
                     if value is True:
