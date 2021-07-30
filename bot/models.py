@@ -12,6 +12,7 @@ BOT_STATUS = (
 
 
 class BotLogger(CommonTrait):
+    bot = models.ForeignKey('Bot', on_delete=models.CASCADE, null=False, blank=False)
     entry_candle = models.FloatField(default=0, blank=True)
     stop_loss = models.BooleanField(default=False, blank=True)
     take_profit = models.BooleanField(default=False, blank=True)
@@ -20,7 +21,10 @@ class BotLogger(CommonTrait):
     entry_candle_date = models.DateTimeField(blank=True, null=True)
     candle_stop_loss_date = models.DateTimeField(blank=True, null=True)
     candle_take_profit_date = models.DateTimeField(blank=True, null=True)
-    bot = models.ForeignKey('Bot', on_delete=models.SET_NULL, null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'BotLogger'
+        verbose_name_plural = 'BotLogger'
 
     def __str__(self):
         if self.bot is not None:
@@ -36,6 +40,10 @@ class Bot(CommonTrait):
     binance_account = models.ForeignKey(BinanceAccount, on_delete=models.SET_NULL, null=True, blank=True)
     strategy = models.ForeignKey(Strategy, on_delete=models.CASCADE, null=False, blank=False)
     execution = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = 'Bot'
+        verbose_name_plural = 'Bot'
 
     def __str__(self):
         if self.name is not None:

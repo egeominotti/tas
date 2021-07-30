@@ -18,13 +18,13 @@ class BotLoggerAdmin(admin.ModelAdmin):
     list_per_page = 20
     ordering = ('id',)
     list_display = (
-        'id', 'created_at', 'entry_candle', 'entry_candle_date', 'take_profit', 'candle_take_profit',
+        'bot', 'created_at', 'entry_candle', 'entry_candle_date', 'take_profit', 'candle_take_profit',
         'candle_take_profit_date',
         'stop_loss', 'candle_stop_loss', 'candle_stop_loss_date', 'bot')
     exclude = ['flgEnable', ]
 
     def has_delete_permission(self, request, obj=None):
-        return False
+        return True
 
     def has_change_permission(self, request, obj=None):
         return False

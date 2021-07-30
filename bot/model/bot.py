@@ -124,24 +124,23 @@ class TradingBot:
                     if self.stop():
                         break
                     sleep(sleep_time_position)
+                    if self.stop():
+                        break
 
                 """
                 Se viene aperta una posizione allora verifica le condizioni stoploss e takeprofit
                 """
                 if position is True:
-
-                    if self.stop():
-                        break
-                    sleep(sleep_time_profit_or_loss)
-
+                    print("Provo a cercare una take profit o stop loss")
                     value = self.func_stop_loss(item=item, bot=True)
 
+                    print("STOP LOSS: " +  value)
                     if isinstance(value, Exception):
                         error = "ERROR" + str(value)
                         self.telegram.send(error)
                         break
 
-                    if value is True:
+                    if isinstance(value, bool):
                         stop_loss_text = "STOP LOSS: " + str(open_position_value * self.stop_loss)
                         self.telegram.send(stop_loss_text)
 
@@ -161,7 +160,7 @@ class TradingBot:
                         self.telegram.send(error)
                         break
 
-                    if value is True:
+                    if isinstance(value, bool):
                         take_profit_text = "TAKE_PROFIT: " + str(open_position_value * self.take_profit)
                         self.telegram.send(take_profit_text)
 
@@ -173,6 +172,14 @@ class TradingBot:
                         )
 
                         position = False
+
+                    if self.stop():
+                        break
+                    sleep(sleep_time_profit_or_loss)
+                    if self.stop():
+                        break
+
+
 
             except Exception as e:
                 self.bot_object.objects.filter(id=self.current_bot.id).update(status='STOP')

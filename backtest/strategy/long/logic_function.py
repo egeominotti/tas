@@ -25,7 +25,6 @@ def logic_entry(item, bot=False):
             ema24 = taapi.ema(24, time_frame)
             ema100 = taapi.ema(100, time_frame)
 
-
             ratio_value = ema9 / ema24
             if candle_close['close'] > ema100:
                 return candle_close['close']
@@ -55,7 +54,8 @@ def logic_stop_loss(item, bot=False):
             stop_loss = item['stop_loss']
             taapi = Taapi(symbol)
             candle_close = taapi.candle(time_frame)
-            if item['open_position_value'] < candle_close * stop_loss:
+
+            if candle_close * stop_loss <= item['open_position_value']:
                 return True
             return False
 
@@ -81,7 +81,8 @@ def logic_takeprofit(item, bot=False):
             take_profit = item['take_profit']
             taapi = Taapi(symbol)
             candle_close = taapi.candle(time_frame)
-            if item['open_position_value'] > candle_close * take_profit:
+
+            if candle_close * take_profit >= item['open_position_value']:
                 return True
             return False
         except Exception as e:
