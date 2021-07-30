@@ -1,6 +1,5 @@
-FROM python:3.9.6-slim-buster
+FROM python:3.9.6
 
-# set env variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
