@@ -10,9 +10,10 @@ from backtest.strategy.short.logic_function import *
 
 def get_backtesting_hook(task):
     from backtest.models import BackTest
-    
+
     if isinstance(task.result, dict):
-        BackTest.objects.filter(id=task.result.get('id')).update(scheduled=True)
+        # BackTest.objects.filter(id=task.result.get('id')).update(scheduled=True)
+        BackTest.objects.filter(id=task.result.get('id')).delete()
 
     if isinstance(task.result, bool):
         BackTest.objects.filter(id=task.result.get('id')).update(error=True)
