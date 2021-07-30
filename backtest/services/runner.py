@@ -17,22 +17,27 @@ def get_backtesting_hook(task):
         BackTest.objects.filter(id=task.result.get('id')).delete()
         qs = BackTestLog.objects.filter(time_frame=task.result.get('time_frame'), symbol=task.result.get('symbol'))
 
-        lenlist = len(qs)
-        index = 0
         for k in qs:
-            index += 1
-            if index < lenlist - 1:
+
+            if BackTestLog.objects.filter(time_frame=task.result.get('time_frame'),
+                                          symbol=task.result.get('symbol'),
+                                          entry_candle_date__gt=k.entry_candle_date).exists():
 
                 next_obj = BackTestLog.objects.filter(time_frame=task.result.get('time_frame'),
                                                       symbol=task.result.get('symbol'),
                                                       entry_candle_date__gt=k.entry_candle_date).first()
 
-                if k.candle_stop_loss_date < next_obj.entry_candle_date or k.candle_take_profit_date < next_obj.entry_candle_date:
-                    print("elimino la successiva riga")
-                    print(k)
-                    BackTestLog.objects.filter(time_frame=task.result.get('time_frame'),
-                                               symbol=task.result.get('symbol'),
-                                               entry_candle_date__exact=next_obj.entry_candle_date).delete()
+                print(next_obj)
+                print(next_obj.entry_candle_date)
+
+                if k.candle_stop_loss_date is not None and k.candle_take_profit_date is not None:
+
+                    if k.candle_stop_loss_date < next_obj.entry_candle_date or k.candle_take_profit_date < next_obj.entry_candle_date:
+                        print("elimino la successiva riga")
+                        print(k)
+                        BackTestLog.objects.filter(time_frame=task.result.get('time_frame'),
+                                                   symbol=task.result.get('symbol'),
+                                                   entry_candle_date__exact=next_obj.entry_candle_date).delete()
 
     if isinstance(task.result, bool):
         BackTest.objects.filter(id=task.result.get('id')).update(error=True)
