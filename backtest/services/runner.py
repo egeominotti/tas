@@ -99,7 +99,7 @@ def get_backtesting_hook(task):
             stop_loss=counter_stoploss,
             initial_investment=backtest_instance.initial_investment,
             net_profit=total * initial_investment,
-            composite_value=0
+            composite_value=total
         )
 
     if isinstance(task.result, bool):
