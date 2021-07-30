@@ -126,7 +126,7 @@ if 'dev' in ENV:
     Q_CLUSTER = {
         'name': 'tas',
         'workers': 16,
-        'recycle': 500,
+        'recycle': 1000,
         'timeout': None,
         'compress': True,
         'save_limit': 250,
@@ -144,7 +144,7 @@ else:
     Q_CLUSTER = {
         'name': 'tas',
         'workers': 2,
-        'recycle': 500,
+        'recycle': 1000,
         'timeout': None,
         'compress': True,
         'save_limit': 250,
