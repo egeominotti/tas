@@ -69,7 +69,7 @@ class TradingBot:
     def start(self):
 
         self.bot_object.objects.filter(id=self.current_bot.id).update(execution=True)
-        #self.logger.objects.create(bot=self.current_bot)
+        # self.logger.objects.create(bot=self.current_bot)
 
         now = datetime.datetime.now()
         start = "BOT started:" + "symbol: " + str(self.symbol) + " time frame: " + str(
@@ -119,6 +119,9 @@ class TradingBot:
                             bot=self.current_bot
                         )
 
+                        if self.current_bot.live:
+                            self.binance.buy()
+
                         open_position_value = func_entry_value
                         position = True
 
@@ -153,6 +156,9 @@ class TradingBot:
                             bot=self.current_bot
                         )
 
+                        if self.current_bot.live:
+                            self.binance.sell()
+
                         position = False
 
                     value = self.func_take_profit(item=item, bot=True)
@@ -163,6 +169,7 @@ class TradingBot:
                         break
 
                     if isinstance(value, float):
+
                         take_profit_text = "TAKE_PROFIT: " + str(value * self.take_profit)
                         self.telegram.send(take_profit_text)
 
@@ -173,6 +180,9 @@ class TradingBot:
                             take_profit=True,
                             bot=self.current_bot
                         )
+
+                        if self.current_bot.live:
+                            self.binance.sell()
 
                         position = False
 
