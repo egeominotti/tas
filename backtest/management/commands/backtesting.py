@@ -15,7 +15,7 @@ class Command(BaseCommand):
         RATIO = 1.00005
         TAKE_PROFIT = 1.021
         STOP_LOSS = 0.9845
-        time_frame = '1d'
+        time_frame = '5m'
 
         bt = Backtest(
             first_period='17 Aug, 2017',

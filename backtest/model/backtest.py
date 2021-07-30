@@ -84,6 +84,7 @@ class PortfolioChecker(Portfolio):
                     'time_frame': self.tf,
                     'symbol': self.symbol,
                     'stop_loss': self.stop_loss,
+                    'take_profit': self.take_profit,
                     'open_candle': entry_candle,
                     'close_candle': current_candle
                 }
