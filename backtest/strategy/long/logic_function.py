@@ -35,7 +35,7 @@ def logic_entry(item, bot=False):
             print("ema 100:" + str(ema100))
 
             logger.info("Sono dentro logic entry")
-            logger.info("item passato a logic entry: " + item)
+            logger.info("item passato a logic entry: " + str(item))
             logger.info("ema9: " + str(ema9))
             logger.info("ema 24: " + str(ema24))
             logger.info("ema 100:" + str(ema100))

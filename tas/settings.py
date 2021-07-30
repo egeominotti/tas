@@ -6,7 +6,7 @@ from sentry_sdk.integrations.django import DjangoIntegration
 
 # https://docs.sentry.io/platforms/python/guides/django/
 sentry_sdk.init(
-    dsn="https://93af08de894149c8a7b98eb9dc26cc43@o936455.ingest.sentry.io/5886814",
+    dsn="https://ce5d2c2138fc4cd4b8d1c04c5fa91982@o936455.ingest.sentry.io/5886823",
     integrations=[DjangoIntegration()],
 
     # Set traces_sample_rate to 1.0 to capture 100%
@@ -18,6 +18,11 @@ sentry_sdk.init(
     # django.contrib.auth) you may enable sending PII data.
     send_default_pii=True
 )
+
+# RAVEN_CONFIG = {
+#     'dsn': 'https://ce5d2c2138fc4cd4b8d1c04c5fa91982@o936455.ingest.sentry.io/5886823',
+# }
+
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 ENV = config('ENVIRONMENT')
@@ -48,6 +53,7 @@ INSTALLED_APPS = [
     'dbbackup',
     'django_extensions',
     'django_q',
+    'raven.contrib.django.raven_compat',
 ]
 
 DBBACKUP_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
@@ -58,29 +64,47 @@ DBBACKUP_STORAGE_OPTIONS = {
     'bucket_name': 'tastradingsystem'
 }
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        },
-    },
-    'handlers': {
-        'log_to_stdout': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple',
-        },
-    },
-    'loggers': {
-        'main': {
-            'handlers': ['log_to_stdout'],
-            'level': 'DEBUG',
-            'propagate': True,
-        }
-    }
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': True,
+#     'root': {
+#         'level': 'DEBUG',
+#         'handlers': ['sentry'],
+#     },
+#     'formatters': {
+#         'verbose': {
+#             'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+#         },
+#     },
+#     'handlers': {
+#         'sentry': {
+#             'level': 'DEBUG',
+#             'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+#         },
+#         'console': {
+#             'level': 'DEBUG',
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'verbose'
+#         }
+#     },
+#     'loggers': {
+#         'django.db.backends': {
+#             'level': 'ERROR',
+#             'handlers': ['console'],
+#             'propagate': False,
+#         },
+#         'raven': {
+#             'level': 'DEBUG',
+#             'handlers': ['console'],
+#             'propagate': False,
+#         },
+#         'sentry.errors': {
+#             'level': 'DEBUG',
+#             'handlers': ['console'],
+#             'propagate': False,
+#         },
+#     },
+# }
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',

@@ -40,3 +40,4 @@ django-extensions
 supervisor
 django-redis
 sentry-sdk
+raven
