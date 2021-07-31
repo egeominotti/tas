@@ -23,9 +23,9 @@ def logic_entry(item, bot=False):
 
             taapi = Taapi(symbol)
             candle_close = taapi.candle(time_frame).get('close')
-            ema9 = taapi.ema(9, time_frame)
+            ema12 = taapi.ema(9, time_frame)
             ema24 = taapi.ema(24, time_frame)
-            ema100 = taapi.ema(100, time_frame)
+            ema189 = taapi.ema(100, time_frame)
 
             print("sono dentro logic_entry")
             print(item)
@@ -36,13 +36,13 @@ def logic_entry(item, bot=False):
 
             logger.info("Sono dentro logic entry")
             logger.info("item passato a logic entry: " + str(item))
-            logger.info("ema9: " + str(ema9))
+            logger.info("ema9: " + str(ema12))
             logger.info("ema 24: " + str(ema24))
-            logger.info("ema 100:" + str(ema100))
-            logger.info("ratio ema9/ema24:" + str(ema9 / ema24))
+            logger.info("ema 100:" + str(ema189))
+            logger.info("ratio ema9/ema24:" + str(ema12 / ema24))
 
-            ratio_value= ema12 / ema24
-            if 1 < ratio_value < item['ratio']:
+            ratio_value = ema12 / ema24
+            if 1 < ratio_value < ratio:
                 if item['close'] > item['ema189']:
                     return candle_close
 
