@@ -30,9 +30,9 @@ def logic_entry(item, bot=False):
             print("sono dentro logic_entry")
             print(item)
             print("candle close:" + str(candle_close))
-            print("ema9: " + str(ema9))
+            print("ema12: " + str(ema12))
             print("ema 24: " + str(ema24))
-            print("ema 100:" + str(ema100))
+            print("ema 189:" + str(ema189))
 
             logger.info("Sono dentro logic entry")
             logger.info("item passato a logic entry: " + str(item))
@@ -41,9 +41,10 @@ def logic_entry(item, bot=False):
             logger.info("ema 100:" + str(ema100))
             logger.info("ratio ema9/ema24:" + str(ema9 / ema24))
 
-            #ratio_value = ema9 / ema24
-            #if candle_close > ema100:
-            return candle_close
+            ratio_value= ema12 / ema24
+            if 1 < ratio_value < item['ratio']:
+                if item['close'] > item['ema189']:
+                    return candle_close
 
         except Exception as e:
             logger.exception("Exception logic entry: " + str(e))

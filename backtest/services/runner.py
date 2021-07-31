@@ -27,14 +27,14 @@ def get_backtesting_hook(task):
         for k in qs:
 
             if k.candle_stop_loss_date is not None:
-                loss_percentage = (k.entry_candle - k.candle_stop_loss) / k.entry_candle
+                loss_percentage = (k.candle_stop_loss - k.entry_candle) / k.entry_candle
                 sum_loss += loss_percentage
                 BackTestLog.objects.filter(id=k.id).update(
                     loss_percentage=loss_percentage * 100
                 )
 
             if k.candle_take_profit_date is not None:
-                profit_percentage = (k.entry_candle - k.candle_take_profit) / k.entry_candle
+                profit_percentage = (k.candle_take_profit - k.entry_candle) / k.entry_candle
                 sum_takeprofit += profit_percentage
                 BackTestLog.objects.filter(id=k.id).update(
                     profit_percentage=profit_percentage * 100
@@ -91,7 +91,7 @@ def get_backtesting_hook(task):
         initial_investment = backtest_instance.initial_investment
         total = sum_takeprofit - sum_loss
 
-        sd = initial_investment - (total * initial_investment)
+        sd = initial_investment + (total * initial_investment)
 
         StatisticsPortfolio.objects.create(
             backtest=backtest_instance,
@@ -101,7 +101,7 @@ def get_backtesting_hook(task):
             stop_loss=counter_stoploss,
             initial_investment=backtest_instance.initial_investment,
             current_wallet=sd,
-            composite_value=total * initial_investment
+            composite_value=sd - initial_investment
         )
 
     if isinstance(task.result, bool):
