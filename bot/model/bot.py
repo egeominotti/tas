@@ -55,9 +55,6 @@ class TradingBot:
 
     def stop(self):
 
-        # if not self.bot_object.objects.filter(id=self.current_bot.id).exists():
-        #     return True
-
         status = self.bot_object.objects.get(id=self.current_bot.id).status
         if status == 'STOP':
             now = datetime.datetime.now()
@@ -97,10 +94,22 @@ class TradingBot:
 
             try:
 
+                if self.stop():
+                    break
+                sleep(sleep_time_position)
+                if self.stop():
+                    break
+
                 """
                 Finche non viene trovata una entry utile continua ad eseguire
                 """
                 if position is False:
+
+                    if self.stop():
+                        break
+                    sleep(sleep_time_profit_or_loss)
+                    if self.stop():
+                        break
 
                     func_entry_value = self.func_entry(item=item, bot=True)
                     if isinstance(func_entry_value, Exception):
@@ -117,6 +126,7 @@ class TradingBot:
                             entry_candle=func_entry_value,
                             entry_candle_date=now,
                         )
+
                         # self.logger.objects.create(
                         #     entry_candle=func_entry_value,
                         #     entry_candle_date=now,
@@ -129,11 +139,7 @@ class TradingBot:
                         open_position_value = func_entry_value
                         position = True
 
-                    if self.stop():
-                        break
-                    sleep(sleep_time_position)
-                    if self.stop():
-                        break
+
 
                 """
                 Se viene aperta una posizione allora verifica le condizioni stoploss e takeprofit
@@ -147,7 +153,7 @@ class TradingBot:
                         self.telegram.send(error)
                         break
 
-                    if isinstance(value, bool):
+                    if isinstance(value, float):
 
                         stop_loss_text = "STOP LOSS: " + str(value * self.stop_loss)
                         self.telegram.send(stop_loss_text)
@@ -177,7 +183,7 @@ class TradingBot:
                         self.telegram.send(error)
                         break
 
-                    if isinstance(value, bool):
+                    if isinstance(value, float):
 
                         take_profit_text = "TAKE_PROFIT: " + str(value * self.take_profit)
                         self.telegram.send(take_profit_text)

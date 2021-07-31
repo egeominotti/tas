@@ -41,10 +41,9 @@ def logic_entry(item, bot=False):
             logger.info("ema 100:" + str(ema100))
             logger.info("ratio ema9/ema24:" + str(ema9 / ema24))
 
-            ratio_value = ema9 / ema24
-            if candle_close > ema100:
-                return candle_close
-            return False
+            #ratio_value = ema9 / ema24
+            #if candle_close > ema100:
+            return candle_close
 
         except Exception as e:
             logger.exception("Exception logic entry: " + str(e))
