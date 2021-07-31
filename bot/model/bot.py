@@ -103,7 +103,6 @@ class TradingBot:
                 if position is False:
 
                     func_entry_value = self.func_entry(item=item, bot=True)
-
                     if isinstance(func_entry_value, Exception):
                         error = "ERROR" + str(func_entry_value)
                         self.telegram.send(error)
@@ -124,8 +123,8 @@ class TradingBot:
                         #     bot=self.current_bot
                         # )
 
-                        if self.current_bot.live:
-                            self.binance.buy()
+                        # if self.current_bot.live:
+                        #     self.binance.buy()
 
                         open_position_value = func_entry_value
                         position = True
@@ -148,7 +147,7 @@ class TradingBot:
                         self.telegram.send(error)
                         break
 
-                    if isinstance(value, float):
+                    if isinstance(value, bool):
 
                         stop_loss_text = "STOP LOSS: " + str(value * self.stop_loss)
                         self.telegram.send(stop_loss_text)
@@ -166,20 +165,19 @@ class TradingBot:
                             candle_take_profit_date=now,
                             stop_loss=True,
                         )
-
-                        if self.current_bot.live:
-                            self.binance.sell()
+                        #
+                        # if self.current_bot.live:
+                        #     self.binance.sell()
 
                         position = False
 
                     value = self.func_take_profit(item=item, bot=True)
-
                     if isinstance(value, Exception):
                         error = "ERROR" + str(value)
                         self.telegram.send(error)
                         break
 
-                    if isinstance(value, float):
+                    if isinstance(value, bool):
 
                         take_profit_text = "TAKE_PROFIT: " + str(value * self.take_profit)
                         self.telegram.send(take_profit_text)
@@ -209,8 +207,6 @@ class TradingBot:
                     sleep(sleep_time_profit_or_loss)
                     if self.stop():
                         break
-
-
 
             except Exception as e:
                 self.bot_object.objects.filter(id=self.current_bot.id).update(status='STOP')

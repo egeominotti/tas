@@ -42,9 +42,8 @@ def logic_entry(item, bot=False):
             logger.info("ratio ema9/ema24:" + str(ema9 / ema24))
 
             ratio_value = ema9 / ema24
-            if 1 < ratio_value < ratio:
-                if candle_close > ema100:
-                    return candle_close
+            if candle_close > ema100:
+                return candle_close
             return False
 
         except Exception as e:
@@ -79,6 +78,8 @@ def logic_stop_loss(item, bot=False):
             print(symbol)
             print(candle_close)
 
+            print(item['open_position_value'] * stop_loss)
+            print(candle_close <= item['open_position_value'] * stop_loss)
             if candle_close <= item['open_position_value'] * stop_loss:
                 return candle_close
 
@@ -87,6 +88,7 @@ def logic_stop_loss(item, bot=False):
         except Exception as e:
             logger.exception("Exception logic stop loss: " + str(e))
             return e
+
     else:
         """
          Casistica usata dal backtesting
@@ -125,6 +127,8 @@ def logic_takeprofit(item, bot=False):
         """
          Casistica usata dal backtesting
         """
+        print(item['close_candle'] >= item['open_candle'] * item['take_profit'])
+        print(item['open_candle'] * item['take_profit'])
         if item['close_candle'] >= item['open_candle'] * item['take_profit']:
             return True
         return False
