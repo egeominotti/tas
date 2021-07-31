@@ -24,9 +24,9 @@ def logic_entry(item, bot=False):
 
             taapi = Taapi(symbol)
             candle_close = taapi.candle(time_frame).get('close')
-            ema12 = taapi.ema(9, time_frame)
+            ema12 = taapi.ema(12, time_frame)
             ema24 = taapi.ema(24, time_frame)
-            ema189 = taapi.ema(100, time_frame)
+            ema189 = taapi.ema(189, time_frame)
 
             print("sono dentro logic_entry")
             print(item)
