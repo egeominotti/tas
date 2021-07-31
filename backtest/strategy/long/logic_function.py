@@ -28,19 +28,19 @@ def logic_entry(item, bot=False):
             ema24 = taapi.ema(24, time_frame)
             ema189 = taapi.ema(189, time_frame)
 
-            print("sono dentro logic_entry")
-            print(item)
-            print("candle close:" + str(candle_close))
-            print("ema12: " + str(ema12))
-            print("ema 24: " + str(ema24))
-            print("ema 189:" + str(ema189))
-
-            logger.info("Sono dentro logic entry")
-            logger.info("item passato a logic entry: " + str(item))
-            logger.info("ema9: " + str(ema12))
-            logger.info("ema 24: " + str(ema24))
-            logger.info("ema 100:" + str(ema189))
-            logger.info("ratio ema9/ema24:" + str(ema12 / ema24))
+            # print("sono dentro logic_entry")
+            # print(item)
+            # print("candle close:" + str(candle_close))
+            # print("ema12: " + str(ema12))
+            # print("ema 24: " + str(ema24))
+            # print("ema 189:" + str(ema189))
+            #
+            # logger.info("Sono dentro logic entry")
+            # logger.info("item passato a logic entry: " + str(item))
+            # logger.info("ema9: " + str(ema12))
+            # logger.info("ema 24: " + str(ema24))
+            # logger.info("ema 100:" + str(ema189))
+            # logger.info("ratio ema9/ema24:" + str(ema12 / ema24))
 
             ratio_value = ema12 / ema24
             if 1 < ratio_value < ratio:
@@ -73,14 +73,15 @@ def logic_stop_loss(item, bot=False):
             taapi = Taapi(symbol)
             candle_close = taapi.candle(time_frame).get('close')
 
-            print("sono dentro logic_stop_loss")
-            print(item)
-            print(candle_close)
-            print(symbol)
-            print(candle_close)
+            # print("sono dentro logic_stop_loss")
+            # print(item)
+            # print(candle_close)
+            # print(symbol)
+            # print(candle_close)
+            #
+            # print(item['open_position_value'] * stop_loss)
+            # print(candle_close <= item['open_position_value'] * stop_loss)
 
-            print(item['open_position_value'] * stop_loss)
-            print(candle_close <= item['open_position_value'] * stop_loss)
             if candle_close <= item['open_position_value'] * stop_loss:
                 return candle_close
 
@@ -111,10 +112,10 @@ def logic_takeprofit(item, bot=False):
             taapi = Taapi(symbol)
             candle_close = taapi.candle(time_frame).get('close')
 
-            print("sono dentro logic_takeprofit")
-            print(item)
-            print(symbol)
-            print(candle_close)
+            # print("sono dentro logic_takeprofit")
+            # print(item)
+            # print(symbol)
+            # print(candle_close)
 
             if candle_close >= item['open_position_value'] * take_profit:
                 return candle_close
