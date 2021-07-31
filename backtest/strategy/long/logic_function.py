@@ -7,7 +7,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 """
-STRATEGY : 1
+STRATEGY : EMA 12 24 189 288 MA20_RSI
+
 """
 
 
@@ -43,7 +44,7 @@ def logic_entry(item, bot=False):
 
             ratio_value = ema12 / ema24
             if 1 < ratio_value < ratio:
-                if item['close'] > item['ema189']:
+                if candle_close > ema189:
                     return candle_close
 
         except Exception as e:
@@ -53,9 +54,9 @@ def logic_entry(item, bot=False):
         """
         Casistica usata dal backtesting
         """
-        ratio_value = item['ema9'] / item['ema24']
+        ratio_value = item['ema12'] / item['ema24']
         if 1 < ratio_value < item['ratio']:
-            if item['close'] > item['ema100']:
+            if item['close'] > item['ema189']:
                 return True
         return False
 
