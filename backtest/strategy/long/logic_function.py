@@ -182,6 +182,8 @@ def logic_entry_ema8_13_21_34(item, bot=False):
         now_prev = None
         now = item['timestamp']
 
+        print("timestamp item:" + str(item['timestamp']))
+
         if item['time_frame'] == '1m':
             now_prev = item['timestamp'] - relativedelta(minutes=1)
         if item['time_frame'] == '5m':
@@ -209,14 +211,16 @@ def logic_entry_ema8_13_21_34(item, bot=False):
         if item['time_frame'] == '1M':
             now_prev = item['timestamp'] - relativedelta(months=1)
 
-        print(now_prev)
-        qs = Importer.objects.filter(symbol=item['symbol'], tf=item['time_frame'], timestamp__range=[now_prev, now]).last()
-        print(qs.timestamp)
+        prev_item = Importer.objects.filter(symbol=item['symbol'], tf=item['time_frame'],
+                                            timestamp__range=[now_prev, now]).first()
+
+        print(item)
+        print(prev_item)
         sleep(5)
         if item['ema8'] < item['ema13'] < item['ema21'] < item['ema34']:
-            # if 1 < ratio_value < item['ratio']:
-            #    if item['close'] > item['ema189']:
-            return True
+            if prev_item['high'] >= prev_item['ema8']:
+                if item['close'] < prev_item['open']:
+                    return True
         return False
 
 
