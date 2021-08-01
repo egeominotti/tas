@@ -9,6 +9,7 @@ from analytics.services.exchangeApi import Taapi
 import logging
 import inspect
 from backtest.services.util import find_prev_candle
+
 logger = logging.getLogger(__name__)
 
 """
@@ -179,7 +180,7 @@ def logic_entry_ema8_13_21_34(item, bot=False):
         """
         Casistica usata dal backtesting
         """
-        prev_item = find_prev_candle(item)
+        prev_item = find_prev_candle(item, 1)
         print(item)
         print(prev_item)
         sleep(5)

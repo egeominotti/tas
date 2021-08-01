@@ -3,7 +3,14 @@ from dateutil.relativedelta import relativedelta
 from analytics.models import Importer
 
 
-def find_prev_candle(item, backtrack=1):
+def find_prev_candle(item, backtrack):
+
+    """
+    :param item:
+    :param backtrack:
+    :return: Return value of past candle choosed from backtrack
+    """
+
     now_prev = None
     now = item['timestamp']
 
