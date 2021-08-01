@@ -1,4 +1,7 @@
 from time import sleep
+
+import json
+
 from analytics.services.exchangeApi import Taapi
 import logging
 from backtest.services.util import find_prev_candle
@@ -40,12 +43,11 @@ def logic_entry_ema8_13_21_34(item, bot=False):
         Casistica usata dal backtesting
         """
         prev_item = find_prev_candle(item, 1)
-        print(item)
-        print(prev_item)
-        sleep(5)
+        prev_indicators = json.loads(prev_item.indicators)
+
         if item['ema8'] < item['ema13'] < item['ema21'] < item['ema34']:
-            if prev_item['high'] >= prev_item['ema8']:
-                if item['close'] < prev_item['open']:
+            if prev_item.high >= prev_indicators['ema8']:
+                if item['close'] < prev_item.open:
                     return True
         return False
 
