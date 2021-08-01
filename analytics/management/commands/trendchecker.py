@@ -38,6 +38,42 @@ def save(klines_computed, symbol, time_frame):
         response = json.loads(req.content)
         print(response)
 
+    if time_frame.time_frame == '15m':
+        print(time_frame.time_frame)
+        req = requests.get('https://fapi.bybt.com/api/futures/longShortChart?symbol=' + symbol.symbol + '&timeType=10')
+        response = json.loads(req.content)
+        print(response)
+
+    if time_frame.time_frame == '15m':
+        print(time_frame.time_frame)
+        req = requests.get('https://fapi.bybt.com/api/futures/longShortChart?symbol=' + symbol.symbol + '&timeType=11')
+        response = json.loads(req.content)
+        print(response)
+
+    if time_frame.time_frame == '1h':
+        print(time_frame.time_frame)
+        req = requests.get('https://fapi.bybt.com/api/futures/longShortChart?symbol=' + symbol.symbol + '&timeType=2')
+        response = json.loads(req.content)
+        print(response)
+
+    if time_frame.time_frame == '4h':
+        print(time_frame.time_frame)
+        req = requests.get('https://fapi.bybt.com/api/futures/longShortChart?symbol=' + symbol.symbol + '&timeType=1')
+        response = json.loads(req.content)
+        print(response)
+
+    if time_frame.time_frame == '12h':
+        print(time_frame.time_frame)
+        req = requests.get('https://fapi.bybt.com/api/futures/longShortChart?symbol=' + symbol.symbol + '&timeType=4')
+        response = json.loads(req.content)
+        print(response)
+
+    if time_frame.time_frame == '12h':
+        print(time_frame.time_frame)
+        req = requests.get('https://fapi.bybt.com/api/futures/longShortChart?symbol=' + symbol.symbol + '&timeType=5')
+        response = json.loads(req.content)
+        print(response)
+
     for item in klines_computed:
 
         if item['ema5'] != 'NaN' and item['ema10'] != 'NaN':
