@@ -35,11 +35,13 @@ def save(klines_computed, symbol, time_frame):
 
             ratioLong = item['ema5'] / item['ema10']
             if item['ema5'] > item['ema10']:
-                countLong += 1
+                if item['ema60'] > item['ema223']:
+                    countLong += 1
 
             ratioShort = item['ema10'] / item['ema5']
             if item['ema10'] > item['ema5']:
-                countShort += 1
+                if item['ema60'] < item['ema223']:
+                    countShort += 1
 
     qs.update(
         long=countLong,
@@ -53,7 +55,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         # telegram = Telegram()
-
+        daysBack = 15
         while True:
 
             try:
@@ -65,7 +67,7 @@ class Command(BaseCommand):
 
                             try:
                                 now = datetime.now().strftime("%d %b, %Y")
-                                prev = datetime.now() - relativedelta(days=90)
+                                prev = datetime.now() - relativedelta(days=daysBack)
                                 klines = client.get_historical_klines(s.symbol, t.time_frame,
                                                                       prev.strftime("%d %b, %Y"), now)
 
