@@ -21,6 +21,7 @@ client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
 diz = {}
 URL_BYBT = 'https://fapi.bybt.com/api/futures/longShortChart?symbol='
 
+
 def save(klines_computed, symbol, time_frame):
     if not TrendChecker.objects.filter(symbol=symbol, time_frame=time_frame).exists():
         TrendChecker.objects.create(
@@ -79,15 +80,17 @@ def save(klines_computed, symbol, time_frame):
         if item['ema5'] != 'NaN' and item['ema10'] != 'NaN':
 
             if item['ema5'] > item['ema10']:
-                if item['ema60'] > item['ema223']:
-                    if item['rsi'] > 60:
-                        countLong += 1
+                if item['ema60'] > item['ema223'] and item['ema60'] > item['ema5']:
+                    # if item['rsi'] > 60:
+                    countLong += 1
 
             if item['ema10'] > item['ema5']:
                 if item['ema60'] < item['ema223']:
-                    if item['rsi'] < 70:
-                        countShort += 1
+                    # if item['rsi'] < 70:
+                    countShort += 1
 
+            if countLong >= 20:
+                print("20 pips")
     qs.update(
         long=countLong,
         short=countShort
@@ -124,7 +127,9 @@ class Command(BaseCommand):
 
                                         qs.update(
                                             trade_long=False,
-                                            trade_short=False
+                                            trade_short=False,
+                                            long=0,
+                                            short=0
                                         )
 
                                         tot = k.long - k.short
