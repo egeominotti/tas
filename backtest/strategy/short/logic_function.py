@@ -19,19 +19,18 @@ def logic_entry_short_ema8_13_21_34(item, bot=False):
             ratio = item['ratio']
             time_frame = item['time_frame']
 
-            ema8 = taapi.ema(8, time_frame)
-
-            ema8_prev = taapi.ema(8, time_frame, 1)
-            candle_close_prev = taapi.candle(time_frame, 1).get('close')
-            candle_open_prev = taapi.candle(time_frame, 1).get('close')
-
+            ema8_prev = taapi.ema(8, time_frame, 1).get('value')
+            candle_low_prev = taapi.candle(time_frame, 1).get('low')
+            candle_open_prev = taapi.candle(time_frame, 1).get('open')
             candle_close = taapi.candle(time_frame).get('close')
+
+            ema8 = taapi.ema(8, time_frame)
             ema13 = taapi.ema(13, time_frame)
             ema21 = taapi.ema(21, time_frame)
             ema34 = taapi.ema(34, time_frame)
 
             if ema8 < ema13 < ema21 < ema34:
-                if candle_close_prev >= ema8_prev:
+                if candle_low_prev >= ema8_prev:
                     if candle_close < candle_open_prev:
                         return candle_close
 
