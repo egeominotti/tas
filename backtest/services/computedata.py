@@ -4,7 +4,6 @@ import talib as ta
 
 
 def compute_data(klines):
-
     time = [entry[0] / 1000 for entry in klines]
     open = [float(entry[1]) for entry in klines]
     high = [float(entry[2]) for entry in klines]
@@ -17,15 +16,35 @@ def compute_data(klines):
     low_array = np.asarray(low)
     high_array = np.asarray(high)
 
+    ema1 = ta.EMA(close_array, timeperiod=1)
+    ema2 = ta.EMA(close_array, timeperiod=2)
+    ema3 = ta.EMA(close_array, timeperiod=3)
+    ema4 = ta.EMA(close_array, timeperiod=4)
     ema5 = ta.EMA(close_array, timeperiod=5)
+    ema6 = ta.EMA(close_array, timeperiod=6)
     ema7 = ta.EMA(close_array, timeperiod=7)
     ema8 = ta.EMA(close_array, timeperiod=8)
     ema9 = ta.EMA(close_array, timeperiod=9)
     ema10 = ta.EMA(close_array, timeperiod=10)
+    ema11 = ta.EMA(close_array, timeperiod=11)
     ema12 = ta.EMA(close_array, timeperiod=12)
     ema13 = ta.EMA(close_array, timeperiod=13)
+    ema14 = ta.EMA(close_array, timeperiod=14)
+    ema15 = ta.EMA(close_array, timeperiod=15)
+    ema16 = ta.EMA(close_array, timeperiod=16)
+    ema17 = ta.EMA(close_array, timeperiod=17)
+    ema18 = ta.EMA(close_array, timeperiod=18)
+    ema19 = ta.EMA(close_array, timeperiod=19)
+    ema20 = ta.EMA(close_array, timeperiod=20)
     ema21 = ta.EMA(close_array, timeperiod=21)
+    ema22 = ta.EMA(close_array, timeperiod=22)
+    ema23 = ta.EMA(close_array, timeperiod=23)
     ema24 = ta.EMA(close_array, timeperiod=24)
+    ema25 = ta.EMA(close_array, timeperiod=25)
+    ema26 = ta.EMA(close_array, timeperiod=26)
+    ema27 = ta.EMA(close_array, timeperiod=27)
+    ema28 = ta.EMA(close_array, timeperiod=28)
+    ema29 = ta.EMA(close_array, timeperiod=29)
     ema30 = ta.EMA(close_array, timeperiod=30)
     ema34 = ta.EMA(close_array, timeperiod=34)
     ema42 = ta.EMA(close_array, timeperiod=42)
@@ -67,15 +86,35 @@ def compute_data(klines):
             'low': low[i],
             'close': close[i],
             'volume': volume[i],
+            'ema1': ema1[i],
+            'ema2': ema2[i],
+            'ema3': ema3[i],
+            'ema4': ema4[i],
             'ema5': ema5[i],
+            'ema6': ema6[i],
             'ema7': ema7[i],
             'ema8': ema8[i],
             'ema9': ema9[i],
             'ema10': ema10[i],
+            'ema11': ema11[i],
             'ema12': ema12[i],
             'ema13': ema13[i],
+            'ema14': ema14[i],
+            'ema15': ema15[i],
+            'ema16': ema16[i],
+            'ema17': ema17[i],
+            'ema18': ema18[i],
+            'ema19': ema19[i],
+            'ema20': ema20[i],
             'ema21': ema21[i],
+            'ema22': ema22[i],
+            'ema23': ema23[i],
             'ema24': ema24[i],
+            'ema25': ema25[i],
+            'ema26': ema26[i],
+            'ema27': ema27[i],
+            'ema28': ema28[i],
+            'ema29': ema29[i],
             'ema30': ema30[i],
             'ema34': ema34[i],
             'ema42': ema42[i],
