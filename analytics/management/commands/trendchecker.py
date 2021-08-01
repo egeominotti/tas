@@ -32,12 +32,15 @@ def save(klines_computed, symbol, time_frame):
     for item in klines_computed:
 
         if item['ema5'] != 'NaN' and item['ema10'] != 'NaN':
-            if item['ema5'] > item['ema10']:
-                countLong += 1
-                print("long")
-                print(symbol)
 
-            if item['ema5'] < item['ema10']:
+            ratioLong = item['ema5'] / item['ema10']
+            if item['ema5'] > item['ema10']:
+                print(ratioLong)
+                countLong += 1
+
+            ratioShort = item['ema10'] / item['ema5']
+            if item['ema10'] > item['ema5']:
+                print(ratioShort)
                 countShort += 1
                 print("short")
                 print(symbol)
@@ -76,6 +79,12 @@ class Command(BaseCommand):
                                     save(klines_computed, s, t)
 
                                     for k in qs:
+
+                                        qs.update(
+                                            trade_long=False,
+                                            trade_short=False
+                                        )
+
                                         tot = k.long - k.short
                                         if tot > 0:
                                             qs.update(
