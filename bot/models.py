@@ -1,4 +1,4 @@
-from exchange.models import BinanceAccount
+from exchange.models import Exchange
 from django.db import models
 from analytics.models import CommonTrait
 from django_q.tasks import async_task
@@ -37,7 +37,7 @@ class Bot(CommonTrait):
     quantity_investment = models.FloatField(default=0, blank=False)
     leverage = models.IntegerField(default=0, blank=False)
     live = models.BooleanField(default=False)
-    binance_account = models.ForeignKey(BinanceAccount, on_delete=models.SET_NULL, null=True, blank=True)
+    binance_account = models.ForeignKey(Exchange, on_delete=models.SET_NULL, null=True, blank=True)
     strategy = models.ForeignKey(Strategy, on_delete=models.CASCADE, null=False, blank=False)
     execution = models.BooleanField(default=False)
 

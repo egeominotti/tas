@@ -36,6 +36,10 @@ class BackTestLog(models.Model):
     loss_percentage = models.FloatField(default=0, blank=True)
     profit_percentage = models.FloatField(default=0, blank=True)
 
+    class Meta:
+        verbose_name = 'BacktestLog'
+        verbose_name_plural = 'BacktestLog'
+
 
 class StatisticsPortfolio(CommonTrait):
     backtest = models.ForeignKey(BackTest, on_delete=models.CASCADE, null=False, blank=False)
@@ -49,3 +53,7 @@ class StatisticsPortfolio(CommonTrait):
     initial_investment = models.FloatField(default=0, blank=True)
     current_wallet = models.FloatField(default=0, blank=True)
     composite_value = models.FloatField(default=0, blank=True)
+
+    class Meta:
+        verbose_name = 'StatisticsPortfolio'
+        verbose_name_plural = 'StatisticsPortfolio'

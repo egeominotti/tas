@@ -29,5 +29,9 @@ class Importer(models.Model):
     volume = models.FloatField(default=0, blank=False)
     indicators = models.JSONField(blank=True, null=True)
 
+    class Meta:
+        verbose_name = 'Importer'
+        verbose_name_plural = 'Importer'
+
     def __str__(self):
         return str(self.id)

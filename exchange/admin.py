@@ -1,8 +1,8 @@
 from django.contrib import admin
-from exchange.models import BinanceAccount
+from exchange.models import Exchange, ExchangeList
 
 
-class BinanceAccountAdmin(admin.ModelAdmin):
+class ExchangeAdmin(admin.ModelAdmin):
     search_fields = ['user']
     list_per_page = 50
     ordering = ('id',)
@@ -10,4 +10,13 @@ class BinanceAccountAdmin(admin.ModelAdmin):
     exclude = ['flgEnable', ]
 
 
-admin.site.register(BinanceAccount, BinanceAccountAdmin)
+class ExchangeListAdmin(admin.ModelAdmin):
+    search_fields = ['name']
+    list_per_page = 50
+    ordering = ('id',)
+    list_display = ('id', 'name')
+    exclude = ['flgEnable', ]
+
+
+admin.site.register(Exchange, ExchangeAdmin)
+admin.site.register(ExchangeList, ExchangeListAdmin)
