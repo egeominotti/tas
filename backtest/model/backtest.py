@@ -118,10 +118,14 @@ class StrategyChecker(Strategy):
     def __init__(
             self,
             klines,
+            symbol,
+            time_frame,
             ratio
     ):
         super().__init__()
         self.klines = klines
+        self.symbol = symbol
+        self.time_frame = time_frame
         self.ratio = ratio
 
     def add_strategy(
@@ -134,6 +138,8 @@ class StrategyChecker(Strategy):
         for item in computed_data:
             if item is not None:
                 item['ratio'] = self.ratio
+                item['time_frame'] = self.time_frame
+                item['symbol'] = self.symbol
                 val = func(item)
                 if val is True:
                     diz[item['timestamp']] = item
@@ -178,7 +184,7 @@ class Backtest:
             exit(1)
 
         if len(klines) > 0:
-            st = StrategyChecker(klines=klines, ratio=self.ratio_value)
+            st = StrategyChecker(klines=klines, symbol=self.symbol, time_frame=self.tf, ratio=self.ratio_value)
             PortfolioChecker(instance=self.instance,
                              func_stop_loss=self.logic_stoploss,
                              func_take_profit=self.logic_takeprofit,
