@@ -78,6 +78,7 @@ class Command(BaseCommand):
 
                                 if len(klines) > 0:
                                     klines_computed = compute_data(klines)
+                                    print(klines_computed)
                                     save(klines_computed, s, t)
 
                                     for k in qs:
