@@ -137,9 +137,32 @@ def logic_takeprofit(item, bot=False):
 
 
 """
-STRATEGY : 2
+STRATEGY : 2 - ema8/ema13/ema21/ema34
 """
 
+
+def logic_entry_ema8_13_21_34(item, bot=False):
+    if bot:
+
+        symbol = item['symbol']
+        taapi = Taapi(symbol)
+        ratio = item['ratio']
+        time_frame = item['time_frame']
+        ema8 = taapi.ema(8, time_frame)
+        ema8_prev = taapi.ema(8, time_frame, 1)
+        candle_close_prev = taapi.candle(time_frame, 1).get('close')
+        candle_open_prev = taapi.candle(time_frame, 1).get('close')
+        candle_close = taapi.candle(time_frame).get('close')
+        ema13 = taapi.ema(13, time_frame)
+        ema21 = taapi.ema(21, time_frame)
+        ema34 = taapi.ema(34, time_frame)
+
+        if ema8 < ema13 < ema21 < ema34:
+            if candle_close_prev <= ema8_prev:
+                if candle_close < candle_open_prev:
+                    print("short")
+    else:
+        pass
 #
 # def scalping_5m_rsi_bollinger(item, bot=False) -> bool:
 #     if bot:
