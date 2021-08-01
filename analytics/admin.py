@@ -20,7 +20,7 @@ class ExchangeRecordAdmin(admin.ModelAdmin):
 
 class TradeCheckerAdmin(admin.ModelAdmin):
     search_fields = ['tf']
-    list_display = ['symbol', 'time_frame', 'long', 'trade_long', 'short', 'trade_short']
+    list_display = ['created_at', 'symbol', 'time_frame', 'long', 'trade_long', 'short', 'trade_short']
     list_per_page = 50
     ordering = ('id',)
 

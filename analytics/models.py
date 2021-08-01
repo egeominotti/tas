@@ -38,7 +38,7 @@ class Importer(CommonTrait):
         return str(self.id)
 
 
-class TrendChecker(models.Model):
+class TrendChecker(CommonTrait):
     symbol = models.ForeignKey(SymbolExchange, on_delete=models.CASCADE, null=False, blank=False)
     time_frame = models.ForeignKey(TimeFrame, on_delete=models.CASCADE, null=False, blank=False)
     long = models.FloatField(default=0, blank=False)
