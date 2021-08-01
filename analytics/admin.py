@@ -1,5 +1,5 @@
 from django.contrib import admin
-from analytics.models import Importer
+from analytics.models import Importer, TrendChecker
 
 
 class ExchangeRecordAdmin(admin.ModelAdmin):
@@ -18,4 +18,21 @@ class ExchangeRecordAdmin(admin.ModelAdmin):
         return False
 
 
+class TradeCheckerAdmin(admin.ModelAdmin):
+    search_fields = ['tf']
+    list_display = ['symbol', 'time_frame', 'long', 'short']
+    list_per_page = 50
+    ordering = ('id',)
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+
 admin.site.register(Importer, ExchangeRecordAdmin)
+admin.site.register(TrendChecker, TradeCheckerAdmin)

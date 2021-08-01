@@ -62,18 +62,30 @@ class Command(BaseCommand):
 
                 for s in SymbolExchange.objects.filter(to_import=True).order_by('created_at'):
                     for t in TimeFrame.objects.filter(to_import=True).order_by('created_at'):
-
+                        qs = TrendChecker.objects.filter(symbol=s, time_frame=t)
                         if s.to_import and t.to_import:
 
                             try:
                                 now = datetime.now().strftime("%d %b, %Y")
-                                prev = datetime.now() - relativedelta(days=14)
+                                prev = datetime.now() - relativedelta(days=30)
                                 klines = client.get_historical_klines(s.symbol, t.time_frame,
                                                                       prev.strftime("%d %b, %Y"), now)
 
                                 if len(klines) > 0:
                                     klines_computed = compute_data(klines)
                                     save(klines_computed, s, t)
+
+                                    for k in qs:
+                                        tot = k.long - k.short
+                                        if tot > 0:
+                                            qs.update(
+                                                trade_long=True
+                                            )
+                                        if tot < 0:
+                                            qs.update(
+                                                trade_short=True
+                                            )
+
                                 continue
 
                             except Exception as e:
@@ -83,7 +95,7 @@ class Command(BaseCommand):
                                 #     t.time_frame)
                                 # telegram.send(start)
                                 continue
-                sleep(60)
+                sleep(30)
                 continue
 
             except Exception as e:
