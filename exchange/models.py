@@ -26,5 +26,5 @@ class Exchange(CommonTrait):
         verbose_name_plural = 'Exchange'
 
     def __str__(self):
-        if self.user is not None:
-            return str(self.user)
+        if self.exchange is not None:
+            return str(self.exchange)
