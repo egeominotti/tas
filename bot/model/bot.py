@@ -4,6 +4,12 @@ from bot.services.telegram import Telegram
 from analytics.services.exchangeApi import Taapi
 from exchange.model.binance import BinanceHelper
 
+"""
+Deve pilotare i trading bot in base al mercato
+"""
+class DispatcherMasterBot:
+    pass
+
 
 class TradingBot:
 
@@ -117,7 +123,6 @@ class TradingBot:
                         self.telegram.send(error)
 
                     if isinstance(func_entry_value, float):
-
                         now = datetime.datetime.now()
                         entry_text = "ENTRY: " + " candela: " + str(func_entry_value) + " time: " + str(now)
                         self.telegram.send(entry_text)
@@ -139,8 +144,6 @@ class TradingBot:
                         open_position_value = func_entry_value
                         position = True
 
-
-
                 """
                 Se viene aperta una posizione allora verifica le condizioni stoploss e takeprofit
                 """
@@ -154,7 +157,6 @@ class TradingBot:
                         break
 
                     if isinstance(value, float):
-
                         stop_loss_text = "STOP LOSS: " + str(value * self.stop_loss)
                         self.telegram.send(stop_loss_text)
 
