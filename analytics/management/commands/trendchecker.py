@@ -1,13 +1,12 @@
 import json
 from datetime import datetime
 from time import sleep
+
+from dateutil.relativedelta import relativedelta
 from backtest.services.computedata import compute_data
 from binance import Client
 from decouple import config
 from django.core.management import BaseCommand
-from django.db.models import Q
-from numpyencoder import NumpyEncoder
-from analytics.models import Importer
 import logging
 from strategy.models import TimeFrame, SymbolExchange
 
@@ -18,33 +17,17 @@ client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
 
 
 def save(klines_computed, symbol, time_frame):
-    keyToRemove = ['timestamp', 'unix', 'open', 'high', 'low', 'close', 'volume']
-
     for item in klines_computed:
 
-        qs = Importer.objects.filter(Q(symbol=symbol) & Q(tf=time_frame) & Q(timestamp=item['timestamp']))
-        if len(qs) == 0:
+        if item['ema5'] != 'NaN' and item['ema10'] != 'NaN':
+            if item['ema5'] > item['ema10']:
+                print("long")
+                print(symbol)
 
-            imp = Importer.objects.create(
-                symbol=symbol,
-                tf=time_frame,
-                unix=item['unix'],
-                timestamp=item['timestamp'],
-                open=item['open'],
-                high=item['high'],
-                low=item['low'],
-                close=item['close'],
-                volume=item['volume'],
-            )
-
-            for key in keyToRemove:
-                del item[key]
-
-            Importer.objects \
-                .filter(id=imp.id) \
-                .update(
-                indicators=json.dumps(item, cls=NumpyEncoder)
-            )
+            if item['ema5'] < item['ema10']:
+                print("short")
+                print(symbol)
+                print(time_frame)
 
 
 class Command(BaseCommand):
@@ -52,7 +35,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        telegram = Telegram()
+        # telegram = Telegram()
 
         while True:
 
@@ -65,7 +48,9 @@ class Command(BaseCommand):
 
                             try:
                                 now = datetime.now().strftime("%d %b, %Y")
-                                klines = client.get_historical_klines(s.symbol, t.time_frame, '31 Aug, 2021', now)
+                                prev = datetime.now() - relativedelta(days=7)
+                                klines = client.get_historical_klines(s.symbol, t.time_frame,
+                                                                      prev.strftime("%d %b, %Y"), now)
 
                                 if len(klines) > 0:
                                     klines_computed = compute_data(klines)
@@ -73,12 +58,16 @@ class Command(BaseCommand):
                                 continue
 
                             except Exception as e:
-                                start = "Errore importazione dei dati: " + str(e) + " " + str(s.symbol) + " " + str(
-                                    t.time_frame)
-                                telegram.send(start)
+                                print(str(e))
+
+                                # start = "Errore importazione dei dati: " + str(e) + " " + str(s.symbol) + " " + str(
+                                #     t.time_frame)
+                                # telegram.send(start)
                                 continue
+                sleep(60)
 
             except Exception as e:
-                start = "Errore importazione dei dati: " + str(e) + " "
-                telegram.send(start)
+                print(str(e))
+                # start = "Errore importazione dei dati: " + str(e) + " "
+                # telegram.send(start)
                 continue
