@@ -77,6 +77,7 @@ class Command(BaseCommand):
                                     t.time_frame)
                                 telegram.send(start)
                                 continue
+                continue
 
             except Exception as e:
                 start = "Errore importazione dei dati: " + str(e) + " "
