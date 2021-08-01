@@ -54,7 +54,29 @@ INSTALLED_APPS = [
     'django_extensions',
     'django_q',
     'raven.contrib.django.raven_compat',
+    'django_quill',
 ]
+
+QUILL_CONFIGS = {
+    'default': {
+        'theme': 'snow',
+        'modules': {
+            'syntax': True,
+            'toolbar': [
+                [
+                    {'font': []},
+                    {'header': [1, 2, False]},
+                    {'align': []},
+                    'code-block',
+                    {'color': []},
+                    {'background': []},
+                ],
+                ['code-block',],
+                ['clean'],
+            ]
+        }
+    }
+}
 
 DBBACKUP_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_DEFAULT_ACL = None

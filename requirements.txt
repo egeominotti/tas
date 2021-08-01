@@ -41,3 +41,4 @@ supervisor
 django-redis
 sentry-sdk
 raven
+django-quill-editor

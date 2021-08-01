@@ -1,5 +1,6 @@
 from django.db import models
 from analytics.models import CommonTrait
+from django_quill.fields import QuillField
 
 
 class TimeFrame(CommonTrait):
@@ -34,7 +35,8 @@ class SymbolExchange(CommonTrait):
 
 
 class LogicEntry(CommonTrait):
-    name = models.CharField(max_length=200, blank=False)
+    name = models.CharField(max_length=200, blank=True)
+    content = QuillField(blank=True)
 
     def __str__(self):
         if self.name is not None:
