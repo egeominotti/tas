@@ -174,13 +174,9 @@ def logic_entry_ema8_13_21_34(item, bot=False):
             logger.exception("Exception logic entry: " + str(e))
             return e
     else:
-        print(item)
-        print(item)
-        print(item)
         """
         Casistica usata dal backtesting
         """
-        print(item)
         now = datetime.datetime.now()
         now_prev = datetime.datetime.now() - relativedelta(minutes=15)
         qs = Importer.objects.filter(symbol=item['symbol'], tf=item['time_frame'], timestamp__range=[now_prev, now])
