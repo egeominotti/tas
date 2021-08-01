@@ -9,7 +9,7 @@ from backtest.services.util import find_prev_candle
 logger = logging.getLogger(__name__)
 
 
-def logic_entry_ema8_13_21_34(item, bot=False):
+def logic_entry_short_ema8_13_21_34(item, bot=False):
     if bot:
 
         try:
@@ -40,13 +40,13 @@ def logic_entry_ema8_13_21_34(item, bot=False):
             return e
     else:
         """
-        Casistica usata dal backtesting
+        Sistema per accedere 
         """
         prev_item = find_prev_candle(item, 1)
         prev_indicators = json.loads(prev_item.indicators)
 
         if item['ema8'] < item['ema13'] < item['ema21'] < item['ema34']:
-            if prev_item.high >= prev_indicators['ema8']:
+            if prev_item.low >= prev_indicators['ema8']:
                 if item['close'] < prev_item.open:
                     return True
         return False
