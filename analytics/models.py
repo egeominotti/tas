@@ -18,7 +18,7 @@ class ByBt(CommonTrait):
     candle = models.IntegerField(default=0, blank=True)
 
 
-class Importer(models.Model):
+class Importer(CommonTrait):
     symbol = models.CharField(max_length=15, blank=False, null=False)
     tf = models.CharField(max_length=15, blank=False, null=False)
     unix = models.CharField(max_length=20, blank=True, null=True)
