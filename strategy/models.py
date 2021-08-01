@@ -11,6 +11,10 @@ class TimeFrame(CommonTrait):
             if self.time_frame is not None:
                 return str(self.time_frame)
 
+    class Meta:
+        verbose_name = 'TimeFrame'
+        verbose_name_plural = 'TimeFrame'
+
 
 class SymbolTaapiApi(CommonTrait):
     symbol = models.CharField(max_length=20, blank=False)
@@ -36,6 +40,10 @@ class LogicEntry(CommonTrait):
         if self.name is not None:
             return str(self.name)
 
+    class Meta:
+        verbose_name = 'LogicEntry'
+        verbose_name_plural = 'LogicEntry'
+
 
 class LogicTakepProfit(CommonTrait):
     name = models.CharField(max_length=200, blank=False)
@@ -44,6 +52,10 @@ class LogicTakepProfit(CommonTrait):
         if self.name is not None:
             return str(self.name)
 
+    class Meta:
+        verbose_name = 'LogicTakepProfit'
+        verbose_name_plural = 'LogicTakepProfit'
+
 
 class LogicStopLoss(CommonTrait):
     name = models.CharField(max_length=200, blank=False)
@@ -51,6 +63,10 @@ class LogicStopLoss(CommonTrait):
     def __str__(self):
         if self.name is not None:
             return str(self.name)
+
+    class Meta:
+        verbose_name = 'LogicStopLoss'
+        verbose_name_plural = 'LogicStopLoss'
 
 
 class Strategy(CommonTrait):
@@ -72,3 +88,7 @@ class Strategy(CommonTrait):
     def __str__(self):
         if self.name is not None:
             return str(self.name)
+
+    class Meta:
+        verbose_name = 'Strategy'
+        verbose_name_plural = 'Strategy'

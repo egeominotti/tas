@@ -19,6 +19,10 @@ class BackTest(models.Model):
         super().save(*args, **kwargs)
         async_task("backtest.services.runner.backtesting", self, hook="backtest.services.runner.get_backtesting_hook")
 
+    class Meta:
+        verbose_name = 'BackTesting'
+        verbose_name_plural = 'BackTesting'
+
 
 class BackTestLog(models.Model):
     backtest = models.ForeignKey(BackTest, on_delete=models.CASCADE, null=False, blank=False)

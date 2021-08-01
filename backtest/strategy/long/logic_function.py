@@ -1,4 +1,6 @@
 import json
+
+import datetime
 from dateutil.relativedelta import relativedelta
 from analytics.models import Importer
 from analytics.services.exchangeApi import Taapi
@@ -152,9 +154,11 @@ def logic_entry_ema8_13_21_34(item, bot=False):
             time_frame = item['time_frame']
 
             ema8 = taapi.ema(8, time_frame)
+
             ema8_prev = taapi.ema(8, time_frame, 1)
             candle_close_prev = taapi.candle(time_frame, 1).get('close')
             candle_open_prev = taapi.candle(time_frame, 1).get('close')
+
             candle_close = taapi.candle(time_frame).get('close')
             ema13 = taapi.ema(13, time_frame)
             ema21 = taapi.ema(21, time_frame)
@@ -172,6 +176,11 @@ def logic_entry_ema8_13_21_34(item, bot=False):
         """
         Casistica usata dal backtesting
         """
+        print(item)
+        now = datetime.datetime.now()
+        now_prev = datetime.datetime.now() - relativedelta(minutes=15)
+        qs = Importer.objects.filter(symbol=item['symbol'], tf=item['time_frame'], timestamp__range=[now_prev, now])
+        print(qs)
         if item['ema8'] < item['ema13'] < item['ema21'] < item['ema34']:
             # if 1 < ratio_value < item['ratio']:
             #    if item['close'] > item['ema189']:
