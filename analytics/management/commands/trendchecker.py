@@ -1,6 +1,9 @@
 import json
 from datetime import datetime
 from time import sleep
+
+import requests
+
 from analytics.models import TrendChecker
 from dateutil.relativedelta import relativedelta
 from backtest.services.computedata import compute_data
@@ -29,19 +32,25 @@ def save(klines_computed, symbol, time_frame):
     countLong = 0
     countShort = 0
 
+    if time_frame.time_frame == '5m':
+        print(time_frame.time_frame)
+        req = requests.get('https://fapi.bybt.com/api/futures/longShortChart?symbol=' + symbol.symbol + '&timeType=3')
+        response = json.loads(req.content)
+        print(response)
+
     for item in klines_computed:
 
         if item['ema5'] != 'NaN' and item['ema10'] != 'NaN':
 
-            ratioLong = item['ema5'] / item['ema10']
             if item['ema5'] > item['ema10']:
                 if item['ema60'] > item['ema223']:
-                    countLong += 1
+                    if item['rsi'] > 60:
+                        countLong += 1
 
-            ratioShort = item['ema10'] / item['ema5']
             if item['ema10'] > item['ema5']:
                 if item['ema60'] < item['ema223']:
-                    countShort += 1
+                    if item['rsi'] < 70:
+                        countShort += 1
 
     qs.update(
         long=countLong,
@@ -55,7 +64,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         # telegram = Telegram()
-        daysBack = 15
+        daysBack = 30
         while True:
 
             try:
