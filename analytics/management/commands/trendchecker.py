@@ -85,13 +85,11 @@ def save(klines_computed, symbol, time_frame):
 
             if item['ema5'] > item['ema10']:
                 if item['ema60'] > item['ema223'] and item['ema60'] > item['ema5']:
-                    if item['rsi'] > 70:
-                        countLong += 1
+                    countLong += 1
 
             elif item['ema10'] > item['ema5']:
                 if item['ema60'] < item['ema223'] and item['ema60'] < item['ema5']:
-                    if item['rsi'] < 70:
-                        countShort += 1
+                    countShort += 1
 
     qs.update(
         long=countLong,
