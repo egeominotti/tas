@@ -1,5 +1,6 @@
 from django.db import models
 from tas.models import CommonTrait
+from strategy.models import TimeFrame, SymbolExchange
 
 
 class ByBt(CommonTrait):
@@ -32,6 +33,22 @@ class Importer(models.Model):
     class Meta:
         verbose_name = 'Importer'
         verbose_name_plural = 'Importer'
+
+    def __str__(self):
+        return str(self.id)
+
+
+class TrendChecker(models.Model):
+    symbol = models.ForeignKey(SymbolExchange, on_delete=models.CASCADE, null=False, blank=False)
+    time_frame = models.ForeignKey(TimeFrame, on_delete=models.CASCADE, null=False, blank=False)
+    long = models.FloatField(default=0, blank=False)
+    short = models.FloatField(default=0, blank=False)
+    trade_long = models.BooleanField(default=False)
+    trade_short = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = 'TrendChecker'
+        verbose_name_plural = 'TrendChecker'
 
     def __str__(self):
         return str(self.id)
