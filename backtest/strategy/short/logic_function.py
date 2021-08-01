@@ -41,6 +41,19 @@ def logic_entry_short_ema8_13_21_34(item, bot=False):
         """
         Sistema per accedere 
         """
+
+        """"
+        Example item value:
+        {
+            'time_frame': 1h,
+            'symbol': BTC/USDT,
+            'stop_loss': 1.23,
+            'take_profit': 0.98,
+            'open_candle': 34233.34,
+            'close_candle': 345333.21
+        }
+        """
+
         prev_item = find_prev_candle(item, 1)
         prev_indicators = json.loads(prev_item.indicators)
 
@@ -72,8 +85,19 @@ def logic_ema8_13_21_34_takeprofit(item, bot=False):
             logger.exception("Exception logic take profit: " + str(e))
             return e
     else:
-        print(item['close_candle'] >= item['open_candle'] * item['take_profit'])
-        print(item['open_candle'] * item['take_profit'])
+
+        """"
+        Example item value:
+        {
+            'time_frame': 1h,
+            'symbol': BTC/USDT,
+            'stop_loss': 1.23,
+            'take_profit': 0.98,
+            'open_candle': 34233.34,
+            'close_candle': 345333.21
+        }
+        """
+
         if item['close_candle'] >= item['open_candle'] * item['take_profit']:
             return True
         return False
@@ -101,6 +125,18 @@ def logic_ema8_13_21_34_stop_loss(item, bot=False):
             return e
 
     else:
+        """"
+        Example item value:
+        {
+            'time_frame': 1h,
+            'symbol': BTC/USDT,
+            'stop_loss': 1.23,
+            'take_profit': 0.98,
+            'open_candle': 34233.34,
+            'close_candle': 345333.21
+        }
+        """
+
         if item['close_candle'] <= item['open_candle'] * item['stop_loss']:
             return True
         return False
