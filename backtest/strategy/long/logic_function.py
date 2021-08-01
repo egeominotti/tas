@@ -168,9 +168,9 @@ def logic_entry_ema8_13_21_34(item, bot=False):
             ema21 = taapi.ema(21, time_frame)
             ema34 = taapi.ema(34, time_frame)
 
-            if ema8 < ema13 < ema21 < ema34:
+            if ema8 > ema13 > ema21 > ema34:
                 if candle_close_prev <= ema8_prev:
-                    if candle_close < candle_open_prev:
+                    if candle_close > candle_open_prev:
                         return candle_close
 
         except Exception as e:
@@ -184,9 +184,9 @@ def logic_entry_ema8_13_21_34(item, bot=False):
         print(item)
         print(prev_item)
         sleep(5)
-        if item['ema8'] < item['ema13'] < item['ema21'] < item['ema34']:
-            if prev_item['high'] >= prev_item['ema8']:
-                if item['close'] < prev_item['open']:
+        if item['ema8'] > item['ema13'] > item['ema21'] > item['ema34']:
+            if prev_item['high'] <= prev_item['ema8']:
+                if item['close'] > prev_item['open']:
                     return True
         return False
 
