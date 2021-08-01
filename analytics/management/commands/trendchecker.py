@@ -101,15 +101,9 @@ class Command(BaseCommand):
 
                             except Exception as e:
                                 print(str(e))
-
-                                # start = "Errore importazione dei dati: " + str(e) + " " + str(s.symbol) + " " + str(
-                                #     t.time_frame)
-                                # telegram.send(start)
                                 continue
                 continue
 
             except Exception as e:
                 print(str(e))
-                # start = "Errore importazione dei dati: " + str(e) + " "
-                # telegram.send(start)
                 continue
