@@ -10,6 +10,10 @@ class ExchangeList(CommonTrait):
         verbose_name = 'ExchangeList'
         verbose_name_plural = 'ExchangeList'
 
+    def __str__(self):
+        if self.name is not None:
+            return str(self.name)
+
 
 class Exchange(CommonTrait):
     exchange = models.ForeignKey(ExchangeList, on_delete=models.CASCADE, null=False, blank=False)
