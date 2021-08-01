@@ -41,10 +41,10 @@ def save(klines_computed, symbol, time_frame):
 
         if item['ema5'] != 'NaN' and item['ema10'] != 'NaN':
 
-            if item['ema8'] < item['ema13'] < item['ema21'] < item['ema34']:
+            if item['ema8'] > item['ema13'] > item['ema21'] > item['ema34']:
                 countLong += 1
 
-            elif item['ema8'] > item['ema13'] > item['ema21'] > item['ema34']:
+            elif item['ema8'] < item['ema13'] < item['ema21'] < item['ema34']:
                 countShort += 1
 
     qs.update(
