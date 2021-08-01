@@ -1,8 +1,6 @@
 import json
-
-from analytics.models import Importer
-from analytics.services.exchangeApi import Taapi
 import logging
+from analytics.services.exchangeApi import Taapi
 from backtest.services.util import find_prev_candle
 
 logger = logging.getLogger(__name__)
@@ -130,8 +128,6 @@ def logic_takeprofit(item, bot=False):
         """
          Casistica usata dal backtesting
         """
-        print(item['close_candle'] >= item['open_candle'] * item['take_profit'])
-        print(item['open_candle'] * item['take_profit'])
         if item['close_candle'] >= item['open_candle'] * item['take_profit']:
             return True
         return False
@@ -210,8 +206,6 @@ def logic_ema8_13_21_34__long_takeprofit(item, bot=False):
             logger.exception("Exception logic take profit: " + str(e))
             return e
     else:
-        print(item['close_candle'] >= item['open_candle'] * item['take_profit'])
-        print(item['open_candle'] * item['take_profit'])
         if item['close_candle'] >= item['open_candle'] * item['take_profit']:
             return True
         return False
