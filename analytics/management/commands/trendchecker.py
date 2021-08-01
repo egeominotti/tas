@@ -29,9 +29,13 @@ def save(klines_computed, symbol, time_frame):
             time_frame=time_frame
         )
 
-    qs = TrendChecker.objects.filter(symbol=symbol, time_frame=time_frame)
     countLong = 0
     countShort = 0
+    qs = TrendChecker.objects.filter(symbol=symbol, time_frame=time_frame)
+    qs.update(
+        short=0,
+        long=0
+    )
 
     # if time_frame.time_frame == '5m':
     #     print(time_frame.time_frame)
@@ -81,13 +85,13 @@ def save(klines_computed, symbol, time_frame):
 
             if item['ema5'] > item['ema10']:
                 if item['ema60'] > item['ema223'] and item['ema60'] > item['ema5']:
-                    # if item['rsi'] > 60:
-                    countLong += 1
+                    if item['rsi'] > 60:
+                        countLong += 1
 
             if item['ema10'] > item['ema5']:
-                if item['ema60'] < item['ema223']:
-                    # if item['rsi'] < 70:
-                    countShort += 1
+                if item['ema60'] < item['ema223'] and item['ema60'] < item['ema5']:
+                    if item['rsi'] < 70:
+                        countShort += 1
 
             if countLong >= 20:
                 print("20 pips")
@@ -110,6 +114,7 @@ class Command(BaseCommand):
 
                 for s in SymbolExchange.objects.filter(to_import=True).order_by('created_at'):
                     for t in TimeFrame.objects.filter(to_import=True).order_by('created_at'):
+
                         qs = TrendChecker.objects.filter(symbol=s, time_frame=t)
                         if s.to_import and t.to_import:
 
@@ -128,8 +133,6 @@ class Command(BaseCommand):
                                         qs.update(
                                             trade_long=False,
                                             trade_short=False,
-                                            long=0,
-                                            short=0
                                         )
 
                                         tot = k.long - k.short
@@ -151,7 +154,6 @@ class Command(BaseCommand):
                                 #     t.time_frame)
                                 # telegram.send(start)
                                 continue
-                sleep(30)
                 continue
 
             except Exception as e:
