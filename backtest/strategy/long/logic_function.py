@@ -175,14 +175,20 @@ def logic_entry_long_ema8_13_21_34(item, bot=False):
         """
         Casistica usata dal backtesting
         """
+
+        """
+        Sistema per accedere 
+        """
         prev_item = find_prev_candle(item, 1)
         prev_indicators = json.loads(prev_item.indicators)
-        print(prev_indicators.ema8)
+
+        print(prev_indicators)
         print(item)
         print(prev_item.timestamp)
         print(prev_item.indicators)
+
         if item['ema8'] > item['ema13'] > item['ema21'] > item['ema34']:
-            if prev_item.high <= prev_indicators.ema8:
+            if prev_item.high <= prev_indicators['ema8']:
                 if item['close'] > prev_item.open:
                     return True
         return False
