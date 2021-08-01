@@ -35,16 +35,11 @@ def save(klines_computed, symbol, time_frame):
 
             ratioLong = item['ema5'] / item['ema10']
             if item['ema5'] > item['ema10']:
-                print(ratioLong)
                 countLong += 1
 
             ratioShort = item['ema10'] / item['ema5']
             if item['ema10'] > item['ema5']:
-                print(ratioShort)
                 countShort += 1
-                print("short")
-                print(symbol)
-                print(time_frame)
 
     qs.update(
         long=countLong,
@@ -70,7 +65,7 @@ class Command(BaseCommand):
 
                             try:
                                 now = datetime.now().strftime("%d %b, %Y")
-                                prev = datetime.now() - relativedelta(days=30)
+                                prev = datetime.now() - relativedelta(days=90)
                                 klines = client.get_historical_klines(s.symbol, t.time_frame,
                                                                       prev.strftime("%d %b, %Y"), now)
 
