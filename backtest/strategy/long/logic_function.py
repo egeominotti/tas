@@ -1,13 +1,8 @@
 import json
 
-import datetime
-from time import sleep
-
-from dateutil.relativedelta import relativedelta
 from analytics.models import Importer
 from analytics.services.exchangeApi import Taapi
 import logging
-import inspect
 from backtest.services.util import find_prev_candle
 
 logger = logging.getLogger(__name__)
@@ -147,7 +142,7 @@ STRATEGY : 2 - ema8/ema13/ema21/ema34
 """
 
 
-def logic_entry_ema8_13_21_34(item, bot=False):
+def logic_entry_long_ema8_13_21_34(item, bot=False):
     if bot:
 
         try:
@@ -181,17 +176,19 @@ def logic_entry_ema8_13_21_34(item, bot=False):
         Casistica usata dal backtesting
         """
         prev_item = find_prev_candle(item, 1)
+        prev_indicators = json.loads(prev_item.indicators)
+        print(prev_indicators.ema8)
         print(item)
-        print(prev_item)
-        sleep(5)
+        print(prev_item.timestamp)
+        print(prev_item.indicators)
         if item['ema8'] > item['ema13'] > item['ema21'] > item['ema34']:
-            if prev_item['high'] <= prev_item['ema8']:
-                if item['close'] > prev_item['open']:
+            if prev_item.high <= prev_indicators.ema8:
+                if item['close'] > prev_item.open:
                     return True
         return False
 
 
-def logic_ema8_13_21_34_takeprofit(item, bot=False):
+def logic_ema8_13_21_34__long_takeprofit(item, bot=False):
     if bot:
         try:
             """
@@ -219,7 +216,7 @@ def logic_ema8_13_21_34_takeprofit(item, bot=False):
         return False
 
 
-def logic_ema8_13_21_34_stop_loss(item, bot=False):
+def logic_ema8_13_21_34__long_stop_loss(item, bot=False):
     if bot:
         try:
             """
