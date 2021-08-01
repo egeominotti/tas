@@ -1,6 +1,8 @@
 import json
 
 import datetime
+from time import sleep
+
 from dateutil.relativedelta import relativedelta
 from analytics.models import Importer
 from analytics.services.exchangeApi import Taapi
@@ -208,8 +210,9 @@ def logic_entry_ema8_13_21_34(item, bot=False):
             now_prev = item['timestamp'] - relativedelta(months=1)
 
         print(now_prev)
-        qs = Importer.objects.filter(symbol=item['symbol'], tf=item['time_frame'], timestamp__range=[now_prev, now])
-        print(qs)
+        qs = Importer.objects.filter(symbol=item['symbol'], tf=item['time_frame'], timestamp__range=[now_prev, now]).last()
+        print(qs.timestamp)
+        sleep(5)
         if item['ema8'] < item['ema13'] < item['ema21'] < item['ema34']:
             # if 1 < ratio_value < item['ratio']:
             #    if item['close'] > item['ema189']:
