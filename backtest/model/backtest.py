@@ -83,7 +83,7 @@ class PortfolioChecker(Portfolio):
                     'close_candle': current_candle
                 }
 
-                if func_take_profit(item) is True:
+                if func_take_profit(item, False) is True:
                     BackTestLog.objects.create(
                         backtest=self.instance,
                         symbol=self.symbol,
@@ -97,7 +97,7 @@ class PortfolioChecker(Portfolio):
                     )
                     break
 
-                if func_stop_loss(item) is True:
+                if func_stop_loss(item, False) is True:
                     BackTestLog.objects.create(
                         backtest=self.instance,
                         symbol=self.symbol,

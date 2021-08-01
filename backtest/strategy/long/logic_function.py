@@ -5,6 +5,7 @@ from dateutil.relativedelta import relativedelta
 from analytics.models import Importer
 from analytics.services.exchangeApi import Taapi
 import logging
+import inspect
 
 logger = logging.getLogger(__name__)
 
@@ -173,6 +174,9 @@ def logic_entry_ema8_13_21_34(item, bot=False):
             logger.exception("Exception logic entry: " + str(e))
             return e
     else:
+        print(item)
+        print(item)
+        print(item)
         """
         Casistica usata dal backtesting
         """
