@@ -177,8 +177,10 @@ def logic_entry_ema8_13_21_34(item, bot=False):
         """
         Casistica usata dal backtesting
         """
-        now = datetime.datetime.now()
-        now_prev = datetime.datetime.now() - relativedelta(minutes=15)
+        now = item['time_frame']
+        now_prev = item['time_frame'] - relativedelta(minutes=15)
+        print(now)
+        print(now_prev)
         qs = Importer.objects.filter(symbol=item['symbol'], tf=item['time_frame'], timestamp__range=[now_prev, now])
         print(qs)
         if item['ema8'] < item['ema13'] < item['ema21'] < item['ema34']:
