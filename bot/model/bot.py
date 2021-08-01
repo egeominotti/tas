@@ -4,10 +4,11 @@ from bot.services.telegram import Telegram
 from analytics.services.exchangeApi import Taapi
 from exchange.model.binance import BinanceHelper
 
-"""
-Deve pilotare i trading bot in base al mercato
-"""
-class DispatcherMasterBot:
+
+class DispatcherBot:
+    """
+    Deve pilotare i trading bot in base al mercato
+    """
     pass
 
 
