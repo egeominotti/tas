@@ -19,13 +19,18 @@ def compute_data(klines):
 
     ema5 = ta.EMA(close_array, timeperiod=5)
     ema7 = ta.EMA(close_array, timeperiod=7)
+    ema8 = ta.EMA(close_array, timeperiod=8)
     ema9 = ta.EMA(close_array, timeperiod=9)
     ema10 = ta.EMA(close_array, timeperiod=10)
     ema12 = ta.EMA(close_array, timeperiod=12)
+    ema13 = ta.EMA(close_array, timeperiod=13)
+    ema21 = ta.EMA(close_array, timeperiod=21)
     ema24 = ta.EMA(close_array, timeperiod=24)
     ema30 = ta.EMA(close_array, timeperiod=30)
+    ema34 = ta.EMA(close_array, timeperiod=34)
     ema42 = ta.EMA(close_array, timeperiod=42)
     ema50 = ta.EMA(close_array, timeperiod=50)
+    ema55 = ta.EMA(close_array, timeperiod=55)
     ema60 = ta.EMA(close_array, timeperiod=60)
     ema100 = ta.EMA(close_array, timeperiod=100)
     ema189 = ta.EMA(close_array, timeperiod=189)
@@ -64,13 +69,18 @@ def compute_data(klines):
             'volume': volume[i],
             'ema5': ema5[i],
             'ema7': ema7[i],
+            'ema8': ema8[i],
             'ema9': ema9[i],
             'ema10': ema10[i],
             'ema12': ema12[i],
+            'ema13': ema13[i],
+            'ema21': ema21[i],
             'ema24': ema24[i],
             'ema30': ema30[i],
+            'ema34': ema34[i],
             'ema42': ema42[i],
             'ema50': ema50[i],
+            'ema55': ema55[i],
             'ema60': ema60[i],
             'ema100': ema100[i],
             'ema189': ema189[i],
