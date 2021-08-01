@@ -37,59 +37,15 @@ def save(klines_computed, symbol, time_frame):
         long=0
     )
 
-    # if time_frame.time_frame == '5m':
-    #     print(time_frame.time_frame)
-    #     req = requests.get(URL_BYBT + symbol.symbol + '&timeType=3')
-    #     response = json.loads(req.content)
-    #     print(response)
-    #
-    # if time_frame.time_frame == '15m':
-    #     print(time_frame.time_frame)
-    #     req = requests.get(URL_BYBT + symbol.symbol + '&timeType=10')
-    #     response = json.loads(req.content)
-    #     print(response)
-    #
-    # if time_frame.time_frame == '15m':
-    #     print(time_frame.time_frame)
-    #     req = requests.get(URL_BYBT + symbol.symbol + '&timeType=11')
-    #     response = json.loads(req.content)
-    #     print(response)
-    #
-    # if time_frame.time_frame == '1h':
-    #     print(time_frame.time_frame)
-    #     req = requests.get(URL_BYBT + symbol.symbol + '&timeType=2')
-    #     response = json.loads(req.content)
-    #     print(response)
-    #
-    # if time_frame.time_frame == '4h':
-    #     print(time_frame.time_frame)
-    #     req = requests.get(URL_BYBT + symbol.symbol + '&timeType=1')
-    #     response = json.loads(req.content)
-    #     print(response)
-    #
-    # if time_frame.time_frame == '12h':
-    #     print(time_frame.time_frame)
-    #     req = requests.get(URL_BYBT + symbol.symbol + '&timeType=4')
-    #     response = json.loads(req.content)
-    #     print(response)
-    #
-    # if time_frame.time_frame == '12h':
-    #     print(time_frame.time_frame)
-    #     req = requests.get(URL_BYBT + symbol.symbol + '&timeType=5')
-    #     response = json.loads(req.content)
-    #     print(response)
-
     for item in klines_computed:
 
         if item['ema5'] != 'NaN' and item['ema10'] != 'NaN':
 
-            if item['ema5'] > item['ema10']:
-                if item['ema60'] > item['ema223'] and item['ema60'] > item['ema5']:
-                    countLong += 1
+            if item['ema8'] < item['ema13'] < item['ema21'] < item['ema34']:
+                countLong += 1
 
-            elif item['ema10'] > item['ema5']:
-                if item['ema60'] < item['ema223'] and item['ema60'] < item['ema5']:
-                    countShort += 1
+            elif item['ema8'] > item['ema13'] > item['ema21'] > item['ema34']:
+                countShort += 1
 
     qs.update(
         long=countLong,
