@@ -126,7 +126,20 @@ class Taapi:
 
     # https://taapi.io/indicators/candle/
     def candle(self, interval, backtrack=None, backtracks=None):
+
         if backtrack is not None:
+            """
+              {
+                "timestampHuman": "2021-01-14 15:00:00 (Thursday) UTC",
+                "timestamp": 1610636400,
+                "open": 39577.53,
+                "high": 39666,
+                "low": 39294.7,
+                "close": 39605.45,
+                "volume": 1218.1425259999887,
+                "backtrack": 0
+              },
+            """
             return json.loads(
                 requests.get(
                     self.BASE_URL + 'candle?' + self.base + "&interval=" + str(interval) + "&backtack=" + str(

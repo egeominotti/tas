@@ -148,16 +148,24 @@ def logic_entry_long_ema8_13_21_34(item, bot=False):
             ratio = item['ratio']
             time_frame = item['time_frame']
 
-            ema8 = taapi.ema(8, time_frame)
-
-            ema8_prev = taapi.ema(8, time_frame, 1)
+            ema8_prev = taapi.ema(8, time_frame, 1).get('value')
             candle_low_prev = taapi.candle(time_frame, 1).get('low')
             candle_open_prev = taapi.candle(time_frame, 1).get('open')
             candle_close = taapi.candle(time_frame).get('close')
 
+            ema8 = taapi.ema(8, time_frame)
             ema13 = taapi.ema(13, time_frame)
             ema21 = taapi.ema(21, time_frame)
             ema34 = taapi.ema(34, time_frame)
+
+            print(ema8_prev)
+            print(candle_low_prev)
+            print(candle_open_prev)
+            print(candle_close)
+            print(ema8)
+            print(ema13)
+            print(ema21)
+            print(ema34)
 
             if ema8 > ema13 > ema21 > ema34:
                 if candle_low_prev <= ema8_prev:
@@ -166,6 +174,7 @@ def logic_entry_long_ema8_13_21_34(item, bot=False):
 
         except Exception as e:
             logger.exception("Exception logic entry: " + str(e))
+            exit(1)
             return e
     else:
         """
