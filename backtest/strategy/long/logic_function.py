@@ -183,7 +183,7 @@ def logic_entry_long_ema8_13_21_34(item, bot=False):
         prev_indicators = json.loads(prev_item.indicators)
 
         if item['ema8'] > item['ema13'] > item['ema21'] > item['ema34']:
-            if prev_item.high <= prev_indicators['ema8']:
+            if prev_item.low <= prev_indicators['ema8']:
                 if item['close'] > prev_item.open:
                     return True
         return False
