@@ -38,6 +38,7 @@ class Taapi:
                 requests.get(
                     self.BASE_URL + 'ema?' + self.base + "&interval=" + str(interval) + "&optInTimePeriod=" + str(
                         ema) + "&backtracks=" + str(backtracks)).content)
+
         elif backtrack is not None:
             """
             Permette di prendere valori precedenti: Esempio (interval=1h) se imposto (backtrack=1)
@@ -52,6 +53,9 @@ class Taapi:
                     self.BASE_URL + 'ema?' + self.base + "&interval=" + str(interval) + "&optInTimePeriod=" + str(
                         ema) + "&backtrack=" + str(backtracks)).content)
         else:
+            """
+            Ritorna il valore dell'ema in base al periodo e l'intervallo passato
+            """
             return json.loads(
                 requests.get(
                     self.BASE_URL + 'ema?' + self.base + "&interval=" + str(interval) + "&optInTimePeriod=" + str(
