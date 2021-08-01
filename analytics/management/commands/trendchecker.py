@@ -19,7 +19,7 @@ logger = logging.getLogger('main')
 client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
 
 diz = {}
-
+URL_BYBT = 'https://fapi.bybt.com/api/futures/longShortChart?symbol='
 
 def save(klines_computed, symbol, time_frame):
     if not TrendChecker.objects.filter(symbol=symbol, time_frame=time_frame).exists():
@@ -34,43 +34,43 @@ def save(klines_computed, symbol, time_frame):
 
     if time_frame.time_frame == '5m':
         print(time_frame.time_frame)
-        req = requests.get('https://fapi.bybt.com/api/futures/longShortChart?symbol=' + symbol.symbol + '&timeType=3')
+        req = requests.get(URL_BYBT + symbol.symbol + '&timeType=3')
         response = json.loads(req.content)
         print(response)
 
     if time_frame.time_frame == '15m':
         print(time_frame.time_frame)
-        req = requests.get('https://fapi.bybt.com/api/futures/longShortChart?symbol=' + symbol.symbol + '&timeType=10')
+        req = requests.get(URL_BYBT + symbol.symbol + '&timeType=10')
         response = json.loads(req.content)
         print(response)
 
     if time_frame.time_frame == '15m':
         print(time_frame.time_frame)
-        req = requests.get('https://fapi.bybt.com/api/futures/longShortChart?symbol=' + symbol.symbol + '&timeType=11')
+        req = requests.get(URL_BYBT + symbol.symbol + '&timeType=11')
         response = json.loads(req.content)
         print(response)
 
     if time_frame.time_frame == '1h':
         print(time_frame.time_frame)
-        req = requests.get('https://fapi.bybt.com/api/futures/longShortChart?symbol=' + symbol.symbol + '&timeType=2')
+        req = requests.get(URL_BYBT + symbol.symbol + '&timeType=2')
         response = json.loads(req.content)
         print(response)
 
     if time_frame.time_frame == '4h':
         print(time_frame.time_frame)
-        req = requests.get('https://fapi.bybt.com/api/futures/longShortChart?symbol=' + symbol.symbol + '&timeType=1')
+        req = requests.get(URL_BYBT + symbol.symbol + '&timeType=1')
         response = json.loads(req.content)
         print(response)
 
     if time_frame.time_frame == '12h':
         print(time_frame.time_frame)
-        req = requests.get('https://fapi.bybt.com/api/futures/longShortChart?symbol=' + symbol.symbol + '&timeType=4')
+        req = requests.get(URL_BYBT + symbol.symbol + '&timeType=4')
         response = json.loads(req.content)
         print(response)
 
     if time_frame.time_frame == '12h':
         print(time_frame.time_frame)
-        req = requests.get('https://fapi.bybt.com/api/futures/longShortChart?symbol=' + symbol.symbol + '&timeType=5')
+        req = requests.get(URL_BYBT + symbol.symbol + '&timeType=5')
         response = json.loads(req.content)
         print(response)
 
