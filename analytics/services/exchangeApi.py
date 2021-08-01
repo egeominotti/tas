@@ -17,12 +17,36 @@ class Taapi:
 
     # https://taapi.io/indicators/exponential-moving-average/
     def ema(self, ema, interval, backtrack=None, backtracks=None):
+        """
+        {
+          "timestampHuman": "2021-01-14 15:00:00 (Thursday) UTC",
+          "timestamp": 1610636400,
+          "open": 39577.53,
+          "high": 39666,
+          "low": 39294.7,
+          "close": 39607.09,
+          "volume": 1211.2841909999893
+        }
+        """
         if backtracks is not None:
+            """
+            The backtracks parameter returns the candle value calculated on every candle for the past X candles. 
+            For example, if you want to know what the candle was every hour for the past 12 hours, you use backtracks=12.
+             As a result, you will get 12 values back.
+            """
             return json.loads(
                 requests.get(
                     self.BASE_URL + 'ema?' + self.base + "&interval=" + str(interval) + "&optInTimePeriod=" + str(
                         ema) + "&backtracks=" + str(backtracks)).content)
         elif backtrack is not None:
+            """
+            Permette di prendere valori precedenti: Esempio (interval=1h) se imposto (backtrack=1)
+            ritornerà l'ema di un'ora fa.
+            
+            The backtrack parameter removes candles from the data set and calculates the candle value X amount of candles back. 
+            So, if you’re fetching the candle on the hourly and you want to know what the candle was 5 hours ago, set backtrack=5.
+             The default is 0 and a maximum is 50. 
+            """
             return json.loads(
                 requests.get(
                     self.BASE_URL + 'ema?' + self.base + "&interval=" + str(interval) + "&optInTimePeriod=" + str(
