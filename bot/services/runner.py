@@ -15,6 +15,7 @@ def get_runnerbot_hook(task):
     print(task)
     print(task)
     if isinstance(task.result, dict):
+        print("Cancello il bot")
         bt = Bot.objects.get(id=task.result.get('id'))
         BotLogger.objects.filter(bot=bt).delete()
         Bot.objects.filter(id=task.result.get('id')).delete()

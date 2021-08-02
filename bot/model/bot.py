@@ -62,10 +62,10 @@ class TradingBot:
             'ratio': self.func_entry.ratio,
             'stop_loss': self.func_exit.stop_loss,
             'take_profit': self.func_exit.take_profit,
-            'sleep_func_entry': self.func_exit.sleep,
+            'sleep_func_entry': self.func_entry.sleep,
             'sleep_func_exit': self.func_exit.sleep,
             'taapi': self.taapi,
-            'candle_close': 0
+            'entry': False
         }
 
         func_entry = eval(self.func_entry.name)
@@ -74,28 +74,26 @@ class TradingBot:
         while True:
             try:
 
-                if entry is False:
-                    item['candle_close'] = item['taapi'].candle(self.time_frame).get('close')
-                    print(item)
+                item['candle_close'] = item.get('taapi').candle(self.time_frame).get('close')
+
+                if item.get('entry') is False:
                     return_value = func_entry(item=item, bot=True)
 
                     if return_value:
                         print(item)
-                        entry = True
+                        item['entry'] = True
                     else:
-                        sleep(item['sleep_func_entry'])
+                        sleep(item.get('sleep_func_entry'))
                         continue
 
-                if entry is True:
-                    item['candle_close'] = item['taapi'].candle(self.time_frame).get('close')
-                    print(item)
+                if item.get('entry') is True:
                     return_value = func_exit(item=item, bot=True)
 
                     if return_value:
                         print(item)
                         break
                     else:
-                        sleep(item['sleep_func_exit'])
+                        sleep(item.get('sleep_func_exit'))
                         continue
 
             except Exception as e:
