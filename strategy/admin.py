@@ -1,26 +1,33 @@
 from django.contrib import admin
 from strategy.models import TimeFrame, SymbolExchange, SymbolTaapiApi, Strategy, LogicEntry, LogicTakepProfit, \
-    LogicStopLoss
+    LogicStopLoss, LogicExit
 
 
 class LogicEntryAdmin(admin.ModelAdmin):
     list_per_page = 20
     ordering = ('id',)
-    list_display = ('id', 'name')
+    list_display = ('name',)
+    exclude = ['flgEnable', ]
+
+
+class LogicExitAdmin(admin.ModelAdmin):
+    list_per_page = 20
+    ordering = ('id',)
+    list_display = ('name',)
     exclude = ['flgEnable', ]
 
 
 class LogicTakepProfitAdmin(admin.ModelAdmin):
     list_per_page = 20
     ordering = ('id',)
-    list_display = ('id', 'name')
+    list_display = ('name',)
     exclude = ['flgEnable', ]
 
 
 class LogicStopLossAdmin(admin.ModelAdmin):
     list_per_page = 20
     ordering = ('id',)
-    list_display = ('id', 'name')
+    list_display = ('name',)
     exclude = ['flgEnable', ]
 
 
@@ -73,5 +80,6 @@ admin.site.register(SymbolExchange, SymbolExchangeAdmin)
 admin.site.register(SymbolTaapiApi, SymbolTaapiApiAmin)
 admin.site.register(Strategy, StrategyDispatcherAdmin)
 admin.site.register(LogicEntry, LogicEntryAdmin)
+admin.site.register(LogicExit, LogicExitAdmin)
 admin.site.register(LogicTakepProfit, LogicTakepProfitAdmin)
 admin.site.register(LogicStopLoss, LogicStopLossAdmin)

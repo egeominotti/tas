@@ -36,7 +36,7 @@ class SymbolExchange(CommonTrait):
 
 class LogicEntry(CommonTrait):
     name = models.CharField(max_length=200, blank=True)
-    content = QuillField(blank=True)
+    function = QuillField(blank=True)
 
     def __str__(self):
         if self.name is not None:
@@ -47,8 +47,21 @@ class LogicEntry(CommonTrait):
         verbose_name_plural = 'LogicEntry'
 
 
+class LogicExit(CommonTrait):
+    name = models.CharField(max_length=200, blank=True)
+    function = QuillField(blank=True)
+
+    def __str__(self):
+        if self.name is not None:
+            return str(self.name)
+
+    class Meta:
+        verbose_name = 'LogicExit'
+        verbose_name_plural = 'LogicExit'
+
 class LogicTakepProfit(CommonTrait):
     name = models.CharField(max_length=200, blank=False)
+    function = QuillField(blank=True)
 
     def __str__(self):
         if self.name is not None:
@@ -61,6 +74,7 @@ class LogicTakepProfit(CommonTrait):
 
 class LogicStopLoss(CommonTrait):
     name = models.CharField(max_length=200, blank=False)
+    function = QuillField(blank=True)
 
     def __str__(self):
         if self.name is not None:

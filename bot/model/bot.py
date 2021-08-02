@@ -120,7 +120,7 @@ class TradingBot:
                     if isinstance(func_entry_value, float):
 
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                        entry_text = "Bot: " + str(self.current_bot.name) + "\n" \
+                        entry_text = "Bot: " + str(self.current_bot.name) + \
                                      "\n" + "Symbol: " + str(self.symbol) + \
                                      "\nTime frame: " + str(self.time_frame) + \
                                      "\nEntry Candle value: " + str(func_entry_value) + \
@@ -156,7 +156,7 @@ class TradingBot:
                     if isinstance(value, float):
 
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                        stop_loss = "Bot: " + str(self.current_bot.name) + "\n" \
+                        stop_loss = "Bot: " + str(self.current_bot.name) + \
                                      "\n" + "Symbol: " + str(self.symbol) + \
                                      "\nTime frame: " + str(self.time_frame) + \
                                      "\nStop loss candle value: " + str(value) + \
@@ -191,7 +191,7 @@ class TradingBot:
                     if isinstance(value, float):
 
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                        take_profit = "Bot: " + str(self.current_bot.name) + "\n" \
+                        take_profit = "Bot: " + str(self.current_bot.name) + \
                                      "\n" + "Symbol: " + str(self.symbol) + \
                                      "\nTime frame: " + str(self.time_frame) + \
                                      "\nTake Profit candle value: " + str(value) + \
