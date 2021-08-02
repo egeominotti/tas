@@ -69,21 +69,23 @@ class TradingBot:
         while True:
             try:
 
-                item['candle_close'] = taapi.candle(self.time_frame).get('close')
-
                 if entry is False:
+                    item['candle_close'] = taapi.candle(self.time_frame).get('close')
                     return_value = func_entry(item=item, bot=True)
 
                     if return_value:
+                        print(item)
                         entry = True
                     else:
                         sleep(item['sleep_func_entry'])
                         continue
 
                 if entry is True:
-                    func_exit_value = func_exit(item=item, bot=True)
+                    item['candle_close'] = taapi.candle(self.time_frame).get('close')
+                    return_value = func_exit(item=item, bot=True)
 
-                    if func_exit_value:
+                    if return_value:
+                        print(item)
                         break
                     else:
                         sleep(item['sleep_func_exit'])
