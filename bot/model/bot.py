@@ -83,6 +83,7 @@ class TradingBot:
                     if return_value:
                         print(item)
                         item['entry'] = True
+                        item['entry_candle'] = item['candle_close']
                     else:
                         sleep(item.get('sleep_func_entry'))
                         continue
