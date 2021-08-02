@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from analytics.models import CommonTrait
 from django_quill.fields import QuillField
@@ -36,6 +37,10 @@ class SymbolExchange(CommonTrait):
 
 class LogicEntry(CommonTrait):
     name = models.CharField(max_length=200, blank=True)
+    ratio = models.FloatField(default=0, blank=False)
+    sleep = models.IntegerField(default=0, blank=False, null=False)
+    long = models.BooleanField(default=False)
+    short = models.BooleanField(default=False)
     function = QuillField(blank=True)
 
     def __str__(self):
@@ -49,6 +54,11 @@ class LogicEntry(CommonTrait):
 
 class LogicExit(CommonTrait):
     name = models.CharField(max_length=200, blank=True)
+    sleep = models.IntegerField(default=0, blank=False, null=False)
+    take_profit = models.FloatField(default=0, blank=False)
+    stop_loss = models.FloatField(default=0, blank=False)
+    long = models.BooleanField(default=False)
+    short = models.BooleanField(default=False)
     function = QuillField(blank=True)
 
     def __str__(self):
@@ -60,50 +70,18 @@ class LogicExit(CommonTrait):
         verbose_name_plural = 'LogicExit'
 
 
-class LogicTakepProfit(CommonTrait):
-    name = models.CharField(max_length=200, blank=False)
-    function = QuillField(blank=True)
-
-    def __str__(self):
-        if self.name is not None:
-            return str(self.name)
-
-    class Meta:
-        verbose_name = 'LogicTakepProfit'
-        verbose_name_plural = 'LogicTakepProfit'
-
-
-class LogicStopLoss(CommonTrait):
-    name = models.CharField(max_length=200, blank=False)
-    function = QuillField(blank=True)
-
-    def __str__(self):
-        if self.name is not None:
-            return str(self.name)
-
-    class Meta:
-        verbose_name = 'LogicStopLoss'
-        verbose_name_plural = 'LogicStopLoss'
-
-
 class Strategy(CommonTrait):
     name = models.CharField(max_length=200, blank=False)
     time_frame = models.ForeignKey(TimeFrame, on_delete=models.CASCADE, null=False, blank=False)
-    ratio = models.FloatField(default=0, blank=False)
-    take_profit = models.FloatField(default=0, blank=False)
-    stop_loss = models.FloatField(default=0, blank=False)
-
     logic_entry = models.ForeignKey(LogicEntry, on_delete=models.CASCADE, null=False, blank=False)
     logic_exit = models.ForeignKey(LogicExit, on_delete=models.CASCADE, null=False, blank=False)
-    logic_takeprofit = models.ForeignKey(LogicTakepProfit, on_delete=models.CASCADE, null=False, blank=False)
-    logic_stoploss = models.ForeignKey(LogicStopLoss, on_delete=models.CASCADE, null=False, blank=False)
-
     symbol_taapi = models.ForeignKey('SymbolTaapiApi', on_delete=models.CASCADE, null=False, blank=False)
     symbol_exchange = models.ForeignKey('SymbolExchange', on_delete=models.CASCADE, null=False, blank=False)
-    sleep_run = models.IntegerField(default=0, blank=False, null=False)
-    sleep_profitloss = models.IntegerField(default=0, blank=False, null=False)
-    long = models.BooleanField(default=False)
-    short = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        if len(self.name) == 0:
+            self.name = 'strategy' + str(uuid.uuid4().hex)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         if self.name is not None:
