@@ -17,8 +17,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        broker = get_broker()
-
         while True:
 
             try:
@@ -38,7 +36,7 @@ class Command(BaseCommand):
                                            bot,
                                            Bot,
                                            BotLogger,
-                                           hook="bot.services.runner.get_runnerbot_hook", broker=broker)
+                                           hook="bot.services.runner.get_runnerbot_hook")
 
                         if tch.trade_short is True and strategy.short is True:
                             if not Bot.objects.filter(strategy=strategy, user=user).exists():
@@ -49,7 +47,7 @@ class Command(BaseCommand):
                                            bot,
                                            Bot,
                                            BotLogger,
-                                           hook="bot.services.runner.get_runnerbot_hook", broker=broker)
+                                           hook="bot.services.runner.get_runnerbot_hook")
 
                 sleep(15)
 

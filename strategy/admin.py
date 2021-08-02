@@ -26,6 +26,7 @@ class LogicStopLossAdmin(admin.ModelAdmin):
 
 class StrategyDispatcherAdmin(admin.ModelAdmin):
     search_fields = ['name']
+    save_as = True
     list_per_page = 50
     ordering = ('id',)
     list_display = ('id', 'name', 'logic_entry', 'logic_takeprofit', 'logic_stoploss',)

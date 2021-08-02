@@ -153,6 +153,7 @@ class TradingBot:
                         break
 
                     if isinstance(value, float):
+
                         stop_loss_text = "STOP LOSS: " + str(value * self.stop_loss)
                         self.telegram.send(stop_loss_text)
 
