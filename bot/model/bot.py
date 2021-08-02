@@ -159,6 +159,8 @@ class TradingBot:
 
                 if entry is False:
                     self.item['entry_function'] = True
+                    self.item['takeprofit_ratio'] = self.item.get('entry_candle') * self.item.get('takeprofit_value')
+                    self.item['stoploss_ratio'] = self.item.get('entry_candle') * self.item.get('stoploss_value')
                     if self.entry():
                         # Succesful open position
                         entry = True

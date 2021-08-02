@@ -4,6 +4,8 @@ from backtest.services.util import find_prev_candle
 from unicorn_binance_websocket_api.unicorn_binance_websocket_api_manager import BinanceWebSocketApiManager
 from unicorn_fy.unicorn_fy import UnicornFy
 
+binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com")
+
 logger = logging.getLogger(__name__)
 
 """
@@ -71,11 +73,13 @@ def logicentry_first_long(item, bot=False):
 
 
 def logicexit_first_long(item, bot=False):
+    print(item)
+    print(item)
+    print(item)
     if bot:
 
-        binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com")
-        #binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures")
-        binance_websocket_api_manager.create_stream(['kline_1m'], ['btcusdt'], output="UnicornFy")
+        binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures")
+        #binance_websocket_api_manager.create_stream(['kline_1m'], ['btcusdt'], output="UnicornFy")
 
         sentinel = False
         while True:

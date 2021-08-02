@@ -10,11 +10,6 @@ def get_runnerbot_hook(task) -> None:
     """
     print("HO FINITO")
     print("HO FINITO")
-    print("HO FINITO")
-    print("HO FINITO")
-    print("HO FINITO")
-    print("HO FINITO")
-    print("HO FINITO")
     print(task.result)
     print(task)
     print(task)

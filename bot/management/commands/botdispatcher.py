@@ -7,7 +7,6 @@ from analytics.models import TrendChecker
 from bot.models import Bot, BotLogger
 from strategy.models import Strategy
 import logging
-from django_q.brokers import get_broker
 
 logger = logging.getLogger('main')
 
