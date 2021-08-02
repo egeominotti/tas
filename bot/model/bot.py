@@ -226,7 +226,7 @@ class TradingBot:
 
                     # if self.stop():
                     #     break
-                    sleep(sleep_time_profit_or_loss)
+                    #sleep(sleep_time_profit_or_loss)
                     # if self.stop():
                     #     break
 
