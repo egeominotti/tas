@@ -1,3 +1,5 @@
+from django.contrib.auth.models import User
+
 from exchange.models import Exchange
 from django.db import models
 from analytics.models import CommonTrait
@@ -12,7 +14,7 @@ BOT_STATUS = (
 
 
 class BotLogger(CommonTrait):
-    bot = models.ForeignKey('Bot', on_delete=models.CASCADE, null=False, blank=False)
+    bot = models.ForeignKey('Bot', on_delete=models.SET_NULL, null=True, blank=True)
     entry_candle = models.FloatField(default=0, blank=True)
     stop_loss = models.BooleanField(default=False, blank=True)
     take_profit = models.BooleanField(default=False, blank=True)
@@ -33,6 +35,7 @@ class BotLogger(CommonTrait):
 
 class Bot(CommonTrait):
     name = models.CharField(max_length=100, blank=False, null=False)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     strategy = models.ForeignKey(Strategy, on_delete=models.CASCADE, null=False, blank=False)
 
     class Meta:
