@@ -47,7 +47,6 @@ class TradingBot:
         self.telegram.send(start)
 
     def run(self):
-
         # self.start()
 
         item = {
@@ -58,15 +57,15 @@ class TradingBot:
             'take_profit': self.func_exit.take_profit,
             'sleep_func_entry': self.func_exit.sleep,
             'sleep_func_exit': self.func_exit.sleep,
+            'taapi': self.taapi
         }
 
         func_entry = eval(self.func_entry.name)
         func_exit = eval(self.func_exit.name)
 
         while True:
-
-            func_entry_value =  func_entry(item=item, bot=True)
-            func_exit_value =   func_exit(item=item, bot=True)
+            func_entry_value = func_entry(item=item, bot=True)
+            func_exit_value = func_exit(item=item, bot=True)
 
             print(func_entry_value)
             print(func_exit_value)

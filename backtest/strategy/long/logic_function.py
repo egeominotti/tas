@@ -1,6 +1,5 @@
 import json
 import logging
-from analytics.services.exchangeApi import Taapi
 from backtest.services.util import find_prev_candle
 
 logger = logging.getLogger(__name__)
@@ -19,11 +18,12 @@ def logic_entry_one_long(item, bot=False):
             'take_profit': self.func_exit.take_profit,
             'sleep_func_entry': self.func_exit.sleep,
             'sleep_func_exit': self.func_exit.sleep,
+            'taapi': self.taapi
         }
         """
 
         time_frame = item['time_frame']
-        taapi = Taapi(['symbol'])
+        taapi = item['taapi']
 
         ema8_prev = taapi.ema(8, time_frame, 1).get('value')
         candle_low_prev = taapi.candle(time_frame, 1).get('low')
@@ -70,10 +70,11 @@ def logic_exit_one_long(item, bot=False):
             'take_profit': self.func_exit.take_profit,
             'sleep_func_entry': self.func_exit.sleep,
             'sleep_func_exit': self.func_exit.sleep,
+            'taapi': self.taapi
         }
         """
 
-        taapi = Taapi(item['symbol'])
+        taapi = item['taapi']
         time_frame = item['time_frame']
         stop_loss = item['stop_loss']
         take_profit = item['take_profit']
