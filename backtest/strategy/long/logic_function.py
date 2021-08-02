@@ -90,7 +90,7 @@ def logicexit_first_long(item, bot=False):
                         # print(v.get('low_price'))
                         # print(v.get('high_price'))
                         # print(v.get('is_closed'))
-                        item['candle_close'] = v.get('close_price')
+                        item['candle_close'] = float(v.get('close_price'))
 
                 # item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
                 print("websocket")
@@ -108,6 +108,8 @@ def logicexit_first_long(item, bot=False):
                     break
 
         if sentinel is True:
+            print("ho finito")
+            print(item)
             return True
         return False
 
