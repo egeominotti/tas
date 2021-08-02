@@ -53,22 +53,26 @@ class TradingBot:
             'type': self.func_exit.short or self.func_exit.long,
             'time_frame': self.time_frame,
             'ratio': self.func_entry.ratio,
-            'stop_loss_value': self.func_exit.stop_loss,
-            'take_profit_value': self.func_exit.take_profit,
-            'take_profit': False,
-            'stop_loss': False,
+            'stoploss_value': self.func_exit.stop_loss,
+            'takeprofit_value': self.func_exit.take_profit,
+            'takeprofit': False,
+            'takeprofit_candle': 0,
+            'stoploss': False,
+            'stoploss_candle': 0,
             'entry': False,
             'entry_candle': 0
         }
 
     def start(self):
-        now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-        start = "Started: " + str(self.current_bot.name) + \
-                "\n" + "Symbol: " + str(self.symbol) + \
-                "\nTime frame: " + str(self.time_frame) + \
-                "\nStarted at: " + str(now) + \
-                "\nLet's go to the moon 🚀️"
-        self.telegram.send(start)
+
+        if self.notify:
+            now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+            start = "Started: " + str(self.current_bot.name) + \
+                    "\n" + "Symbol: " + str(self.symbol) + \
+                    "\nTime frame: " + str(self.time_frame) + \
+                    "\nStarted at: " + str(now) + \
+                    "\nLet's go to the moon 🚀️"
+            self.telegram.send(start)
 
     def entry(self):
 
@@ -103,28 +107,28 @@ class TradingBot:
 
             func_exit(item=self.item, bot=True)
 
-            if self.item.get('stop_loss'):
+            if self.item.get('stoploss'):
 
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                     stop_loss = "Bot: " + str(self.current_bot.name) + \
                                 "\n" + "Symbol: " + str(self.symbol) + \
                                 "\nTime frame: " + str(self.time_frame) + \
-                                "\nStop loss candle value: " + str(self.item.get('stop_loss_candle')) + \
-                                "\nStop loss candle date: " + str(now)
+                                "\nStoploss candle value: " + str(self.item.get('stoploss_candle')) + \
+                                "\nStoploss candle date: " + str(now)
                     self.telegram.send(stop_loss)
 
                 return True
 
-            if self.item.get('take_profit'):
+            if self.item.get('takeprofit'):
 
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                     stop_loss = "Bot: " + str(self.current_bot.name) + \
                                 "\n" + "Symbol: " + str(self.symbol) + \
                                 "\nTime frame: " + str(self.time_frame) + \
-                                "\nTake profit candle value: " + str(self.item.get('take_profit_candle')) + \
-                                "\nTake profit candle date: " + str(now)
+                                "\nTakeprofit candle value: " + str(self.item.get('takeprofit_candle')) + \
+                                "\nTakeprofit candle date: " + str(now)
                     self.telegram.send(stop_loss)
 
                 return True
@@ -139,12 +143,16 @@ class TradingBot:
         while True:
 
             if entry is False:
+
                 if self.entry():
+                    # Succesful open position
                     entry = True
 
             if entry is True:
                 if self.exit():
+                    # Successful close position in takeprofit or stoploss
                     break
+
         # self.start()
 
         #
