@@ -13,4 +13,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         qs = Bot.objects.all()
         for bot in qs:
+            # Se l'andmento è long allora avvio bot long
+
+            # Se l'andamento è short allora avvio bot shot
             async_task("bot.services.runner.runnerbot", bot, Bot, BotLogger)
