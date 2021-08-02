@@ -212,11 +212,8 @@ class TradingBot:
                         self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
                         break
 
-                    # if self.stop():
-                    #     break
-                    # sleep(sleep_time_profit_or_loss)
-                    # if self.stop():
-                    #     break
+                    sleep(sleep_time_profit_or_loss)
+
 
             except Exception as e:
                 self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
