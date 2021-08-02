@@ -74,12 +74,15 @@ class TradingBot:
 
         self.logger_id = self.logger.objects.create(bot=self.current_bot)
 
-        # now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-        now = datetime.datetime.now()
+        now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 
-        start = str(self.current_bot.name) + "\nbot started from dispatcher: " + "\nsymbol: " + str(
-            self.symbol) + "\ntime frame: " + str(
-            self.time_frame) + "\nstarted at: " + str(now) + "\nSpero di favi guadagnare ❤️"
+        print(self.current_bot.name)
+        print(self.symbol)
+        print(self.time_frame)
+
+        start = "Started: " + str(self.current_bot.name) + "\n" + "Symbol: " + str(
+            self.symbol) + "\nTime frame: " + str(
+            self.time_frame) + "\nStarted at: " + str(now) + "\nLet's go to the moon 🚀️"
         self.telegram.send(start)
 
     def run(self, sleep_time_position=0, sleep_time_profit_or_loss=0):

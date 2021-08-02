@@ -45,5 +45,5 @@ class Bot(CommonTrait):
 
     def save(self, *args, **kwargs):
         if len(self.name) == 0:
-            self.name = 'bot_' + str(uuid.uuid4().hex)
+            self.name = 'bot' + str(uuid.uuid4().hex)
         super().save(*args, **kwargs)
