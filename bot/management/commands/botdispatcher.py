@@ -17,8 +17,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        Bot.objects.all().delete()
-
         while True:
 
             try:
@@ -36,6 +34,6 @@ class Command(BaseCommand):
                                    Bot,
                                    BotLogger,
                                    hook="bot.services.runner.get_runnerbot_hook")
-                sleep(10)
+                sleep(300)
             except Exception as e:
                 Bot.objects.all().delete()
