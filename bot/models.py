@@ -6,8 +6,8 @@ from strategy.models import Strategy
 import uuid
 
 BOT_STATUS = (
-    ('STOP', 'STOP'),
-    ('START', 'START'),
+    ('STOPPED', 'STOPPED'),
+    ('RUNNING', 'RUNNING'),
 )
 
 

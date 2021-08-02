@@ -62,7 +62,7 @@ class TradingBot:
 
     def stop(self):
         status = self.bot_object.objects.get(id=self.current_bot.id).status
-        if status == 'STOP':
+        if status == 'STOPPED':
             now = datetime.datetime.now()
             self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
             start = "BOT stopped:" + "symbol: " + str(self.symbol) + " time frame: " + str(
