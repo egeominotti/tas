@@ -44,6 +44,7 @@ class TradingBot:
         self.logger = logger
         self.bot_object = bot_object
         self.logger_id = self.logger.objects.create(bot=self.current_bot)
+        self.notify = False
         self.item = {
             'sleep_func_entry': self.func_entry.sleep,
             'sleep_func_exit': self.func_exit.sleep,
@@ -71,58 +72,64 @@ class TradingBot:
 
     def entry(self):
 
-        print("funzione entry")
+        print("entry")
         func_entry = eval(self.func_entry.name)
         if self.item.get('entry') is False:
 
             func_entry(item=self.item, bot=True)
-            print(self.item)
 
             if self.item.get('entry') is True:
 
-                now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                entry_text = "Bot: " + str(self.current_bot.name) + \
-                             "\n" + "Symbol: " + str(self.symbol) + \
-                             "\nTime frame: " + str(self.time_frame) + \
-                             "\nEntry Candle value: " + str(self.item.get('entry_candle')) + \
-                             "\nEntry Candle date: " + str(now)
-                self.telegram.send(entry_text)
+                if self.notify:
+                    now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+                    entry_text = "Bot: " + str(self.current_bot.name) + \
+                                 "\n" + "Symbol: " + str(self.symbol) + \
+                                 "\nTime frame: " + str(self.time_frame) + \
+                                 "\nEntry Candle value: " + str(self.item.get('entry_candle')) + \
+                                 "\nEntry Candle date: " + str(now)
+                    self.telegram.send(entry_text)
 
                 return True
 
+            print(self.item)
             # Wait sleep_func_entry seconds
             sleep(self.item.get('sleep_func_entry'))
 
     def exit(self):
 
-        print("funzione exit")
+        print("exit")
         func_exit = eval(self.func_exit.name)
         if self.item.get('entry') is True:
 
             func_exit(item=self.item, bot=True)
 
             if self.item.get('stop_loss'):
-                now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                stop_loss = "Bot: " + str(self.current_bot.name) + \
-                            "\n" + "Symbol: " + str(self.symbol) + \
-                            "\nTime frame: " + str(self.time_frame) + \
-                            "\nStop loss candle value: " + str(self.item.get('stop_loss_candle')) + \
-                            "\nStop loss candle date: " + str(now)
-                self.telegram.send(stop_loss)
+
+                if self.notify:
+                    now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+                    stop_loss = "Bot: " + str(self.current_bot.name) + \
+                                "\n" + "Symbol: " + str(self.symbol) + \
+                                "\nTime frame: " + str(self.time_frame) + \
+                                "\nStop loss candle value: " + str(self.item.get('stop_loss_candle')) + \
+                                "\nStop loss candle date: " + str(now)
+                    self.telegram.send(stop_loss)
 
                 return True
 
             if self.item.get('take_profit'):
-                now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                stop_loss = "Bot: " + str(self.current_bot.name) + \
-                            "\n" + "Symbol: " + str(self.symbol) + \
-                            "\nTime frame: " + str(self.time_frame) + \
-                            "\nTake profit candle value: " + str(self.item.get('take_profit_candle')) + \
-                            "\nTake profit candle date: " + str(now)
-                self.telegram.send(stop_loss)
+
+                if self.notify:
+                    now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+                    stop_loss = "Bot: " + str(self.current_bot.name) + \
+                                "\n" + "Symbol: " + str(self.symbol) + \
+                                "\nTime frame: " + str(self.time_frame) + \
+                                "\nTake profit candle value: " + str(self.item.get('take_profit_candle')) + \
+                                "\nTake profit candle date: " + str(now)
+                    self.telegram.send(stop_loss)
 
                 return True
 
+            print(self.item)
             # Wait sleep_func_entry seconds
             sleep(self.item.get('sleep_func_entry'))
 
