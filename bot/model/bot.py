@@ -79,12 +79,12 @@ class TradingBot:
 
         start = ''
         if self.current_bot.long:
-            start = "Long bot started from dispatcher: " + "symbol: " + str(self.symbol) + " time frame: " + str(
-                self.time_frame) + " started at: " + str(now) + " Spero di favi guadagnare ❤️"
+            start = "Long bot started from dispatcher: " + "\nsymbol: " + str(self.symbol) + "\ntime frame: " + str(
+                self.time_frame) + "\nstarted at: " + str(now) + "\nSpero di favi guadagnare ❤️"
 
         if self.current_bot.short:
-            start = "Short bot started from dispatcher: " + "symbol: " + str(self.symbol) + " time frame: " + str(
-                self.time_frame) + " started at: " + str(now) + " Spero di favi guadagnare ❤️"
+            start = "Short bot started from dispatcher: " + "\nsymbol: " + str(self.symbol) + "\ntime frame: " + str(
+                self.time_frame) + "\nstarted at: " + str(now) + "\n Spero di favi guadagnare ❤️"
 
         self.telegram.send(start)
 
@@ -226,7 +226,7 @@ class TradingBot:
 
                     # if self.stop():
                     #     break
-                    #sleep(sleep_time_profit_or_loss)
+                    # sleep(sleep_time_profit_or_loss)
                     # if self.stop():
                     #     break
 
