@@ -19,13 +19,15 @@ class Command(BaseCommand):
         while True:
             qs = Strategy.objects.all()
             usr = User.objects.all()
-            for strategy in qs:
-                for user in usr:
+            for user in usr:
+                print(user)
+                for strategy in qs:
+                    print(strategy)
                     tch = TrendChecker.objects.filter(symbol=strategy.symbol_exchange,
                                                       time_frame=strategy.time_frame).first()
 
                     if tch.trade_long is True and strategy.long is True:
-                        if not Bot.objects.filter(strategy=strategy).exists():
+                        if not Bot.objects.filter(strategy=strategy, user=user).exists():
                             bot = Bot.objects.create(strategy=strategy, user=user)
                             print("avvio bot con strategia long")
 
@@ -33,8 +35,9 @@ class Command(BaseCommand):
                                        hook="bot.services.runner.get_runnerbot_hook")
 
                     if tch.trade_short is True and strategy.short is True:
-                        if not Bot.objects.filter(strategy=strategy).exists():
+                        if not Bot.objects.filter(strategy=strategy, user=user).exists():
                             bot = Bot.objects.create(strategy=strategy, user=user)
                             print("avvio bot con strategia short")
                             async_task("bot.services.runner.runnerbot", bot, Bot, BotLogger,
                                        hook="bot.services.runner.get_runnerbot_hook")
+            sleep(15)
