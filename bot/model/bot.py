@@ -116,7 +116,6 @@ class TradingBot:
                         self.telegram.send(error)
 
                     if isinstance(func_entry_value, float):
-
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                         entry_text = "ENTRY: " + " candela: " + str(func_entry_value) + " time: " + str(now)
                         self.telegram.send(entry_text)
@@ -137,6 +136,8 @@ class TradingBot:
 
                         open_position_value = func_entry_value
                         position = True
+
+                sleep(sleep_time_position)
 
                 """
                 Se viene aperta una posizione allora verifica le condizioni stoploss e takeprofit
@@ -203,7 +204,7 @@ class TradingBot:
 
                         break
 
-                sleep(sleep_time_position)
+
 
             except Exception as e:
                 start = "Errore imprevisto nel bot: " + str(e)
