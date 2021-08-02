@@ -51,14 +51,15 @@ class TradingBot:
             type = 'LONG'
 
         self.item = {
-            'takeprofit': False,
+            'candle_close': 0,
+            'entry_candle': 0,
             'takeprofit_ratio': 0,
             'takeprofit_candle': 0,
-            'stoploss': False,
+            'takeprofit': False,
             'stoploss_ratio': 0,
             'stoploss_candle': 0,
+            'stoploss': False,
             'entry': False,
-            'entry_candle': 0,
             'sleep_func_entry': self.func_entry.sleep,
             'sleep_func_exit': self.func_exit.sleep,
             'taapi': self.taapi,
