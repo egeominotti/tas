@@ -16,11 +16,12 @@ class Command(BaseCommand):
     help = 'DispatcherBot'
 
     def handle(self, *args, **kwargs):
+
         broker = get_broker()
+
         while True:
 
             try:
-
                 qs = Strategy.objects.all()
                 usr = User.objects.all()
                 for user in usr:
