@@ -1,5 +1,4 @@
 from bot.services.telegram import Telegram
-
 from time import sleep
 import datetime
 import signal
@@ -89,7 +88,7 @@ class TradingBot:
 
             func_entry(item=self.item, bot=True)
             if self.item.get('entry') is True:
-
+                #TODO: aggiungere scrittura dei log e apertura ordine
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                     entry_text = "Bot: " + str(self.current_bot.name) + \
@@ -112,6 +111,7 @@ class TradingBot:
 
             func_exit(item=self.item, bot=True)
             if self.item.get('stoploss'):
+                #TODO: aggiungere scrittura dei log chiusura ordine sell
 
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
@@ -125,6 +125,7 @@ class TradingBot:
                 return True
 
             if self.item.get('takeprofit'):
+                #TODO: aggiungere scrittura dei log chiusura ordine sell
 
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
