@@ -4,8 +4,6 @@ from backtest.services.util import find_prev_candle
 from unicorn_binance_websocket_api.unicorn_binance_websocket_api_manager import BinanceWebSocketApiManager
 from unicorn_fy.unicorn_fy import UnicornFy
 
-binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com")
-
 logger = logging.getLogger(__name__)
 
 """
@@ -48,14 +46,14 @@ def logicentry_first_long(item, bot=False):
         ema21 = taapi.ema(21, time_frame)
         ema34 = taapi.ema(34, time_frame)
 
-        if ema8 > ema13:
-            if ema13 > ema21:
-                if ema21 > ema34:
-                    if candle_low_prev <= ema8_prev:
-                        if canlde_close > candle_open_prev:
-                            item['entry'] = True
-                            item['entry_candle'] = item['candle_close']
-                            return True
+        # if ema8 > ema13:
+        #     if ema13 > ema21:
+        #         if ema21 > ema34:
+        #             if candle_low_prev <= ema8_prev:
+        #                 if canlde_close > candle_open_prev:
+        item['entry'] = True
+        item['entry_candle'] = item['candle_close']
+        return True
 
     else:
         """
@@ -79,7 +77,7 @@ def logicexit_first_long(item, bot=False):
     if bot:
 
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures")
-        #binance_websocket_api_manager.create_stream(['kline_1m'], ['btcusdt'], output="UnicornFy")
+        binance_websocket_api_manager.create_stream(['kline_1m'], ['btcusdt'], output="UnicornFy")
 
         sentinel = False
         while True:
