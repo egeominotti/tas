@@ -80,7 +80,6 @@ class TradingBot:
         if self.item.get('entry') is False:
 
             func_entry(item=self.item, bot=True)
-
             if self.item.get('entry') is True:
 
                 if self.notify:
@@ -105,7 +104,6 @@ class TradingBot:
         if self.item.get('entry') is True:
 
             func_exit(item=self.item, bot=True)
-
             if self.item.get('stoploss'):
 
                 if self.notify:
