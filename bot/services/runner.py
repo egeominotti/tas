@@ -1,6 +1,5 @@
 from bot.model.bot import TradingBot
-from bot.models import Bot,BotLogger
-
+from bot.models import Bot, BotLogger
 
 
 def get_runnerbot_hook(task):
@@ -33,12 +32,15 @@ def runnerbot(instance, bot_object, logger_object):
         logger=logger_object,
         bot_object=bot_object
     )
-    bot.run()
 
-    item = {
-        'id': instance.id,
-        'symbol': instance.strategy.symbol_exchange.symbol,
-        'time_frame': instance.strategy.time_frame.time_frame
-    }
+    if bot.run():
 
-    return item
+        item = {
+            'id': instance.id,
+            'symbol': instance.strategy.symbol_exchange.symbol,
+            'time_frame': instance.strategy.time_frame.time_frame
+        }
+
+        return item
+
+    return False

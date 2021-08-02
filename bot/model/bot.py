@@ -143,6 +143,8 @@ class TradingBot:
 
     def run(self):
 
+        self.start()
+
         entry = False
         while True:
 
@@ -163,3 +165,6 @@ class TradingBot:
             except Exception as e:
                 exception = "ERROR" + str(e)
                 self.telegram.send(exception)
+                return False
+
+        return True
