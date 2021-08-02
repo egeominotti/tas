@@ -254,6 +254,8 @@ def logic_ema8_13_21_34__long_stop_loss(item, bot=False):
         if item['close_candle'] <= item['open_candle'] * item['stop_loss']:
             return True
         return False
+
+
 #
 # def scalping_5m_rsi_bollinger(item, bot=False) -> bool:
 #     if bot:
