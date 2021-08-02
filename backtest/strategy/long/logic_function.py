@@ -143,6 +143,14 @@ def logic_entry_long_ema8_13_21_34(item, bot=False):
 
         try:
 
+            """
+            {
+             "ratio": 1.0223,
+             "symbol: "BTC/USDT"
+             "time_frame": 1m
+            }
+            """
+
             symbol = item['symbol']
             taapi = Taapi(symbol)
             ratio = item['ratio']
