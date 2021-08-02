@@ -22,11 +22,16 @@ class Command(BaseCommand):
                                               time_frame=strategy.time_frame).first()
 
             if tch.trade_long is True and strategy.long is True:
-                bot = Bot.objects.create(strategy=strategy)
-                print("avvio bot con strategia long")
-                async_task("bot.services.runner.runnerbot", bot, Bot, BotLogger)
+                if not Bot.objects.filter(strategy=strategy).exists():
+                    bot = Bot.objects.create(strategy=strategy)
+                    print("avvio bot con strategia long")
+
+                    async_task("bot.services.runner.runnerbot", bot, Bot, BotLogger,
+                               hook="bot.services.runner.get_runnerbot_hook")
 
             if tch.trade_short is True and strategy.short is True:
-                bot = Bot.objects.create(strategy=strategy)
-                print("avvio bot con strategia short")
-                async_task("bot.services.runner.runnerbot", bot, Bot, BotLogger)
+                if not Bot.objects.filter(strategy=strategy).exists():
+                    bot = Bot.objects.create(strategy=strategy)
+                    print("avvio bot con strategia short")
+                    async_task("bot.services.runner.runnerbot", bot, Bot, BotLogger,
+                               hook="bot.services.runner.get_runnerbot_hook")

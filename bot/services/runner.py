@@ -8,8 +8,14 @@ from backtest.strategy.long.logic_function import *
 from backtest.strategy.short.logic_function import *
 
 
-def runnerbot(instance, bot_object, logger_object):
+def get_runnerbot_hook(task):
+    print(task)
+    print(task)
+    print(task)
+    print(task)
 
+
+def runnerbot(instance, bot_object, logger_object):
     bot = TradingBot(
         current_bot=instance,
         symbol=instance.strategy.symbol_taapi.symbol,
@@ -28,3 +34,11 @@ def runnerbot(instance, bot_object, logger_object):
         bot_object=bot_object
     )
     bot.run(instance.strategy.sleep_run, instance.strategy.sleep_profitloss)
+
+    item = {
+        'id': instance.id,
+        'symbol': instance.strategy.symbol_exchange.symbol,
+        'time_frame': instance.strategy.time_frame.time_frame
+    }
+
+    return item
