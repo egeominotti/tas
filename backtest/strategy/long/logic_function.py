@@ -4,27 +4,31 @@ from backtest.services.util import find_prev_candle
 
 logger = logging.getLogger(__name__)
 
+"""
+{
+    'sleep_func_entry': Funzione della stratrgia di entry che viene valuta per essere eseguita,
+    'sleep_func_exit': Funzione della strategia di exit che viene valutata per essere eseguita,
+    'taapi': Instanza di taapi per prelevare i dati,
+    'symbol': Simbolo da tradare preso dalla strategia,
+    'type': Tipologia di strategia long or short,
+    'time_frame': Valore timeframe preso dalla strategia,
+    'ratio': Valore del ratio presto dalla funzione della strategia,
+    'stoploss_value': Valore stoploss preso dalla funzione della strategia,
+    'takeprofit_value': Valore dello stop loss preso dalla funzione della strategia,
+    'takeprofit': Determina se c'e stato un takeprofit,
+    'takeprofit_candle': Valore della candela di takeprofit,
+    'stoploss': Determina se c'e stato uno stop loss,
+    'stoploss_candle': Valore della candela di stop loss,
+    'entry': Determina se è stata trovata un'entry,
+    'entry_candle': Candela che viene salvata quando avviene un'entry,
+    'entry_function': Determina se è passato in quella determinata funzione,
+    'exit_function': Determina se è passato in quella determinata funzione
+}
+"""
+
 
 def logicentry_first_long(item, bot=False):
     if bot:
-
-        """
-       {
-            'sleep_func_entry': self.func_entry.sleep,
-            'sleep_func_exit': self.func_exit.sleep,
-            'taapi': self.taapi,
-            'symbol': self.symbol,
-            'type': self.func_exit.short or self.func_exit.long,
-            'time_frame': self.time_frame,
-            'ratio': self.func_entry.ratio,
-            'stoploss_value': self.func_exit.stop_loss,
-            'takeprofit_value': self.func_exit.take_profit,
-            'takeprofit': False,
-            'stoploss': False,
-            'entry': False,
-            'entry_candle': 0
-        }
-        """
 
         item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
         time_frame = item['time_frame']
@@ -65,24 +69,6 @@ def logicentry_first_long(item, bot=False):
 
 def logicexit_first_long(item, bot=False):
     if bot:
-
-        """
-        {
-            'sleep_func_entry': self.func_entry.sleep,
-            'sleep_func_exit': self.func_exit.sleep,
-            'taapi': self.taapi,
-            'symbol': self.symbol,
-            'type': self.func_exit.short or self.func_exit.long,
-            'time_frame': self.time_frame,
-            'ratio': self.func_entry.ratio,
-            'stoploss_value': self.func_exit.stop_loss,
-            'takeprofit_value': self.func_exit.take_profit,
-            'takeprofit': False,
-            'stoploss': False,
-            'entry': False,
-            'entry_candle': 0
-        }
-        """
 
         item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
 
