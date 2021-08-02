@@ -61,15 +61,14 @@ class TradingBot:
             )
 
     def stop(self):
-        pass
-        # status = self.bot_object.objects.get(id=self.current_bot.id).status
-        # if status == 'STOP':
-        #     now = datetime.datetime.now()
-        #     self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
-        #     start = "BOT stopped:" + "symbol: " + str(self.symbol) + " time frame: " + str(
-        #         self.time_frame) + " stopped at: " + str(now)
-        #     self.telegram.send(start)
-        #     return True
+        status = self.bot_object.objects.get(id=self.current_bot.id).status
+        if status == 'STOP':
+            now = datetime.datetime.now()
+            self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
+            start = "BOT stopped:" + "symbol: " + str(self.symbol) + " time frame: " + str(
+                self.time_frame) + " stopped at: " + str(now)
+            self.telegram.send(start)
+            return True
 
     def start(self):
 
