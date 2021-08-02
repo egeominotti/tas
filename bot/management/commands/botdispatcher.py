@@ -27,27 +27,37 @@ class Command(BaseCommand):
                         tch = TrendChecker.objects.filter(symbol=strategy.symbol_exchange,
                                                           time_frame=strategy.time_frame).first()
 
-                        if tch.trade_long is True and strategy.long is True:
-                            if not Bot.objects.filter(strategy=strategy, user=user).exists():
-                                bot = Bot.objects.create(strategy=strategy, user=user)
-                                print("avvio bot con strategia long")
+                        if not Bot.objects.filter(strategy=strategy, user=user).exists():
+                            bot = Bot.objects.create(strategy=strategy, user=user)
+                            print("avvio bot con strategia short")
 
-                                async_task("bot.services.runner.runnerbot",
-                                           bot,
-                                           Bot,
-                                           BotLogger,
-                                           hook="bot.services.runner.get_runnerbot_hook")
+                            async_task("bot.services.runner.runnerbot",
+                                       bot,
+                                       Bot,
+                                       BotLogger,
+                                       hook="bot.services.runner.get_runnerbot_hook")
 
-                        if tch.trade_short is True and strategy.short is True:
-                            if not Bot.objects.filter(strategy=strategy, user=user).exists():
-                                bot = Bot.objects.create(strategy=strategy, user=user)
-                                print("avvio bot con strategia short")
-
-                                async_task("bot.services.runner.runnerbot",
-                                           bot,
-                                           Bot,
-                                           BotLogger,
-                                           hook="bot.services.runner.get_runnerbot_hook")
+                        # if tch.trade_long is True and strategy.long is True:
+                        #     if not Bot.objects.filter(strategy=strategy, user=user).exists():
+                        #         bot = Bot.objects.create(strategy=strategy, user=user)
+                        #         print("avvio bot con strategia long")
+                        #
+                        #         async_task("bot.services.runner.runnerbot",
+                        #                    bot,
+                        #                    Bot,
+                        #                    BotLogger,
+                        #                    hook="bot.services.runner.get_runnerbot_hook")
+                        #
+                        # if tch.trade_short is True and strategy.short is True:
+                        #     if not Bot.objects.filter(strategy=strategy, user=user).exists():
+                        #         bot = Bot.objects.create(strategy=strategy, user=user)
+                        #         print("avvio bot con strategia short")
+                        #
+                        #         async_task("bot.services.runner.runnerbot",
+                        #                    bot,
+                        #                    Bot,
+                        #                    BotLogger,
+                        #                    hook="bot.services.runner.get_runnerbot_hook")
 
                 sleep(15)
 
