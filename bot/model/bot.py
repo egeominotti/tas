@@ -69,28 +69,26 @@ class TradingBot:
         self.telegram.send(start)
 
     def entry(self):
+        print("funzione entry")
         func_entry = eval(self.func_entry.name)
         if self.item.get('entry') is False:
             func_entry(item=self.item, bot=True)
             print(self.item)
             if self.item.get('entry') is True:
-                return True
-            sleep(self.item.get('sleep_func_entry'))
+                self.exit()
 
     def exit(self):
+        print("funzione exit")
         func_exit = eval(self.func_exit.name)
         if self.item.get('entry') is True:
-
             func_exit(item=self.item, bot=True)
             print(self.item)
             if self.item.get('is_stop_loss') is True or self.item.get('is_take_profit') is True:
-                return True
-            sleep(self.item.get('sleep_func_exit'))
+                exit(1)
 
     def run(self):
 
-        schedule.every(10).seconds.do(self.entry)
-        schedule.every(10).seconds.do(self.exit)
+        schedule.every(self.item.get('sleep_func_entry')).minute.do(self.entry)
 
         while True:
             schedule.run_pending()
