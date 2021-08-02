@@ -74,7 +74,7 @@ def logic_entry_short_ema8_13_21_34(item, bot=False):
         return False
 
 
-def logic_ema8_13_21_34_takeprofit(item, bot=False):
+def logic_ema8_13_21_34__short_takeprofit(item, bot=False):
     if bot:
         try:
             """
@@ -113,7 +113,7 @@ def logic_ema8_13_21_34_takeprofit(item, bot=False):
         return False
 
 
-def logic_ema8_13_21_34_stop_loss(item, bot=False):
+def logic_ema8_13_21_34_short_stop_loss(item, bot=False):
     if bot:
         try:
             """
