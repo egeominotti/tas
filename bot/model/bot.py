@@ -56,8 +56,9 @@ class TradingBot:
     def run(self):
 
         # self.start()
-        entry = False
+
         item = {
+            'symbol': self.symbol,
             'time_frame': self.time_frame,
             'ratio': self.func_entry.ratio,
             'stop_loss': self.func_exit.stop_loss,
