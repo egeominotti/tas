@@ -177,7 +177,7 @@ class TradingBot:
                         # if self.current_bot.live:
                         #     self.binance.sell()
 
-                        position = False
+                        break
 
                     value = self.func_take_profit(item=item, bot=True)
                     if isinstance(value, Exception):
@@ -208,7 +208,7 @@ class TradingBot:
                         if self.current_bot.live:
                             self.binance.sell()
 
-                        position = False
+                        break
 
                     if self.stop():
                         break
