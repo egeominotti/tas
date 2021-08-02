@@ -75,15 +75,17 @@ class TradingBot:
         self.bot_object.objects.filter(id=self.current_bot.id).update(execution=True)
         self.logger_id = self.logger.objects.create(bot=self.current_bot)
 
-        now = datetime.datetime.now()
+        now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 
         start = ''
         if self.current_bot.long:
-            start = "Long bot started from dispatcher: " + "\nsymbol: " + str(self.symbol) + "\ntime frame: " + str(
+            start = self.current_bot.name + "\nLong bot started from dispatcher: " + "\nsymbol: " + str(
+                self.symbol) + "\ntime frame: " + str(
                 self.time_frame) + "\nstarted at: " + str(now) + "\nSpero di favi guadagnare ❤️"
 
         if self.current_bot.short:
-            start = "Short bot started from dispatcher: " + "\nsymbol: " + str(self.symbol) + "\ntime frame: " + str(
+            start = self.current_bot.name + " \nShort bot started from dispatcher: " + "\nsymbol: " + str(
+                self.symbol) + "\ntime frame: " + str(
                 self.time_frame) + "\nstarted at: " + str(now) + "\n Spero di favi guadagnare ❤️"
 
         self.telegram.send(start)
@@ -108,22 +110,10 @@ class TradingBot:
 
             try:
 
-                # if self.stop():
-                #     break
-
-                # if self.stop():
-                #     break
-
                 """
                 Finche non viene trovata una entry utile continua ad eseguire
                 """
                 if position is False:
-
-                    # if self.stop():
-                    #     break
-                    sleep(sleep_time_profit_or_loss)
-                    # if self.stop():
-                    #     break
 
                     func_entry_value = self.func_entry(item=item, bot=True)
                     if isinstance(func_entry_value, Exception):
@@ -188,7 +178,6 @@ class TradingBot:
                         #     self.binance.sell()
 
                         self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
-
                         break
 
                     value = self.func_take_profit(item=item, bot=True)
@@ -221,7 +210,6 @@ class TradingBot:
                             self.binance.sell()
 
                         self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
-
                         break
 
                     # if self.stop():
