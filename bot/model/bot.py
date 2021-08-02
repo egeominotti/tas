@@ -91,6 +91,11 @@ class TradingBot:
 
             func_entry(item=self.item, bot=True)
             if self.item.get('entry') is True:
+
+                self.item['entry_function'] = True
+                self.item['takeprofit_ratio'] = self.item.get('entry_candle') * self.item.get('takeprofit_value')
+                self.item['stoploss_ratio'] = self.item.get('entry_candle') * self.item.get('stoploss_value')
+
                 # TODO: aggiungere scrittura dei log e apertura ordine
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
@@ -146,7 +151,7 @@ class TradingBot:
 
             print(self.item)
             # Wait sleep_func_entry seconds
-            sleep(self.item.get('sleep_func_entry'))
+            #sleep(self.item.get('sleep_func_entry'))
 
     def run(self) -> bool:
 
@@ -158,9 +163,7 @@ class TradingBot:
             try:
 
                 if entry is False:
-                    self.item['entry_function'] = True
-                    self.item['takeprofit_ratio'] = self.item.get('entry_candle') * self.item.get('takeprofit_value')
-                    self.item['stoploss_ratio'] = self.item.get('entry_candle') * self.item.get('stoploss_value')
+
                     if self.entry():
                         # Succesful open position
                         entry = True
