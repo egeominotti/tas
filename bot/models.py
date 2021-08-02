@@ -53,7 +53,7 @@ class Bot(CommonTrait):
 
     def save(self, *args, **kwargs):
         self.name = 'bot_' + str(uuid.uuid4().hex)
-        if self.status == 'START':
-            self.status = 'STOP'
-            self.execution = False
+        # if self.status == 'START':
+        #     self.status = 'STOP'
+        #     self.execution = False
         super().save(*args, **kwargs)
