@@ -47,8 +47,9 @@ class TradingBot:
         self.telegram.send(start)
 
     def run(self):
-        # self.start()
 
+        # self.start()
+        entry = False
         item = {
             'symbol': self.symbol,
             'time_frame': self.time_frame,
@@ -57,17 +58,40 @@ class TradingBot:
             'take_profit': self.func_exit.take_profit,
             'sleep_func_entry': self.func_exit.sleep,
             'sleep_func_exit': self.func_exit.sleep,
-            'taapi': self.taapi
+            'taapi': self.taapi,
+            'candle_close': 0
         }
 
         func_entry = eval(self.func_entry.name)
         func_exit = eval(self.func_exit.name)
+        taapi = Taapi(self.symbol)
 
-        func_entry_value = func_entry(item=item, bot=True)
-        func_exit_value = func_exit(item=item, bot=True)
+        while True:
+            try:
 
-        print(func_entry_value)
-        print(func_exit_value)
+                item['candle_close'] = taapi.candle(self.time_frame).get('close')
+
+                if entry is False:
+                    return_value = func_entry(item=item, bot=True)
+
+                    if return_value:
+                        entry = True
+                    else:
+                        sleep(item['sleep_func_entry'])
+                        continue
+
+                if entry is True:
+                    func_exit_value = func_exit(item=item, bot=True)
+
+                    if func_exit_value:
+                        break
+                    else:
+                        sleep(item['sleep_func_exit'])
+                        continue
+
+            except Exception as e:
+                print(str(e))
+                break
 
         # while True:
 

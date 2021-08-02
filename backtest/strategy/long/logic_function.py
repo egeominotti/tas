@@ -6,7 +6,6 @@ logger = logging.getLogger(__name__)
 
 
 def logic_entry_one_long(item, bot=False):
-
     if bot:
 
         """
@@ -18,17 +17,18 @@ def logic_entry_one_long(item, bot=False):
             'take_profit': self.func_exit.take_profit,
             'sleep_func_entry': self.func_exit.sleep,
             'sleep_func_exit': self.func_exit.sleep,
-            'taapi': self.taapi
+            'taapi': self.taapi,
+            'candle_close': value
         }
         """
 
         time_frame = item['time_frame']
         taapi = item['taapi']
+        canlde_close = item['candle_close']
 
         ema8_prev = taapi.ema(8, time_frame, 1).get('value')
         candle_low_prev = taapi.candle(time_frame, 1).get('low')
         candle_open_prev = taapi.candle(time_frame, 1).get('open')
-        candle_close = taapi.candle(time_frame).get('close')
 
         ema8 = taapi.ema(8, time_frame)
         ema13 = taapi.ema(13, time_frame)
@@ -39,8 +39,8 @@ def logic_entry_one_long(item, bot=False):
             if ema13 > ema21:
                 if ema21 > ema34:
                     if candle_low_prev <= ema8_prev:
-                        if candle_close > candle_open_prev:
-                            return candle_close
+                        if canlde_close > candle_open_prev:
+                            return True
 
     else:
         """
@@ -58,7 +58,6 @@ def logic_entry_one_long(item, bot=False):
 
 
 def logic_exit_one_long(item, bot=False):
-
     if bot:
 
         """
@@ -74,18 +73,13 @@ def logic_exit_one_long(item, bot=False):
         }
         """
 
-        taapi = item['taapi']
-        time_frame = item['time_frame']
-        stop_loss = item['stop_loss']
-        take_profit = item['take_profit']
+        if item['candle_close'] >= item['open_position_value'] * item['take_profit']:
+            item['take_profit'] = True
+            return True
 
-        candle_close = taapi.candle(time_frame).get('close')
-
-        if candle_close >= item['open_position_value'] * take_profit:
-            return candle_close
-
-        if candle_close <= item['open_position_value'] * stop_loss:
-            return candle_close
+        if item['candle_close'] <= item['open_position_value'] * item['stop_loss']:
+            item['stop_loss'] = True
+            return True
 
         return False
 
