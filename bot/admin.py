@@ -9,7 +9,7 @@ class BotAdmin(admin.ModelAdmin):
     list_display = (
         'name', 'status', 'execution', 'live', 'strategy', 'quantity_investment',
         'leverage', 'exchange', 'created_at', 'updated_at',)
-    readonly_fields = ('name', 'execution',)
+    readonly_fields = ('status', 'name', 'execution',)
     exclude = ['flgEnable', ]
 
 
