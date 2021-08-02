@@ -15,22 +15,23 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         while True:
-
+            sleep(60)
             qs = Bot.objects.all()
+
             for bot in qs:
                 tch = TrendChecker.objects.filter(symbol=bot.strategy.symbol_exchange,
                                                   time_frame=bot.strategy.time_frame).first()
 
-                if tch.trade_long is True and bot.status != 'START' and bot.long is True:
+                if tch.trade_long is True and bot.status == 'STOP' and bot.long is True:
                     print("avvio bot con strategia long")
                     bot.status = 'START'
                     bot.save()
                     async_task("bot.services.runner.runnerbot", bot, Bot, BotLogger)
 
-                if tch.trade_short is True and bot.status != 'START' and bot.short is True:
+                if tch.trade_short is True and bot.status == 'STOP' and bot.short is True:
                     print("avvio bot con strategia short")
                     bot.status = 'START'
                     bot.save()
                     async_task("bot.services.runner.runnerbot", bot, Bot, BotLogger)
 
-            sleep(60)
+            continue
