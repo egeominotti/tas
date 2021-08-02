@@ -116,7 +116,8 @@ class TradingBot:
                         self.telegram.send(error)
 
                     if isinstance(func_entry_value, float):
-                        now = datetime.datetime.now()
+
+                        now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                         entry_text = "ENTRY: " + " candela: " + str(func_entry_value) + " time: " + str(now)
                         self.telegram.send(entry_text)
 
@@ -200,13 +201,11 @@ class TradingBot:
                         # if self.current_bot.live:
                         #     self.binance.sell()
 
-                        # self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
                         break
 
                 sleep(sleep_time_position)
 
             except Exception as e:
-                # self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
                 start = "Errore imprevisto nel bot: " + str(e)
                 self.telegram.send(start)
                 break
