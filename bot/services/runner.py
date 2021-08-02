@@ -38,7 +38,7 @@ def runnerbot(instance, bot_object, logger_object):
         logger=logger_object,
         bot_object=bot_object
     )
-    bot.run(instance.strategy.sleep_run, instance.strategy.sleep_profitloss)
+    bot.run()
 
     item = {
         'id': instance.id,
