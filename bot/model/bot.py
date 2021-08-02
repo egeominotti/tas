@@ -4,6 +4,13 @@ from bot.services.telegram import Telegram
 from analytics.services.exchangeApi import Taapi
 import signal
 
+"""
+Logic function
+"""
+
+from backtest.strategy.long.logic_function import *
+from backtest.strategy.short.logic_function import *
+
 
 def terminate_bot():
     exit(1)

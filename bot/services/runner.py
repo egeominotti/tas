@@ -1,12 +1,6 @@
 from bot.model.bot import TradingBot
 from bot.models import Bot,BotLogger
 
-"""
-Logic function
-"""
-
-from backtest.strategy.long.logic_function import *
-from backtest.strategy.short.logic_function import *
 
 
 def get_runnerbot_hook(task):

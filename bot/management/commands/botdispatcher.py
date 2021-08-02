@@ -17,50 +17,25 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
+        Bot.objects.all().delete()
+
         while True:
 
             try:
                 qs = Strategy.objects.all()
                 usr = User.objects.all()
-                for user in usr:
-                    for strategy in qs:
-                        tch = TrendChecker.objects.filter(symbol=strategy.symbol_exchange,
-                                                          time_frame=strategy.time_frame).first()
+                # for user in usr:
+                for strategy in qs:
+                    tch = TrendChecker.objects.filter(symbol=strategy.symbol_exchange,
+                                                      time_frame=strategy.time_frame).first()
 
-                        if not Bot.objects.filter(strategy=strategy, user=user).exists():
-                            bot = Bot.objects.create(strategy=strategy, user=user)
-                            print("avvio bot con strategia short")
-
-                            async_task("bot.services.runner.runnerbot",
-                                       bot,
-                                       Bot,
-                                       BotLogger,
-                                       hook="bot.services.runner.get_runnerbot_hook")
-
-                        # if tch.trade_long is True and strategy.long is True:
-                        #     if not Bot.objects.filter(strategy=strategy, user=user).exists():
-                        #         bot = Bot.objects.create(strategy=strategy, user=user)
-                        #         print("avvio bot con strategia long")
-                        #
-                        #         async_task("bot.services.runner.runnerbot",
-                        #                    bot,
-                        #                    Bot,
-                        #                    BotLogger,
-                        #                    hook="bot.services.runner.get_runnerbot_hook")
-                        #
-                        # if tch.trade_short is True and strategy.short is True:
-                        #     if not Bot.objects.filter(strategy=strategy, user=user).exists():
-                        #         bot = Bot.objects.create(strategy=strategy, user=user)
-                        #         print("avvio bot con strategia short")
-                        #
-                        #         async_task("bot.services.runner.runnerbot",
-                        #                    bot,
-                        #                    Bot,
-                        #                    BotLogger,
-                        #                    hook="bot.services.runner.get_runnerbot_hook")
-
-                sleep(15)
-
+                    if not Bot.objects.filter(strategy=strategy).exists():
+                        bot = Bot.objects.create(strategy=strategy)
+                        async_task("bot.services.runner.runnerbot",
+                                   bot,
+                                   Bot,
+                                   BotLogger,
+                                   hook="bot.services.runner.get_runnerbot_hook")
+                sleep(10)
             except Exception as e:
-                print(e)
                 Bot.objects.all().delete()

@@ -5,7 +5,7 @@ from backtest.services.util import find_prev_candle
 logger = logging.getLogger(__name__)
 
 
-def logic_entry_one_long(item, bot=False):
+def logicentry_first_long(item, bot=False):
     if bot:
 
         """
@@ -57,7 +57,7 @@ def logic_entry_one_long(item, bot=False):
         return False
 
 
-def logic_exit_one_long(item, bot=False):
+def logicexit_first_long(item, bot=False):
     if bot:
 
         """
