@@ -158,19 +158,20 @@ def logic_entry_long_ema8_13_21_34(item, bot=False):
             ema21 = taapi.ema(21, time_frame)
             ema34 = taapi.ema(34, time_frame)
 
-            print(ema8_prev)
-            print(candle_low_prev)
-            print(candle_open_prev)
-            print(candle_close)
             print(ema8)
             print(ema13)
             print(ema21)
             print(ema34)
+            print("ema8 precedente: " + str(ema8_prev))
+            print('candle low prev:' + str(candle_low_prev))
+            print(ema34)
 
-            if ema8 > ema13 > ema21 > ema34:
-                if candle_low_prev <= ema8_prev:
-                    if candle_close > candle_open_prev:
-                        return candle_close
+            if ema8 > ema13:
+                if ema13 > ema21:
+                    if ema21 > ema34:
+                        if candle_low_prev <= ema8_prev:
+                            if candle_close > candle_open_prev:
+                                return candle_close
 
         except Exception as e:
             logger.exception("Exception logic entry: " + str(e))
