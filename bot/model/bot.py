@@ -120,6 +120,7 @@ class TradingBot:
                         entry_text = "ENTRY: " + " candela: " + str(func_entry_value) + " time: " + str(now)
                         self.telegram.send(entry_text)
 
+                        now = datetime.datetime.now()
                         self.logger.objects.filter(id=self.logger_id.id).update(
                             entry_candle=func_entry_value,
                             entry_candle_date=now,
