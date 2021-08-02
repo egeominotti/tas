@@ -133,12 +133,6 @@ class TradingBot:
                             entry_candle_date=now,
                         )
 
-                        # self.logger.objects.create(
-                        #     entry_candle=func_entry_value,
-                        #     entry_candle_date=now,
-                        #     bot=self.current_bot
-                        # )
-
                         # if self.current_bot.live:
                         #     self.binance.buy()
 
