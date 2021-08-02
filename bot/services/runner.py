@@ -1,4 +1,5 @@
 from bot.model.bot import TradingBot
+from bot.models import Bot
 
 """
 Logic function
@@ -11,8 +12,8 @@ from backtest.strategy.short.logic_function import *
 def get_runnerbot_hook(task):
     print(task)
     print(task)
-    print(task)
-    print(task)
+    if isinstance(task.result, dict):
+        Bot.objects.filter(id=task.result.get('id')).delete()
 
 
 def runnerbot(instance, bot_object, logger_object):
