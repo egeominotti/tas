@@ -69,56 +69,72 @@ class TradingBot:
         self.telegram.send(start)
 
     def entry(self):
+
         print("funzione entry")
+
         func_entry = eval(self.func_entry.name)
         if self.item.get('entry') is False:
             func_entry(item=self.item, bot=True)
             print(self.item)
+
             if self.item.get('entry') is True:
-                self.exit()
+                now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+                entry_text = "Bot: " + str(self.current_bot.name) + \
+                             "\n" + "Symbol: " + str(self.symbol) + \
+                             "\nTime frame: " + str(self.time_frame) + \
+                             "\nEntry Candle value: " + str(self.item.get('entry_candle')) + \
+                             "\nEntry Candel date: " + str(now)
+                self.telegram.send(entry_text)
+                return True
+
+            # Wait sleep_func_entry seconds
+            sleep(self.item.get('sleep_func_entry'))
 
     def exit(self):
         print("funzione exit")
         func_exit = eval(self.func_exit.name)
         if self.item.get('entry') is True:
             func_exit(item=self.item, bot=True)
-            print(self.item)
             if self.item.get('is_stop_loss') is True or self.item.get('is_take_profit') is True:
-                exit(1)
+                if self.item.get('is_stop_loss'):
+
+                    now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+                    stop_loss = "Bot: " + str(self.current_bot.name) + \
+                                "\n" + "Symbol: " + str(self.symbol) + \
+                                "\nTime frame: " + str(self.time_frame) + \
+                                "\nStop loss candle value: " + str(value) + \
+                                "\nStop loss candle date: " + str(now)
+                    self.telegram.send(stop_loss)
+                    return True
+
+                if self.item.get('is_take_profit'):
+
+                    now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+                    stop_loss = "Bot: " + str(self.current_bot.name) + \
+                                "\n" + "Symbol: " + str(self.symbol) + \
+                                "\nTime frame: " + str(self.time_frame) + \
+                                "\nTake profit candle value: " + str(value) + \
+                                "\nTake profit candle date: " + str(now)
+                    self.telegram.send(stop_loss)
+                    return True
+
+            # Wait sleep_func_entry seconds
+            sleep(self.item.get('sleep_func_entry'))
 
     def run(self):
 
-        schedule.every(self.item.get('sleep_func_entry')).minute.do(self.entry)
-
+        entry = False
         while True:
-            schedule.run_pending()
-            sleep(1)
+
+            if entry is False:
+                if self.entry():
+                    entry = True
+
+            if entry is True:
+                if self.exit():
+                    break
         # self.start()
 
-        # while True:
-        #     try:
-        #
-        #         if item.get('entry') is False:
-        #             func_entry(item=item, bot=True)
-        #             print(item)
-        #             sleep(item.get('sleep_func_entry'))
-        #             continue
-        #
-        #         if item.get('entry') is True:
-        #
-        #             func_exit(item=item, bot=True)
-        #             print(item)
-        #             if item.get('is_stop_loss') is True or item.get('is_take_profit') is True:
-        #                 break
-        #
-        #             sleep(item.get('sleep_func_exit'))
-        #             continue
-        #
-        #     except Exception as e:
-        #         print(str(e))
-        #         break
-
-        # while True:
 
         #
         # try:
@@ -214,11 +230,3 @@ class TradingBot:
         #
         #         # if self.current_bot.live:
         #         #     self.binance.sell()
-        #
-        #
-        #
-        #
-        # except Exception as e:
-        #     start = "Errore imprevisto nel bot: " + str(e)
-        #     self.telegram.send(start)
-        #     break
