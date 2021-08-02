@@ -44,12 +44,19 @@ class TradingBot:
         self.bot_object = bot_object
         self.logger_id = self.logger.objects.create(bot=self.current_bot)
         self.notify = False
+
+        type = None
+        if self.func_exit.short and self.func_entry.short:
+            type = 'SHORT'
+        if self.func_exit.long and self.func_exit.long:
+            type = 'LONG'
+
         self.item = {
             'sleep_func_entry': self.func_entry.sleep,
             'sleep_func_exit': self.func_exit.sleep,
             'taapi': self.taapi,
             'symbol': self.symbol,
-            'type': self.func_exit.short or self.func_exit.long,
+            'type': type,
             'time_frame': self.time_frame,
             'ratio': self.func_entry.ratio,
             'stoploss_value': self.func_exit.stop_loss,
