@@ -25,10 +25,18 @@ class SymbolTaapiApi(CommonTrait):
         if self.symbol is not None:
             return str(self.symbol)
 
+    class Meta:
+        verbose_name = 'SymbolTaapiApi'
+        verbose_name_plural = 'SymbolTaapiApi'
+
 
 class SymbolExchange(CommonTrait):
     symbol = models.CharField(max_length=20, blank=False)
     to_import = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = 'SymbolExchange'
+        verbose_name_plural = 'SymbolExchange'
 
     def __str__(self):
         if self.symbol is not None:

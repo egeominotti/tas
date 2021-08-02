@@ -5,14 +5,14 @@ from strategy.models import TimeFrame, SymbolExchange, SymbolTaapiApi, Strategy,
 class LogicEntryAdmin(admin.ModelAdmin):
     list_per_page = 20
     ordering = ('id',)
-    list_display = ('name',)
+    list_display = ('name', 'ratio', 'sleep', 'long', 'short')
     exclude = ['flgEnable', ]
 
 
 class LogicExitAdmin(admin.ModelAdmin):
     list_per_page = 20
     ordering = ('id',)
-    list_display = ('name',)
+    list_display = ('name', 'take_profit', 'stop_loss', 'long', 'short')
     exclude = ['flgEnable', ]
 
 
