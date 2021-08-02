@@ -2,23 +2,23 @@ from django.contrib import admin
 from bot.models import Bot, BotLogger
 
 
-class BotAdmin(admin.ModelAdmin):
-    search_fields = ['name']
-    list_per_page = 50
-    ordering = ('id',)
-    list_display = (
-        'name', 'strategy', 'created_at', 'updated_at',)
-    readonly_fields = ('name',)
-    exclude = ['flgEnable', ]
-
-    def has_delete_permission(self, request, obj=None):
-        return False
-
-    def has_change_permission(self, request, obj=None):
-        return False
-
-    def has_add_permission(self, request, obj=None):
-        return False
+# class BotAdmin(admin.ModelAdmin):
+#     search_fields = ['name']
+#     list_per_page = 50
+#     ordering = ('id',)
+#     list_display = (
+#         'name', 'strategy', 'created_at', 'updated_at',)
+#     readonly_fields = ('name',)
+#     exclude = ['flgEnable', ]
+#
+#     def has_delete_permission(self, request, obj=None):
+#         return False
+#
+#     def has_change_permission(self, request, obj=None):
+#         return False
+#
+#     def has_add_permission(self, request, obj=None):
+#         return False
 
 
 class BotLoggerAdmin(admin.ModelAdmin):
@@ -42,6 +42,6 @@ class BotLoggerAdmin(admin.ModelAdmin):
 
 
 admin.site.register(BotLogger, BotLoggerAdmin)
-admin.site.register(Bot, BotAdmin)
+#admin.site.register(Bot, BotAdmin)
 
 admin.site.site_header = 'Amministrazione TAS'
