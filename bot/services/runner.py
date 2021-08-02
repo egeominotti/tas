@@ -27,6 +27,7 @@ def get_runnerbot_hook(task):
 
 
 def runnerbot(instance, bot_object, logger_object):
+
     bot = TradingBot(
         current_bot=instance,
         symbol=instance.strategy.symbol_taapi.symbol,
