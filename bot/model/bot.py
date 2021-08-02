@@ -185,6 +185,9 @@ class TradingBot:
                         # if self.current_bot.live:
                         #     self.binance.sell()
 
+                        self.bot_object.objects.filter(id=self.current_bot.id).update(status='STOPPED')
+                        self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
+
                         break
 
                     value = self.func_take_profit(item=item, bot=True)
@@ -215,6 +218,10 @@ class TradingBot:
 
                         if self.current_bot.live:
                             self.binance.sell()
+
+                        self.bot_object.objects.filter(id=self.current_bot.id).update(status='STOPPED')
+                        self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
+
                         break
 
                     if self.stop():
