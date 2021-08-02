@@ -61,8 +61,8 @@ class TradingBot:
             )
 
     def stop(self):
-        status = self.bot_object.objects.get(id=self.current_bot.id).status
-        if status == 'STOPPED':
+        execution = self.bot_object.objects.get(id=self.current_bot.id).execution
+        if execution is False:
             now = datetime.datetime.now()
             self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
             start = "BOT stopped:" + "symbol: " + str(self.symbol) + " time frame: " + str(
@@ -108,22 +108,22 @@ class TradingBot:
 
             try:
 
-                if self.stop():
-                    break
+                # if self.stop():
+                #     break
                 sleep(sleep_time_position)
-                if self.stop():
-                    break
+                # if self.stop():
+                #     break
 
                 """
                 Finche non viene trovata una entry utile continua ad eseguire
                 """
                 if position is False:
 
-                    if self.stop():
-                        break
+                    # if self.stop():
+                    #     break
                     sleep(sleep_time_profit_or_loss)
-                    if self.stop():
-                        break
+                    # if self.stop():
+                    #     break
 
                     func_entry_value = self.func_entry(item=item, bot=True)
                     if isinstance(func_entry_value, Exception):
@@ -185,7 +185,6 @@ class TradingBot:
                         # if self.current_bot.live:
                         #     self.binance.sell()
 
-                        self.bot_object.objects.filter(id=self.current_bot.id).update(status='STOPPED')
                         self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
 
                         break
@@ -219,19 +218,17 @@ class TradingBot:
                         if self.current_bot.live:
                             self.binance.sell()
 
-                        self.bot_object.objects.filter(id=self.current_bot.id).update(status='STOPPED')
                         self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
 
                         break
 
-                    if self.stop():
-                        break
+                    # if self.stop():
+                    #     break
                     sleep(sleep_time_profit_or_loss)
-                    if self.stop():
-                        break
+                    # if self.stop():
+                    #     break
 
             except Exception as e:
-                self.bot_object.objects.filter(id=self.current_bot.id).update(status='STOP')
                 self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
                 start = "Errore imprevisto nel bot: " + str(e)
                 self.telegram.send(start)

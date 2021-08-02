@@ -33,7 +33,6 @@ class BotLogger(CommonTrait):
 
 class Bot(CommonTrait):
     name = models.CharField(max_length=100, blank=False, null=False)
-    status = models.CharField(max_length=50, choices=BOT_STATUS, default=BOT_STATUS[0][0], blank=False, null=False)
     quantity_investment = models.FloatField(default=0, blank=False)
     leverage = models.IntegerField(default=0, blank=False)
     live = models.BooleanField(default=False)
