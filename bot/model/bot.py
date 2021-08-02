@@ -63,111 +63,113 @@ class TradingBot:
         func_entry = eval(self.func_entry.name)
         func_exit = eval(self.func_exit.name)
 
-        while True:
-            func_entry_value = func_entry(item=item, bot=True)
-            func_exit_value = func_exit(item=item, bot=True)
+        func_entry_value = func_entry(item=item, bot=True)
+        func_exit_value = func_exit(item=item, bot=True)
 
-            print(func_entry_value)
-            print(func_exit_value)
-            #
-            # try:
-            #
-            #     """
-            #     Finche non viene trovata una entry utile continua ad eseguire
-            #     """
-            #     if position is False:
-            #
-            #         func_entry_value = self.func_entry(item=item, bot=True)
-            #         if isinstance(func_entry_value, Exception):
-            #             error = "ERROR" + str(func_entry_value)
-            #             self.telegram.send(error)
-            #
-            #         if isinstance(func_entry_value, float):
-            #             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-            #             entry_text = "Bot: " + str(self.current_bot.name) + \
-            #                          "\n" + "Symbol: " + str(self.symbol) + \
-            #                          "\nTime frame: " + str(self.time_frame) + \
-            #                          "\nEntry Candle value: " + str(func_entry_value) + \
-            #                          "\nEntry Candel date: " + str(now)
-            #             self.telegram.send(entry_text)
-            #
-            #             now = datetime.datetime.now()
-            #             self.logger.objects.filter(id=self.logger_id.id).update(
-            #                 entry_candle=func_entry_value,
-            #                 entry_candle_date=now,
-            #             )
-            #
-            #             # if self.current_bot.live:
-            #             #     self.binance.buy()
-            #
-            #             open_position_value = func_entry_value
-            #             position = True
-            #
-            #     sleep(sleep_time_position)
-            #
-            #     """
-            #     Se viene aperta una posizione allora verifica le condizioni stoploss e takeprofit
-            #     """
-            #     if position is True:
-            #         print("Provo a cercare una take profit o stop loss")
-            #         value = self.func_exit(item=item, bot=True)
-            #
-            #         if isinstance(value, Exception):
-            #             error = "ERROR" + str(value)
-            #             self.telegram.send(error)
-            #             break
-            #
-            #         if isinstance(value, float):
-            #             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-            #             stop_loss = "Bot: " + str(self.current_bot.name) + \
-            #                         "\n" + "Symbol: " + str(self.symbol) + \
-            #                         "\nTime frame: " + str(self.time_frame) + \
-            #                         "\nStop loss candle value: " + str(value) + \
-            #                         "\nStop loss candle date: " + str(now)
-            #             self.telegram.send(stop_loss)
-            #
-            #             now = datetime.datetime.now()
-            #             self.logger.objects.filter(id=self.logger_id.id).update(
-            #                 candle_take_profit=value,
-            #                 candle_take_profit_date=now,
-            #                 stop_loss=True,
-            #             )
-            #             #
-            #             # if self.current_bot.live:
-            #             #     self.binance.sell()
-            #
-            #             break
-            #
-            #         # value = self.func_take_profit(item=item, bot=True)
-            #         # if isinstance(value, Exception):
-            #         #     error = "ERROR" + str(value)
-            #         #     self.telegram.send(error)
-            #         #     break
-            #         #
-            #         # if isinstance(value, float):
-            #         #
-            #         #     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-            #         #     take_profit = "Bot: " + str(self.current_bot.name) + \
-            #         #                  "\n" + "Symbol: " + str(self.symbol) + \
-            #         #                  "\nTime frame: " + str(self.time_frame) + \
-            #         #                  "\nTake Profit candle value: " + str(value) + \
-            #         #                  "\nTake profit candle date: " + str(now)
-            #         #     self.telegram.send(take_profit)
-            #         #
-            #         #     now = datetime.datetime.now()
-            #         #     self.logger.objects.filter(id=self.logger_id.id).update(
-            #         #         candle_stop_loss=value,
-            #         #         candle_stop_loss_date=now,
-            #         #         take_profit=True,
-            #         #     )
-            #
-            #         # if self.current_bot.live:
-            #         #     self.binance.sell()
-            #
-            #
-            #
-            #
-            # except Exception as e:
-            #     start = "Errore imprevisto nel bot: " + str(e)
-            #     self.telegram.send(start)
-            #     break
+        print(func_entry_value)
+        print(func_exit_value)
+
+        # while True:
+
+        #
+        # try:
+        #
+        #     """
+        #     Finche non viene trovata una entry utile continua ad eseguire
+        #     """
+        #     if position is False:
+        #
+        #         func_entry_value = self.func_entry(item=item, bot=True)
+        #         if isinstance(func_entry_value, Exception):
+        #             error = "ERROR" + str(func_entry_value)
+        #             self.telegram.send(error)
+        #
+        #         if isinstance(func_entry_value, float):
+        #             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+        #             entry_text = "Bot: " + str(self.current_bot.name) + \
+        #                          "\n" + "Symbol: " + str(self.symbol) + \
+        #                          "\nTime frame: " + str(self.time_frame) + \
+        #                          "\nEntry Candle value: " + str(func_entry_value) + \
+        #                          "\nEntry Candel date: " + str(now)
+        #             self.telegram.send(entry_text)
+        #
+        #             now = datetime.datetime.now()
+        #             self.logger.objects.filter(id=self.logger_id.id).update(
+        #                 entry_candle=func_entry_value,
+        #                 entry_candle_date=now,
+        #             )
+        #
+        #             # if self.current_bot.live:
+        #             #     self.binance.buy()
+        #
+        #             open_position_value = func_entry_value
+        #             position = True
+        #
+        #     sleep(sleep_time_position)
+        #
+        #     """
+        #     Se viene aperta una posizione allora verifica le condizioni stoploss e takeprofit
+        #     """
+        #     if position is True:
+        #         print("Provo a cercare una take profit o stop loss")
+        #         value = self.func_exit(item=item, bot=True)
+        #
+        #         if isinstance(value, Exception):
+        #             error = "ERROR" + str(value)
+        #             self.telegram.send(error)
+        #             break
+        #
+        #         if isinstance(value, float):
+        #             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+        #             stop_loss = "Bot: " + str(self.current_bot.name) + \
+        #                         "\n" + "Symbol: " + str(self.symbol) + \
+        #                         "\nTime frame: " + str(self.time_frame) + \
+        #                         "\nStop loss candle value: " + str(value) + \
+        #                         "\nStop loss candle date: " + str(now)
+        #             self.telegram.send(stop_loss)
+        #
+        #             now = datetime.datetime.now()
+        #             self.logger.objects.filter(id=self.logger_id.id).update(
+        #                 candle_take_profit=value,
+        #                 candle_take_profit_date=now,
+        #                 stop_loss=True,
+        #             )
+        #             #
+        #             # if self.current_bot.live:
+        #             #     self.binance.sell()
+        #
+        #             break
+        #
+        #         # value = self.func_take_profit(item=item, bot=True)
+        #         # if isinstance(value, Exception):
+        #         #     error = "ERROR" + str(value)
+        #         #     self.telegram.send(error)
+        #         #     break
+        #         #
+        #         # if isinstance(value, float):
+        #         #
+        #         #     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+        #         #     take_profit = "Bot: " + str(self.current_bot.name) + \
+        #         #                  "\n" + "Symbol: " + str(self.symbol) + \
+        #         #                  "\nTime frame: " + str(self.time_frame) + \
+        #         #                  "\nTake Profit candle value: " + str(value) + \
+        #         #                  "\nTake profit candle date: " + str(now)
+        #         #     self.telegram.send(take_profit)
+        #         #
+        #         #     now = datetime.datetime.now()
+        #         #     self.logger.objects.filter(id=self.logger_id.id).update(
+        #         #         candle_stop_loss=value,
+        #         #         candle_stop_loss_date=now,
+        #         #         take_profit=True,
+        #         #     )
+        #
+        #         # if self.current_bot.live:
+        #         #     self.binance.sell()
+        #
+        #
+        #
+        #
+        # except Exception as e:
+        #     start = "Errore imprevisto nel bot: " + str(e)
+        #     self.telegram.send(start)
+        #     break
