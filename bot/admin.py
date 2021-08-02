@@ -7,10 +7,18 @@ class BotAdmin(admin.ModelAdmin):
     list_per_page = 50
     ordering = ('id',)
     list_display = (
-        'name', 'execution', 'live', 'long', 'short', 'strategy', 'quantity_investment',
-        'leverage', 'exchange', 'created_at', 'updated_at',)
-    readonly_fields = ('name', 'execution',)
+        'name', 'strategy', 'created_at', 'updated_at',)
+    readonly_fields = ('name',)
     exclude = ['flgEnable', ]
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request, obj=None):
+        return False
 
 
 class BotLoggerAdmin(admin.ModelAdmin):

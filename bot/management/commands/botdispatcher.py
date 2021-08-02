@@ -4,6 +4,7 @@ from django.core.management import BaseCommand
 from django_q.tasks import async_task
 from analytics.models import TrendChecker
 from bot.models import Bot, BotLogger
+from strategy.models import Strategy
 import logging
 
 logger = logging.getLogger('main')
@@ -14,25 +15,18 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        while True:
+        qs = Strategy.objects.all()
+        for strategy in qs:
 
-            qs = Bot.objects.all()
+            tch = TrendChecker.objects.filter(symbol=strategy.symbol_exchange,
+                                              time_frame=strategy.time_frame).first()
 
-            for bot in qs:
-                tch = TrendChecker.objects.filter(symbol=bot.strategy.symbol_exchange,
-                                                  time_frame=bot.strategy.time_frame).first()
+            if tch.trade_long is True and strategy.long is True:
+                bot = Bot.objects.create(strategy=strategy)
+                print("avvio bot con strategia long")
+                async_task("bot.services.runner.runnerbot", bot, Bot, BotLogger)
 
-                if tch.trade_long is True and bot.execution is False and bot.long is True:
-                    print("avvio bot con strategia long")
-                    bot.execution = True
-                    bot.save()
-                    async_task("bot.services.runner.runnerbot", bot, Bot, BotLogger)
-
-                if tch.trade_short is True and bot.execution is False and bot.short is True:
-                    print("avvio bot con strategia short")
-                    bot.execution = True
-                    bot.save()
-                    async_task("bot.services.runner.runnerbot", bot, Bot, BotLogger)
-
-            sleep(60)
-            continue
+            if tch.trade_short is True and strategy.short is True:
+                bot = Bot.objects.create(strategy=strategy)
+                print("avvio bot con strategia short")
+                async_task("bot.services.runner.runnerbot", bot, Bot, BotLogger)

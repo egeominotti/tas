@@ -86,6 +86,8 @@ class Strategy(CommonTrait):
     symbol_exchange = models.ForeignKey('SymbolExchange', on_delete=models.CASCADE, null=False, blank=False)
     sleep_run = models.IntegerField(default=0, blank=False, null=False)
     sleep_profitloss = models.IntegerField(default=0, blank=False, null=False)
+    long = models.BooleanField(default=False)
+    short = models.BooleanField(default=False)
 
     def __str__(self):
         if self.name is not None:
