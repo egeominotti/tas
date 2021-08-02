@@ -54,5 +54,3 @@ class Bot(CommonTrait):
         self.name = 'bot_' + str(uuid.uuid4().hex)
         super().save(*args, **kwargs)
 
-        if self.status == 'START':
-            async_task("bot.services.runner.runnerbot", self, Bot, BotLogger)
