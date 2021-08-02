@@ -59,6 +59,7 @@ class LogicExit(CommonTrait):
         verbose_name = 'LogicExit'
         verbose_name_plural = 'LogicExit'
 
+
 class LogicTakepProfit(CommonTrait):
     name = models.CharField(max_length=200, blank=False)
     function = QuillField(blank=True)
@@ -93,6 +94,7 @@ class Strategy(CommonTrait):
     stop_loss = models.FloatField(default=0, blank=False)
 
     logic_entry = models.ForeignKey(LogicEntry, on_delete=models.CASCADE, null=False, blank=False)
+    logic_exit = models.ForeignKey(LogicExit, on_delete=models.CASCADE, null=False, blank=False)
     logic_takeprofit = models.ForeignKey(LogicTakepProfit, on_delete=models.CASCADE, null=False, blank=False)
     logic_stoploss = models.ForeignKey(LogicStopLoss, on_delete=models.CASCADE, null=False, blank=False)
 

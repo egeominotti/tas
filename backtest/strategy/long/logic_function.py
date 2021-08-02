@@ -138,7 +138,7 @@ STRATEGY : 2 - ema8/ema13/ema21/ema34
 """
 
 
-def logic_entry_long_ema8_13_21_34(item, bot=False):
+def logic_entry_ema8_13_21_34_long(item, bot=False):
     if bot:
 
         try:
@@ -203,33 +203,7 @@ def logic_entry_long_ema8_13_21_34(item, bot=False):
         return False
 
 
-def logic_ema8_13_21_34__long_takeprofit(item, bot=False):
-    if bot:
-        try:
-            """
-            Casistica usata dal bot
-            """
-            time_frame = item['time_frame']
-            symbol = item['symbol']
-            take_profit = item['take_profit']
-            taapi = Taapi(symbol)
-            candle_close = taapi.candle(time_frame).get('close')
-
-            if candle_close >= item['open_position_value'] * take_profit:
-                return candle_close
-
-            return False
-
-        except Exception as e:
-            logger.exception("Exception logic take profit: " + str(e))
-            return e
-    else:
-        if item['close_candle'] >= item['open_candle'] * item['take_profit']:
-            return True
-        return False
-
-
-def logic_ema8_13_21_34__long_stop_loss(item, bot=False):
+def logic_exit_ema8_13_21_34_long(item, bot=False):
     if bot:
         try:
             """
@@ -238,8 +212,12 @@ def logic_ema8_13_21_34__long_stop_loss(item, bot=False):
             time_frame = item['time_frame']
             symbol = item['symbol']
             stop_loss = item['stop_loss']
+            take_profit = item['take_profit']
             taapi = Taapi(symbol)
             candle_close = taapi.candle(time_frame).get('close')
+
+            if candle_close >= item['open_position_value'] * take_profit:
+                return candle_close
 
             if candle_close <= item['open_position_value'] * stop_loss:
                 return candle_close
@@ -247,14 +225,16 @@ def logic_ema8_13_21_34__long_stop_loss(item, bot=False):
             return False
 
         except Exception as e:
-            logger.exception("Exception logic stop loss: " + str(e))
+            logger.exception("Exception logic take profit: " + str(e))
             return e
-
     else:
+
+        if item['close_candle'] >= item['open_candle'] * item['take_profit']:
+            return True
+
         if item['close_candle'] <= item['open_candle'] * item['stop_loss']:
             return True
         return False
-
 
 #
 # def scalping_5m_rsi_bollinger(item, bot=False) -> bool:
