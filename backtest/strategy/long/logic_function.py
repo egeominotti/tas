@@ -76,8 +76,8 @@ def logicexit_first_long(item, bot=False):
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures")
         binance_websocket_api_manager.create_stream(['kline_1m'], ['btcusdt'], output="UnicornFy")
 
-        exit = False
-        while exit:
+        sentinel = False
+        while True:
             oldest_stream_data_from_stream_buffer = binance_websocket_api_manager.pop_stream_data_from_stream_buffer()
             if oldest_stream_data_from_stream_buffer:
                 unicorn_fied_stream_data = UnicornFy.binance_com_websocket(oldest_stream_data_from_stream_buffer)
@@ -92,19 +92,22 @@ def logicexit_first_long(item, bot=False):
                         item['candle_close'] = v.get('close_price')
 
                 # item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
-
+                print("websocket")
+                print(item['candle_close'])
                 if item['candle_close'] >= item['entry_candle'] * item['takeprofit_value']:
                     item['takeprofit_candle'] = item['candle_close']
                     item['takeprofit'] = True
-                    exit = True
-                    return True
+                    sentinel = True
+                    break
 
                 if item['candle_close'] <= item['entry_candle'] * item['stoploss_value']:
                     item['stoploss_candle'] = item['candle_close']
                     item['stoploss'] = True
-                    exit = True
-                    return True
+                    sentinel = True
+                    break
 
+        if sentinel is True:
+            return True
         return False
 
     else:
