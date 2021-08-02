@@ -74,10 +74,10 @@ class TradingBot:
 
         self.logger_id = self.logger.objects.create(bot=self.current_bot)
 
-        #now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+        # now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
         now = datetime.datetime.now()
 
-        start = self.current_bot.name + "\nLong bot started from dispatcher: " + "\nsymbol: " + str(
+        start = str(self.current_bot.name) + "\nbot started from dispatcher: " + "\nsymbol: " + str(
             self.symbol) + "\ntime frame: " + str(
             self.time_frame) + "\nstarted at: " + str(now) + "\nSpero di favi guadagnare ❤️"
         self.telegram.send(start)
@@ -133,8 +133,6 @@ class TradingBot:
 
                         open_position_value = func_entry_value
                         position = True
-
-                sleep(sleep_time_position)
 
                 """
                 Se viene aperta una posizione allora verifica le condizioni stoploss e takeprofit
@@ -202,8 +200,7 @@ class TradingBot:
                         # self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
                         break
 
-                    sleep(sleep_time_profit_or_loss)
-
+                sleep(sleep_time_position)
 
             except Exception as e:
                 # self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
