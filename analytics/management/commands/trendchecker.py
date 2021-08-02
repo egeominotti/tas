@@ -59,7 +59,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         # telegram = Telegram()
-        daysBack = 1
+        daysBack = 30
         while True:
 
             try:
