@@ -2,6 +2,7 @@ from time import sleep
 import datetime
 from bot.services.telegram import Telegram
 from analytics.services.exchangeApi import Taapi
+import schedule
 import signal
 
 """
@@ -43,22 +44,9 @@ class TradingBot:
         self.logger = logger
         self.bot_object = bot_object
         self.logger_id = self.logger.objects.create(bot=self.current_bot)
-
-    def start(self):
-        now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-        start = "Started: " + str(self.current_bot.name) + \
-                "\n" + "Symbol: " + str(self.symbol) + \
-                "\nTime frame: " + str(self.time_frame) + \
-                "\nStarted at: " + str(now) + \
-                "\nLet's go to the moon 🚀️"
-        self.telegram.send(start)
-
-    def run(self):
-
-        # self.start()
-
-        item = {
+        self.item = {
             'symbol': self.symbol,
+            'type': self.func_exit.short or self.func_exit.long,
             'time_frame': self.time_frame,
             'ratio': self.func_entry.ratio,
             'stop_loss': self.func_exit.stop_loss,
@@ -71,31 +59,66 @@ class TradingBot:
             'is_stop_loss': False
         }
 
+    def start(self):
+        now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+        start = "Started: " + str(self.current_bot.name) + \
+                "\n" + "Symbol: " + str(self.symbol) + \
+                "\nTime frame: " + str(self.time_frame) + \
+                "\nStarted at: " + str(now) + \
+                "\nLet's go to the moon 🚀️"
+        self.telegram.send(start)
+
+    def entry(self):
         func_entry = eval(self.func_entry.name)
+        if self.item.get('entry') is False:
+            func_entry(item=self.item, bot=True)
+            print(self.item)
+            if self.item.get('entry') is True:
+                return True
+            sleep(self.item.get('sleep_func_entry'))
+
+    def exit(self):
         func_exit = eval(self.func_exit.name)
+        if self.item.get('entry') is True:
+
+            func_exit(item=self.item, bot=True)
+            print(self.item)
+            if self.item.get('is_stop_loss') is True or self.item.get('is_take_profit') is True:
+                return True
+            sleep(self.item.get('sleep_func_exit'))
+
+    def run(self):
+
+        schedule.every(10).seconds.do(self.entry)
+        schedule.every(10).seconds.do(self.exit)
 
         while True:
-            try:
+            schedule.run_pending()
+            sleep(1)
+        # self.start()
 
-                if item.get('entry') is False:
-                    func_entry(item=item, bot=True)
-                    print(item)
-                    sleep(item.get('sleep_func_entry'))
-                    continue
-
-                if item.get('entry') is True:
-
-                    func_exit(item=item, bot=True)
-                    print(item)
-                    if item.get('is_stop_loss') or item.get('is_take_profit'):
-                        break
-
-                    sleep(item.get('sleep_func_exit'))
-                    continue
-
-            except Exception as e:
-                print(str(e))
-                break
+        # while True:
+        #     try:
+        #
+        #         if item.get('entry') is False:
+        #             func_entry(item=item, bot=True)
+        #             print(item)
+        #             sleep(item.get('sleep_func_entry'))
+        #             continue
+        #
+        #         if item.get('entry') is True:
+        #
+        #             func_exit(item=item, bot=True)
+        #             print(item)
+        #             if item.get('is_stop_loss') is True or item.get('is_take_profit') is True:
+        #                 break
+        #
+        #             sleep(item.get('sleep_func_exit'))
+        #             continue
+        #
+        #     except Exception as e:
+        #         print(str(e))
+        #         break
 
         # while True:
 
