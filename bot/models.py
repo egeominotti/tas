@@ -1,9 +1,6 @@
 from django.contrib.auth.models import User
-
-from exchange.models import Exchange
 from django.db import models
 from analytics.models import CommonTrait
-from django_q.tasks import async_task
 from strategy.models import Strategy
 import uuid
 

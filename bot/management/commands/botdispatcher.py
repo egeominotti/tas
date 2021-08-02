@@ -19,7 +19,7 @@ class Command(BaseCommand):
         while True:
 
             try:
-                qs = Strategy.objects.all()
+                qs = Strategy.objects.filter(live_mode=True)
                 usr = User.objects.all()
                 # for user in usr:
                 for strategy in qs:
