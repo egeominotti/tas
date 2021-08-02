@@ -35,7 +35,6 @@ class StrategyAdmin(admin.ModelAdmin):
     save_as = True
     list_per_page = 50
     ordering = ('id',)
-    readonly_fields = ('name',)
     list_display = ('name', 'time_frame', 'logic_entry', 'logic_exit', 'symbol_taapi', 'symbol_exchange')
     exclude = ['flgEnable', ]
 

@@ -86,11 +86,6 @@ class Strategy(CommonTrait):
     symbol_taapi = models.ForeignKey('SymbolTaapiApi', on_delete=models.CASCADE, null=False, blank=False)
     symbol_exchange = models.ForeignKey('SymbolExchange', on_delete=models.CASCADE, null=False, blank=False)
 
-    def save(self, *args, **kwargs):
-        if len(self.name) == 0:
-            self.name = 'strategy' + str(uuid.uuid4().hex)
-        super().save(*args, **kwargs)
-
     def __str__(self):
         if self.name is not None:
             return str(self.name)
