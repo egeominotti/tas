@@ -34,6 +34,6 @@ class Command(BaseCommand):
                                    Bot,
                                    BotLogger,
                                    hook="bot.services.runner.get_runnerbot_hook")
-                sleep(300)
+                sleep(1)
             except Exception as e:
                 Bot.objects.all().delete()
