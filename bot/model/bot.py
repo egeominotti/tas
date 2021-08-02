@@ -90,13 +90,11 @@ class TradingBot:
 
                 if item.get('entry') is True:
                     return_value = func_exit(item=item, bot=True)
-
                     if return_value:
                         print(item)
                         break
-                    else:
-                        sleep(item.get('sleep_func_exit'))
-                        continue
+
+                    sleep(item.get('sleep_func_exit'))
 
             except Exception as e:
                 print(str(e))

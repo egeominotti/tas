@@ -74,11 +74,11 @@ def logicexit_first_long(item, bot=False):
         """
         print(item)
 
-        if item['candle_close'] >= item['take_profit']:
+        if item['candle_close'] >= item['entry_candle'] * item['take_profit']:
             item['is_take_profit'] = True
             return True
 
-        if item['candle_close'] <= item['stop_loss']:
+        if item['candle_close'] <= item['entry_candle'] * item['stop_loss']:
             item['is_stop_loss'] = True
             return True
 
