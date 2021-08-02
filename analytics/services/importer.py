@@ -11,6 +11,7 @@ from analytics.models import Importer
 from backtest.services.computedata import compute_data
 
 client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
+keyToRemove = ['timestamp', 'unix', 'open', 'high', 'low', 'close', 'volume']
 
 
 def get_save_hook(task):
@@ -22,7 +23,7 @@ def get_save_hook(task):
 def save(symbol, time_frame):
     print(symbol)
     print(time_frame)
-    keyToRemove = ['timestamp', 'unix', 'open', 'high', 'low', 'close', 'volume']
+
     now = datetime.now().strftime("%d %b, %Y")
     klines = client.get_historical_klines(symbol, time_frame, '17 Aug, 2017', now)
 

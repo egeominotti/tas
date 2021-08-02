@@ -26,38 +26,25 @@ class Command(BaseCommand):
 
         telegram = Telegram()
 
-        while True:
+        try:
 
-            try:
+            for s in SymbolExchange.objects.filter(to_import=True).order_by('created_at'):
+                for t in TimeFrame.objects.filter(to_import=True).order_by('created_at'):
+                    print(s.symbol)
+                    print(t.time_frame)
+                    if s.to_import and t.to_import:
 
-                for s in SymbolExchange.objects.filter(to_import=True).order_by('created_at'):
-                    for t in TimeFrame.objects.filter(to_import=True).order_by('created_at'):
+                        try:
+                            async_task("analytics.services.importer.save",
+                                       s.symbol,
+                                       t.time_frame,
+                                       hook="analytics.services.importer.get_save_hook")
 
-                        if s.to_import and t.to_import:
+                        except Exception as e:
+                            start = "Errore importazione dei dati: " + str(e) + " " + str(s.symbol) + " " + str(
+                                t.time_frame)
+                            telegram.send(start)
 
-                            try:
-                                print("inizio")
-                                task_id = async_task("analytics.services.importer.save",
-                                                     s.symbol,
-                                                     t.time_frame,
-                                                     hook="analytics.services.importer.get_save_hook")
-                                print(task_id)
-                                # now = datetime.now().strftime("%d %b, %Y")
-                                # klines = client.get_historical_klines(s.symbol, t.time_frame, '17 Aug, 2017', now)
-                                #
-                                # if len(klines) > 0:
-                                #     klines_computed = compute_data(klines)
-                                #     save(klines_computed, s.symbol, t.time_frame)
-                                # continue
-
-                            except Exception as e:
-                                start = "Errore importazione dei dati: " + str(e) + " " + str(s.symbol) + " " + str(
-                                    t.time_frame)
-                                telegram.send(start)
-                                continue
-                continue
-
-            except Exception as e:
-                start = "Errore importazione dei dati: " + str(e) + " "
-                telegram.send(start)
-                continue
+        except Exception as e:
+            start = "Errore importazione dei dati: " + str(e) + " "
+            telegram.send(start)
