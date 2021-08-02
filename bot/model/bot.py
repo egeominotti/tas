@@ -51,6 +51,14 @@ class TradingBot:
             type = 'LONG'
 
         self.item = {
+            'takeprofit': False,
+            'takeprofit_ratio': 0,
+            'takeprofit_candle': 0,
+            'stoploss': False,
+            'stoploss_ratio': 0,
+            'stoploss_candle': 0,
+            'entry': False,
+            'entry_candle': 0,
             'sleep_func_entry': self.func_entry.sleep,
             'sleep_func_exit': self.func_exit.sleep,
             'taapi': self.taapi,
@@ -60,12 +68,6 @@ class TradingBot:
             'ratio': self.func_entry.ratio,
             'stoploss_value': self.func_exit.stop_loss,
             'takeprofit_value': self.func_exit.take_profit,
-            'takeprofit': False,
-            'takeprofit_candle': 0,
-            'stoploss': False,
-            'stoploss_candle': 0,
-            'entry': False,
-            'entry_candle': 0,
             'entry_function': False,
             'exit_function': False
         }
@@ -88,7 +90,7 @@ class TradingBot:
 
             func_entry(item=self.item, bot=True)
             if self.item.get('entry') is True:
-                #TODO: aggiungere scrittura dei log e apertura ordine
+                # TODO: aggiungere scrittura dei log e apertura ordine
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                     entry_text = "Bot: " + str(self.current_bot.name) + \
@@ -97,6 +99,9 @@ class TradingBot:
                                  "\nEntry Candle value: " + str(self.item.get('entry_candle')) + \
                                  "\nEntry Candle date: " + str(now)
                     self.telegram.send(entry_text)
+
+                self.item['takeprofit_ratio'] = self.item.get('entry_candle') * self.item.get('takeprofit_value')
+                self.item['stoploss_ratio'] = self.item.get('entry_candle') * self.item.get('stoploss_value')
 
                 return True
 
@@ -111,7 +116,7 @@ class TradingBot:
 
             func_exit(item=self.item, bot=True)
             if self.item.get('stoploss'):
-                #TODO: aggiungere scrittura dei log chiusura ordine sell
+                # TODO: aggiungere scrittura dei log chiusura ordine sell
 
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
@@ -125,7 +130,7 @@ class TradingBot:
                 return True
 
             if self.item.get('takeprofit'):
-                #TODO: aggiungere scrittura dei log chiusura ordine sell
+                # TODO: aggiungere scrittura dei log chiusura ordine sell
 
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
