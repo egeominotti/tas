@@ -2,7 +2,12 @@ from bot.model.bot import TradingBot
 from bot.models import Bot, BotLogger
 
 
-def get_runnerbot_hook(task):
+def get_runnerbot_hook(task) -> None:
+    """
+
+    :param task:
+    :return:None
+    """
     print("HO FINITO")
     print("HO FINITO")
     print("HO FINITO")
@@ -21,6 +26,12 @@ def get_runnerbot_hook(task):
 
 
 def runnerbot(instance, bot_object, logger_object):
+    """
+    :param instance: Oggetto che contiene l'istanza del bot con i dati
+    :param bot_object: Oggetto di tipo Bot
+    :param logger_object: Oggetto di tipo BotLogger
+    :return: Ritorna True se il bot ha trovato un takeprofit o stoploss False se si è verificata una eccezzione
+    """
 
     bot = TradingBot(
         current_bot=instance,
@@ -34,7 +45,6 @@ def runnerbot(instance, bot_object, logger_object):
     )
 
     if bot.run():
-
         item = {
             'id': instance.id,
             'symbol': instance.strategy.symbol_exchange.symbol,

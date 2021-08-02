@@ -71,7 +71,7 @@ class TradingBot:
             'exit_function': False
         }
 
-    def start(self):
+    def start(self) -> None:
 
         if self.notify:
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
@@ -82,7 +82,7 @@ class TradingBot:
                     "\nLet's go to the moon 🚀️"
             self.telegram.send(start)
 
-    def entry(self):
+    def entry(self) -> bool:
 
         func_entry = eval(self.func_entry.name)
         if self.item.get('entry') is False:
@@ -105,7 +105,7 @@ class TradingBot:
             # Wait sleep_func_entry seconds
             sleep(self.item.get('sleep_func_entry'))
 
-    def exit(self):
+    def exit(self) -> bool:
 
         func_exit = eval(self.func_exit.name)
         if self.item.get('entry') is True:
@@ -141,7 +141,7 @@ class TradingBot:
             # Wait sleep_func_entry seconds
             sleep(self.item.get('sleep_func_entry'))
 
-    def run(self):
+    def run(self) -> bool:
 
         self.start()
 
