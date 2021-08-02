@@ -21,6 +21,7 @@ def logicentry_first_long(item, bot=False):
             'candle_close': value
         }
         """
+
         item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
         time_frame = item['time_frame']
         taapi = item['taapi']
@@ -73,6 +74,7 @@ def logicexit_first_long(item, bot=False):
             'taapi': self.taapi
         }
         """
+
         item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
 
         if item['candle_close'] >= item['entry_candle'] * item['take_profit']:

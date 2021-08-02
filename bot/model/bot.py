@@ -66,7 +66,9 @@ class TradingBot:
             'sleep_func_entry': self.func_entry.sleep,
             'sleep_func_exit': self.func_exit.sleep,
             'taapi': self.taapi,
-            'entry': False
+            'entry': False,
+            'is_take_profit': False,
+            'is_stop_loss': False
         }
 
         func_entry = eval(self.func_entry.name)
@@ -76,7 +78,6 @@ class TradingBot:
             try:
 
                 if item.get('entry') is False:
-
                     func_entry(item=item, bot=True)
                     print(item)
                     sleep(item.get('sleep_func_entry'))
