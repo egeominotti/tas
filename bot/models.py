@@ -40,6 +40,8 @@ class Bot(CommonTrait):
     exchange = models.ForeignKey(Exchange, on_delete=models.SET_NULL, null=True, blank=True)
     strategy = models.ForeignKey(Strategy, on_delete=models.CASCADE, null=False, blank=False)
     execution = models.BooleanField(default=False)
+    long = models.BooleanField(default=False)
+    short = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'Bot'
@@ -50,7 +52,5 @@ class Bot(CommonTrait):
             return str(self.name)
 
     def save(self, *args, **kwargs):
-
         self.name = 'bot_' + str(uuid.uuid4().hex)
         super().save(*args, **kwargs)
-

@@ -7,7 +7,7 @@ class BotAdmin(admin.ModelAdmin):
     list_per_page = 50
     ordering = ('id',)
     list_display = (
-        'name', 'status', 'execution', 'live', 'strategy', 'quantity_investment',
+        'name', 'status', 'execution', 'live', 'long', 'short', 'strategy', 'quantity_investment',
         'leverage', 'exchange', 'created_at', 'updated_at',)
     readonly_fields = ('status', 'name', 'execution',)
     exclude = ['flgEnable', ]
