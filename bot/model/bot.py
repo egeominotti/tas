@@ -80,9 +80,11 @@ class TradingBot:
         print(self.symbol)
         print(self.time_frame)
 
-        start = "Started: " + str(self.current_bot.name) + "\n" + "Symbol: " + str(
-            self.symbol) + "\nTime frame: " + str(
-            self.time_frame) + "\nStarted at: " + str(now) + "\nLet's go to the moon 🚀️"
+        start = "Started: " + str(self.current_bot.name) + \
+                "\n" + "Symbol: " + str(self.symbol) + \
+                "\nTime frame: " + str(self.time_frame) + \
+                "\nStarted at: " + str(now) + \
+                "\nLet's go to the moon 🚀️"
         self.telegram.send(start)
 
     def run(self, sleep_time_position=0, sleep_time_profit_or_loss=0):
@@ -116,8 +118,13 @@ class TradingBot:
                         self.telegram.send(error)
 
                     if isinstance(func_entry_value, float):
+
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                        entry_text = "ENTRY: " + " candela: " + str(func_entry_value) + " time: " + str(now)
+                        entry_text = "Bot: " + str(self.current_bot.name) + "\n" \
+                                     "\n" + "Symbol: " + str(self.symbol) + \
+                                     "\nTime frame: " + str(self.time_frame) + \
+                                     "\nEntry Candle value: " + str(func_entry_value) + \
+                                     "\nEntry Candel date: " + str(now)
                         self.telegram.send(entry_text)
 
                         now = datetime.datetime.now()
@@ -154,8 +161,13 @@ class TradingBot:
 
                     if isinstance(value, float):
 
-                        stop_loss_text = "STOP LOSS: " + str(value * self.stop_loss)
-                        self.telegram.send(stop_loss_text)
+                        now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+                        stop_loss = "Bot: " + str(self.current_bot.name) + "\n" \
+                                     "\n" + "Symbol: " + str(self.symbol) + \
+                                     "\nTime frame: " + str(self.time_frame) + \
+                                     "\nStop loss candle value: " + str(value) + \
+                                     "\nStop loss candle date: " + str(now)
+                        self.telegram.send(stop_loss)
 
                         # now = datetime.datetime.now()
                         #  self.logger.objects.create(
@@ -183,16 +195,14 @@ class TradingBot:
                         break
 
                     if isinstance(value, float):
-                        take_profit_text = "TAKE_PROFIT: " + str(value * self.take_profit)
-                        self.telegram.send(take_profit_text)
 
-                        # now = datetime.datetime.now()
-                        # self.logger.objects.create(
-                        #     candle_stop_loss=value,
-                        #     candle_stop_loss_date=now,
-                        #     take_profit=True,
-                        #     bot=self.current_bot
-                        # )
+                        now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+                        take_profit = "Bot: " + str(self.current_bot.name) + "\n" \
+                                     "\n" + "Symbol: " + str(self.symbol) + \
+                                     "\nTime frame: " + str(self.time_frame) + \
+                                     "\nTake Profit candle value: " + str(value) + \
+                                     "\nTake profit candle date: " + str(now)
+                        self.telegram.send(take_profit)
 
                         now = datetime.datetime.now()
                         self.logger.objects.filter(id=self.logger_id.id).update(
