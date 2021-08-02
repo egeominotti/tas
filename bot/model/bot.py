@@ -20,15 +20,8 @@ class TradingBot:
             symbol,
             symbol_exchange,
             time_frame,
-            ratio,
-            stop_loss,
-            leverage,
-            quantity_investment,
-            take_profit,
             func_entry,
-            func_stop_loss,
-            func_take_profit,
-            # binance,
+            func_exit,
             logger,
             bot_object
     ):
@@ -38,36 +31,11 @@ class TradingBot:
         self.symbol_exchange = symbol_exchange
         self.taapi = Taapi(symbol)
         self.time_frame = time_frame
-        self.ratio = ratio
-        self.stop_loss = stop_loss
-        self.leverage = leverage
-        self.quantity_investment = quantity_investment
-        self.take_profit = take_profit
         self.func_entry = func_entry
-        self.func_exit = func_stop_loss
+        self.func_exit = func_exit
         self.logger = logger
         self.bot_object = bot_object
         self.logger_id = None
-
-        # self.binance = None
-        # if self.current_bot.live:
-        #     self.binance = BinanceHelper(
-        #         api_key=binance.api_key,
-        #         api_secret=binance.api_secret,
-        #         symbol=symbol_exchange,
-        #         quantity=quantity_investment,
-        #         leverage=leverage
-        #     )
-
-    # def stop(self):
-    #     execution = self.bot_object.objects.get(id=self.current_bot.id).execution
-    #     if execution is False:
-    #         now = datetime.datetime.now()
-    #         self.bot_object.objects.filter(id=self.current_bot.id).update(execution=False)
-    #         start = "BOT stopped:" + "symbol: " + str(self.symbol) + " time frame: " + str(
-    #             self.time_frame) + " stopped at: " + str(now)
-    #         self.telegram.send(start)
-    #         return True
 
     def start(self):
 
@@ -117,7 +85,6 @@ class TradingBot:
                         self.telegram.send(error)
 
                     if isinstance(func_entry_value, float):
-
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                         entry_text = "Bot: " + str(self.current_bot.name) + \
                                      "\n" + "Symbol: " + str(self.symbol) + \
@@ -153,13 +120,12 @@ class TradingBot:
                         break
 
                     if isinstance(value, float):
-
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                         stop_loss = "Bot: " + str(self.current_bot.name) + \
-                                     "\n" + "Symbol: " + str(self.symbol) + \
-                                     "\nTime frame: " + str(self.time_frame) + \
-                                     "\nStop loss candle value: " + str(value) + \
-                                     "\nStop loss candle date: " + str(now)
+                                    "\n" + "Symbol: " + str(self.symbol) + \
+                                    "\nTime frame: " + str(self.time_frame) + \
+                                    "\nStop loss candle value: " + str(value) + \
+                                    "\nStop loss candle date: " + str(now)
                         self.telegram.send(stop_loss)
 
                         now = datetime.datetime.now()
@@ -197,8 +163,8 @@ class TradingBot:
                     #         take_profit=True,
                     #     )
 
-                        # if self.current_bot.live:
-                        #     self.binance.sell()
+                    # if self.current_bot.live:
+                    #     self.binance.sell()
 
 
 

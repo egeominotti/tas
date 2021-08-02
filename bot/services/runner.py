@@ -33,15 +33,8 @@ def runnerbot(instance, bot_object, logger_object):
         symbol=instance.strategy.symbol_taapi.symbol,
         symbol_exchange=instance.strategy.symbol_exchange.symbol,
         time_frame=instance.strategy.time_frame.time_frame,
-        ratio=instance.strategy.ratio,
-        take_profit=instance.strategy.take_profit,
-        stop_loss=instance.strategy.stop_loss,
-        leverage=1,
-        quantity_investment=1,
-        func_entry=eval(instance.strategy.logic_entry.name),
-        func_stop_loss=eval(instance.strategy.logic_stoploss.name),
-        func_take_profit=eval(instance.strategy.logic_takeprofit.name),
-        # binance=instance.exchange,
+        func_entry=instance.strategy.logic_entry,
+        func_exit=instance.strategy.logic_exit,
         logger=logger_object,
         bot_object=bot_object
     )
