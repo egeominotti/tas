@@ -1,6 +1,8 @@
 import json
 import logging
 from backtest.services.util import find_prev_candle
+from unicorn_binance_websocket_api.unicorn_binance_websocket_api_manager import BinanceWebSocketApiManager
+from unicorn_fy.unicorn_fy import UnicornFy
 
 logger = logging.getLogger(__name__)
 
@@ -44,14 +46,15 @@ def logicentry_first_long(item, bot=False):
         ema21 = taapi.ema(21, time_frame)
         ema34 = taapi.ema(34, time_frame)
 
-        if ema8 > ema13:
-            if ema13 > ema21:
-                if ema21 > ema34:
-                    if candle_low_prev <= ema8_prev:
-                        if canlde_close > candle_open_prev:
-                            item['entry'] = True
-                            item['entry_candle'] = item['candle_close']
-                            return True
+        # if ema8 > ema13:
+        #     if ema13 > ema21:
+        #         if ema21 > ema34:
+        #             if candle_low_prev <= ema8_prev:
+        #                 if canlde_close > candle_open_prev:
+        item['entry'] = True
+        item['entry_candle'] = item['candle_close']
+        return True
+
     else:
         """
         Casistica usata dal backtesting
@@ -70,18 +73,37 @@ def logicentry_first_long(item, bot=False):
 def logicexit_first_long(item, bot=False):
     if bot:
 
-        item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
+        binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures")
+        binance_websocket_api_manager.create_stream(['kline_1m'], ['btcusdt'], output="UnicornFy")
 
-        if item['candle_close'] >= item['entry_candle'] * item['takeprofit_value']:
-            item['takeprofit_candle'] = item['candle_close']
-            item['takeprofit'] = True
+        exit = False
+        while exit:
+            oldest_stream_data_from_stream_buffer = binance_websocket_api_manager.pop_stream_data_from_stream_buffer()
+            if oldest_stream_data_from_stream_buffer:
+                unicorn_fied_stream_data = UnicornFy.binance_com_websocket(oldest_stream_data_from_stream_buffer)
+                for k, v in unicorn_fied_stream_data.items():
+                    if isinstance(v, dict):
+                        # print(v.get('interval'))
+                        # print(v.get('open_price'))
+                        # print(v.get('close_price'))
+                        # print(v.get('low_price'))
+                        # print(v.get('high_price'))
+                        # print(v.get('is_closed'))
+                        item['candle_close'] = v.get('close_price')
 
-            return True
+                # item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
 
-        if item['candle_close'] <= item['entry_candle'] * item['stoploss_value']:
-            item['stoploss_candle'] = item['candle_close']
-            item['stoploss'] = True
-            return True
+                if item['candle_close'] >= item['entry_candle'] * item['takeprofit_value']:
+                    item['takeprofit_candle'] = item['candle_close']
+                    item['takeprofit'] = True
+                    exit = True
+                    return True
+
+                if item['candle_close'] <= item['entry_candle'] * item['stoploss_value']:
+                    item['stoploss_candle'] = item['candle_close']
+                    item['stoploss'] = True
+                    exit = True
+                    return True
 
         return False
 
