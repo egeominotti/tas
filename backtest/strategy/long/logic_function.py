@@ -6,7 +6,8 @@ from backtest.services.util import find_prev_candle
 logger = logging.getLogger(__name__)
 
 
-def logic_entry_ema8_13_21_34_long(item, bot=False):
+def logic_entry_one_long(item, bot=False):
+
     if bot:
 
         """
@@ -46,9 +47,6 @@ def logic_entry_ema8_13_21_34_long(item, bot=False):
         Casistica usata dal backtesting
         """
 
-        """
-        Sistema per accedere 
-        """
         prev_item = find_prev_candle(item, 1)
         prev_indicators = json.loads(prev_item.indicators)
 
@@ -59,7 +57,8 @@ def logic_entry_ema8_13_21_34_long(item, bot=False):
         return False
 
 
-def logic_exit_ema8_13_21_34_long(item, bot=False):
+def logic_exit_one_long(item, bot=False):
+
     if bot:
 
         """
