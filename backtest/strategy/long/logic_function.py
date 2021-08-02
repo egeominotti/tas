@@ -13,11 +13,13 @@ def logicentry_first_long(item, bot=False):
             'symbol': self.symbol,
             'time_frame': self.time_frame,
             'ratio': self.func_entry.ratio,
-            'stop_loss': self.func_exit.stop_loss,
-            'take_profit': self.func_exit.take_profit,
+            'stop_loss_value': self.func_exit.stop_loss,
+            'take_profit_value': self.func_exit.take_profit,
             'sleep_func_entry': self.func_exit.sleep,
             'sleep_func_exit': self.func_exit.sleep,
             'taapi': self.taapi,
+            'take_profit': False,
+            'stop_loss': False
             'candle_close': value
         }
         """
@@ -67,22 +69,28 @@ def logicexit_first_long(item, bot=False):
             'symbol': self.symbol,
             'time_frame': self.time_frame,
             'ratio': self.func_entry.ratio,
-            'stop_loss': self.func_exit.stop_loss,
-            'take_profit': self.func_exit.take_profit,
+            'stop_loss_value': self.func_exit.stop_loss,
+            'take_profit_value': self.func_exit.take_profit,
             'sleep_func_entry': self.func_exit.sleep,
             'sleep_func_exit': self.func_exit.sleep,
-            'taapi': self.taapi
+            'taapi': self.taapi,
+            'take_profit': False,
+            'stop_loss': False
+            'candle_close': value
         }
         """
 
         item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
 
-        if item['candle_close'] >= item['entry_candle'] * item['take_profit']:
-            item['is_take_profit'] = True
+        if item['candle_close'] >= item['entry_candle'] * item['take_profit_value']:
+            item['take_profit_candle'] = item['candle_close']
+            item['take_profit'] = True
+
             return True
 
-        if item['candle_close'] <= item['entry_candle'] * item['stop_loss']:
-            item['is_stop_loss'] = True
+        if item['candle_close'] <= item['entry_candle'] * item['stop_loss_value']:
+            item['stop_loss_candle'] = item['candle_close']
+            item['stop_loss'] = True
             return True
 
         return False
