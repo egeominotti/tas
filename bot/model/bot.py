@@ -110,7 +110,7 @@ class TradingBot:
 
                 # if self.stop():
                 #     break
-                sleep(sleep_time_position)
+
                 # if self.stop():
                 #     break
 
@@ -151,6 +151,8 @@ class TradingBot:
 
                         open_position_value = func_entry_value
                         position = True
+
+                sleep(sleep_time_position)
 
                 """
                 Se viene aperta una posizione allora verifica le condizioni stoploss e takeprofit
