@@ -59,7 +59,9 @@ class TradingBot:
             'stoploss': False,
             'stoploss_candle': 0,
             'entry': False,
-            'entry_candle': 0
+            'entry_candle': 0,
+            'entry_function': False,
+            'exit_function': False
         }
 
     def start(self):
@@ -75,7 +77,6 @@ class TradingBot:
 
     def entry(self):
 
-        print("entry function")
         func_entry = eval(self.func_entry.name)
         if self.item.get('entry') is False:
 
@@ -99,7 +100,6 @@ class TradingBot:
 
     def exit(self):
 
-        print("exit function")
         func_exit = eval(self.func_exit.name)
         if self.item.get('entry') is True:
 
@@ -142,12 +142,13 @@ class TradingBot:
             try:
 
                 if entry is False:
-
+                    self.item['entry_function'] = True
                     if self.entry():
                         # Succesful open position
                         entry = True
 
                 if entry is True:
+                    self.item['exit_function'] = True
                     if self.exit():
                         # Successful close position in takeprofit or stoploss
                         break
