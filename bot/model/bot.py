@@ -71,13 +71,13 @@ class TradingBot:
 
         func_entry = eval(self.func_entry.name)
         func_exit = eval(self.func_exit.name)
-        taapi = Taapi(self.symbol)
 
         while True:
             try:
 
                 if entry is False:
-                    item['candle_close'] = taapi.candle(self.time_frame).get('close')
+                    item['candle_close'] = item['taapi'].candle(self.time_frame).get('close')
+                    print(item)
                     return_value = func_entry(item=item, bot=True)
 
                     if return_value:
@@ -88,7 +88,8 @@ class TradingBot:
                         continue
 
                 if entry is True:
-                    item['candle_close'] = taapi.candle(self.time_frame).get('close')
+                    item['candle_close'] = item['taapi'].candle(self.time_frame).get('close')
+                    print(item)
                     return_value = func_exit(item=item, bot=True)
 
                     if return_value:

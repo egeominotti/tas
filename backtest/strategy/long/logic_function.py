@@ -21,7 +21,7 @@ def logicentry_first_long(item, bot=False):
             'candle_close': value
         }
         """
-
+        print(item)
         time_frame = item['time_frame']
         taapi = item['taapi']
         canlde_close = item['candle_close']
@@ -72,6 +72,7 @@ def logicexit_first_long(item, bot=False):
             'taapi': self.taapi
         }
         """
+        print(item)
 
         if item['candle_close'] >= item['open_position_value'] * item['take_profit']:
             item['take_profit'] = True
