@@ -21,7 +21,7 @@ def logicentry_first_long(item, bot=False):
             'candle_close': value
         }
         """
-        print(item)
+        item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
         time_frame = item['time_frame']
         taapi = item['taapi']
         canlde_close = item['candle_close']
@@ -40,8 +40,9 @@ def logicentry_first_long(item, bot=False):
                 if ema21 > ema34:
                     if candle_low_prev <= ema8_prev:
                         if canlde_close > candle_open_prev:
+                            item['entry'] = True
+                            item['entry_candle'] = item['candle_close']
                             return True
-
     else:
         """
         Casistica usata dal backtesting
@@ -72,7 +73,7 @@ def logicexit_first_long(item, bot=False):
             'taapi': self.taapi
         }
         """
-        print(item)
+        item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
 
         if item['candle_close'] >= item['entry_candle'] * item['take_profit']:
             item['is_take_profit'] = True
