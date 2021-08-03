@@ -1,12 +1,12 @@
 from time import sleep
 
-from django.contrib.auth.models import User
 from django.core.management import BaseCommand
 from django_q.tasks import async_task
 from analytics.models import TrendChecker
 from bot.models import Bot, BotLogger
 from strategy.models import Strategy
 import logging
+from exchange.model.binance import BinanceHelper
 
 logger = logging.getLogger('main')
 
@@ -20,7 +20,6 @@ class Command(BaseCommand):
 
             try:
                 qs = Strategy.objects.filter(live_mode=True)
-                usr = User.objects.all()
                 # for user in usr:
                 for strategy in qs:
                     tch = TrendChecker.objects.filter(symbol=strategy.symbol_exchange,
@@ -28,6 +27,10 @@ class Command(BaseCommand):
 
                     if not Bot.objects.filter(strategy=strategy).exists():
                         bot = Bot.objects.create(strategy=strategy)
+                        BotLogger.objects.create(
+                            bot=bot,
+
+                        )
                         async_task("bot.services.runner.runnerbot",
                                    bot,
                                    Bot,

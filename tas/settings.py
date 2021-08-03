@@ -234,10 +234,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 LANGUAGE_CODE = 'it-it'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
+AUTH_USER_MODEL = 'exchange.User'
 # USE_TZ = True
 
 STATIC_URL = '/static/'

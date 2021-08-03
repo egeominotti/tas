@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.db import models
 from analytics.models import CommonTrait
 from strategy.models import Strategy
@@ -20,6 +20,10 @@ class BotLogger(CommonTrait):
     entry_candle_date = models.DateTimeField(blank=True, null=True)
     candle_stop_loss_date = models.DateTimeField(blank=True, null=True)
     candle_take_profit_date = models.DateTimeField(blank=True, null=True)
+    start_balance = models.FloatField(default=0, blank=True)
+    end_balance = models.FloatField(default=0, blank=True)
+    coin_quantity = models.FloatField(default=0, blank=True)
+    leverage = models.IntegerField(default=0, blank=True)
 
     class Meta:
         verbose_name = 'BotLogger'
@@ -32,7 +36,7 @@ class BotLogger(CommonTrait):
 
 class Bot(CommonTrait):
     name = models.CharField(max_length=100, blank=False, null=False)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
     strategy = models.ForeignKey(Strategy, on_delete=models.CASCADE, null=False, blank=False)
 
     class Meta:

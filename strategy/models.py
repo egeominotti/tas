@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from analytics.models import CommonTrait
 from django_quill.fields import QuillField
 
@@ -84,6 +85,7 @@ class Strategy(CommonTrait):
     symbol_taapi = models.ForeignKey('SymbolTaapiApi', on_delete=models.CASCADE, null=False, blank=False)
     symbol_exchange = models.ForeignKey('SymbolExchange', on_delete=models.CASCADE, null=False, blank=False)
     live_mode = models.BooleanField(default=False)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         if self.name is not None:
