@@ -103,7 +103,6 @@ class TradingBot:
                 self.item['takeprofit_ratio'] = self.item.get('entry_candle') * self.item.get('takeprofit_value')
                 self.item['stoploss_ratio'] = self.item.get('entry_candle') * self.item.get('stoploss_value')
 
-                # TODO: aggiungere scrittura dei log e apertura ordine
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                     entry_text = "Bot: " + str(self.current_bot.name) + \
@@ -136,7 +135,6 @@ class TradingBot:
             Stoploss
             """
             if self.item.get('stoploss'):
-                # TODO: aggiungere scrittura dei log chiusura ordine sell
 
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
@@ -156,7 +154,6 @@ class TradingBot:
             Takeprofit
             """
             if self.item.get('takeprofit'):
-                # TODO: aggiungere scrittura dei log chiusura ordine sell
 
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")

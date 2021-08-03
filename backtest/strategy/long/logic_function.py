@@ -76,8 +76,12 @@ def logicexit_first_long(item, bot=False):
     print(item)
     if bot:
 
+        lower_symbol = item.get('symbol').lower()
+        print("simbolo lower: " + lower_symbol)
+        print("simbolo lower: " + lower_symbol)
+        print("simbolo lower: " + lower_symbol)
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures")
-        binance_websocket_api_manager.create_stream(['kline_1m'], ['btcusdt'], output="UnicornFy")
+        binance_websocket_api_manager.create_stream(['kline_1m'], [lower_symbol], output="UnicornFy")
 
         sentinel = False
         while True:
