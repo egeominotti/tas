@@ -87,7 +87,6 @@ def logicexit_first_long(item, bot=False):
                 binance_stream = UnicornFy.binance_com_websocket(oldest_stream_data_from_stream_buffer)
                 for k, v in binance_stream.items():
                     if isinstance(v, dict):
-                        # v.get('interval')
                         # v.get('open_price')
                         # v.get('close_price')
                         # v.get('low_price')

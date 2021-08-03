@@ -23,6 +23,7 @@ class Exchange(CommonTrait):
     balance_futures = models.FloatField(default=0, blank=True)
     balance_spot = models.FloatField(default=0, blank=True)
     leverage = models.IntegerField(default=0,blank=True)
+    live = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'Exchange'
@@ -35,4 +36,5 @@ class Exchange(CommonTrait):
 
 class User(AbstractUser):
     exchange = models.ForeignKey(Exchange, on_delete=models.SET_NULL, null=True, blank=True)
+    telegram_notifications = models.BooleanField(default=True)
     #bot = models.ManyToManyField(Bot,null=True,blank=True)

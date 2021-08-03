@@ -3,11 +3,11 @@ from exchange.models import Exchange, ExchangeList, User
 
 
 class ExchangeAdmin(admin.ModelAdmin):
-    search_fields = ['user']
+    search_fields = ['exchange']
     list_per_page = 50
     ordering = ('id',)
+    list_display = ('exchange', 'balance_futures', 'balance_spot', 'leverage', 'live')
     readonly_fields = ('balance_futures', 'balance_spot')
-    list_display = ('exchange', 'api_key', 'api_secret')
     exclude = ['flgEnable', ]
 
 
