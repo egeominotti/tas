@@ -130,7 +130,6 @@ class TradingBot:
 
         func_exit = eval(self.func_exit.name)
         if self.item.get('entry') is True:
-
             func_exit(item=self.item, bot=True)
 
             """
@@ -183,7 +182,6 @@ class TradingBot:
             try:
 
                 if entry is False:
-
                     if self.entry():
                         # Successfully open position
                         entry = True
