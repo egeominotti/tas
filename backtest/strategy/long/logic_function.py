@@ -1,5 +1,7 @@
 import json
 import logging
+from time import sleep
+
 from backtest.services.util import find_prev_candle
 from unicorn_binance_websocket_api.unicorn_binance_websocket_api_manager import BinanceWebSocketApiManager
 from unicorn_fy.unicorn_fy import UnicornFy
@@ -111,6 +113,8 @@ def logicexit_first_long(item, bot=False):
                     item['stoploss'] = True
                     sentinel = True
                     break
+
+            sleep(1)
 
         if sentinel is True:
             print("ho finito")
