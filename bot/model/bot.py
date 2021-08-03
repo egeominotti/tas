@@ -47,8 +47,6 @@ class TradingBot:
         self.live = True
         self.exchange = BinanceHelper(
             symbol= self.symbol_exchange,
-            # 30 USDT
-            quantity = 24
         )
 
         type = None
