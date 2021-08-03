@@ -114,7 +114,7 @@ class TradingBot:
                     self.telegram.send(entry_text)
 
                 if self.live:
-                    self.exchange.buy()
+                    self.exchange.buy_market()
 
                 self.item['takeprofit_ratio'] = self.item.get('entry_candle') * self.item.get('takeprofit_value')
                 self.item['stoploss_ratio'] = self.item.get('entry_candle') * self.item.get('stoploss_value')
@@ -148,7 +148,7 @@ class TradingBot:
                     self.telegram.send(stop_loss)
 
                 if self.live:
-                    self.exchange.sell()
+                    self.exchange.sell_limit()
 
                 return True
 
@@ -168,7 +168,7 @@ class TradingBot:
                     self.telegram.send(stop_loss)
 
                 if self.live:
-                    self.exchange.sell()
+                    self.exchange.sell_limit()
 
                 return True
 
