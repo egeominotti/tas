@@ -27,16 +27,16 @@ class Command(BaseCommand):
                         api_secret=strategy.user.exchange.api_secret,
                         symbol=strategy.symbol_exchange.symbol
                     )
+                    print(strategy.symbol_exchange.symbol)
                     print(bh.get_current_balance_futures_())
                     print(bh.get_symbol_precision())
                     print(bh.current_price_coin())
-
+                    print(bh.get_quantity())
                     sleep(3)
 
                     # if not Bot.objects.filter(strategy=strategy).exists():
-                    # bot = Bot.objects.create(strategy=strategy)
+                    #     bot = Bot.objects.create(strategy=strategy)
 
-                    # print(bh)
 
                     # BotLogger.objects.create(
                     #     bot=bot,

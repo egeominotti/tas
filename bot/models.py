@@ -55,7 +55,6 @@ class StrategyBot(CommonTrait):
 
 class Bot(CommonTrait):
     name = models.CharField(max_length=100, blank=False, null=False)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
     strategy = models.ForeignKey(StrategyBot, on_delete=models.CASCADE, null=False, blank=False)
 
     class Meta:
