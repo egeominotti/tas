@@ -50,10 +50,11 @@ class BackTestAdmin(admin.ModelAdmin):
 class StrategyBacktestingAdmin(admin.ModelAdmin):
     list_per_page = 20
     ordering = ('id',)
+    list_display = ('name', 'time_frame', 'logic_entry', 'logic_exit', 'symbol_exchange')
     exclude = ['flgEnable', ]
+
 
 admin.site.register(StrategyBacktesting, StrategyBacktestingAdmin)
 admin.site.register(BackTestLog, BackTestLogAdmin)
-
 admin.site.register(BackTest, BackTestAdmin)
 admin.site.register(StatisticsPortfolio, StatisticsPortfolioAdmin)

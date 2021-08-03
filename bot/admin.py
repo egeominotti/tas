@@ -44,6 +44,8 @@ class BotLoggerAdmin(admin.ModelAdmin):
 class StrategyBotAdmin(admin.ModelAdmin):
     list_per_page = 20
     ordering = ('id',)
+    list_display = (
+    'name', 'time_frame', 'logic_entry', 'logic_exit', 'symbol_taapi', 'symbol_exchange', 'live_mode', 'user')
     exclude = ['flgEnable', ]
 
 
