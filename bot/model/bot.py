@@ -44,7 +44,7 @@ class TradingBot:
         self.bot_object = bot_object
         self.logger_id = self.logger.objects.create(bot=self.current_bot)
         self.notify = True
-        self.live = True
+        self.live = False
         self.exchange = BinanceHelper(
             symbol=self.symbol_exchange,
             leverage=2
@@ -171,8 +171,6 @@ class TradingBot:
 
                 return True
 
-            print(self.item)
-
     def run(self) -> bool:
 
         self.start()
@@ -185,18 +183,19 @@ class TradingBot:
                 if entry is False:
 
                     if self.entry():
-                        # Succesful open position
+                        # Successfully open position
                         entry = True
 
                 if entry is True:
                     self.item['exit_function'] = True
                     if self.exit():
-                        # Successful close position in takeprofit or stoploss
+                        # Successfully close position takeprofit/stoploss
                         break
 
             except Exception as e:
                 exception = "ERROR" + str(e)
                 self.telegram.send(exception)
-                return False
+                # if exception stop the bot and open position
+                break
 
         return True
