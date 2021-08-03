@@ -6,6 +6,7 @@ import signal
 """
 Logic function
 """
+from exchange.model.binance import BinanceHelper
 
 from backtest.strategy.long.logic_function import *
 from backtest.strategy.short.logic_function import *
@@ -42,7 +43,13 @@ class TradingBot:
         self.logger = logger
         self.bot_object = bot_object
         self.logger_id = self.logger.objects.create(bot=self.current_bot)
-        self.notify = False
+        self.notify = True
+        self.live = True
+        self.exchange = BinanceHelper(
+            symbol= self.symbol,
+            # 30 USDT
+            quantity = 30
+        )
 
         type = None
         if self.func_exit.short and self.func_entry.short:
@@ -106,6 +113,9 @@ class TradingBot:
                                  "\nEntry Candle date: " + str(now)
                     self.telegram.send(entry_text)
 
+                if self.live:
+                    self.exchange.buy()
+
                 self.item['takeprofit_ratio'] = self.item.get('entry_candle') * self.item.get('takeprofit_value')
                 self.item['stoploss_ratio'] = self.item.get('entry_candle') * self.item.get('stoploss_value')
 
@@ -121,6 +131,10 @@ class TradingBot:
         if self.item.get('entry') is True:
 
             func_exit(item=self.item, bot=True)
+
+            """
+            Stoploss
+            """
             if self.item.get('stoploss'):
                 # TODO: aggiungere scrittura dei log chiusura ordine sell
 
@@ -133,8 +147,14 @@ class TradingBot:
                                 "\nStoploss candle date: " + str(now)
                     self.telegram.send(stop_loss)
 
+                if self.live:
+                    self.exchange.sell()
+
                 return True
 
+            """
+            Takeprofit
+            """
             if self.item.get('takeprofit'):
                 # TODO: aggiungere scrittura dei log chiusura ordine sell
 
@@ -146,6 +166,9 @@ class TradingBot:
                                 "\nTakeprofit candle value: " + str(self.item.get('takeprofit_candle')) + \
                                 "\nTakeprofit candle date: " + str(now)
                     self.telegram.send(stop_loss)
+
+                if self.live:
+                    self.exchange.sell()
 
                 return True
 
