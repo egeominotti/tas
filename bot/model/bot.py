@@ -83,6 +83,7 @@ class TradingBot:
         if self.notify:
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
             start = "Started: " + str(self.current_bot.name) + \
+                    "\n" + "Quantity of investement: " + str(self.exchange.quantity) + \
                     "\n" + "Symbol: " + str(self.symbol) + \
                     "\nTime frame: " + str(self.time_frame) + \
                     "\nStarted at: " + str(now) + \

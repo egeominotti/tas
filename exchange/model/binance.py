@@ -17,6 +17,8 @@ class BinanceHelper:
         url = requests.get('https://api.binance.com/api/v1/ticker/price?symbol=' + self.symbol)
         data = url.json()
         price = float(data['price'])
+        print(self.get_current_balance_futures_('USDT') / price)
+        print(self.get_current_balance_futures_('USDT') / price)
         self.quantity = self.get_current_balance_futures_('USDT') / price
 
     def get_current_balance_futures_(self, coin=None):
@@ -31,7 +33,7 @@ class BinanceHelper:
             item[k['asset']] = k['balance']
 
         if coin is not None:
-            return item[coin]
+            return float(item[coin])
 
         return item
 
