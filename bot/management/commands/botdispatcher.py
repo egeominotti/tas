@@ -26,7 +26,7 @@ class Command(BaseCommand):
         while True:
 
             try:
-                qs = StrategyBot.objects.filter(live_mode=True)
+                qs = StrategyBot.objects.all()
                 for strategy in qs:
                     for user in strategy.user.all():
                         for coins in strategy.coins.all():
