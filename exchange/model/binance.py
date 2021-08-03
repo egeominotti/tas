@@ -12,7 +12,6 @@ class BinanceHelper:
         self.client.futures_change_leverage(symbol=symbol, marginType='ISOLATED', leverage=leverage)
 
     def get_quantity(self):
-
         balance_wallet = self.get_current_balance_futures_() - 0.5
         symbol_precision = self.get_symbol_precision()
         price_coin = self.current_price_coin()

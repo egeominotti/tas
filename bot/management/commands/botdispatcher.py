@@ -21,15 +21,16 @@ class Command(BaseCommand):
                 qs = StrategyBot.objects.filter(live_mode=True)
                 for strategy in qs:
                     for user in strategy.user.all():
-                        print(user)
                         for coins in strategy.coins.all():
-                            print(coins.coins_exchange.symbol)
-                            if not Bot.objects.filter(user=user, strategy=strategy).exists():
-                                bot = Bot.objects.create(user=user, strategy=strategy)
+                            print(coins)
+                            if not Bot.objects.filter(user=user, coins=coins).exists():
+                                print("avvio bot")
+                                bot = Bot.objects.create(user=user, strategy=strategy, coins=coins)
                                 async_task("bot.services.runner.runnerbot",
+                                           bot,
+                                           user,
                                            coins.coins_taapi.symbol,
                                            coins.coins_exchange.symbol,
-                                           bot,
                                            Bot,
                                            BotLogger,
                                            hook="bot.services.runner.get_runnerbot_hook")

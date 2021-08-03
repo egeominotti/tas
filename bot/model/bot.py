@@ -30,6 +30,7 @@ class TradingBot:
     def __init__(
             self,
             current_bot,
+            user,
             symbol,
             symbol_exchange,
             time_frame,
@@ -39,6 +40,7 @@ class TradingBot:
             bot_object
     ):
         self.current_bot = current_bot
+        self.user = user
         self.telegram = Telegram()
         self.symbol = symbol
         self.symbol_exchange = symbol_exchange
@@ -48,14 +50,14 @@ class TradingBot:
         self.func_exit = func_exit
         self.logger = logger
         self.bot_object = bot_object
-        self.logger_id = self.logger.objects.create(bot=self.current_bot)
+        #self.logger_id = self.logger.objects.create(bot=self.current_bot)
         self.notify = True
         self.live = False
         self.exchange = BinanceHelper(
-            api_key=self.current_bot.strategy.user.exchange.api_key,
-            api_secret=self.current_bot.strategy.user.exchange.api_secret,
+            api_key=self.user.exchange.api_key,
+            api_secret=self.user.exchange.api_secret,
             symbol=self.symbol_exchange,
-            leverage=self.current_bot.strategy.user.exchange.leverage,
+            leverage=self.user.exchange.leverage,
         )
 
         type = None
@@ -93,7 +95,7 @@ class TradingBot:
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
             start = "Started: " + str(self.current_bot.name) + \
                     "\n" + "Balance: " + str(self.exchange.get_current_balance_futures_('USDT')) + \
-                    "\n" + "Quantity of investement: " + str(self.exchange.quantity) + \
+                    "\n" + "Quantity of investement: " + str(self.exchange.get_quantity()) + \
                     "\n" + "Leverage: " + str(self.exchange.leverage) + \
                     "\n" + "Symbol: " + str(self.symbol) + \
                     "\nTime frame: " + str(self.time_frame) + \
