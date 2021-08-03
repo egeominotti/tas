@@ -69,6 +69,7 @@ class TradingBot:
             'sleep_func_exit': self.func_exit.sleep,
             'taapi': self.taapi,
             'symbol': self.symbol,
+            'symbol_exchange': self.symbol_exchange,
             'type': type,
             'time_frame': self.time_frame,
             'ratio': self.func_entry.ratio,
