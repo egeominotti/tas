@@ -61,7 +61,7 @@ class CoinsAdmin(admin.ModelAdmin):
     list_per_page = 50
     ordering = ('id',)
     list_display = (
-        'symbol',)
+        'coins_taapi', 'coins_exchange')
     exclude = ['flgEnable', ]
 
 

@@ -20,31 +20,20 @@ class Command(BaseCommand):
             try:
                 qs = StrategyBot.objects.filter(live_mode=True)
                 for strategy in qs:
-                    # print(strategy.symbol_exchange.all())
-                    # print(strategy.symbol_taapi.all())
-                    # print(strategy.user.all())
-
                     for user in strategy.user.all():
-                        if not Bot.objects.filter(user=user, strategy=strategy).exists():
-                            for symbol in strategy.symbol_exchange.all():
-                                print(user)
-                                print(symbol)
-                                print(strategy)
-                                # spawn bot
-                                #bot = Bot.objects.create(user=user, strategy=strategy)
+                        print(user)
+                        for coins in strategy.coins.all():
+                            print(coins.coins_exchange.symbol)
+                            if not Bot.objects.filter(user=user, strategy=strategy).exists():
+                                bot = Bot.objects.create(user=user, strategy=strategy)
+                                async_task("bot.services.runner.runnerbot",
+                                           coins.coins_taapi.symbol,
+                                           coins.coins_exchange.symbol,
+                                           bot,
+                                           Bot,
+                                           BotLogger,
+                                           hook="bot.services.runner.get_runnerbot_hook")
 
-                    sleep(3)
-
-                    # BotLogger.objects.create(
-                    #     bot=bot,
-                    #
-                    # )
-                    # async_task("bot.services.runner.runnerbot",
-                    #            bot,
-                    #            Bot,
-                    #            BotLogger,
-                    #            hook="bot.services.runner.get_runnerbot_hook")
-
-                # sleep(300)
+                sleep(300)
             except Exception as e:
                 print(e)

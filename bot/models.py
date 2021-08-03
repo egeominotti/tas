@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db import models
 from analytics.models import CommonTrait
-from strategy.models import TimeFrame, LogicExit, LogicEntry, SymbolTaapiApi, SymbolExchange
+from strategy.models import TimeFrame, LogicExit, LogicEntry, SymbolTaapiApi, SymbolExchange, Coins
 import uuid
 
 BOT_STATUS = (
@@ -39,8 +39,7 @@ class StrategyBot(CommonTrait):
     time_frame = models.ForeignKey(TimeFrame, on_delete=models.CASCADE, null=False, blank=False)
     logic_entry = models.ForeignKey(LogicEntry, on_delete=models.CASCADE, null=False, blank=False)
     logic_exit = models.ForeignKey(LogicExit, on_delete=models.CASCADE, null=False, blank=False)
-    symbol_taapi = models.ManyToManyField(SymbolTaapiApi, null=True, blank=True)
-    symbol_exchange = models.ManyToManyField(SymbolExchange, null=True, blank=True)
+    coins = models.ManyToManyField(Coins, null=True, blank=True)
     live_mode = models.BooleanField(default=False)
     user = models.ManyToManyField(settings.AUTH_USER_MODEL, null=True, blank=True)
 

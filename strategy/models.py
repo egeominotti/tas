@@ -17,19 +17,6 @@ class TimeFrame(CommonTrait):
         verbose_name_plural = 'TimeFrame'
 
 
-class Coins(CommonTrait):
-    coins_taapi = models.CharField(max_length=20, blank=False)
-    coins_exchange = models.CharField(max_length=20, blank=False)
-    to_import = models.BooleanField(default=False)
-
-    def __str__(self):
-        if self.coins_taapi is not None:
-            return str(self.coins_taapi)
-
-    class Meta:
-        verbose_name = 'Coins'
-        verbose_name_plural = 'Coins'
-
 class SymbolTaapiApi(CommonTrait):
     symbol = models.CharField(max_length=20, blank=False)
 
@@ -53,6 +40,19 @@ class SymbolExchange(CommonTrait):
     def __str__(self):
         if self.symbol is not None:
             return str(self.symbol)
+
+
+class Coins(CommonTrait):
+    coins_taapi = models.ForeignKey(SymbolTaapiApi, on_delete=models.CASCADE, null=False, blank=False)
+    coins_exchange = models.ForeignKey(SymbolExchange, on_delete=models.CASCADE, null=False, blank=False)
+
+    def __str__(self):
+        if self.coins_taapi is not None:
+            return str(self.coins_taapi)
+
+    class Meta:
+        verbose_name = 'Coins'
+        verbose_name_plural = 'Coins'
 
 
 class LogicEntry(CommonTrait):
