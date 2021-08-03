@@ -107,8 +107,7 @@ class TradingBot:
             if self.item.get('entry') is True:
 
                 self.item['entry_function'] = True
-                self.item['takeprofit_ratio'] = round(self.item.get('entry_candle') * self.item.get('takeprofit_value'),
-                                                      3)
+                self.item['takeprofit_ratio'] = round(self.item.get('entry_candle') * self.item.get('takeprofit_value'),3)
                 self.item['stoploss_ratio'] = round(self.item.get('entry_candle') * self.item.get('stoploss_value'), 3)
 
                 type = ''
@@ -130,6 +129,7 @@ class TradingBot:
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                     entry_text = "Entry: " + str(self.current_bot.name) + \
+                                 "\n" + "User: " + self.user.username + \
                                  "\nType Entry: " + self.item.get('type_text') + \
                                  "\nEntry Candle value: " + str(self.item.get('entry_candle')) + \
                                  "\nEntry Candle date: " + str(now) + \
@@ -167,6 +167,7 @@ class TradingBot:
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                     stop_loss = "Stoploss: " + str(self.current_bot.name) + \
+                                "\n" + "User: " + self.user.username + \
                                 "\nType Entry: " + self.item.get('type_text') + \
                                 "\nStoploss candle value: " + str(self.item.get('stoploss_candle')) + \
                                 "\nStoploss candle date: " + str(now) + \
@@ -193,6 +194,7 @@ class TradingBot:
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                     stop_loss = "Takeprofit: " + str(self.current_bot.name) + \
+                                "\n" + "User: " + self.user.username + \
                                 "\nType Entry: " + self.item.get('type_text') + \
                                 "\nTakeprofit candle value: " + str(self.item.get('takeprofit_candle')) + \
                                 "\nTakeprofit candle date: " + str(now) + \
