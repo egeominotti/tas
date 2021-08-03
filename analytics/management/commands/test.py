@@ -15,4 +15,4 @@ class Command(BaseCommand):
         bh = BinanceHelper(
             symbol='BTCUSDT',
         )
-        print(bh.get_current_balance_futures_('USDT'))
+

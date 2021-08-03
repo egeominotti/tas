@@ -13,12 +13,21 @@ class BinanceHelper:
         self.client.futures_change_leverage(symbol=symbol, marginType='ISOLATED', leverage=leverage)
         self.current_price_coin()
 
+    def get_symbol_precision(self):
+        symbols_n_precision = {}
+        info = self.client.futures_exchange_info()
+        for item in info['symbols']:
+            symbols_n_precision[item['symbol']] = item['quantityPrecision']
+        return symbols_n_precision
+
     def current_price_coin(self) -> None:
         url = requests.get('https://api.binance.com/api/v1/ticker/price?symbol=' + self.symbol)
         data = url.json()
         price = float(data['price'])
         # Subtract 0.5 cent
-        self.quantity = round((self.get_current_balance_futures_('USDT') - 0.5) / price, 3)
+        symbol_precision = self.get_symbol_precision()[self.symbol]
+        print("symbol precision" + str(symbol_precision))
+        self.quantity = round((self.get_current_balance_futures_('USDT') - 0.5) / price, symbol_precision)
 
     def get_current_balance_futures_(self, coin=None):
         """
