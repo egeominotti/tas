@@ -60,11 +60,11 @@ class TradingBot:
             leverage=self.user.exchange.leverage,
         )
 
-        type = None
-        if self.func_exit.short and self.func_entry.short:
-            type = 'SHORT'
-        if self.func_exit.long and self.func_exit.long:
-            type = 'LONG'
+        # type = None
+        # if self.func_exit.short and self.func_entry.short:
+        #     type = 'SHORT'
+        # if self.func_exit.long and self.func_exit.long:
+        #     type = 'LONG'
 
         self.item = {
             'candle_close': 0,
@@ -80,7 +80,7 @@ class TradingBot:
             'taapi': self.taapi,
             'symbol': self.symbol,
             'symbol_exchange': self.symbol_exchange,
-            'type': type,
+            'type': -1,
             'time_frame': self.time_frame,
             'ratio': self.func_entry.ratio,
             'stoploss_value': self.func_exit.stop_loss,
@@ -126,7 +126,13 @@ class TradingBot:
                     self.telegram.send(entry_text)
 
                 if self.live:
-                    self.exchange.buy_market()
+                    if self.item.get('type') == 0:
+                        # LONG
+                        self.exchange.buy_market()
+                    if self.item.get('type') == 1:
+                        # SHORT
+                        self.exchange.sell_market()
+
 
                 return True
 

@@ -49,7 +49,7 @@ def logicentry_first_long(item, bot=False):
         ema34 = taapi.ema(34, time_frame)
 
         """
-        LONG
+        LONG entry
         """
         if ema8 > ema13:
             if ema13 > ema21:
@@ -57,14 +57,14 @@ def logicentry_first_long(item, bot=False):
                     if candle_low_prev <= ema8_prev:
                         if ema8 / ema13 < 1.00165 and ema21 / ema34 < 1.00095:
                             if canlde_close > candle_open_prev:
-                                item['type'] = "Long"
+                                item['type'] = 0
                                 item['entry'] = True
                                 item['entry_candle'] = item['candle_close']
                                 return True
 
 
         """
-        SHORT
+        SHORT entry
         """
         if ema8 < ema13:
             if ema13 < ema21:
@@ -72,7 +72,7 @@ def logicentry_first_long(item, bot=False):
                     if candle_low_prev >= ema8_prev:
                         if ema8 / ema13 > 1.00165 and ema21 / ema34 < 1.00095:
                             if canlde_close < candle_open_prev:
-                                item['type'] = "Short"
+                                item['type'] = 1
                                 item['entry'] = True
                                 item['entry_candle'] = item['candle_close']
                                 return True
