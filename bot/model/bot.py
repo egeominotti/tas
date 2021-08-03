@@ -47,7 +47,7 @@ class TradingBot:
         self.live = True
         self.exchange = BinanceHelper(
             symbol=self.symbol_exchange,
-            leverage=5
+            leverage=2
         )
 
         type = None
@@ -172,8 +172,6 @@ class TradingBot:
                 return True
 
             print(self.item)
-            # Wait sleep_func_entry seconds
-            #sleep(self.item.get('sleep_func_entry'))
 
     def run(self) -> bool:
 
