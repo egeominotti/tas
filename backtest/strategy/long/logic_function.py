@@ -52,7 +52,7 @@ def logicentry_first_long(item, bot=False):
             if ema13 > ema21:
                 if ema21 > ema34:
                     if candle_low_prev <= ema8_prev:
-                        if ema8 / ema13 < 1.00165 and ema21 / ema34 < 1.0018:
+                        if ema8 / ema13 < 1.00165 and ema21 / ema34 < 1.00095:
                             if canlde_close > candle_open_prev:
                                 item['entry'] = True
                                 item['entry_candle'] = item['candle_close']
