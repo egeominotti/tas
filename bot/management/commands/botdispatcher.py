@@ -32,6 +32,10 @@ class Command(BaseCommand):
                     print(bh.get_symbol_precision())
                     print(bh.current_price_coin())
                     print(bh.get_quantity())
+
+                    bot = Bot.objects.create(strategy=strategy)
+
+
                     sleep(3)
 
                     # if not Bot.objects.filter(strategy=strategy).exists():

@@ -11,13 +11,15 @@ from exchange.model.binance import BinanceHelper
 from backtest.strategy.long.logic_function import *
 from backtest.strategy.short.logic_function import *
 
-
 run = True
+
+
 def handler_stop_signals(signum, frame):
     global run
     print("SIGNAL DI STOP")
     # todo: devo chiudere la posizione se è aperta e cancellare il bot
     run = False
+
 
 signal.signal(signal.SIGINT, handler_stop_signals)
 signal.signal(signal.SIGTERM, handler_stop_signals)
@@ -50,8 +52,10 @@ class TradingBot:
         self.notify = True
         self.live = False
         self.exchange = BinanceHelper(
+            api_key=self.current_bot.strategy.user.exchange.api_key,
+            api_secret=self.current_bot.strategy.user.exchange.api_secret,
             symbol=self.symbol_exchange,
-            leverage=3
+            leverage=self.current_bot.strategy.user.exchange.leverage,
         )
 
         type = None
@@ -106,7 +110,7 @@ class TradingBot:
 
                 self.item['entry_function'] = True
                 self.item['takeprofit_ratio'] = self.item.get('entry_candle') * self.item.get('takeprofit_value')
-                self.item['stoploss_ratio'] =   self.item.get('entry_candle') * self.item.get('stoploss_value')
+                self.item['stoploss_ratio'] = self.item.get('entry_candle') * self.item.get('stoploss_value')
 
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
@@ -121,14 +125,10 @@ class TradingBot:
 
                 if self.live:
                     self.exchange.buy_market()
-                #
-                # self.item['takeprofit_ratio'] = self.item.get('entry_candle') * self.item.get('takeprofit_value')
-                # self.item['stoploss_ratio'] = self.item.get('entry_candle') * self.item.get('stoploss_value')
 
                 return True
 
             print(self.item)
-            # Wait sleep_func_entry seconds
             sleep(self.item.get('sleep_func_entry'))
 
     def exit(self) -> bool:

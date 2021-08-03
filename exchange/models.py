@@ -1,6 +1,7 @@
 from analytics.models import CommonTrait
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from bot.models import Bot
 
 
 class ExchangeList(CommonTrait):
@@ -21,6 +22,7 @@ class Exchange(CommonTrait):
     api_secret = models.CharField(max_length=200, blank=False, null=False)
     balance_futures = models.FloatField(default=0, blank=True)
     balance_spot = models.FloatField(default=0, blank=True)
+    leverage = models.IntegerField(default=0,blank=True)
 
     class Meta:
         verbose_name = 'Exchange'
@@ -33,3 +35,4 @@ class Exchange(CommonTrait):
 
 class User(AbstractUser):
     exchange = models.ForeignKey(Exchange, on_delete=models.SET_NULL, null=True, blank=True)
+    bot = models.ManyToManyField(Bot,null=True)

@@ -13,11 +13,10 @@ class BinanceHelper:
 
     def get_quantity(self):
 
-        current_balance =  self.get_current_balance_futures_() - 0.5
+        balance_wallet = self.get_current_balance_futures_() - 0.5
         symbol_precision = self.get_symbol_precision()
-        price_coin=        self.current_price_coin()
-
-        qty = round(self.get_current_balance_futures_() - 0.5 / self.current_price_coin(), 1)
+        price_coin = self.current_price_coin()
+        qty = round(balance_wallet / price_coin, symbol_precision)
         return qty
 
     def get_symbol_precision(self):
