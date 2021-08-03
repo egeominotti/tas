@@ -22,16 +22,6 @@ class Command(BaseCommand):
                 qs = StrategyBot.objects.filter(live_mode=True)
                 for strategy in qs:
 
-                    bh = BinanceHelper(
-                        api_key=strategy.user.exchange.api_key,
-                        api_secret=strategy.user.exchange.api_secret,
-                        symbol=strategy.symbol_exchange.symbol
-                    )
-                    print(strategy.symbol_exchange.symbol)
-                    print(bh.get_current_balance_futures_())
-                    print(bh.get_symbol_precision())
-                    print(bh.current_price_coin())
-                    print(bh.get_quantity())
 
                     bot = Bot.objects.create(strategy=strategy)
 
