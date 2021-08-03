@@ -1,19 +1,21 @@
 import requests
 import json
-
+import secrets
 
 class Taapi:
+
     symbol = None
     BASE = None
     EXCHANGE = 'binance'
     BASE_URL = 'https://api.taapi.io/'
-    API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBpZXJyaTkzQGdtYWlsLmNvbSIsImlhdCI6MTYyNzAzNTMzNSwiZXhwIjo3OTM0MjM1MzM1fQ.m1f7RuvDmmdrTd1l8W7SSd_DVZxn9eabEjCoE8zED-Y'
+    API_KEY_LIST = [
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBpZXJyaTkzQGdtYWlsLmNvbSIsImlhdCI6MTYyNzAzNTMzNSwiZXhwIjo3OTM0MjM1MzM1fQ.m1f7RuvDmmdrTd1l8W7SSd_DVZxn9eabEjCoE8zED-Y',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVnZW9taW5vdHRpQGdtYWlsLmNvbSIsImlhdCI6MTYyODAzNTA1OCwiZXhwIjo3OTM1MjM1MDU4fQ.P6LKxJcVcZuguazTP9Ah3AHQ3l9UyfVME3YKs78F5MA'
+    ]
 
-    def __init__(self, symbol, api_extra=None):
+    def __init__(self, symbol):
         self.symbol = symbol
-        self.base = 'secret=' + self.API_KEY + "&exchange=" + self.EXCHANGE + "&symbol=" + self.symbol
-        if api_extra is not None:
-            self.base = 'secret=' + api_extra + "&exchange=" + self.EXCHANGE + "&symbol=" + self.symbol
+        self.base = 'secret=' + secrets.choice(self.API_KEY_LIST) + "&exchange=" + self.EXCHANGE + "&symbol=" + self.symbol
 
     # https://taapi.io/indicators/exponential-moving-average/
     def ema(self, ema, interval, backtrack=None, backtracks=None):
