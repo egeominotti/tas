@@ -87,6 +87,7 @@ class TradingBot:
             start = "Started: " + str(self.current_bot.name) + \
                     "\n" + "Balance: " + str(self.exchange.get_current_balance_futures_('USDT')) + \
                     "\n" + "Quantity of investement: " + str(self.exchange.quantity) + \
+                    "\n" + "Leverage: " + str(self.exchange.leverage) + \
                     "\n" + "Symbol: " + str(self.symbol) + \
                     "\nTime frame: " + str(self.time_frame) + \
                     "\nStarted at: " + str(now) + \
