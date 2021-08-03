@@ -9,7 +9,6 @@ class BinanceHelper:
         self.quantity = quantity
         # self.client = Client(api_key, api_secret)
         self.client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
-
         self.client.futures_change_leverage(symbol=symbol, marginType='ISOLATED', leverage=leverage)
 
     def sell_market(self):
