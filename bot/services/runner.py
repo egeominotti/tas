@@ -20,7 +20,7 @@ def get_runnerbot_hook(task) -> None:
         Bot.objects.filter(id=task.result.get('id')).delete()
 
 
-def runnerbot(instance, bot_object, logger_object):
+def runnerbot(instance, symbol, symbol_exchange, bot_object, logger_object):
     """
     :param instance: Oggetto che contiene l'istanza del bot con i dati
     :param bot_object: Oggetto di tipo Bot

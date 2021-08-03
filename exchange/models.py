@@ -35,4 +35,4 @@ class Exchange(CommonTrait):
 
 class User(AbstractUser):
     exchange = models.ForeignKey(Exchange, on_delete=models.SET_NULL, null=True, blank=True)
-    bot = models.ManyToManyField(Bot,null=True,blank=True)
+    #bot = models.ManyToManyField(Bot,null=True,blank=True)
