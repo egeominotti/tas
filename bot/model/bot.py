@@ -44,10 +44,10 @@ class TradingBot:
         self.bot_object = bot_object
         self.logger_id = self.logger.objects.create(bot=self.current_bot)
         self.notify = True
-        self.live = False
+        self.live = True
         self.exchange = BinanceHelper(
             symbol=self.symbol_exchange,
-            leverage=2
+            leverage=3
         )
 
         type = None
@@ -103,7 +103,7 @@ class TradingBot:
 
                 self.item['entry_function'] = True
                 self.item['takeprofit_ratio'] = self.item.get('entry_candle') * self.item.get('takeprofit_value')
-                self.item['stoploss_ratio'] = self.item.get('entry_candle') * self.item.get('stoploss_value')
+                self.item['stoploss_ratio'] =   self.item.get('entry_candle') * self.item.get('stoploss_value')
 
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
@@ -111,14 +111,16 @@ class TradingBot:
                                  "\n" + "Symbol: " + str(self.symbol) + \
                                  "\nTime frame: " + str(self.time_frame) + \
                                  "\nEntry Candle value: " + str(self.item.get('entry_candle')) + \
-                                 "\nEntry Candle date: " + str(now)
+                                 "\nEntry Candle date: " + str(now) + \
+                                 "\nStoploss ratio: " + str(self.item.get('stoploss_ratio')) + \
+                                 "\nTakeprofit ratio: " + str(self.item.get('takeprofit_ratio'))
                     self.telegram.send(entry_text)
 
                 if self.live:
                     self.exchange.buy_market()
-
-                self.item['takeprofit_ratio'] = self.item.get('entry_candle') * self.item.get('takeprofit_value')
-                self.item['stoploss_ratio'] = self.item.get('entry_candle') * self.item.get('stoploss_value')
+                #
+                # self.item['takeprofit_ratio'] = self.item.get('entry_candle') * self.item.get('takeprofit_value')
+                # self.item['stoploss_ratio'] = self.item.get('entry_candle') * self.item.get('stoploss_value')
 
                 return True
 
