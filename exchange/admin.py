@@ -1,12 +1,12 @@
 from django.contrib import admin
 from exchange.models import Exchange, ExchangeList, User
-from django.conf import settings
 
 
 class ExchangeAdmin(admin.ModelAdmin):
     search_fields = ['user']
     list_per_page = 50
     ordering = ('id',)
+    readonly_fields = ('balance_futures', 'balance_spot')
     list_display = ('id', 'api_key', 'api_secret')
     exclude = ['flgEnable', ]
 
