@@ -19,7 +19,7 @@ class BinanceHelper:
         price = float(data['price'])
         print(self.get_current_balance_futures_('USDT') / price)
         print(self.get_current_balance_futures_('USDT') / price)
-        self.quantity = self.get_current_balance_futures_('USDT') / price
+        self.quantity = round(self.get_current_balance_futures_('USDT') / price, 3)
 
     def get_current_balance_futures_(self, coin=None):
         """
