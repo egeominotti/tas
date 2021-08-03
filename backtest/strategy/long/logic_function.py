@@ -52,10 +52,11 @@ def logicentry_first_long(item, bot=False):
             if ema13 > ema21:
                 if ema21 > ema34:
                     if candle_low_prev <= ema8_prev:
-                        if canlde_close > candle_open_prev:
-                            item['entry'] = True
-                            item['entry_candle'] = item['candle_close']
-                            return True
+                        if ema8 / ema13 < 1.00165 and ema21 / ema34 < 1.0018:
+                            if canlde_close > candle_open_prev:
+                                item['entry'] = True
+                                item['entry_candle'] = item['candle_close']
+                                return True
 
     else:
         """
@@ -73,17 +74,11 @@ def logicentry_first_long(item, bot=False):
 
 
 def logicexit_first_long(item, bot=False):
-    print(item)
-    print(item)
-    print(item)
+
     if bot:
 
-        lower_symbol = item.get('symbol_exchange').lower()
-        print("simbolo exchange lower: " + lower_symbol)
-        print("simbolo exchangelower: " + lower_symbol)
-        print("simbolo  exchange lower: " + lower_symbol)
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures")
-        binance_websocket_api_manager.create_stream(['kline_1m'], [lower_symbol], output="UnicornFy")
+        binance_websocket_api_manager.create_stream(['kline_1m'], [item.get('symbol_exchange').lower()], output="UnicornFy")
 
         sentinel = False
         while True:
