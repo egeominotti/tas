@@ -1,31 +1,38 @@
+from exchange.model.binance import BinanceHelper
 from django.core.management import BaseCommand
 import logging
-from backtest.model.backtest import Backtest
-from backtest.strategy.long.logic_function import *
-
+from backtest.models import BackTest
+from backtest.model.backtest import Backtest as backtests
 logger = logging.getLogger('main')
+
+from backtest.strategy.long.logic_function import *
+from backtest.strategy.short.logic_function import *
 
 
 class Command(BaseCommand):
-    help = 'backtesting'
+    help = 'Prende gli indici delle candele a '
 
     def handle(self, *args, **kwargs):
 
-        crypto = 'BTCUSDT'
-        RATIO = 1.00005
-        TAKE_PROFIT = 1.021
-        STOP_LOSS = 0.9845
-        time_frame = '5m'
+        for instance in BackTest.objects.all():
+            bt = backtests(
+                instance=instance,
+                first_period=instance.start_period.strftime("%d %b,%Y"),
+                logic_entry=eval(instance.strategy.logic_entry.name),
+                logic_exit=eval(instance.strategy.logic_exit.name),
+                time_frame=instance.strategy.time_frame.time_frame,
+                symbol=instance.strategy.symbol_exchange.symbol,
+                take_profit_value=instance.strategy.logic_exit.take_profit,
+                stop_loss_value=instance.strategy.logic_exit.stop_loss,
+                ratio_value=instance.strategy.logic_entry.ratio,
+            )
+            return_value = bt.run()
 
-        bt = Backtest(
-            first_period='17 Aug, 2017',
-            logic_entry=eval('logic_entry'),
-            logic_stoploss=eval('logic_stop_loss'),
-            logic_takeprofit=eval('logic_takeprofit'),
-            time_frame=time_frame,
-            symbol=crypto,
-            take_profit_value=TAKE_PROFIT,
-            stop_loss_value=STOP_LOSS,
-            ratio_value=RATIO
-        )
-        bt.run()
+            item = {
+                'result': return_value,
+                'id': instance.id,
+                'symbol': instance.strategy.symbol_exchange.symbol,
+                'time_frame': instance.strategy.time_frame.time_frame
+            }
+            return item
+

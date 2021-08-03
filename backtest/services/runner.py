@@ -117,9 +117,9 @@ def backtesting(instance):
             logic_exit=eval(instance.strategy.logic_exit.name),
             time_frame=instance.strategy.time_frame.time_frame,
             symbol=instance.strategy.symbol_exchange.symbol,
-            take_profit_value=instance.strategy.take_profit,
-            stop_loss_value=instance.strategy.stop_loss,
-            ratio_value=instance.strategy.ratio,
+            take_profit_value=instance.strategy.logic_exit.take_profit,
+            stop_loss_value=instance.strategy.logic_exit.stop_loss,
+            ratio_value=instance.strategy.logic_entry.ratio,
         )
         return_value = bt.run()
 
