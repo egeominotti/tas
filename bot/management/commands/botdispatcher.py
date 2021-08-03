@@ -4,7 +4,7 @@ from django.core.management import BaseCommand
 from django_q.tasks import async_task
 from analytics.models import TrendChecker
 from bot.models import Bot, BotLogger
-from strategy.models import Strategy
+from bot.models import StrategyBot
 import logging
 from exchange.model.binance import BinanceHelper
 
@@ -19,23 +19,35 @@ class Command(BaseCommand):
         while True:
 
             try:
-                qs = Strategy.objects.filter(live_mode=True)
-                # for user in usr:
+                qs = StrategyBot.objects.filter(live_mode=True)
                 for strategy in qs:
-                    tch = TrendChecker.objects.filter(symbol=strategy.symbol_exchange,
-                                                      time_frame=strategy.time_frame).first()
+
+                    bh = BinanceHelper(
+                        api_key=strategy.user.exchange.api_key,
+                        api_secret=strategy.user.exchange.api_secret,
+                        symbol=strategy.symbol_exchange.symbol
+                    )
+                    print(bh.get_current_balance_futures_())
+                    print(bh.get_symbol_precision())
+                    print(bh.current_price_coin())
+
+                    sleep(3)
 
                     # if not Bot.objects.filter(strategy=strategy).exists():
-                    #     bot = Bot.objects.create(strategy=strategy)
-                    #     BotLogger.objects.create(
-                    #         bot=bot,
+                    # bot = Bot.objects.create(strategy=strategy)
+
+                    # print(bh)
+
+                    # BotLogger.objects.create(
+                    #     bot=bot,
                     #
-                    #     )
-                    #     async_task("bot.services.runner.runnerbot",
-                    #                bot,
-                    #                Bot,
-                    #                BotLogger,
-                    #                hook="bot.services.runner.get_runnerbot_hook")
-                sleep(300)
+                    # )
+                    # async_task("bot.services.runner.runnerbot",
+                    #            bot,
+                    #            Bot,
+                    #            BotLogger,
+                    #            hook="bot.services.runner.get_runnerbot_hook")
+
+                # sleep(300)
             except Exception as e:
-                Bot.objects.all().delete()
+                print(e)
