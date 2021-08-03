@@ -160,7 +160,15 @@ class TradingBot:
                     self.telegram.send(stop_loss)
 
                 if self.live:
-                    self.exchange.sell_market()
+                    if self.item.get('type') == 0:
+                        # LONG
+                        self.exchange.sell_market()
+
+                    if self.item.get('type') == 1:
+                        # SHORT
+                        self.exchange.buy_market()
+
+
 
                 return True
 
@@ -179,7 +187,13 @@ class TradingBot:
                     self.telegram.send(stop_loss)
 
                 if self.live:
-                    self.exchange.sell_market()
+                    if self.item.get('type') == 0:
+                        # LONG
+                        self.exchange.sell_market()
+
+                    if self.item.get('type') == 1:
+                        # SHORT
+                        self.exchange.buy_market()
 
                 return True
 
