@@ -46,7 +46,8 @@ class TradingBot:
         self.notify = True
         self.live = True
         self.exchange = BinanceHelper(
-            symbol= self.symbol_exchange,
+            symbol=self.symbol_exchange,
+            leverage=5
         )
 
         type = None
