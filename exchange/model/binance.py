@@ -8,6 +8,7 @@ class BinanceHelper:
     def __init__(self, symbol, leverage=1):
         self.symbol = symbol
         self.quantity = 0
+        self.leverage = leverage
         # self.client = Client(api_key, api_secret)
         self.client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
         self.client.futures_change_leverage(symbol=symbol, marginType='ISOLATED', leverage=leverage)
@@ -24,10 +25,8 @@ class BinanceHelper:
         url = requests.get('https://api.binance.com/api/v1/ticker/price?symbol=' + self.symbol)
         data = url.json()
         price = float(data['price'])
-        # Subtract 0.5 cent
         symbol_precision = self.get_symbol_precision()[self.symbol]
-        print("symbol precision" + str(symbol_precision))
-        self.quantity = round((self.get_current_balance_futures_('USDT') - 0.5) / price, symbol_precision)
+        self.quantity = round((self.get_current_balance_futures_('USDT') - 0.5) / price, symbol_precision) * self.leverage
 
     def get_current_balance_futures_(self, coin=None):
         """
