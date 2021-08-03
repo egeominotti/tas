@@ -119,6 +119,14 @@ class TradingBot:
 
                 self.item['type_text'] = type
 
+                if self.live:
+                    if self.item.get('type') == 0:
+                        # LONG
+                        self.exchange.buy_market()
+                    if self.item.get('type') == 1:
+                        # SHORT
+                        self.exchange.sell_market()
+
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                     entry_text = "Entry: " + str(self.current_bot.name) + \
@@ -130,14 +138,6 @@ class TradingBot:
                                  "\n" + "Symbol: " + str(self.symbol) + \
                                  "\nTime frame: " + str(self.time_frame)
                     self.telegram.send(entry_text)
-
-                if self.live:
-                    if self.item.get('type') == 0:
-                        # LONG
-                        self.exchange.buy_market()
-                    if self.item.get('type') == 1:
-                        # SHORT
-                        self.exchange.sell_market()
 
                 return True
 
@@ -155,6 +155,15 @@ class TradingBot:
             """
             if self.item.get('stoploss'):
 
+                if self.live:
+                    if self.item.get('type') == 0:
+                        # LONG
+                        self.exchange.sell_market()
+
+                    if self.item.get('type') == 1:
+                        # SHORT
+                        self.exchange.buy_market()
+
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                     stop_loss = "Stoploss: " + str(self.current_bot.name) + \
@@ -165,6 +174,13 @@ class TradingBot:
                                 "\nTime frame: " + str(self.time_frame)
                     self.telegram.send(stop_loss)
 
+                return True
+
+            """
+            Takeprofit
+            """
+            if self.item.get('takeprofit'):
+
                 if self.live:
                     if self.item.get('type') == 0:
                         # LONG
@@ -173,13 +189,6 @@ class TradingBot:
                     if self.item.get('type') == 1:
                         # SHORT
                         self.exchange.buy_market()
-
-                return True
-
-            """
-            Takeprofit
-            """
-            if self.item.get('takeprofit'):
 
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
@@ -190,15 +199,6 @@ class TradingBot:
                                 "\n" + "Symbol: " + str(self.symbol) + \
                                 "\nTime frame: " + str(self.time_frame)
                     self.telegram.send(stop_loss)
-
-                if self.live:
-                    if self.item.get('type') == 0:
-                        # LONG
-                        self.exchange.sell_market()
-
-                    if self.item.get('type') == 1:
-                        # SHORT
-                        self.exchange.buy_market()
 
                 return True
 
