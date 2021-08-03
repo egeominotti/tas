@@ -48,12 +48,31 @@ def logicentry_first_long(item, bot=False):
         ema21 = taapi.ema(21, time_frame)
         ema34 = taapi.ema(34, time_frame)
 
+        """
+        LONG
+        """
         if ema8 > ema13:
             if ema13 > ema21:
                 if ema21 > ema34:
                     if candle_low_prev <= ema8_prev:
                         if ema8 / ema13 < 1.00165 and ema21 / ema34 < 1.00095:
                             if canlde_close > candle_open_prev:
+                                item['type'] = "Long"
+                                item['entry'] = True
+                                item['entry_candle'] = item['candle_close']
+                                return True
+
+
+        """
+        SHORT
+        """
+        if ema8 < ema13:
+            if ema13 < ema21:
+                if ema21 < ema34:
+                    if candle_low_prev >= ema8_prev:
+                        if ema8 / ema13 > 1.00165 and ema21 / ema34 < 1.00095:
+                            if canlde_close < candle_open_prev:
+                                item['type'] = "Short"
                                 item['entry'] = True
                                 item['entry_candle'] = item['candle_close']
                                 return True
@@ -77,7 +96,8 @@ def logicexit_first_long(item, bot=False):
 
     if bot:
 
-        binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures")
+        #binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures")
+        binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com")
         binance_websocket_api_manager.create_stream(['kline_1m'], [item.get('symbol_exchange').lower()], output="UnicornFy")
 
         sentinel = False
@@ -107,7 +127,7 @@ def logicexit_first_long(item, bot=False):
                     sentinel = True
                     break
 
-            sleep(0.1)
+            sleep(0.5)
 
         if sentinel is True:
             print("ho finito")
