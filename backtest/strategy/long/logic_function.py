@@ -86,15 +86,14 @@ def logicexit_first_long(item, bot=False):
                 unicorn_fied_stream_data = UnicornFy.binance_com_websocket(oldest_stream_data_from_stream_buffer)
                 for k, v in unicorn_fied_stream_data.items():
                     if isinstance(v, dict):
-                        # print(v.get('interval'))
-                        # print(v.get('open_price'))
-                        # print(v.get('close_price'))
-                        # print(v.get('low_price'))
-                        # print(v.get('high_price'))
-                        # print(v.get('is_closed'))
+                        # v.get('interval')
+                        # v.get('open_price')
+                        # v.get('close_price')
+                        # v.get('low_price')
+                        # v.get('high_price')
+                        # v.get('is_closed')
                         item['candle_close'] = float(v.get('close_price'))
 
-                # item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
                 print("websocket")
                 print(item['candle_close'])
                 if item['candle_close'] >= item['entry_candle'] * item['takeprofit_value']:
