@@ -1,5 +1,4 @@
 from django.db import models
-from django.conf import settings
 from analytics.models import CommonTrait
 from django_quill.fields import QuillField
 
@@ -75,22 +74,3 @@ class LogicExit(CommonTrait):
     class Meta:
         verbose_name = 'LogicExit'
         verbose_name_plural = 'LogicExit'
-
-
-class Strategy(CommonTrait):
-    name = models.CharField(max_length=200, blank=False)
-    time_frame = models.ForeignKey(TimeFrame, on_delete=models.CASCADE, null=False, blank=False)
-    logic_entry = models.ForeignKey(LogicEntry, on_delete=models.CASCADE, null=False, blank=False)
-    logic_exit = models.ForeignKey(LogicExit, on_delete=models.CASCADE, null=False, blank=False)
-    symbol_taapi = models.ForeignKey('SymbolTaapiApi', on_delete=models.CASCADE, null=False, blank=False)
-    symbol_exchange = models.ForeignKey('SymbolExchange', on_delete=models.CASCADE, null=False, blank=False)
-    live_mode = models.BooleanField(default=False)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
-
-    def __str__(self):
-        if self.name is not None:
-            return str(self.name)
-
-    class Meta:
-        verbose_name = 'Strategy'
-        verbose_name_plural = 'Strategy'

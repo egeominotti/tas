@@ -25,17 +25,17 @@ class Command(BaseCommand):
                     tch = TrendChecker.objects.filter(symbol=strategy.symbol_exchange,
                                                       time_frame=strategy.time_frame).first()
 
-                    if not Bot.objects.filter(strategy=strategy).exists():
-                        bot = Bot.objects.create(strategy=strategy)
-                        BotLogger.objects.create(
-                            bot=bot,
-
-                        )
-                        async_task("bot.services.runner.runnerbot",
-                                   bot,
-                                   Bot,
-                                   BotLogger,
-                                   hook="bot.services.runner.get_runnerbot_hook")
+                    # if not Bot.objects.filter(strategy=strategy).exists():
+                    #     bot = Bot.objects.create(strategy=strategy)
+                    #     BotLogger.objects.create(
+                    #         bot=bot,
+                    #
+                    #     )
+                    #     async_task("bot.services.runner.runnerbot",
+                    #                bot,
+                    #                Bot,
+                    #                BotLogger,
+                    #                hook="bot.services.runner.get_runnerbot_hook")
                 sleep(300)
             except Exception as e:
                 Bot.objects.all().delete()

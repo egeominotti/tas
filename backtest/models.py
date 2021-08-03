@@ -1,11 +1,28 @@
 from django.db import models
 from django_q.tasks import async_task
-from strategy.models import Strategy
+from strategy.models import TimeFrame, LogicExit, LogicEntry, SymbolExchange
 from analytics.models import CommonTrait
+from django.conf import settings
+
+
+class StrategyBacktesting(CommonTrait):
+    name = models.CharField(max_length=200, blank=False)
+    time_frame = models.ForeignKey(TimeFrame, on_delete=models.CASCADE, null=False, blank=False)
+    logic_entry = models.ForeignKey(LogicEntry, on_delete=models.CASCADE, null=False, blank=False)
+    logic_exit = models.ForeignKey(LogicExit, on_delete=models.CASCADE, null=False, blank=False)
+    symbol_exchange = models.ForeignKey(SymbolExchange, on_delete=models.CASCADE, null=False, blank=False)
+
+    def __str__(self):
+        if self.name is not None:
+            return str(self.name)
+
+    class Meta:
+        verbose_name = 'Strategy'
+        verbose_name_plural = 'Strategy'
 
 
 class BackTest(models.Model):
-    strategy = models.ForeignKey(Strategy, on_delete=models.CASCADE, null=False, blank=False)
+    strategy = models.ForeignKey(StrategyBacktesting, on_delete=models.CASCADE, null=False, blank=False)
     start_period = models.DateField(blank=True, null=True)
     end_period = models.DateField(blank=True, null=True)
     scheduled = models.BooleanField(default=False)
