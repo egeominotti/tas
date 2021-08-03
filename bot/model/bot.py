@@ -80,7 +80,8 @@ class TradingBot:
             'stoploss_value': self.func_exit.stop_loss,
             'takeprofit_value': self.func_exit.take_profit,
             'entry_function': False,
-            'exit_function': False
+            'exit_function': False,
+            'user': self.user.username
         }
 
     def start(self) -> None:
