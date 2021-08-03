@@ -1,4 +1,6 @@
 from bot.services.telegram import Telegram
+from analytics.services.exchangeApi import Taapi
+from exchange.model.binance import BinanceHelper
 from time import sleep
 import datetime
 import signal
@@ -6,7 +8,6 @@ import signal
 """
 Logic function
 """
-from exchange.model.binance import BinanceHelper
 
 from backtest.strategy.logic.logic_function import *
 
@@ -49,7 +50,7 @@ class TradingBot:
         self.func_exit = func_exit
         self.logger = logger
         self.bot_object = bot_object
-        #self.logger_id = self.logger.objects.create(bot=self.current_bot)
+        # self.logger_id = self.logger.objects.create(bot=self.current_bot)
         self.notify = self.user.telegram_notifications
         self.live = self.user.exchange.live
         self.exchange = BinanceHelper(
@@ -58,12 +59,6 @@ class TradingBot:
             symbol=self.symbol_exchange,
             leverage=self.user.exchange.leverage,
         )
-
-        # type = None
-        # if self.func_exit.short and self.func_entry.short:
-        #     type = 'SHORT'
-        # if self.func_exit.long and self.func_exit.long:
-        #     type = 'LONG'
 
         self.item = {
             'candle_close': 0,
@@ -110,8 +105,8 @@ class TradingBot:
             if self.item.get('entry') is True:
 
                 self.item['entry_function'] = True
-                self.item['takeprofit_ratio'] = round(self.item.get('entry_candle') * self.item.get('takeprofit_value'), 3)
-                self.item['stoploss_ratio'] =   round(self.item.get('entry_candle') * self.item.get('stoploss_value'), 3)
+                self.item['takeprofit_ratio'] = round(self.item.get('entry_candle') * self.item.get('takeprofit_value'),3)
+                self.item['stoploss_ratio'] = round(self.item.get('entry_candle') * self.item.get('stoploss_value'), 3)
 
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
@@ -131,7 +126,6 @@ class TradingBot:
                     if self.item.get('type') == 1:
                         # SHORT
                         self.exchange.sell_market()
-
 
                 return True
 
@@ -166,8 +160,6 @@ class TradingBot:
                     if self.item.get('type') == 1:
                         # SHORT
                         self.exchange.buy_market()
-
-
 
                 return True
 

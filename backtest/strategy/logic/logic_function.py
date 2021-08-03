@@ -32,6 +32,7 @@ logger = logging.getLogger(__name__)
 
 
 def logicentry_first_long(item, bot=False):
+
     if bot:
 
         item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
@@ -57,7 +58,7 @@ def logicentry_first_long(item, bot=False):
                     if candle_low_prev <= ema8_prev:
                         if ema8 / ema13 < 1.00165 and ema21 / ema34 < 1.00095:
                             if canlde_close > candle_open_prev:
-                                item['type'] = 0
+                                item['type'] = 0 # type = 0 corrisponde ad una entrata long
                                 item['entry'] = True
                                 item['entry_candle'] = item['candle_close']
                                 return True
@@ -71,7 +72,7 @@ def logicentry_first_long(item, bot=False):
                     if candle_low_prev >= ema8_prev:
                         if ema34 / ema21 < 1.00017 and ema13 / ema8 < 1.0009:
                             if canlde_close < candle_open_prev:
-                                item['type'] = 1
+                                item['type'] = 1 # type = 1 corrisponde ad una entrata short
                                 item['entry'] = True
                                 item['entry_candle'] = item['candle_close']
                                 return True
