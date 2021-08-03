@@ -17,7 +17,8 @@ class BinanceHelper:
         url = requests.get('https://api.binance.com/api/v1/ticker/price?symbol=' + self.symbol)
         data = url.json()
         price = float(data['price'])
-        self.quantity = round(self.get_current_balance_futures_('USDT') - 0.5 / price, 3)
+        # Subtract 0.5 cent
+        self.quantity = round((self.get_current_balance_futures_('USDT') - 0.5) / price, 3)
 
     def get_current_balance_futures_(self, coin=None):
         """
