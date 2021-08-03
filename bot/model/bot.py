@@ -98,7 +98,6 @@ class TradingBot:
 
         func_entry = eval(self.func_entry.name)
         if self.item.get('entry') is False:
-
             func_entry(item=self.item, bot=True)
             if self.item.get('entry') is True:
 
