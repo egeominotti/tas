@@ -12,11 +12,15 @@ from backtest.strategy.long.logic_function import *
 from backtest.strategy.short.logic_function import *
 
 
-def terminate_bot():
-    exit(1)
+run = True
+def handler_stop_signals(signum, frame):
+    global run
+    print("SIGNAL DI STOP")
+    # todo: devo chiudere la posizione se è aperta e cancellare il bot
+    run = False
 
-
-signal.signal(signal.SIGINT, terminate_bot)
+signal.signal(signal.SIGINT, handler_stop_signals)
+signal.signal(signal.SIGTERM, handler_stop_signals)
 
 
 class TradingBot:
@@ -178,7 +182,7 @@ class TradingBot:
         entry = False
         exception = False
 
-        while True:
+        while run:
 
             try:
 
