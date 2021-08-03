@@ -48,7 +48,7 @@ class TradingBot:
         self.bot_object = bot_object
         self.logger_id = self.logger.objects.create(bot=self.current_bot)
         self.notify = True
-        self.live = True
+        self.live = False
         self.exchange = BinanceHelper(
             symbol=self.symbol_exchange,
             leverage=3

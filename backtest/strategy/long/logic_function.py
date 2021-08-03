@@ -96,7 +96,7 @@ def logicexit_first_long(item, bot=False):
                         item['candle_close'] = float(v.get('close_price'))
 
                 #print("websocket")
-                #print(item['candle_close'])
+                print(item['candle_close'])
                 if item['candle_close'] >= item['entry_candle'] * item['takeprofit_value']:
                     item['takeprofit_candle'] = item['candle_close']
                     item['takeprofit'] = True

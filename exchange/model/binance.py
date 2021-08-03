@@ -25,8 +25,13 @@ class BinanceHelper:
         url = requests.get('https://api.binance.com/api/v1/ticker/price?symbol=' + self.symbol)
         data = url.json()
         price = float(data['price'])
-        symbol_precision = self.get_symbol_precision()[self.symbol]
-        self.quantity = round((self.get_current_balance_futures_('USDT') - 0.5) / price, symbol_precision) * self.leverage
+        symbol_precision = int(self.get_symbol_precision()[self.symbol])
+        print("SYMBOL:" + self.symbol)
+        print("PRECISION: " + str(symbol_precision))
+        qty = round(self.get_current_balance_futures_('USDT') - 0.5 / price,symbol_precision)
+        self.quantity = round(qty,symbol_precision) * self.leverage
+        print("QTY: " + str(qty))
+        print("self quantity: " + str(qty))
 
     def get_current_balance_futures_(self, coin=None):
         """
