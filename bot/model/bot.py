@@ -67,7 +67,6 @@ class TradingBot:
             'stoploss': False,
             'entry': False,
             'sleep_func_entry': self.func_entry.sleep,
-            'sleep_func_exit': self.func_exit.sleep,
             'taapi': self.taapi,
             'symbol': self.symbol,
             'symbol_exchange': self.symbol_exchange,

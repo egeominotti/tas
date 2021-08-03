@@ -61,7 +61,6 @@ class LogicEntry(CommonTrait):
 
 class LogicExit(CommonTrait):
     name = models.CharField(max_length=200, blank=True)
-    sleep = models.IntegerField(default=0, blank=False, null=False)
     take_profit = models.FloatField(default=0, blank=False)
     stop_loss = models.FloatField(default=0, blank=False)
     long = models.BooleanField(default=False)
