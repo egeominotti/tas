@@ -105,18 +105,19 @@ class TradingBot:
             if self.item.get('entry') is True:
 
                 self.item['entry_function'] = True
-                self.item['takeprofit_ratio'] = round(self.item.get('entry_candle') * self.item.get('takeprofit_value'),3)
+                self.item['takeprofit_ratio'] = round(self.item.get('entry_candle') * self.item.get('takeprofit_value'),
+                                                      3)
                 self.item['stoploss_ratio'] = round(self.item.get('entry_candle') * self.item.get('stoploss_value'), 3)
 
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                    entry_text = "Bot: " + str(self.current_bot.name) + \
-                                 "\n" + "Symbol: " + str(self.symbol) + \
-                                 "\nTime frame: " + str(self.time_frame) + \
+                    entry_text = "Entry: " + str(self.current_bot.name) + \
                                  "\nEntry Candle value: " + str(self.item.get('entry_candle')) + \
                                  "\nEntry Candle date: " + str(now) + \
                                  "\nStoploss ratio: " + str(self.item.get('stoploss_ratio')) + \
-                                 "\nTakeprofit ratio: " + str(self.item.get('takeprofit_ratio'))
+                                 "\nTakeprofit ratio: " + str(self.item.get('takeprofit_ratio')) + \
+                                 "\n" + "Symbol: " + str(self.symbol) + \
+                                 "\nTime frame: " + str(self.time_frame)
                     self.telegram.send(entry_text)
 
                 if self.live:
@@ -145,11 +146,11 @@ class TradingBot:
 
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                    stop_loss = "Bot: " + str(self.current_bot.name) + \
-                                "\n" + "Symbol: " + str(self.symbol) + \
-                                "\nTime frame: " + str(self.time_frame) + \
+                    stop_loss = "Stoploss: " + str(self.current_bot.name) + \
                                 "\nStoploss candle value: " + str(self.item.get('stoploss_candle')) + \
-                                "\nStoploss candle date: " + str(now)
+                                "\nStoploss candle date: " + str(now) + \
+                                "\n" + "Symbol: " + str(self.symbol) + \
+                                "\nTime frame: " + str(self.time_frame)
                     self.telegram.send(stop_loss)
 
                 if self.live:
@@ -170,11 +171,11 @@ class TradingBot:
 
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                    stop_loss = "Bot: " + str(self.current_bot.name) + \
-                                "\n" + "Symbol: " + str(self.symbol) + \
-                                "\nTime frame: " + str(self.time_frame) + \
+                    stop_loss = "Takeprofit: " + str(self.current_bot.name) + \
                                 "\nTakeprofit candle value: " + str(self.item.get('takeprofit_candle')) + \
-                                "\nTakeprofit candle date: " + str(now)
+                                "\nTakeprofit candle date: " + str(now) + \
+                                "\n" + "Symbol: " + str(self.symbol) + \
+                                "\nTime frame: " + str(self.time_frame)
                     self.telegram.send(stop_loss)
 
                 if self.live:
