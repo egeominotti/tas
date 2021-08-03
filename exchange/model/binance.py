@@ -13,7 +13,7 @@ class BinanceHelper:
 
     def get_quantity(self):
 
-        current_balance =  self.get_current_balance_futures_()
+        current_balance =  self.get_current_balance_futures_() - 0.5
         symbol_precision = self.get_symbol_precision()
         price_coin=        self.current_price_coin()
 
@@ -33,19 +33,11 @@ class BinanceHelper:
         return price
 
     def get_current_balance_futures_(self, coin='USDT'):
-        """
-        COIN: USDT,BUSD,BNB
-        :param coin:
-        :return:
-        """
-
         item = {}
         for k in self.client.futures_account_balance():
             item[k['asset']] = k['balance']
-
         if coin is not None:
             return float(item[coin])
-
         return item
 
     def sell_market(self):
@@ -53,7 +45,7 @@ class BinanceHelper:
             symbol=self.symbol,
             side=SIDE_SELL,
             type=ORDER_TYPE_MARKET,
-            quantity=self.quantity,
+            quantity=self.get_quantity(),
         )
 
     def buy_market(self):
@@ -61,7 +53,7 @@ class BinanceHelper:
             symbol=self.symbol,
             side=SIDE_BUY,
             type=ORDER_TYPE_MARKET,
-            quantity=self.quantity,
+            quantity=self.get_quantity(),
         )
 
     def buy_limit(self):
@@ -69,7 +61,7 @@ class BinanceHelper:
             symbol=self.symbol,
             side=SIDE_BUY,
             type=ORDER_TYPE_LIMIT,
-            quantity=self.quantity,
+            quantity=self.get_quantity(),
         )
 
     def sell_limit(self, price):
@@ -77,6 +69,6 @@ class BinanceHelper:
             symbol=self.symbol,
             side=SIDE_SELL,
             type=ORDER_TYPE_LIMIT,
-            quantity=self.quantity,
+            quantity=self.get_quantity(),
             price=price
         )
