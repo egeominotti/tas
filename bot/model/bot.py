@@ -176,6 +176,8 @@ class TradingBot:
         self.start()
 
         entry = False
+        exception = False
+
         while True:
 
             try:
@@ -196,6 +198,9 @@ class TradingBot:
                 exception = "ERROR" + str(e)
                 self.telegram.send(exception)
                 # if exception stop the bot and open position
+                exception = True
                 break
 
+        if exception:
+            return False
         return True
