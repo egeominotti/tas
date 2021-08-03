@@ -95,8 +95,8 @@ def logicentry_first_long(item, bot=False):
 def logicexit_first_long(item, bot=False):
     if bot:
 
-        # binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures")
-        binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com")
+        binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures")
+        #binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com")
         binance_websocket_api_manager.create_stream(['kline_1m'], [item.get('symbol_exchange').lower()],
                                                     output="UnicornFy")
 
@@ -114,7 +114,6 @@ def logicexit_first_long(item, bot=False):
                         # v.get('is_closed')
                         item['candle_close'] = float(v.get('close_price'))
 
-                # print("websocket")
                 if item['candle_close'] >= item['entry_candle'] * item['takeprofit_value']:
                     item['takeprofit_candle'] = item['candle_close']
                     item['takeprofit'] = True
@@ -130,8 +129,6 @@ def logicexit_first_long(item, bot=False):
             sleep(0.5)
 
         if sentinel is True:
-            print("ho finito")
-            print(item)
             return True
         return False
 
