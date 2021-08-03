@@ -94,7 +94,7 @@ class TradingBot:
         if self.notify:
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
             start = "Started: " + str(self.current_bot.name) + \
-                    "\n" + "Balance: " + str(self.exchange.get_current_balance_futures_('USDT')) + \
+                    "\n" + "Balance: " + str(self.exchange.get_current_balance_futures_()) + \
                     "\n" + "Quantity of investement: " + str(self.exchange.get_quantity()) + \
                     "\n" + "Leverage: " + str(self.exchange.leverage) + \
                     "\n" + "Symbol: " + str(self.symbol) + \
@@ -111,8 +111,8 @@ class TradingBot:
             if self.item.get('entry') is True:
 
                 self.item['entry_function'] = True
-                self.item['takeprofit_ratio'] = self.item.get('entry_candle') * self.item.get('takeprofit_value')
-                self.item['stoploss_ratio'] = self.item.get('entry_candle') * self.item.get('stoploss_value')
+                self.item['takeprofit_ratio'] = round(self.item.get('entry_candle') * self.item.get('takeprofit_value'), 3)
+                self.item['stoploss_ratio'] =   round(self.item.get('entry_candle') * self.item.get('stoploss_value'), 3)
 
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
