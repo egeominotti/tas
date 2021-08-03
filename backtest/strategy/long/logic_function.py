@@ -95,8 +95,8 @@ def logicexit_first_long(item, bot=False):
                         # v.get('is_closed')
                         item['candle_close'] = float(v.get('close_price'))
 
-                print("websocket")
-                print(item['candle_close'])
+                #print("websocket")
+                #print(item['candle_close'])
                 if item['candle_close'] >= item['entry_candle'] * item['takeprofit_value']:
                     item['takeprofit_candle'] = item['candle_close']
                     item['takeprofit'] = True
@@ -109,7 +109,7 @@ def logicexit_first_long(item, bot=False):
                     sentinel = True
                     break
 
-            sleep(1)
+            sleep(0.5)
 
         if sentinel is True:
             print("ho finito")
@@ -124,4 +124,5 @@ def logicexit_first_long(item, bot=False):
 
         if item['close_candle'] <= item['open_candle'] * item['stop_loss']:
             return True
+
         return False
