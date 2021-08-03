@@ -48,7 +48,7 @@ class TradingBot:
         self.exchange = BinanceHelper(
             symbol= self.symbol,
             # 30 USDT
-            quantity = 30
+            quantity = 24
         )
 
         type = None
@@ -148,7 +148,7 @@ class TradingBot:
                     self.telegram.send(stop_loss)
 
                 if self.live:
-                    self.exchange.sell_limit()
+                    self.exchange.sell_market()
 
                 return True
 
@@ -168,7 +168,7 @@ class TradingBot:
                     self.telegram.send(stop_loss)
 
                 if self.live:
-                    self.exchange.sell_limit()
+                    self.exchange.sell_market()
 
                 return True
 

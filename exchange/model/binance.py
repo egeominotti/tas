@@ -37,7 +37,7 @@ class BinanceHelper:
         )
 
     def sell_limit(self, price):
-        self.client.order_limit_sell(
+        self.client.futures_create_order(
             symbol=self.symbol,
             side=SIDE_SELL,
             type=ORDER_TYPE_LIMIT,
