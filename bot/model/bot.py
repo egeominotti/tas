@@ -109,9 +109,18 @@ class TradingBot:
                                                       3)
                 self.item['stoploss_ratio'] = round(self.item.get('entry_candle') * self.item.get('stoploss_value'), 3)
 
+                type = ''
+                if self.item.get('type') == 0:
+                    type = 'LONG'
+                else:
+                    type = 'SHORT'
+
+                self.item['type_text'] = type
+
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                     entry_text = "Entry: " + str(self.current_bot.name) + \
+                                 "\nType Entry: " + self.item.get('type_text') + \
                                  "\nEntry Candle value: " + str(self.item.get('entry_candle')) + \
                                  "\nEntry Candle date: " + str(now) + \
                                  "\nStoploss ratio: " + str(self.item.get('stoploss_ratio')) + \
@@ -147,6 +156,7 @@ class TradingBot:
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                     stop_loss = "Stoploss: " + str(self.current_bot.name) + \
+                                "\nType Entry: " + self.item.get('type_text') + \
                                 "\nStoploss candle value: " + str(self.item.get('stoploss_candle')) + \
                                 "\nStoploss candle date: " + str(now) + \
                                 "\n" + "Symbol: " + str(self.symbol) + \
@@ -172,6 +182,7 @@ class TradingBot:
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                     stop_loss = "Takeprofit: " + str(self.current_bot.name) + \
+                                "\nType Entry: " + self.item.get('type_text') + \
                                 "\nTakeprofit candle value: " + str(self.item.get('takeprofit_candle')) + \
                                 "\nTakeprofit candle date: " + str(now) + \
                                 "\n" + "Symbol: " + str(self.symbol) + \
