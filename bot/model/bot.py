@@ -46,7 +46,7 @@ class TradingBot:
         self.notify = True
         self.live = True
         self.exchange = BinanceHelper(
-            symbol= self.symbol,
+            symbol= self.symbol_exchange,
             # 30 USDT
             quantity = 24
         )
