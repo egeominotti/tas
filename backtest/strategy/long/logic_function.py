@@ -109,7 +109,7 @@ def logicexit_first_long(item, bot=False):
                     sentinel = True
                     break
 
-            sleep(0.5)
+            sleep(0.1)
 
         if sentinel is True:
             print("ho finito")
