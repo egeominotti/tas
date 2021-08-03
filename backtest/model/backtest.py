@@ -13,8 +13,7 @@ class PortfolioChecker(Portfolio):
     def __init__(
             self,
             instance,
-            func_stop_loss,
-            func_take_profit,
+            func_exit,
             symbol,
             time_frame,
             klines,
@@ -32,12 +31,11 @@ class PortfolioChecker(Portfolio):
         self.signals = signals
         self.tf = ''.join(self.tf)
         self.name_class = self.__class__.__name__ + "_" + self.symbol + "_TIMEFRAME_" + str(self.tf)
-        self.check_entry(func_stop_loss, func_take_profit)
+        self.check_entry(func_exit)
 
     def check_entry(
             self,
-            func_stop_loss,
-            func_take_profit
+            func_exit,
     ) -> None:
 
         # # Erase db record
@@ -83,7 +81,7 @@ class PortfolioChecker(Portfolio):
                     'close_candle': current_candle
                 }
 
-                if func_take_profit(item, False) is True:
+                if func_exit(item, False) is True:
                     BackTestLog.objects.create(
                         backtest=self.instance,
                         symbol=self.symbol,
@@ -97,20 +95,19 @@ class PortfolioChecker(Portfolio):
                     )
                     break
 
-                if func_stop_loss(item, False) is True:
-                    BackTestLog.objects.create(
-                        backtest=self.instance,
-                        symbol=self.symbol,
-                        time_frame=self.tf,
-                        entry_candle=entry_candle,
-                        entry_candle_date=entry_candle_timestamp,
-                        candle_stop_loss=current_candle,
-                        candle_stop_loss_date=currente_candle_timestamp,
-                        stop_loss=True,
-                        profit_loss=percentage,
-                    )
-
-                    break
+                # if func_stop_loss(item, False) is True:
+                #     BackTestLog.objects.create(
+                #         backtest=self.instance,
+                #         symbol=self.symbol,
+                #         time_frame=self.tf,
+                #         entry_candle=entry_candle,
+                #         entry_candle_date=entry_candle_timestamp,
+                #         candle_stop_loss=current_candle,
+                #         candle_stop_loss_date=currente_candle_timestamp,
+                #         stop_loss=True,
+                #         profit_loss=percentage,
+                #     )
+                #     break
 
 
 class StrategyChecker(Strategy):
@@ -152,8 +149,7 @@ class Backtest:
                  instance,
                  first_period,
                  logic_entry,
-                 logic_stoploss,
-                 logic_takeprofit,
+                 logic_exit,
                  time_frame,
                  symbol,
                  take_profit_value=0,
@@ -163,8 +159,7 @@ class Backtest:
         self.instance = instance
         self.first_period = first_period
         self.logic_entry = logic_entry
-        self.logic_stoploss = logic_stoploss
-        self.logic_takeprofit = logic_takeprofit
+        self.logic_exit = logic_exit
         self.tf = str(time_frame),
         self.symbol = symbol
         self.take_profit_value = take_profit_value
@@ -186,8 +181,7 @@ class Backtest:
         if len(klines) > 0:
             st = StrategyChecker(klines=klines, symbol=self.symbol, time_frame=self.tf, ratio=self.ratio_value)
             PortfolioChecker(instance=self.instance,
-                             func_stop_loss=self.logic_stoploss,
-                             func_take_profit=self.logic_takeprofit,
+                             func_exit=self.logic_exit,
                              time_frame=self.tf,
                              symbol=self.symbol,
                              klines=klines,

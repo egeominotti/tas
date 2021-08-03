@@ -8,5 +8,5 @@ class Portfolio(object):
         pass
 
     @abstractmethod
-    def check_entry(self, func_stop_loss, func_take_profit):
+    def check_entry(self, func_exit):
         raise NotImplementedError("Should implement generate_signals()!")
