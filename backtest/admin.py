@@ -1,7 +1,7 @@
 import csv
 from django.contrib import admin
 from django.http import HttpResponse
-from backtest.models import *
+from backtest.models import BackTest, BackTestLog, StrategyBacktesting, StatisticsPortfolio
 from csvexport.actions import csvexport
 
 
@@ -47,6 +47,13 @@ class BackTestAdmin(admin.ModelAdmin):
     exclude = ['flgEnable', ]
 
 
+class StrategyBacktestingAdmin(admin.ModelAdmin):
+    list_per_page = 20
+    ordering = ('id',)
+    exclude = ['flgEnable', ]
+
+admin.site.register(StrategyBacktesting, StrategyBacktestingAdmin)
 admin.site.register(BackTestLog, BackTestLogAdmin)
+
 admin.site.register(BackTest, BackTestAdmin)
 admin.site.register(StatisticsPortfolio, StatisticsPortfolioAdmin)

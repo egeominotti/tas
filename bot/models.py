@@ -49,8 +49,8 @@ class StrategyBot(CommonTrait):
             return str(self.name)
 
     class Meta:
-        verbose_name = 'StrategyBot'
-        verbose_name_plural = 'StrategyBot'
+        verbose_name = 'Strategy'
+        verbose_name_plural = 'Strategy'
 
 
 class Bot(CommonTrait):
