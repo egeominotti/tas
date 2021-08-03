@@ -1,19 +1,17 @@
-from exchange.model.binance import BinanceHelper
 from django.core.management import BaseCommand
 import logging
 from backtest.models import BackTest
 from backtest.model.backtest import Backtest as backtests
+
 logger = logging.getLogger('main')
 
-from backtest.strategy.long.logic_function import *
-from backtest.strategy.short.logic_function import *
+from backtest.strategy.logic.logic_function import *
 
 
 class Command(BaseCommand):
     help = 'Prende gli indici delle candele a '
 
     def handle(self, *args, **kwargs):
-
         for instance in BackTest.objects.all():
             bt = backtests(
                 instance=instance,
@@ -35,4 +33,3 @@ class Command(BaseCommand):
                 'time_frame': instance.strategy.time_frame.time_frame
             }
             return item
-

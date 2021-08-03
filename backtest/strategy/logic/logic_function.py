@@ -62,7 +62,6 @@ def logicentry_first_long(item, bot=False):
                                 item['entry_candle'] = item['candle_close']
                                 return True
 
-
         """
         SHORT entry
         """
@@ -70,7 +69,7 @@ def logicentry_first_long(item, bot=False):
             if ema13 < ema21:
                 if ema21 < ema34:
                     if candle_low_prev >= ema8_prev:
-                        if ema8 / ema13 > 1.00165 and ema21 / ema34 < 1.00095:
+                        if ema34 / ema21 < 1.00017 and ema13 / ema8 < 1.0009:
                             if canlde_close < candle_open_prev:
                                 item['type'] = 1
                                 item['entry'] = True
@@ -93,12 +92,12 @@ def logicentry_first_long(item, bot=False):
 
 
 def logicexit_first_long(item, bot=False):
-
     if bot:
 
-        #binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures")
+        # binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures")
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com")
-        binance_websocket_api_manager.create_stream(['kline_1m'], [item.get('symbol_exchange').lower()], output="UnicornFy")
+        binance_websocket_api_manager.create_stream(['kline_1m'], [item.get('symbol_exchange').lower()],
+                                                    output="UnicornFy")
 
         sentinel = False
         while True:
@@ -114,7 +113,7 @@ def logicexit_first_long(item, bot=False):
                         # v.get('is_closed')
                         item['candle_close'] = float(v.get('close_price'))
 
-                #print("websocket")
+                # print("websocket")
                 if item['candle_close'] >= item['entry_candle'] * item['takeprofit_value']:
                     item['takeprofit_candle'] = item['candle_close']
                     item['takeprofit'] = True

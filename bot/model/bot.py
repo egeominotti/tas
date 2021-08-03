@@ -8,8 +8,7 @@ Logic function
 """
 from exchange.model.binance import BinanceHelper
 
-from backtest.strategy.long.logic_function import *
-from backtest.strategy.short.logic_function import *
+from backtest.strategy.logic.logic_function import *
 
 run = True
 

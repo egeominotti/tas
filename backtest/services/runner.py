@@ -5,8 +5,7 @@ from backtest.models import StatisticsPortfolio
 Logic function
 """
 
-from backtest.strategy.long.logic_function import *
-from backtest.strategy.short.logic_function import *
+from backtest.strategy.logic.logic_function import *
 
 
 def get_backtesting_hook(task):
