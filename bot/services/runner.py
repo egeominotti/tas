@@ -45,7 +45,6 @@ def runnerbot(instance, user, symbol_taapi, symbol_exchange, bot_object, logger_
     if bot.run():
         item = {
             'id': instance.id,
-            'symbol': instance.strategy.symbol_exchange.symbol,
             'time_frame': instance.strategy.time_frame.time_frame
         }
 
