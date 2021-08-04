@@ -235,7 +235,7 @@ class TradingBot:
             try:
 
                 if entry is False:
-                    if datetime.datetime.now().second == 0:
+                    if datetime.datetime.now().second == 57:
                         if self.entry():
                             # Successfully open position
                             entry = True
