@@ -157,13 +157,13 @@ def logicexit_first(item, bot=False):
                     LONG
                     """
 
-                    if item['candle_close'] >= item['entry_candle'] * item['takeprofit_value']:
+                    if item['candle_close'] >= item['entry_candle'] * item['takeprofit_value_long']:
                         item['takeprofit_candle'] = item['candle_close']
                         item['takeprofit'] = True
                         sentinel = True
                         break
 
-                    if item['candle_close'] <= item['entry_candle'] * item['stoploss_value']:
+                    if item['candle_close'] <= item['entry_candle'] * item['stoploss_value_long']:
                         item['stoploss_candle'] = item['candle_close']
                         item['stoploss'] = True
                         sentinel = True
@@ -175,13 +175,13 @@ def logicexit_first(item, bot=False):
                     SHORT
                     """
 
-                    if item['candle_close'] <= item['entry_candle'] * item['takeprofit_value']:
+                    if item['candle_close'] <= item['entry_candle'] * item['takeprofit_value_short']:
                         item['takeprofit_candle'] = item['candle_close']
                         item['takeprofit'] = True
                         sentinel = True
                         break
 
-                    if item['candle_close'] >= item['entry_candle'] * item['stoploss_value']:
+                    if item['candle_close'] >= item['entry_candle'] * item['stoploss_value_short']:
                         item['stoploss_candle'] = item['candle_close']
                         item['stoploss'] = True
                         sentinel = True
