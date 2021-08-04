@@ -58,6 +58,7 @@ def logicentry_first_long(item, bot=False):
         print(longShortRatio)
 
         if longShortRatio is not None and longShortRatio > 1:
+
             """
             LONG entry
             """
@@ -74,9 +75,11 @@ def logicentry_first_long(item, bot=False):
                                     return True
 
         elif longShortRatio is not None and longShortRatio > 1:
+
             """
             SHORT entry
             """
+
             if ema8 < ema13:
                 if ema13 < ema21:
                     if ema21 < ema34:
