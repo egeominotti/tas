@@ -12,7 +12,7 @@ class LogicEntryAdmin(admin.ModelAdmin):
 class LogicExitAdmin(admin.ModelAdmin):
     list_per_page = 20
     ordering = ('id',)
-    list_display = ('name', 'take_profit', 'stop_loss', 'long', 'short')
+    list_display = ('name', 'take_profit_long', 'take_profit_short', 'stop_loss_long', 'stop_loss_short')
     exclude = ['flgEnable', ]
 
 

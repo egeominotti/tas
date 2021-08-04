@@ -79,8 +79,10 @@ class TradingBot:
             'type': -1,
             'time_frame': self.time_frame,
             'ratio': self.func_entry.ratio,
-            'stoploss_value': self.func_exit.stop_loss,
-            'takeprofit_value': self.func_exit.take_profit,
+            'stoploss_value_long': self.func_exit.stoploss_value_long,
+            'stoploss_value_short': self.func_exit.stoploss_value_short,
+            'takeprofit_value_long': self.func_exit.takeprofit_value_long,
+            'takeprofit_value_short': self.func_exit.takeprofit_value_short,
             'entry_function': False,
             'exit_function': False,
             'user': self.user.username
@@ -109,17 +111,19 @@ class TradingBot:
             if self.item.get('entry') is True:
 
                 self.item['entry_function'] = True
-                self.item['takeprofit_ratio'] = round(self.item.get('entry_candle') * self.item.get('takeprofit_value'),
-                                                      3)
-                self.item['stoploss_ratio'] = round(self.item.get('entry_candle') * self.item.get('stoploss_value'), 3)
+
 
                 type = ''
                 if self.item.get('type') == 0:
                     type = 'LONG'
+                    self.item['takeprofit_ratio'] = round(self.item.get('entry_candle') * self.item.get('takeprofit_value_long'), 3)
+                    self.item['stoploss_ratio'] = round(self.item.get('entry_candle') * self.item.get('stoploss_value_long'), 3)
                 else:
                     type = 'SHORT'
-
+                    self.item['takeprofit_ratio'] = round(self.item.get('entry_candle') * self.item.get('takeprofit_value_short'), 3)
+                    self.item['stoploss_ratio'] = round(self.item.get('entry_candle') * self.item.get('stoploss_value_short'),3)
                 self.item['type_text'] = type
+
 
                 if self.live:
                     if self.item.get('type') == 0:

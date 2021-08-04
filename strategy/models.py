@@ -74,10 +74,10 @@ class LogicEntry(CommonTrait):
 
 class LogicExit(CommonTrait):
     name = models.CharField(max_length=200, blank=True)
-    take_profit = models.FloatField(default=0, blank=False)
-    stop_loss = models.FloatField(default=0, blank=False)
-    long = models.BooleanField(default=False)
-    short = models.BooleanField(default=False)
+    take_profit_long = models.FloatField(default=0, blank=False)
+    take_profit_short = models.FloatField(default=0, blank=False)
+    stop_loss_long = models.FloatField(default=0, blank=False)
+    stop_loss_short = models.FloatField(default=0, blank=False)
     function = QuillField(blank=True)
 
     def __str__(self):

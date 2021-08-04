@@ -56,7 +56,7 @@ logger = logging.getLogger(__name__)
 """
 
 
-def logicentry_first_long(item, bot=False):
+def logicentry_first(item, bot=False):
     if bot:
 
         item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
@@ -129,7 +129,7 @@ def logicentry_first_long(item, bot=False):
         return False
 
 
-def logicexit_first_long(item, bot=False):
+def logicexit_first(item, bot=False):
     if bot:
 
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures")
