@@ -42,6 +42,7 @@ def logicentry_first_long(item, bot=False):
 
         ema8_prev = taapi.ema(8, time_frame, 1).get('value')
         candle_low_prev = taapi.candle(time_frame, 1).get('low')
+        candle_high_prev = taapi.candle(time_frame, 1).get('high')
         candle_open_prev = taapi.candle(time_frame, 1).get('open')
 
         ema8 = taapi.ema(8, time_frame)
@@ -69,7 +70,7 @@ def logicentry_first_long(item, bot=False):
         if ema8 < ema13:
             if ema13 < ema21:
                 if ema21 < ema34:
-                    if candle_low_prev >= ema8_prev:
+                    if candle_high_prev >= ema8_prev:
                         if ema34 / ema21 < 1.00017 and ema13 / ema8 < 1.0009:
                             if canlde_close < candle_open_prev:
                                 item['type'] = 1 # type = 1 corrisponde ad una entrata short
