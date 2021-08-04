@@ -77,7 +77,9 @@ def logicentry_first_long(item, bot=False):
         ema34 = taapi.ema(34, time_frame)
 
         if longShortRatio is not None and longShortRatio > 1:
+
             print("ENTRO LONG")
+
             """
             LONG entry
             """
@@ -93,8 +95,10 @@ def logicentry_first_long(item, bot=False):
                                     item['entry_candle'] = item['candle_close']
                                     return True
 
-        elif longShortRatio is not None and longShortRatio > 1:
+        elif longShortRatio is not None and longShortRatio < 1:
+
             print("ENTRO SHORT")
+
             """
             SHORT entry
             """
