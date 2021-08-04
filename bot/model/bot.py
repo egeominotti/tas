@@ -226,6 +226,7 @@ class TradingBot:
                 if entry is True:
                     self.item['exit_function'] = True
                     if self.exit():
+                        sleep(30)
                         # Successfully close position takeprofit/stoploss
                         break
 
