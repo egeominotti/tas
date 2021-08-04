@@ -2,7 +2,7 @@ import requests
 from binance import Client
 from binance.enums import *
 from bot.models import Bot
-
+from exchange.models import User
 
 class BinanceHelper:
     def __init__(self, api_key, api_secret, symbol, user, leverage=1):
@@ -16,8 +16,7 @@ class BinanceHelper:
         """
         :return: Entrata al 100% del capitale divisa per bot attivi per utente
         """
-        counter = Bot.objects.filter(user=self.user).count()
-        balance_wallet = (self.get_current_balance_futures_() - 0.5) / counter
+        balance_wallet = (self.get_current_balance_futures_() - 0.5) / self.user.counter_bot
         symbol_precision = self.get_symbol_precision()
         price_coin = self.current_price_coin()
         qty = round(balance_wallet / price_coin, symbol_precision)

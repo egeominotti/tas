@@ -23,6 +23,7 @@ class UtenteAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_per_page = 50
     ordering = ('id',)
+    readonly_fields = ('counter_bot',)
     list_display = ('username', 'exchange',)
     exclude = ['flgEnable', ]
 

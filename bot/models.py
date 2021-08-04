@@ -1,7 +1,11 @@
 from django.conf import settings
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 from analytics.models import CommonTrait
-from strategy.models import TimeFrame, LogicExit, LogicEntry, SymbolTaapiApi, SymbolExchange, Coins
+from strategy.models import TimeFrame, LogicExit, LogicEntry, Coins
+from exchange.models import User
 import uuid
 
 BOT_STATUS = (

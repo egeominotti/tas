@@ -10,7 +10,6 @@ logger = logging.getLogger('main')
 
 
 def handler_stop_signals(signum, frame):
-    Bot.objects.all().delete()
     exit(1)
 
 
@@ -26,12 +25,21 @@ class Command(BaseCommand):
         while True:
 
             try:
-                qs = StrategyBot.objects.all()
+
+                qs = StrategyBot.objects.all() \
+                    .select_related('logic_entry') \
+                    .select_related('logic_exit') \
+                    .select_related('time_frame') \
+                    .prefetch_related('coins') \
+                    .prefetch_related('user')
+
                 for strategy in qs:
                     for user in strategy.user.all():
                         for coins in strategy.coins.all():
                             if not Bot.objects.filter(user=user, coins=coins).exists():
                                 bot = Bot.objects.create(user=user, strategy=strategy, coins=coins)
+                                user.counter_bot = strategy.coins.count()
+                                user.save()
                                 async_task("bot.services.runner.runnerbot",
                                            bot,
                                            user,
@@ -40,7 +48,8 @@ class Command(BaseCommand):
                                            Bot,
                                            BotLogger,
                                            hook="bot.services.runner.get_runnerbot_hook")
-                                # wait for taapi
+
+                                #wait for taapi
                                 sleep(15)
                 sleep(500)
             except Exception as e:
