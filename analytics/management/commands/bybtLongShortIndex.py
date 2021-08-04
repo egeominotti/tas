@@ -17,7 +17,7 @@ class Command(BaseCommand):
     help = 'Prende gli indici delle candele a '
 
     def handle(self, *args, **kwargs):
-        btby_momentum('BTC')
+        print(btby_momentum('KAVAUSDT'))
         # candle = 5
         # symbols = [
         #     'BTC',

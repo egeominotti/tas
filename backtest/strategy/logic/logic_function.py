@@ -10,6 +10,31 @@ logger = logging.getLogger(__name__)
 
 """
 {
+    'candle_close': 0,
+    'entry_candle': 0,
+    'takeprofit_ratio': 0,
+    'takeprofit_candle': 0,
+    'takeprofit': False,
+    'stoploss_ratio': 0,
+    'stoploss_candle': 0,
+    'stoploss': False,
+    'entry': False,
+    'sleep_func_entry': self.func_entry.sleep,
+    'taapi': self.taapi,
+    'symbol': self.symbol,
+    'symbol_exchange': self.symbol_exchange,
+    'type': -1,
+    'time_frame': self.time_frame,
+    'ratio': self.func_entry.ratio,
+    'stoploss_value': self.func_exit.stop_loss,
+    'takeprofit_value': self.func_exit.take_profit,
+    'entry_function': False,
+    'exit_function': False,
+    'user': self.user.username
+    }
+"""
+"""
+{
     'sleep_func_entry': Funzione della stratrgia di entry che viene valuta per essere eseguita,
     'sleep_func_exit': Funzione della strategia di exit che viene valutata per essere eseguita,
     'taapi': Instanza di taapi per prelevare i dati,
@@ -49,7 +74,7 @@ def logicentry_first_long(item, bot=False):
         ema21 = taapi.ema(21, time_frame)
         ema34 = taapi.ema(34, time_frame)
 
-        longShortRatio = btby_momentum(item.get('symbol').replace('USDT', ''))
+        longShortRatio = btby_momentum(item.get('symbol_exchange').replace('USDT', ''))
         print(longShortRatio)
         print(longShortRatio)
         print(longShortRatio)
