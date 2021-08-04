@@ -154,7 +154,7 @@ class TradingBot:
                 return True
 
             print(self.item)
-            sleep(self.item.get('sleep_func_entry'))
+            #sleep(self.item.get('sleep_func_entry'))
 
     def exit(self) -> bool:
 
@@ -235,21 +235,22 @@ class TradingBot:
             try:
 
                 if entry is False:
-                    if self.entry():
-                        # Successfully open position
-                        entry = True
+                    if datetime.datetime.now().second == 0:
+                        if self.entry():
+                            # Successfully open position
+                            entry = True
 
                 if entry is True:
                     self.item['exit_function'] = True
+                    if datetime.datetime.now().second == 0:
+                        if self.exit() is False:
+                            exception = True
+                            break
 
-                    if self.exit() is False:
-                        exception = True
-                        break
-
-                    if self.exit() is True:
-                        sleep(30)
-                        # Successfully close position takeprofit/stoploss
-                        break
+                        if self.exit() is True:
+                            sleep(30)
+                            # Successfully close position takeprofit/stoploss
+                            break
 
             except Exception as e:
                 exception = "ERROR" + str(e)
