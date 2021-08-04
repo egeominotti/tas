@@ -127,7 +127,7 @@ def logicexit_first_long(item, bot=False):
                     sentinel = True
                     break
 
-            sleep(0.5)
+            sleep(0.7)
 
         if sentinel is True:
             return True
