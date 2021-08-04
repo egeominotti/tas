@@ -139,8 +139,8 @@ def logicentry_first(item, bot=False):
 def logicexit_first(item, bot=False):
     if bot:
 
-        binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures")
-        # binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com")
+        #binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures")
+        binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com")
         binance_websocket_api_manager.create_stream(['kline_1m'], [item.get('symbol_exchange').lower()],
                                                     output="UnicornFy")
 
@@ -194,7 +194,7 @@ def logicexit_first(item, bot=False):
                         sentinel = True
                         break
 
-            sleep(1)
+            sleep(10)
 
         if sentinel is True:
             return True
