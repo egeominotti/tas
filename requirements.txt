@@ -43,5 +43,5 @@ sentry-sdk
 raven
 django-quill-editor
 html-sanitizer
-unicorn-binance-suite
+unicorn-binance-websocket-api
 unicorn-fy
