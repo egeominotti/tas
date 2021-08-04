@@ -159,9 +159,14 @@ class TradingBot:
     def exit(self) -> bool:
 
         func_exit = eval(self.func_exit.name)
-        if self.item.get('entry') is True:
-            func_exit(item=self.item, bot=True)
 
+        if self.item.get('entry') is True:
+
+            val = func_exit(item=self.item, bot=True)
+            if isinstance(val, Exception):
+                exception = "ERROR" + str(val)
+                self.telegram.send(exception)
+                return False
             """
             Stoploss
             """
@@ -236,7 +241,12 @@ class TradingBot:
 
                 if entry is True:
                     self.item['exit_function'] = True
-                    if self.exit():
+
+                    if self.exit() is False:
+                        exception = True
+                        break
+
+                    if self.exit() is True:
                         sleep(30)
                         # Successfully close position takeprofit/stoploss
                         break

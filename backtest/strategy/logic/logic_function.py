@@ -144,57 +144,61 @@ def logicexit_first(item, bot=False):
         binance_websocket_api_manager.create_stream(['kline_1m'], [item.get('symbol_exchange').lower()],
                                                     output="UnicornFy")
 
-        sentinel = False
-        while True:
-            oldest_stream_data_from_stream_buffer = binance_websocket_api_manager.pop_stream_data_from_stream_buffer()
-            if oldest_stream_data_from_stream_buffer:
-                binance_stream = UnicornFy.binance_com_websocket(oldest_stream_data_from_stream_buffer)
-                for k, v in binance_stream.items():
-                    if isinstance(v, dict):
-                        # v.get('open_price')
-                        # v.get('close_price')
-                        # v.get('low_price')
-                        # v.get('high_price')
-                        # v.get('is_closed')
-                        item['candle_close'] = float(v.get('close_price'))
+        try:
+            sentinel = False
+            while True:
+                oldest_stream_data_from_stream_buffer = binance_websocket_api_manager.pop_stream_data_from_stream_buffer()
+                if oldest_stream_data_from_stream_buffer:
+                    binance_stream = UnicornFy.binance_com_websocket(oldest_stream_data_from_stream_buffer)
+                    for k, v in binance_stream.items():
+                        if isinstance(v, dict):
+                            # v.get('open_price')
+                            # v.get('close_price')
+                            # v.get('low_price')
+                            # v.get('high_price')
+                            # v.get('is_closed')
+                            item['candle_close'] = float(v.get('close_price'))
 
-                if item['type'] == 0:
+                    if item['type'] == 0:
 
-                    """
-                    LONG
-                    """
+                        """
+                        LONG
+                        """
 
-                    if item['candle_close'] >= item['entry_candle'] * item['takeprofit_value_long']:
-                        item['takeprofit_candle'] = item['candle_close']
-                        item['takeprofit'] = True
-                        sentinel = True
-                        break
+                        if item['candle_close'] >= item['entry_candle'] * item['takeprofit_value_long']:
+                            item['takeprofit_candle'] = item['candle_close']
+                            item['takeprofit'] = True
+                            sentinel = True
+                            break
 
-                    if item['candle_close'] <= item['entry_candle'] * item['stoploss_value_long']:
-                        item['stoploss_candle'] = item['candle_close']
-                        item['stoploss'] = True
-                        sentinel = True
-                        break
+                        if item['candle_close'] <= item['entry_candle'] * item['stoploss_value_long']:
+                            item['stoploss_candle'] = item['candle_close']
+                            item['stoploss'] = True
+                            sentinel = True
+                            break
 
-                elif item['type'] == 1:
+                    elif item['type'] == 1:
 
-                    """
-                    SHORT
-                    """
+                        """
+                        SHORT
+                        """
 
-                    if item['candle_close'] <= item['entry_candle'] * item['takeprofit_value_short']:
-                        item['takeprofit_candle'] = item['candle_close']
-                        item['takeprofit'] = True
-                        sentinel = True
-                        break
+                        if item['candle_close'] <= item['entry_candle'] * item['takeprofit_value_short']:
+                            item['takeprofit_candle'] = item['candle_close']
+                            item['takeprofit'] = True
+                            sentinel = True
+                            break
 
-                    if item['candle_close'] >= item['entry_candle'] * item['stoploss_value_short']:
-                        item['stoploss_candle'] = item['candle_close']
-                        item['stoploss'] = True
-                        sentinel = True
-                        break
+                        if item['candle_close'] >= item['entry_candle'] * item['stoploss_value_short']:
+                            item['stoploss_candle'] = item['candle_close']
+                            item['stoploss'] = True
+                            sentinel = True
+                            break
 
-            sleep(1)
+                sleep(1)
+
+        except Exception as e:
+            return e
 
         if sentinel is True:
             return True
