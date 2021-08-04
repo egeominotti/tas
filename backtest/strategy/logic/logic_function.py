@@ -141,12 +141,12 @@ def logicexit_first(item, bot=False):
 
         #binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures")
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com")
-        binance_websocket_api_manager.create_stream(['kline_1m'], [item.get('symbol_exchange').lower()],
-                                                    output="UnicornFy")
+        binance_websocket_api_manager.create_stream(['kline_1m'], [item.get('symbol_exchange').lower()],output="UnicornFy")
 
         try:
-            sentinel = False
             while True:
+
+                sentinel = False
                 oldest_stream_data_from_stream_buffer = binance_websocket_api_manager.pop_stream_data_from_stream_buffer()
                 if oldest_stream_data_from_stream_buffer:
                     binance_stream = UnicornFy.binance_com_websocket(oldest_stream_data_from_stream_buffer)
@@ -177,7 +177,7 @@ def logicexit_first(item, bot=False):
                             sentinel = True
                             break
 
-                    elif item['type'] == 1:
+                    else:
 
                         """
                         SHORT
@@ -195,13 +195,13 @@ def logicexit_first(item, bot=False):
                             sentinel = True
                             break
 
-                sleep(1)
+                #sleep(1)
 
         except Exception as e:
             return e
 
         if sentinel is True:
-            return True
+            return sentinel
         return False
 
     else:

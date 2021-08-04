@@ -170,7 +170,7 @@ class TradingBot:
             """
             Stoploss
             """
-            if self.item.get('stoploss'):
+            if self.item.get('stoploss') is True:
 
                 if self.live:
                     if self.item.get('type') == 0:
@@ -198,7 +198,7 @@ class TradingBot:
             """
             Takeprofit
             """
-            if self.item.get('takeprofit'):
+            if self.item.get('takeprofit') is True:
 
                 if self.live:
                     if self.item.get('type') == 0:
