@@ -114,7 +114,7 @@ class TradingBot:
 
                 type = ''
                 if self.item.get('type') == 0:
-
+                    # LONG
                     type = 'LONG'
                     self.item['takeprofit_ratio'] = round(
                         self.item.get('entry_candle') * self.item.get('takeprofit_value_long'), 3)
@@ -122,7 +122,7 @@ class TradingBot:
                         self.item.get('entry_candle') * self.item.get('stoploss_value_long'), 3)
 
                 elif self.item.get('type') == 1:
-
+                    # SHORT
                     type = 'SHORT'
                     self.item['takeprofit_ratio'] = round(
                         self.item.get('entry_candle') * self.item.get('takeprofit_value_short'), 3)
