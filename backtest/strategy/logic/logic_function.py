@@ -151,17 +151,41 @@ def logicexit_first_long(item, bot=False):
                         # v.get('is_closed')
                         item['candle_close'] = float(v.get('close_price'))
 
-                if item['candle_close'] >= item['entry_candle'] * item['takeprofit_value']:
-                    item['takeprofit_candle'] = item['candle_close']
-                    item['takeprofit'] = True
-                    sentinel = True
-                    break
+                if item['type'] == 0:
 
-                if item['candle_close'] <= item['entry_candle'] * item['stoploss_value']:
-                    item['stoploss_candle'] = item['candle_close']
-                    item['stoploss'] = True
-                    sentinel = True
-                    break
+                    """
+                    LONG
+                    """
+
+                    if item['candle_close'] >= item['entry_candle'] * item['takeprofit_value']:
+                        item['takeprofit_candle'] = item['candle_close']
+                        item['takeprofit'] = True
+                        sentinel = True
+                        break
+
+                    if item['candle_close'] <= item['entry_candle'] * item['stoploss_value']:
+                        item['stoploss_candle'] = item['candle_close']
+                        item['stoploss'] = True
+                        sentinel = True
+                        break
+
+                elif item['type'] == 1:
+
+                    """
+                    SHORT
+                    """
+
+                    if item['candle_close'] <= item['entry_candle'] * item['takeprofit_value']:
+                        item['takeprofit_candle'] = item['candle_close']
+                        item['takeprofit'] = True
+                        sentinel = True
+                        break
+
+                    if item['candle_close'] >= item['entry_candle'] * item['stoploss_value']:
+                        item['stoploss_candle'] = item['candle_close']
+                        item['stoploss'] = True
+                        sentinel = True
+                        break
 
             sleep(1)
 
