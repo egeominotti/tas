@@ -1,17 +1,32 @@
-from time import sleep
 import requests
 from binance import Client
 from binance.enums import *
+from bot.models import Bot
 
 
 class BinanceHelper:
-    def __init__(self, api_key, api_secret, symbol, leverage=1):
+    def __init__(self, api_key, api_secret, symbol, user, leverage=1):
         self.symbol = symbol
+        self.user = user
         self.leverage = leverage
         self.client = Client(api_key, api_secret)
         self.client.futures_change_leverage(symbol=symbol, marginType='ISOLATED', leverage=leverage)
 
+    def get_quantity_from_number_of_bot(self):
+        """
+        :return: Entrata al 100% del capitale divisa per bot attivi per utente
+        """
+        counter = Bot.objects.filter(user__username=self.user).count()
+        balance_wallet = (self.get_current_balance_futures_() - 0.5) / counter
+        symbol_precision = self.get_symbol_precision()
+        price_coin = self.current_price_coin()
+        qty = round(balance_wallet / price_coin, symbol_precision)
+        return qty
+
     def get_quantity(self):
+        """
+        :return: Entrata al 100% del capitale
+        """
         balance_wallet = self.get_current_balance_futures_() - 0.5
         symbol_precision = self.get_symbol_precision()
         price_coin = self.current_price_coin()

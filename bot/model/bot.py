@@ -53,10 +53,12 @@ class TradingBot:
         # self.logger_id = self.logger.objects.create(bot=self.current_bot)
         self.notify = self.user.telegram_notifications
         self.live = self.user.exchange.live
+
         self.exchange = BinanceHelper(
             api_key=self.user.exchange.api_key,
             api_secret=self.user.exchange.api_secret,
             symbol=self.symbol_exchange,
+            user=self.user,
             leverage=self.user.exchange.leverage,
         )
 
@@ -107,7 +109,8 @@ class TradingBot:
             if self.item.get('entry') is True:
 
                 self.item['entry_function'] = True
-                self.item['takeprofit_ratio'] = round(self.item.get('entry_candle') * self.item.get('takeprofit_value'),3)
+                self.item['takeprofit_ratio'] = round(self.item.get('entry_candle') * self.item.get('takeprofit_value'),
+                                                      3)
                 self.item['stoploss_ratio'] = round(self.item.get('entry_candle') * self.item.get('stoploss_value'), 3)
 
                 type = ''
