@@ -1,5 +1,6 @@
 import json
 import logging
+import datetime
 from time import sleep
 from analytics.model.indicator import btby_momentum
 from backtest.services.util import find_prev_candle
@@ -66,15 +67,21 @@ def logicentry_first(item, bot=False):
         taapi = item['taapi']
         canlde_close = item['candle_close']
 
-        ema8_prev = taapi.ema(8, time_frame, 1).get('value')
-        candle_low_prev = taapi.candle(time_frame, 1).get('low')
-        candle_high_prev = taapi.candle(time_frame, 1).get('high')
-        candle_open_prev = taapi.candle(time_frame, 1).get('open')
+        ema8_prev = taapi.ema(8, time_frame, 2).get('value')
+        candle_low_prev = taapi.candle(time_frame, 2).get('low')
+        candle_high_prev = taapi.candle(time_frame, 2).get('high')
+        candle_open_prev = taapi.candle(time_frame, 2).get('open')
 
         ema8 = taapi.ema(8, time_frame)
         ema13 = taapi.ema(13, time_frame)
         ema21 = taapi.ema(21, time_frame)
         ema34 = taapi.ema(34, time_frame)
+
+        # print(datetime.datetime.now())
+        # print("CANDLE CLOSE: " + str(canlde_close))
+        # print("CANDLE OPEN PREV:" +str(candle_open_prev))
+        # print("CANDLE HIGH PREV:" +str(candle_high_prev))
+        # print("CANDLE LOW PREV:" +str(candle_low_prev))
 
         if longShortRatio is not None and longShortRatio > 1:
 
