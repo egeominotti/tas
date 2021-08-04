@@ -40,7 +40,8 @@ class Command(BaseCommand):
                                            Bot,
                                            BotLogger,
                                            hook="bot.services.runner.get_runnerbot_hook")
-
+                                # wait for taapi
+                                sleep(5)
                 sleep(500)
             except Exception as e:
                 print(e)
