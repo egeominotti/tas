@@ -60,6 +60,8 @@ def logicentry_first_long(item, bot=False):
     if bot:
 
         item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
+        item['long_short_ratio'] = btby_momentum(item.get('symbol_exchange').replace('USDT', ''))
+        longShortRatio = item['long_short_ratio']
         time_frame = item['time_frame']
         taapi = item['taapi']
         canlde_close = item['candle_close']
@@ -74,16 +76,8 @@ def logicentry_first_long(item, bot=False):
         ema21 = taapi.ema(21, time_frame)
         ema34 = taapi.ema(34, time_frame)
 
-        longShortRatio = btby_momentum(item.get('symbol_exchange').replace('USDT', ''))
-        print(longShortRatio)
-        print(longShortRatio)
-        print(longShortRatio)
-        print(longShortRatio)
-        print(longShortRatio)
-        print(longShortRatio)
-
         if longShortRatio is not None and longShortRatio > 1:
-
+            print("ENTRO LONG")
             """
             LONG entry
             """
@@ -100,7 +94,7 @@ def logicentry_first_long(item, bot=False):
                                     return True
 
         elif longShortRatio is not None and longShortRatio > 1:
-
+            print("ENTRO SHORT")
             """
             SHORT entry
             """
