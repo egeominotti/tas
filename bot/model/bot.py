@@ -170,6 +170,7 @@ class TradingBot:
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                     stop_loss = "Stoploss: " + str(self.current_bot.name) + \
+                                "\n" + "Current Balance: " + str(self.exchange.get_current_balance_futures_()) + \
                                 "\n" + "User: " + self.user.username + \
                                 "\nType Entry: " + self.item.get('type_text') + \
                                 "\nStoploss candle value: " + str(self.item.get('stoploss_candle')) + \
@@ -197,6 +198,7 @@ class TradingBot:
                 if self.notify:
                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                     stop_loss = "Takeprofit: " + str(self.current_bot.name) + \
+                                "\n" + "Current Balance: " + str(self.exchange.get_current_balance_futures_()) + \
                                 "\n" + "User: " + self.user.username + \
                                 "\nType Entry: " + self.item.get('type_text') + \
                                 "\nTakeprofit candle value: " + str(self.item.get('takeprofit_candle')) + \
