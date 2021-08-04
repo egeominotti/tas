@@ -1,7 +1,7 @@
 import json
 import logging
 from time import sleep
-
+from analytics.model.indicator import btby_momentum
 from backtest.services.util import find_prev_candle
 from unicorn_binance_websocket_api.unicorn_binance_websocket_api_manager import BinanceWebSocketApiManager
 from unicorn_fy.unicorn_fy import UnicornFy
@@ -32,7 +32,6 @@ logger = logging.getLogger(__name__)
 
 
 def logicentry_first_long(item, bot=False):
-
     if bot:
 
         item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
@@ -50,33 +49,44 @@ def logicentry_first_long(item, bot=False):
         ema21 = taapi.ema(21, time_frame)
         ema34 = taapi.ema(34, time_frame)
 
-        """
-        LONG entry
-        """
-        if ema8 > ema13:
-            if ema13 > ema21:
-                if ema21 > ema34:
-                    if candle_low_prev <= ema8_prev:
-                        if ema8 / ema13 < 1.00165 and ema21 / ema34 < 1.00095:
-                            if canlde_close > candle_open_prev:
-                                item['type'] = 0 # type = 0 corrisponde ad una entrata long
-                                item['entry'] = True
-                                item['entry_candle'] = item['candle_close']
-                                return True
+        longShortRatio = btby_momentum(item.get('symbol').replace('USDT', ''))
+        print(longShortRatio)
+        print(longShortRatio)
+        print(longShortRatio)
+        print(longShortRatio)
+        print(longShortRatio)
+        print(longShortRatio)
 
-        """
-        SHORT entry
-        """
-        if ema8 < ema13:
-            if ema13 < ema21:
-                if ema21 < ema34:
-                    if candle_high_prev >= ema8_prev:
-                        if ema34 / ema21 < 1.0006 and ema13 / ema8 < 1.0009:
-                            if canlde_close < candle_open_prev:
-                                item['type'] = 1 # type = 1 corrisponde ad una entrata short
-                                item['entry'] = True
-                                item['entry_candle'] = item['candle_close']
-                                return True
+        if longShortRatio is not None and longShortRatio > 1:
+            """
+            LONG entry
+            """
+
+            if ema8 > ema13:
+                if ema13 > ema21:
+                    if ema21 > ema34:
+                        if candle_low_prev <= ema8_prev:
+                            if ema8 / ema13 < 1.00165 and ema21 / ema34 < 1.00095:
+                                if canlde_close > candle_open_prev:
+                                    item['type'] = 0  # type = 0 corrisponde ad una entrata long
+                                    item['entry'] = True
+                                    item['entry_candle'] = item['candle_close']
+                                    return True
+
+        elif longShortRatio is not None and longShortRatio > 1:
+            """
+            SHORT entry
+            """
+            if ema8 < ema13:
+                if ema13 < ema21:
+                    if ema21 < ema34:
+                        if candle_high_prev >= ema8_prev:
+                            if ema34 / ema21 < 1.0006 and ema13 / ema8 < 1.0009:
+                                if canlde_close < candle_open_prev:
+                                    item['type'] = 1  # type = 1 corrisponde ad una entrata short
+                                    item['entry'] = True
+                                    item['entry_candle'] = item['candle_close']
+                                    return True
 
     else:
         """
@@ -97,7 +107,7 @@ def logicexit_first_long(item, bot=False):
     if bot:
 
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures")
-        #binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com")
+        # binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com")
         binance_websocket_api_manager.create_stream(['kline_1m'], [item.get('symbol_exchange').lower()],
                                                     output="UnicornFy")
 
