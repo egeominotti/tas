@@ -93,7 +93,7 @@ class TradingBot:
             start = "Started: " + str(self.current_bot.name) + \
                     "\n" + "User: " + self.user.username + \
                     "\n" + "Balance: " + str(self.exchange.get_current_balance_futures_()) + \
-                    "\n" + "Quantity of investement: " + str(self.exchange.get_quantity()) + \
+                    "\n" + "Quantity of investement: " + str(self.exchange.get_quantity_from_number_of_bot()) + \
                     "\n" + "Leverage: " + str(self.exchange.leverage) + \
                     "\n" + "Symbol: " + str(self.symbol) + \
                     "\nTime frame: " + str(self.time_frame) + \

@@ -16,7 +16,7 @@ class BinanceHelper:
         """
         :return: Entrata al 100% del capitale divisa per bot attivi per utente
         """
-        counter = Bot.objects.filter(user__username=self.user).count()
+        counter = Bot.objects.filter(user=self.user).count()
         balance_wallet = (self.get_current_balance_futures_() - 0.5) / counter
         symbol_precision = self.get_symbol_precision()
         price_coin = self.current_price_coin()
