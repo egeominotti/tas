@@ -170,7 +170,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'tas.asgi.application'
+ASGI_APPLICATION = 'tas.asgi.application'
 
 DATABASES = {
     'default': {
@@ -182,41 +182,6 @@ DATABASES = {
         'PORT': config('DJANGO_POSTGRES_PORT'),
     }
 }
-
-
-# if 'dev' in ENV:
-#
-#     Q_CLUSTER = {
-#         'name': 'tas',
-#         'workers': 8,
-#         'recycle': 500,
-#         'timeout': None,
-#         'compress': True,
-#         'save_limit': 250,
-#         'queue_limit': 500,
-#         'cpu_affinity': 1,
-#         'label': 'Django Q',
-#         'redis': {
-#             'host': 'tas_redis',
-#             'port': 6379,
-#             'db': 0, }
-#     }
-#
-# else:
-#
-#
-#     Q_CLUSTER = {
-#         'name': 'MongoDB',
-#         'workers': 8,
-#         'timeout': 3200,
-#         'retry': 3240,
-#         'queue_limit': 100,
-#         'mongo': {
-#             'host': '127.0.0.1',
-#             'port': 27017
-#         }
-#     }
-
 
 
 AUTH_PASSWORD_VALIDATORS = [
