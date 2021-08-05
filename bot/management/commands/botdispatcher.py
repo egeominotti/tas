@@ -1,19 +1,17 @@
-import asyncio
 import threading
 from time import sleep
-
+from multiprocessing import Process
 from django.core.management import BaseCommand
 import logging
 from bot.model.bot import TradingBot
 from bot.models import Bot, UserExchange, StrategyBot, BotLogger
-from asgiref.sync import sync_to_async
 
 logger = logging.getLogger('main')
-from multiprocessing import Process
-import multiprocessing
 
 def asyncspawnbot(bot, user, userexchange, coins) -> None:
 
+    print(coins.coins_exchange.symbol)
+    print(coins.coins_taapi.symbol)
     print("avvio bot")
     bot = TradingBot(
         current_bot=bot,
@@ -37,7 +35,7 @@ def init() -> None:
     while True:
 
         try:
-
+            process = []
             qs = StrategyBot.objects.all() \
                 .select_related('logic_entry') \
                 .select_related('logic_exit') \
@@ -58,6 +56,7 @@ def init() -> None:
                             # asyncspawnbot(bot, user, userexchange, coins)
                             t = threading.Thread(target=asyncspawnbot, args=(bot, user, userexchange, coins,))
                             t.start()
+                            process.append(t)
 
                             sleep(15)
 
