@@ -1,7 +1,4 @@
 import asyncio
-import signal
-from asyncio import sleep
-
 from django.core.management import BaseCommand
 import logging
 from bot.model.bot import TradingBot
@@ -24,9 +21,26 @@ logger = logging.getLogger('main')
 # signal.signal(signal.SIGINT, handler_stop_signals)
 # signal.signal(signal.SIGTERM, handler_stop_signals)
 
+@sync_to_async
+def asyncspawnbot(bot, user, userexchange, coins, BotLogger, Bot):
+
+    bot = TradingBot(
+        current_bot=bot,
+        user=user,
+        userexchange=userexchange,
+        symbol=bot.strategy.time_frame.time_frame,
+        symbol_exchange=coins.coins_exchange.symbol,
+        time_frame=bot.strategy.time_frame.time_frame,
+        func_entry=bot.strategy.logic_entry,
+        func_exit=bot.strategy.logic_exit,
+        logger=BotLogger,
+        bot_object=Bot
+    )
+    bot.run()
+
 
 @sync_to_async
-def spawnbot():
+def init():
     while True:
         try:
 
@@ -47,19 +61,8 @@ def spawnbot():
                             user.save()
                             print("entro")
 
-                            bot = TradingBot(
-                                current_bot=bot,
-                                user=user,
-                                userexchange=userexchange,
-                                symbol=bot.strategy.time_frame.time_frame,
-                                symbol_exchange=coins.coins_exchange.symbol,
-                                time_frame=bot.strategy.time_frame.time_frame,
-                                func_entry=bot.strategy.logic_entry,
-                                func_exit=bot.strategy.logic_exit,
-                                logger=BotLogger,
-                                bot_object=Bot
-                            )
-                            bot.run()
+                            asyncspawnbot(bot, user, userexchange, coins, BotLogger, Bot)
+
                     asyncio.sleep(15)
 
             asyncio.sleep(300)
@@ -73,4 +76,4 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         loop = asyncio.get_event_loop()
-        loop.run_until_complete(spawnbot())
+        loop.run_until_complete(init())
