@@ -24,7 +24,7 @@ class TradingBot:
             func_entry,
             func_exit,
             logger,
-            bot_object
+            bot_object,
     ):
 
         self.current_bot = current_bot

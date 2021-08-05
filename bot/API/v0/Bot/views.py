@@ -39,5 +39,5 @@ class BotCreate(generics.CreateAPIView):
             func_entry=bot.strategy.logic_entry,
             func_exit=bot.strategy.logic_exit,
             logger=BotLogger,
-            bot_object=Bot
+            bot_object=Bot,
         )
