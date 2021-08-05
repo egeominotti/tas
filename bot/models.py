@@ -45,17 +45,19 @@ class UserExchange(CommonTrait):
 class BotLogger(CommonTrait):
     bot = models.ForeignKey('Bot', on_delete=models.SET_NULL, null=True, blank=True)
     entry_candle = models.FloatField(default=0, blank=True)
-    stop_loss = models.BooleanField(default=False, blank=True)
-    take_profit = models.BooleanField(default=False, blank=True)
-    candle_stop_loss = models.FloatField(default=0, blank=True)
-    candle_take_profit = models.FloatField(default=0, blank=True)
     entry_candle_date = models.DateTimeField(blank=True, null=True)
+    candle_stop_loss = models.FloatField(default=0, blank=True)
     candle_stop_loss_date = models.DateTimeField(blank=True, null=True)
+    candle_take_profit = models.FloatField(default=0, blank=True)
     candle_take_profit_date = models.DateTimeField(blank=True, null=True)
     start_balance = models.FloatField(default=0, blank=True)
     end_balance = models.FloatField(default=0, blank=True)
     coin_quantity = models.FloatField(default=0, blank=True)
     leverage = models.IntegerField(default=0, blank=True)
+    take_profit_ratio = models.FloatField(default=0, blank=True)
+    stop_loss_ratio =  models.FloatField(default=0, blank=True)
+    stop_loss = models.BooleanField(default=False, blank=True)
+    take_profit = models.BooleanField(default=False, blank=True)
 
     class Meta:
         verbose_name = 'BotLogger'
@@ -81,6 +83,7 @@ class StrategyBot(CommonTrait):
     class Meta:
         verbose_name = 'Strategy'
         verbose_name_plural = 'Strategy'
+
 
 # def calculate():
 #     for i in range(0,100000000000):
