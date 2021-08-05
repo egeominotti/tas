@@ -28,7 +28,6 @@ def init() -> None:
     while True:
 
         try:
-            process = []
             qs = StrategyBot.objects.all() \
                 .select_related('logic_entry') \
                 .select_related('logic_exit') \
@@ -42,14 +41,11 @@ def init() -> None:
                     for coins in strategy.coins.all():
                         if not Bot.objects.filter(user=user, coins=coins).exists():
                             bot = Bot.objects.create(user=user, strategy=strategy, coins=coins)
-                            print("avvio")
                             user.counter_bot = strategy.coins.count()
                             user.save()
-
                             spawnbot(bot, user, userexchange, coins)
-
                             sleep(15)
-            print(process)
+
             sleep(300)
 
         except Exception as e:
