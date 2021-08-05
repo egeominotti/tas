@@ -1,38 +1,47 @@
 from django.core.management import BaseCommand
 import logging
-import asyncio
+from bot.model.bot import TradingBot
+from bot.models import Bot, UserExchange, StrategyBot, BotLogger
 
 logger = logging.getLogger('main')
 
-
-
-async def main():
-    while 1:
-        print('done!')
 
 class Command(BaseCommand):
     help = 'Prende gli indici delle candele a '
 
     def handle(self, *args, **kwargs):
-        pass
-        # for instance in BackTest.objects.all():
-        #     bt = backtests(
-        #         instance=instance,
-        #         first_period=instance.start_period.strftime("%d %b,%Y"),
-        #         logic_entry=eval(instance.strategy.logic_entry.name),
-        #         logic_exit=eval(instance.strategy.logic_exit.name),
-        #         time_frame=instance.strategy.time_frame.time_frame,
-        #         symbol=instance.strategy.symbol_exchange.symbol,
-        #         take_profit_value=instance.strategy.logic_exit.take_profit,
-        #         stop_loss_value=instance.strategy.logic_exit.stop_loss,
-        #         ratio_value=instance.strategy.logic_entry.ratio,
-        #     )
-        #     return_value = bt.run()
-        #
-        #     item = {
-        #         'result': return_value,
-        #         'id': instance.id,
-        #         'symbol': instance.strategy.symbol_exchange.symbol,
-        #         'time_frame': instance.strategy.time_frame.time_frame
-        #     }
-        #     return item
+
+        try:
+
+            qs = StrategyBot.objects.all() \
+                .select_related('logic_entry') \
+                .select_related('logic_exit') \
+                .select_related('time_frame') \
+                .prefetch_related('coins') \
+                .prefetch_related('user')
+
+            for strategy in qs:
+                for user in strategy.user.filter(username='egeo'):
+                    userexchange = UserExchange.objects.get(user=user)
+                    for coins in strategy.coins.all():
+                        if not Bot.objects.filter(user=user, coins=coins).exists():
+                            bot = Bot.objects.create(user=user, strategy=strategy, coins=coins)
+                            user.counter_bot = strategy.coins.count()
+                            user.save()
+                            print("entro")
+                            # bot = TradingBot(
+                            #     current_bot=bot,
+                            #     user=user,
+                            #     userexchange=userexchange,
+                            #     symbol=bot.strategy.time_frame.time_frame,
+                            #     symbol_exchange=coins.coins_exchange.symbol,
+                            #     time_frame=bot.strategy.time_frame.time_frame,
+                            #     func_entry=bot.strategy.logic_entry,
+                            #     func_exit=bot.strategy.logic_exit,
+                            #     logger=BotLogger,
+                            #     bot_object=Bot
+                            # )
+                            # bot.run()
+
+        except Exception as e:
+            print(e)
