@@ -33,6 +33,7 @@ def asyncspawnbot(bot, user, userexchange, coins) -> None:
 
 
 def init() -> None:
+
     while True:
 
         try:
