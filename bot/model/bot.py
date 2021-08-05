@@ -51,8 +51,12 @@ class TradingBot:
         self.logger = logger
         self.bot_object = bot_object
         # self.logger_id = self.logger.objects.create(bot=self.current_bot)
+
         self.notify = self.user.telegram_notifications
-        self.live = self.user.exchange.live
+        if self.user.exchange.live is not None:
+            self.live = self.user.exchange.live
+        else:
+            self.live = False
 
         self.exchange = BinanceHelper(
             api_key=self.user.exchange.api_key,
