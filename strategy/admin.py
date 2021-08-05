@@ -5,7 +5,7 @@ from strategy.models import TimeFrame, SymbolExchange, SymbolTaapiApi, LogicEntr
 class LogicEntryAdmin(admin.ModelAdmin):
     list_per_page = 20
     ordering = ('id',)
-    list_display = ('name', 'ratio', 'sleep', 'long', 'short')
+    list_display = ('name', 'ratio', 'sleep',)
     exclude = ['flgEnable', ]
 
 
