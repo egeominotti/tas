@@ -15,7 +15,13 @@ class ExchangeList(CommonTrait):
             return str(self.name)
 
 
+class User(AbstractUser):
+    telegram_notifications = models.BooleanField(default=True)
+    counter_bot = models.IntegerField(default=0, blank=True)
+
+
 class Exchange(CommonTrait):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     exchange = models.ForeignKey(ExchangeList, on_delete=models.CASCADE, null=False, blank=False)
     api_key = models.CharField(max_length=200, blank=False, null=False)
     api_secret = models.CharField(max_length=200, blank=False, null=False)
@@ -31,10 +37,3 @@ class Exchange(CommonTrait):
     def __str__(self):
         if self.exchange is not None:
             return str(self.exchange)
-
-
-class User(AbstractUser):
-    exchange = models.ForeignKey(Exchange, on_delete=models.SET_NULL, null=True, blank=True)
-    telegram_notifications = models.BooleanField(default=True)
-    counter_bot = models.IntegerField(default=0, blank=True)
-    # bot = models.ManyToManyField(Bot,null=True,blank=True)
