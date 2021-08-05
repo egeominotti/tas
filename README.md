@@ -33,17 +33,6 @@
 
 ### Service
 
-    qcluster
-
-        sudo systemctl start qcluster
-        sudo systemctl status qcluster
-        sudo nano /etc/systemd/system/qcluster.service
-
-        
-        # Check log
-
-            journalctl -u qcluster.service -f
-    
     gunicorn
 
         sudo nano /etc/systemd/system/gunicorn.service
@@ -71,7 +60,3 @@
 
         # Check log
             journalctl -u websocketstream.service -f
-
-    mongodb4
-
-           service mongod status
