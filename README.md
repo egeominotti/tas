@@ -70,3 +70,7 @@
 
         # Check log
             journalctl -u websocketstream.service -f
+
+    mongodb4
+
+           service mongod status
