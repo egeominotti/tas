@@ -24,7 +24,7 @@ class UtenteAdmin(admin.ModelAdmin):
     list_per_page = 50
     ordering = ('id',)
     readonly_fields = ('counter_bot',)
-    list_display = ('username', 'exchange',)
+    list_display = ('username',)
     exclude = ['flgEnable', ]
 
 
