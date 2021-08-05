@@ -8,7 +8,8 @@ from bot.models import Bot, UserExchange, StrategyBot, BotLogger
 from asgiref.sync import sync_to_async
 
 logger = logging.getLogger('main')
-
+from multiprocessing import Process
+import multiprocessing
 
 # run = True
 #
@@ -23,7 +24,6 @@ logger = logging.getLogger('main')
 # signal.signal(signal.SIGINT, handler_stop_signals)
 # signal.signal(signal.SIGTERM, handler_stop_signals)
 
-@sync_to_async
 def asyncspawnbot(bot, user, userexchange, coins):
     print("avvio bot")
     bot = TradingBot(
@@ -41,7 +41,6 @@ def asyncspawnbot(bot, user, userexchange, coins):
     bot.run()
 
 
-@sync_to_async
 def init():
     while True:
         try:
@@ -63,6 +62,9 @@ def init():
                             user.counter_bot = strategy.coins.count()
                             user.save()
                             asyncspawnbot(bot, user, userexchange, coins)
+
+                        sleep(15)
+                sleep(300)
         except Exception as e:
             print(e)
             break
@@ -72,5 +74,8 @@ class Command(BaseCommand):
     help = 'AsyncBotRunner'
 
     def handle(self, *args, **kwargs):
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(init())
+        print("Number of cpu : ", multiprocessing.cpu_count())
+        p = Process(target=init)
+        p.start()
+        p.join()
+

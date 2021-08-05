@@ -3,21 +3,21 @@ from django.core.management import BaseCommand
 from asgiref.sync import sync_to_async
 import logging
 from bot.models import BufferStreamWebSocket
+from multiprocessing import Process
+import multiprocessing
 
 logger = logging.getLogger('main')
 
-
-@sync_to_async
-def get_users():
-    BufferStreamWebSocket.objects.all()
-
-async def user_loop():
-    results = await get_users()
-    print(results)
+def ciao():
+    print("ciao")
 
 class Command(BaseCommand):
     help = ''
 
     def handle(self, *args, **kwargs):
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(user_loop())
+        print("Number of cpu : ", multiprocessing.cpu_count())
+
+        p = Process(target=ciao)
+        p.start()
+        p.join()
+
