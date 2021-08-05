@@ -68,6 +68,5 @@ class Command(BaseCommand):
     help = 'Prende gli indici delle candele a '
 
     def handle(self, *args, **kwargs):
-        while 1:
-            loop = asyncio.get_event_loop()
-            loop.run_until_complete(spawnbot())
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(spawnbot())
