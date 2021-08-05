@@ -44,7 +44,9 @@ def asyncspawnbot(bot, user, userexchange, coins):
 
 
 def init():
+
     while True:
+
         try:
 
             qs = StrategyBot.objects.all() \
@@ -67,6 +69,7 @@ def init():
 
                         sleep(15)
             sleep(300)
+
         except Exception as e:
             print(e)
             break
