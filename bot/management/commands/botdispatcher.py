@@ -12,20 +12,6 @@ logger = logging.getLogger('main')
 from multiprocessing import Process
 import multiprocessing
 
-
-# run = True
-#
-#
-# def handler_stop_signals(signum, frame):
-#     global run
-#     print("SIGNAL DI STOP")
-#     # todo: devo chiudere la posizione se è aperta e cancellare il bot
-#     run = False
-#
-#
-# signal.signal(signal.SIGINT, handler_stop_signals)
-# signal.signal(signal.SIGTERM, handler_stop_signals)
-
 def asyncspawnbot(bot, user, userexchange, coins) -> None:
 
     print("avvio bot")
@@ -33,8 +19,8 @@ def asyncspawnbot(bot, user, userexchange, coins) -> None:
         current_bot=bot,
         user=user,
         userexchange=userexchange,
-        symbol=bot.strategy.time_frame.time_frame,
-        symbol_exchange=coins.coins_exchange.symbol,
+        symbol=coins.coins_exchange.symbol,
+        symbol_exchange=coins.coins_taapi.symbol,
         time_frame=bot.strategy.time_frame.time_frame,
         func_entry=bot.strategy.logic_entry,
         func_exit=bot.strategy.logic_exit,
@@ -47,7 +33,6 @@ def asyncspawnbot(bot, user, userexchange, coins) -> None:
 
 
 def init() -> None:
-
     while True:
 
         try:
@@ -85,4 +70,5 @@ class Command(BaseCommand):
     help = 'AsyncBotRunner'
 
     def handle(self, *args, **kwargs):
-        init()
+        t = threading.Thread(target=init)
+        t.start()
