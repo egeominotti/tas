@@ -1,0 +1,13 @@
+[Unit]
+Description=Bot Dispatcher
+After=multi-user.target
+
+[Service]
+User=django
+Group=www-data
+ExecStart=/home/tas/venv/bin/python3 /home/tas/manage.py botdispatcher
+WorkingDirectory=/home/tas
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
