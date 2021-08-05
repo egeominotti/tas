@@ -58,7 +58,8 @@ def init() -> None:
                             t = threading.Thread(target=asyncspawnbot, args=(bot, user, userexchange, coins,))
                             t.start()
 
-                        sleep(15)
+                            sleep(15)
+
             sleep(300)
 
         except Exception as e:
