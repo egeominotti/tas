@@ -59,8 +59,8 @@ class LogicEntry(CommonTrait):
     name = models.CharField(max_length=200, blank=True)
     ratio = models.FloatField(default=0, blank=False)
     sleep = models.IntegerField(default=0, blank=False, null=False)
-    long = models.BooleanField(default=False)
-    short = models.BooleanField(default=False)
+    #long = models.BooleanField(default=False)
+    #short = models.BooleanField(default=False)
     function = QuillField(blank=True)
 
     def __str__(self):
