@@ -59,7 +59,7 @@ def init() -> None:
                             process.append(t)
 
                             sleep(15)
-
+            print(process)
             sleep(300)
 
         except Exception as e:
