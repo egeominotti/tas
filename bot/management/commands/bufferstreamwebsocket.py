@@ -1,3 +1,5 @@
+from time import sleep
+
 from django.core.management import BaseCommand
 import logging
 from strategy.models import SymbolExchange
@@ -24,10 +26,14 @@ class Command(BaseCommand):
 
         try:
             while True:
-                #BufferStreamWebSocket.objects.all().delete()
+
                 oldest_stream_data_from_stream_buffer = binance_websocket_api_manager.pop_stream_data_from_stream_buffer()
                 if oldest_stream_data_from_stream_buffer:
                     binance_stream = UnicornFy.binance_com_websocket(oldest_stream_data_from_stream_buffer)
+                    print(BufferStreamWebSocket.objects.count())
+                    if BufferStreamWebSocket.objects.count() > SymbolExchange.objects.all().count() * 6:
+                        sleep(0.5)
+                        BufferStreamWebSocket.objects.all().delete()
 
                     for k, v in binance_stream.items():
                         if isinstance(v, dict):
@@ -38,7 +44,7 @@ class Command(BaseCommand):
                                 open_candle=float(v.get('open_price')),
                                 high_candle=float(v.get('high_price')),
                                 low_candle=float(v.get('low_price')),
-                                is_closed = v.get('is_closed')
+                                is_closed=v.get('is_closed')
                             )
 
         except Exception as e:
