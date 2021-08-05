@@ -15,11 +15,11 @@ sleep 5
 pip3 install -r requirements.txt
 python3 manage.py migrate --noinput
 
-if [ -z "$RESTORE_BACKUP" ]
-then
-    echo "not defined"
-else
-    python3 manage.py dbrestore --noinput
-fi
+#if [ -z "$RESTORE_BACKUP" ]
+#then
+#    echo "not defined"
+#else
+#    python3 manage.py dbrestore --noinput
+#fi
 
 exec "$@"
