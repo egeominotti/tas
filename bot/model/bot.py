@@ -74,6 +74,8 @@ class TradingBot:
         else:
             self.live = False
 
+
+
         self.item = {
             'candle_close': 0,
             'entry_candle': 0,
@@ -100,7 +102,7 @@ class TradingBot:
             'user': self.user.username
         }
 
-    async def start(self) -> None:
+    def start(self) -> None:
 
         if self.notify:
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
@@ -115,7 +117,7 @@ class TradingBot:
                     "\nLet's go to the moon 🚀️"
             self.telegram.send(start)
 
-    async def entry(self) -> bool:
+    def entry(self) -> bool:
 
         func_entry = eval(self.func_entry.name)
         if self.item.get('entry') is False:
@@ -168,7 +170,7 @@ class TradingBot:
             print(self.item)
             # sleep(self.item.get('sleep_func_entry'))
 
-    async def exit(self) -> bool:
+    def exit(self) -> bool:
 
         func_exit = eval(self.func_exit.name)
 
@@ -235,9 +237,9 @@ class TradingBot:
 
                 return True
 
-    async def run(self) -> bool:
+    def run(self) -> bool:
 
-        await self.start()
+        self.start()
 
         entry = False
         exception = False
