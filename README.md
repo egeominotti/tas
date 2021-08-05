@@ -40,3 +40,9 @@
     gunicorn
 
         sudo nano /etc/systemd/system/gunicorn.service
+
+    botdispatcher
+        
+        sudo nano /etc/systemd/system/dispatcherbot.service
+        sudo systemctl enable dispatcherbot
+        sudo systemctl status dispatcherbot

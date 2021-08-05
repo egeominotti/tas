@@ -55,6 +55,6 @@ class Command(BaseCommand):
                                 # wait for taapi
                                 sleep(15)
                 # wait 10 minutes
-                #sleep(60)
+                sleep(300)
             except Exception as e:
                 print(e)
