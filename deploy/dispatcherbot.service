@@ -2,6 +2,7 @@
 
 [Unit]
 Description=dispatcher bot demon
+Requires=qcluster.socket
 After=network.target
 
 [Service]
