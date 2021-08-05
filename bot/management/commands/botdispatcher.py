@@ -61,6 +61,8 @@ def spawnbot():
                             )
                             bot.run()
                     asyncio.sleep(15)
+
+            asyncio.sleep(300)
         except Exception as e:
             print(e)
             break
