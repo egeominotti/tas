@@ -11,6 +11,7 @@ logger = logging.getLogger('main')
 from multiprocessing import Process
 import multiprocessing
 
+
 # run = True
 #
 #
@@ -25,6 +26,7 @@ import multiprocessing
 # signal.signal(signal.SIGTERM, handler_stop_signals)
 
 def asyncspawnbot(bot, user, userexchange, coins):
+
     print("avvio bot")
     bot = TradingBot(
         current_bot=bot,
@@ -74,8 +76,4 @@ class Command(BaseCommand):
     help = 'AsyncBotRunner'
 
     def handle(self, *args, **kwargs):
-        #print("Number of cpu : ", multiprocessing.cpu_count())
-        p = Process(target=init)
-        p.start()
-        p.join()
-
+        init()
