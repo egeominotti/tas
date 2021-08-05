@@ -211,7 +211,7 @@ else:
         'compress': True,
         'save_limit': 250,
         'queue_limit': 128,
-        'cpu_affinity': 4,
+        'cpu_affinity': 2,
         'label': 'Django Q',
         'redis': {
             'host': 'localhost',

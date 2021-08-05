@@ -28,3 +28,7 @@
 ### CoreUI
     npm install
     npm install -g @vue/cli@latest
+
+### Service
+    sudo nano /etc/systemd/system/qcluster.service
+    sudo nano /etc/systemd/system/gunicorn.service
