@@ -1,6 +1,7 @@
 import json
 import logging
 import datetime
+from bot.models import BufferStreamWebSocket
 from time import sleep
 from analytics.model.indicator import btby_momentum
 from backtest.services.util import find_prev_candle
@@ -79,9 +80,9 @@ def logicentry_first(item, bot=False):
 
         print(datetime.datetime.now())
         print("CANDLE CLOSE: " + str(canlde_close))
-        print("CANDLE OPEN PREV:" +str(candle_open_prev))
-        print("CANDLE HIGH PREV:" +str(candle_high_prev))
-        print("CANDLE LOW PREV:" +str(candle_low_prev))
+        print("CANDLE OPEN PREV:" + str(candle_open_prev))
+        print("CANDLE HIGH PREV:" + str(candle_high_prev))
+        print("CANDLE LOW PREV:" + str(candle_low_prev))
 
         if longShortRatio is not None and longShortRatio > 1:
 
@@ -139,63 +140,47 @@ def logicentry_first(item, bot=False):
 def logicexit_first(item, bot=False):
     if bot:
 
-        #binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures")
-        binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com")
-        binance_websocket_api_manager.create_stream(['kline_1m'], [item.get('symbol_exchange').lower()],output="UnicornFy")
-
         try:
             while True:
 
-                sentinel = False
-                oldest_stream_data_from_stream_buffer = binance_websocket_api_manager.pop_stream_data_from_stream_buffer()
-                if oldest_stream_data_from_stream_buffer:
-                    binance_stream = UnicornFy.binance_com_websocket(oldest_stream_data_from_stream_buffer)
-                    for k, v in binance_stream.items():
-                        if isinstance(v, dict):
-                            # v.get('open_price')
-                            # v.get('close_price')
-                            # v.get('low_price')
-                            # v.get('high_price')
-                            # v.get('is_closed')
-                            item['candle_close'] = float(v.get('close_price'))
+                item['candle_close'] = BufferStreamWebSocket.objects.get(symbol__symbol=item.get('symbol_exchange')).close_candle
 
-                    if item['type'] == 0:
+                if item['type'] == 0:
 
-                        """
-                        LONG
-                        """
+                    """
+                    LONG
+                    """
 
-                        if item['candle_close'] >= item['entry_candle'] * item['takeprofit_value_long']:
-                            item['takeprofit_candle'] = item['candle_close']
-                            item['takeprofit'] = True
-                            sentinel = True
-                            break
+                    if item['candle_close'] >= item['entry_candle'] * item['takeprofit_value_long']:
+                        item['takeprofit_candle'] = item['candle_close']
+                        item['takeprofit'] = True
+                        sentinel = True
+                        break
 
-                        if item['candle_close'] <= item['entry_candle'] * item['stoploss_value_long']:
-                            item['stoploss_candle'] = item['candle_close']
-                            item['stoploss'] = True
-                            sentinel = True
-                            break
+                    if item['candle_close'] <= item['entry_candle'] * item['stoploss_value_long']:
+                        item['stoploss_candle'] = item['candle_close']
+                        item['stoploss'] = True
+                        sentinel = True
+                        break
 
-                    else:
+                else:
 
-                        """
-                        SHORT
-                        """
+                    """
+                    SHORT
+                    """
 
-                        if item['candle_close'] <= item['entry_candle'] * item['takeprofit_value_short']:
-                            item['takeprofit_candle'] = item['candle_close']
-                            item['takeprofit'] = True
-                            sentinel = True
-                            break
+                    if item['candle_close'] <= item['entry_candle'] * item['takeprofit_value_short']:
+                        item['takeprofit_candle'] = item['candle_close']
+                        item['takeprofit'] = True
+                        sentinel = True
+                        break
 
-                        if item['candle_close'] >= item['entry_candle'] * item['stoploss_value_short']:
-                            item['stoploss_candle'] = item['candle_close']
-                            item['stoploss'] = True
-                            sentinel = True
-                            break
+                    if item['candle_close'] >= item['entry_candle'] * item['stoploss_value_short']:
+                        item['stoploss_candle'] = item['candle_close']
+                        item['stoploss'] = True
+                        sentinel = True
+                        break
 
-                #sleep(1)
 
         except Exception as e:
             return e
