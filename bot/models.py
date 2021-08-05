@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import models
 from exchange.models import ExchangeList
 from analytics.models import CommonTrait
-from strategy.models import TimeFrame, LogicExit, LogicEntry, Coins
+from strategy.models import TimeFrame, LogicExit, LogicEntry, Coins, SymbolExchange
 from exchange.models import User
 import uuid
 
@@ -10,6 +10,15 @@ BOT_STATUS = (
     ('STOPPED', 'STOPPED'),
     ('RUNNING', 'RUNNING'),
 )
+
+class BufferStreamWebSocket(CommonTrait):
+    symbol = models.ForeignKey(SymbolExchange, on_delete=models.SET_NULL, null=True, blank=True)
+    time_frame = models.CharField(max_length=4, blank=False, null=False)
+    open_candle = models.FloatField(default=0, blank=True)
+    close_candle = models.FloatField(default=0, blank=True)
+    high_candle = models.FloatField(default=0, blank=True)
+    low_candle = models.FloatField(default=0, blank=True)
+    is_closed = models.BooleanField(default=False)
 
 
 class UserExchange(CommonTrait):
