@@ -1,14 +1,7 @@
 from django.contrib import admin
-from exchange.models import Exchange, ExchangeList, User
+from exchange.models import ExchangeList, User
 
 
-class ExchangeAdmin(admin.ModelAdmin):
-    search_fields = ['exchange']
-    list_per_page = 50
-    ordering = ('id',)
-    list_display = ('user', 'exchange', 'balance_futures', 'balance_spot', 'leverage', 'live')
-    readonly_fields = ('balance_futures', 'balance_spot')
-    exclude = ['flgEnable', ]
 
 
 class ExchangeListAdmin(admin.ModelAdmin):
@@ -29,5 +22,4 @@ class UtenteAdmin(admin.ModelAdmin):
 
 
 admin.site.register(User, UtenteAdmin)
-admin.site.register(Exchange, ExchangeAdmin)
 admin.site.register(ExchangeList, ExchangeListAdmin)

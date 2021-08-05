@@ -1,8 +1,6 @@
 from django.conf import settings
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
+from exchange.models import ExchangeList
 from analytics.models import CommonTrait
 from strategy.models import TimeFrame, LogicExit, LogicEntry, Coins
 from exchange.models import User
@@ -12,6 +10,25 @@ BOT_STATUS = (
     ('STOPPED', 'STOPPED'),
     ('RUNNING', 'RUNNING'),
 )
+
+
+class UserExchange(CommonTrait):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    exchange = models.ForeignKey(ExchangeList, on_delete=models.CASCADE, null=False, blank=False)
+    api_key = models.CharField(max_length=200, blank=False, null=False)
+    api_secret = models.CharField(max_length=200, blank=False, null=False)
+    balance_futures = models.FloatField(default=0, blank=True)
+    balance_spot = models.FloatField(default=0, blank=True)
+    leverage = models.IntegerField(default=0, blank=True)
+    live = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = 'UserExchange'
+        verbose_name_plural = 'UserExchange'
+
+    def __str__(self):
+        if self.exchange is not None:
+            return str(self.exchange)
 
 
 class BotLogger(CommonTrait):

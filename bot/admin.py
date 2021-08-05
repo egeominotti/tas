@@ -1,6 +1,6 @@
 from django.contrib import admin
 from bot.models import Bot, BotLogger, StrategyBot
-
+from bot.models import UserExchange
 
 class BotAdmin(admin.ModelAdmin):
     search_fields = ['name']
@@ -49,6 +49,15 @@ class StrategyBotAdmin(admin.ModelAdmin):
     exclude = ['flgEnable', ]
 
 
+class ExchangeAdmin(admin.ModelAdmin):
+    search_fields = ['exchange']
+    list_per_page = 50
+    ordering = ('id',)
+    list_display = ('user', 'exchange', 'balance_futures', 'balance_spot', 'leverage', 'live')
+    readonly_fields = ('balance_futures', 'balance_spot')
+    exclude = ['flgEnable', ]
+
+admin.site.register(UserExchange, ExchangeAdmin)
 admin.site.register(StrategyBot, StrategyBotAdmin)
 admin.site.register(BotLogger, BotLoggerAdmin)
 admin.site.register(Bot, BotAdmin)
