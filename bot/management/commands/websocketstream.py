@@ -32,8 +32,6 @@ class Command(BaseCommand):
                     val = SymbolExchange.objects.all().count() * 6 * 100
                     if BufferStreamWebSocket.objects.count() > val:
                         BufferStreamWebSocket.objects.all().delete()
-                        # for k in BufferStreamWebSocket.objects.all()[0:val / 2]:
-                        #     k.delete()
 
                     for k, v in binance_stream.items():
                         if isinstance(v, dict):
