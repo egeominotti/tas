@@ -1,0 +1,15 @@
+#sudo nano /etc/systemd/system/websocketstream.service
+
+[Unit]
+Description=Websocket Stream Buffering
+Requires=qcluster.service
+After=network.target
+
+[Service]
+ExecStart=/home/tas/venv/bin/python3 /home/tas/manage.py websocketstream
+WorkingDirectory=/home/tas
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

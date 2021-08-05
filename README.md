@@ -61,3 +61,12 @@
         # Check log
             journalctl -u dispatcherbot.service -f
 
+    
+    websocketstream
+
+        sudo nano /etc/systemd/system/websocketstream.service
+        sudo systemctl enable websocketstream
+        sudo systemctl status websocketstream
+
+        # Check log
+            journalctl -u websocketstream.service -f
