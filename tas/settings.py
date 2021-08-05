@@ -170,7 +170,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'tas.wsgi.application'
+WSGI_APPLICATION = 'tas.asgi.application'
 
 DATABASES = {
     'default': {

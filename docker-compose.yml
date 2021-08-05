@@ -6,15 +6,17 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: python3 manage.py runserver 0:8000 --verbosity 3
+    command: daphne -b 0.0.0.0 -p 8000 tas.asgi.application
     container_name: tas_developmet
     volumes:
       - .:/tas
     ports:
-      - 8000:8000
+      - "8000:8000"
     env_file:
       - .env.dev
     depends_on:
+      - postgres_db
+    links:
       - postgres_db
 
   djangoq:
@@ -28,12 +30,14 @@ services:
       - .env.dev
     depends_on:
       - redis
+    links:
+      - redis
 
   postgres_db:
     container_name: tas_db
     image: postgres:13.3
     ports:
-      - 5432:5432
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
@@ -46,19 +50,19 @@ services:
     volumes:
       - redis-data:/data
     ports:
-      - 6379:6379
+      - "6379:6379"
     expose:
       - 6379
 
-  mongodb1:
-    image: mongo:4
-    restart: always
-    container_name: mongodb1
-    volumes:
-      - mongodata1:/data/db
-    expose:
-      - "27017"
-    entrypoint: [ "/usr/bin/mongod", "--replSet", "rsmongo", "--bind_ip_all" ]
+#  mongodb1:
+#    image: mongo:4
+#    restart: always
+#    container_name: mongodb1
+#    volumes:
+#      - mongodata1:/data/db
+#    expose:
+#      - "27017"
+#    entrypoint: [ "/usr/bin/mongod", "--replSet", "rsmongo", "--bind_ip_all" ]
 
 #  vuejs:
 #    build:
@@ -72,4 +76,4 @@ services:
 volumes:
   postgres_data:
   redis-data:
-  mongodata1:
+  #mongodata1:

@@ -25,6 +25,7 @@ logger = logging.getLogger('main')
 
 @sync_to_async
 def asyncspawnbot(bot, user, userexchange, coins):
+    print("avvio bot")
     bot = TradingBot(
         current_bot=bot,
         user=user,
@@ -58,12 +59,10 @@ def init():
                     for coins in strategy.coins.all():
                         if not Bot.objects.filter(user=user, coins=coins).exists():
                             bot = Bot.objects.create(user=user, strategy=strategy, coins=coins)
+                            print("avvio")
                             user.counter_bot = strategy.coins.count()
                             user.save()
-                            asyncspawnbot(bot, user, userexchange, coins, BotLogger, Bot)
-                    sleep(15)
-
-            sleep(300)
+                            asyncspawnbot(bot, user, userexchange, coins)
         except Exception as e:
             print(e)
             break
