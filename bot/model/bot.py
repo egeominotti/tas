@@ -36,7 +36,7 @@ class TradingBot:
         self.func_exit = func_exit
         self.logger = logger
         self.bot_object = bot_object
-        self.notify = False
+        self.notify = self.user.telegram_notifications
 
         if self.userexchange is not None:
 
