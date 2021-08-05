@@ -205,19 +205,15 @@ if 'dev' in ENV:
 else:
 
     Q_CLUSTER = {
-        'name': 'tas',
+        'name': 'MongoDB',
         'workers': 8,
-        'recycle': 500,
-        'timeout': 7200,
-        'compress': True,
-        'save_limit': 250,
-        'queue_limit': 500,
-        'cpu_affinity': 2,
-        'label': 'Django Q',
-        'redis': {
+        'timeout': 60,
+        'retry': 70,
+        'queue_limit': 100,
+        'mongo': {
             'host': '127.0.0.1',
-            'port': 6379,
-            'db': 0, }
+            'port': 27017
+        }
     }
 
 

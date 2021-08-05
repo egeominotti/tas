@@ -46,3 +46,4 @@ html-sanitizer
 unicorn-binance-websocket-api==1.31.0
 unicorn-fy==0.11.0
 django-redis
+pymongo
