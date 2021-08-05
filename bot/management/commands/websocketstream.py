@@ -16,7 +16,7 @@ class Command(BaseCommand):
         symbolList = []
         for symbol in SymbolExchange.objects.all():
             symbolList.append(symbol.symbol.lower())
-
+        print(symbolList)
         klines = ['kline_1m', 'kline_5m', 'kline_15m', 'kline_30m', 'kline_1h', 'kline_12h']
 
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com")
