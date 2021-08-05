@@ -66,7 +66,7 @@ def init():
                             asyncspawnbot(bot, user, userexchange, coins)
 
                         sleep(15)
-                sleep(300)
+            sleep(300)
         except Exception as e:
             print(e)
             break
