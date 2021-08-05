@@ -30,7 +30,6 @@ class Command(BaseCommand):
                 oldest_stream_data_from_stream_buffer = binance_websocket_api_manager.pop_stream_data_from_stream_buffer()
                 if oldest_stream_data_from_stream_buffer:
                     binance_stream = UnicornFy.binance_com_websocket(oldest_stream_data_from_stream_buffer)
-                    print(BufferStreamWebSocket.objects.count())
                     if BufferStreamWebSocket.objects.count() > SymbolExchange.objects.all().count() * 6:
                         sleep(0.5)
                         BufferStreamWebSocket.objects.all().delete()
