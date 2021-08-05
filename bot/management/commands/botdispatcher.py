@@ -24,7 +24,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         while True:
-
+            sleep(60)
             try:
 
                 qs = StrategyBot.objects.all() \
