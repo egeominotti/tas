@@ -53,8 +53,12 @@ class TradingBot:
         # self.logger_id = self.logger.objects.create(bot=self.current_bot)
 
         self.notify = self.user.telegram_notifications
-        if self.user.exchange.live is not None:
-            self.live = self.user.exchange.live
+
+        if self.user.exchange is not None:
+            if self.user.exchange.live:
+                self.live = True
+            else:
+                self.live = False
         else:
             self.live = False
 
