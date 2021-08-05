@@ -5,6 +5,7 @@ from django_q.tasks import async_task
 from bot.models import Bot, BotLogger
 from bot.models import StrategyBot
 import logging
+from bot.models import UserExchange
 
 logger = logging.getLogger('main')
 
@@ -35,6 +36,7 @@ class Command(BaseCommand):
 
                 for strategy in qs:
                     for user in strategy.user.all():
+                        userexchange = UserExchange.objects.get(user=user)
                         for coins in strategy.coins.all():
                             if not Bot.objects.filter(user=user, coins=coins).exists():
                                 bot = Bot.objects.create(user=user, strategy=strategy, coins=coins)
@@ -43,13 +45,14 @@ class Command(BaseCommand):
                                 async_task("bot.services.runner.runnerbot",
                                            bot,
                                            user,
+                                           userexchange,
                                            coins.coins_taapi.symbol,
                                            coins.coins_exchange.symbol,
                                            Bot,
                                            BotLogger,
                                            hook="bot.services.runner.get_runnerbot_hook")
 
-                                #wait for taapi
+                                # wait for taapi
                                 sleep(15)
                 # wait 10 minutes
                 sleep(600)

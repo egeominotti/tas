@@ -31,6 +31,7 @@ class TradingBot:
             self,
             current_bot,
             user,
+            userexchange,
             symbol,
             symbol_exchange,
             time_frame,
@@ -41,6 +42,7 @@ class TradingBot:
     ):
         self.current_bot = current_bot
         self.user = user
+        self.userexchange = userexchange
         self.telegram = Telegram()
         self.symbol = symbol
         self.symbol_exchange = symbol_exchange
@@ -54,21 +56,24 @@ class TradingBot:
 
         self.notify = self.user.telegram_notifications
 
-        if self.user.exchange is not None:
-            if self.user.exchange.live:
+        if self.userexchange is not None:
+
+            self.exchange = BinanceHelper(
+                api_key=self.userexchange.api_key,
+                api_secret=self.userexchange.api_secret,
+                symbol=self.symbol_exchange,
+                user=self.user,
+                leverage=self.userexchange.leverage,
+            )
+
+            if self.userexchange.live:
                 self.live = True
             else:
                 self.live = False
         else:
             self.live = False
 
-        self.exchange = BinanceHelper(
-            api_key=self.user.exchange.api_key,
-            api_secret=self.user.exchange.api_secret,
-            symbol=self.symbol_exchange,
-            user=self.user,
-            leverage=self.user.exchange.leverage,
-        )
+
 
         self.item = {
             'candle_close': 0,

@@ -20,8 +20,10 @@ def get_runnerbot_hook(task) -> None:
         Bot.objects.filter(id=task.result.get('id')).delete()
 
 
-def runnerbot(instance, user, symbol_taapi, symbol_exchange, bot_object, logger_object):
+def runnerbot(instance, user, userexchange, symbol_taapi, symbol_exchange, bot_object, logger_object):
     """
+    :param user:
+    :param userexchange:
     :param symbol_taapi:
     :param symbol_exchange:
     :param instance: Oggetto che contiene l'istanza del bot con i dati
@@ -33,6 +35,7 @@ def runnerbot(instance, user, symbol_taapi, symbol_exchange, bot_object, logger_
     bot = TradingBot(
         current_bot=instance,
         user=user,
+        userexchange=userexchange,
         symbol=symbol_taapi,
         symbol_exchange=symbol_exchange,
         time_frame=instance.strategy.time_frame.time_frame,
