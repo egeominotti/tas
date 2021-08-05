@@ -1,29 +1,12 @@
 from bot.services.telegram import Telegram
 from analytics.services.exchangeApi import Taapi
 from exchange.model.binance import BinanceHelper
-from time import sleep
-import datetime
-import signal
-import asyncio
 
 """
 Logic function
 """
 
 from backtest.strategy.logic.logic_function import *
-
-run = True
-
-
-def handler_stop_signals(signum, frame):
-    global run
-    print("SIGNAL DI STOP")
-    # todo: devo chiudere la posizione se è aperta e cancellare il bot
-    run = False
-
-
-signal.signal(signal.SIGINT, handler_stop_signals)
-signal.signal(signal.SIGTERM, handler_stop_signals)
 
 
 class TradingBot:
@@ -53,9 +36,7 @@ class TradingBot:
         self.func_exit = func_exit
         self.logger = logger
         self.bot_object = bot_object
-        # self.logger_id = self.logger.objects.create(bot=self.current_bot)
-
-        self.notify = self.user.telegram_notifications
+        self.notify = False
 
         if self.userexchange is not None:
 
@@ -73,8 +54,6 @@ class TradingBot:
                 self.live = False
         else:
             self.live = False
-
-
 
         self.item = {
             'candle_close': 0,
@@ -244,7 +223,7 @@ class TradingBot:
         entry = False
         exception = False
 
-        while run:
+        while True:
 
             try:
 
