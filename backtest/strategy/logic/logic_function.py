@@ -68,10 +68,10 @@ def logicentry_first(item, bot=False):
         taapi = item['taapi']
         canlde_close = item['candle_close']
 
-        ema8_prev = taapi.ema(8, time_frame, 2).get('value')
-        candle_low_prev = taapi.candle(time_frame, 2).get('low')
-        candle_high_prev = taapi.candle(time_frame, 2).get('high')
-        candle_open_prev = taapi.candle(time_frame, 2).get('open')
+        ema8_prev = taapi.ema(8, time_frame, 1).get('value')
+        candle_low_prev = taapi.candle(time_frame, 1).get('low')
+        candle_high_prev = taapi.candle(time_frame, 1).get('high')
+        candle_open_prev = taapi.candle(time_frame, 1).get('open')
 
         ema8 = taapi.ema(8, time_frame)
         ema13 = taapi.ema(13, time_frame)
