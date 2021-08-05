@@ -183,16 +183,6 @@ DATABASES = {
     }
 }
 
-if 'dev' not in ENV:
-    CACHES = {
-        "default": {
-            "BACKEND": "django_redis.cache.RedisCache",
-            "LOCATION": "redis://127.0.0.1:6379/0",
-            "OPTIONS": {
-                "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            }
-        }
-    }
 
 if 'dev' in ENV:
 
@@ -200,7 +190,7 @@ if 'dev' in ENV:
         'name': 'tas',
         'workers': 8,
         'recycle': 500,
-        'timeout': 3600,
+        'timeout': 7200,
         'compress': True,
         'save_limit': 250,
         'queue_limit': 500,
@@ -215,10 +205,19 @@ if 'dev' in ENV:
 else:
 
     Q_CLUSTER = {
-        'name': 'DJRedis',
-        'workers': 2,
-        'timeout': 3600,
-        'django_redis': 'default'
+        'name': 'tas',
+        'workers': 8,
+        'recycle': 500,
+        'timeout': 7200,
+        'compress': True,
+        'save_limit': 250,
+        'queue_limit': 500,
+        'cpu_affinity': 2,
+        'label': 'Django Q',
+        'redis': {
+            'host': '127.0.0.1',
+            'port': 6379,
+            'db': 0, }
     }
 
 
