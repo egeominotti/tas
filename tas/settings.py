@@ -200,7 +200,7 @@ if 'dev' in ENV:
         'name': 'tas',
         'workers': 8,
         'recycle': 500,
-        'timeout': None,
+        'timeout': 3600,
         'compress': True,
         'save_limit': 250,
         'queue_limit': 500,
