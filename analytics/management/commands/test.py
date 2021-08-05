@@ -10,27 +10,14 @@ logger = logging.getLogger('main')
 import time
 starttime = time.time()
 from backtest.strategy.logic.logic_function import *
-
-
-def get_local_time():
-    current_time = datetime.datetime.now().strftime("%H:%M")
-    logger.info("get_local_time(): %s",current_time)
-    return str(current_time)
-
-def display_local_time():
-    logger.info("Current time is: %s", get_local_time())
-    return True
+from bot.models import BufferStreamWebSocket
 
 class Command(BaseCommand):
     help = 'Prende gli indici delle candele a '
 
     def handle(self, *args, **kwargs):
-        API_KEY_LIST = [
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBpZXJyaTkzQGdtYWlsLmNvbSIsImlhdCI6MTYyNzAzNTMzNSwiZXhwIjo3OTM0MjM1MzM1fQ.m1f7RuvDmmdrTd1l8W7SSd_DVZxn9eabEjCoE8zED-Y',
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVnZW9taW5vdHRpQGdtYWlsLmNvbSIsImlhdCI6MTYyODAzNTA1OCwiZXhwIjo3OTM1MjM1MDU4fQ.P6LKxJcVcZuguazTP9Ah3AHQ3l9UyfVME3YKs78F5MA'
-        ]
-        pp= secrets.choice(API_KEY_LIST)
-        print(pp)
+        while True:
+            print(BufferStreamWebSocket.objects.filter(symbol__symbol='BTCUSDT',time_frame='1m').last().close_candle)
 
         # for instance in BackTest.objects.all():
         #     bt = backtests(

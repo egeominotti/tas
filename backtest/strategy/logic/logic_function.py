@@ -143,7 +143,7 @@ def logicexit_first(item, bot=False):
         try:
             while True:
 
-                item['candle_close'] = BufferStreamWebSocket.objects.get(symbol__symbol=item.get('symbol_exchange')).close_candle
+                item['candle_close'] = BufferStreamWebSocket.objects.filter(symbol__symbol=item.get('symbol_exchange'),time_frame='1m').last().close_candle
 
                 if item['type'] == 0:
 
