@@ -1,6 +1,5 @@
 import threading
 from time import sleep
-from multiprocessing import Process
 from django.core.management import BaseCommand
 import logging
 from bot.model.bot import TradingBot
@@ -8,12 +7,10 @@ from bot.models import Bot, UserExchange, StrategyBot, BotLogger
 
 logger = logging.getLogger('main')
 
-def asyncspawnbot(bot, user, userexchange, coins) -> None:
 
-    print(coins.coins_exchange.symbol)
-    print(coins.coins_taapi.symbol)
-    print("avvio bot")
-    bot = TradingBot(
+def spawnbot(bot, user, userexchange, coins) -> None:
+
+    TradingBot(
         current_bot=bot,
         user=user,
         userexchange=userexchange,
@@ -26,12 +23,8 @@ def asyncspawnbot(bot, user, userexchange, coins) -> None:
         bot_object=Bot
     )
 
-    if bot.run():
-        Bot.objects.filter(id=bot.id).delete()
-
 
 def init() -> None:
-
     while True:
 
         try:
@@ -53,10 +46,7 @@ def init() -> None:
                             user.counter_bot = strategy.coins.count()
                             user.save()
 
-                            # asyncspawnbot(bot, user, userexchange, coins)
-                            t = threading.Thread(target=asyncspawnbot, args=(bot, user, userexchange, coins,))
-                            t.start()
-                            process.append(t)
+                            spawnbot(bot, user, userexchange, coins)
 
                             sleep(15)
             print(process)

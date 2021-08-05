@@ -1,3 +1,5 @@
+import threading
+
 from bot.services.telegram import Telegram
 from analytics.services.exchangeApi import Taapi
 from exchange.model.binance import BinanceHelper
@@ -24,6 +26,7 @@ class TradingBot:
             logger,
             bot_object
     ):
+
         self.current_bot = current_bot
         self.user = user
         self.userexchange = userexchange
@@ -80,6 +83,14 @@ class TradingBot:
             'exit_function': False,
             'user': self.user.username
         }
+
+        thread = threading.Thread(target=self.run, args=())
+        thread.daemon = True  # Daemonize thread
+        thread.start()  # Start the execution
+        self.thread = thread
+
+        self.item['thread'] = self.thread
+        print("Thread Bot: " + str(self.thread))
 
     def start(self) -> None:
 
@@ -237,16 +248,19 @@ class TradingBot:
                     self.item['exit_function'] = True
                     if self.exit() is False:
                         exception = True
+                        self.bot_object.objects.filter(id=self.current_bot.id).delete()
                         break
 
                     if self.exit() is True:
                         sleep(30)
+                        self.bot_object.objects.filter(id=self.current_bot.id).delete()
                         # Successfully close position takeprofit/stoploss
                         break
 
             except Exception as e:
                 exception = "ERROR" + str(e)
                 self.telegram.send(exception)
+                self.bot_object.objects.filter(id=self.current_bot.id).delete()
                 # if exception stop the bot and open position
                 exception = True
                 break

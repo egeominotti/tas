@@ -1,5 +1,11 @@
+import threading
+from asyncio.subprocess import Process
+
 from django.conf import settings
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 from exchange.models import ExchangeList
 from analytics.models import CommonTrait
 from strategy.models import TimeFrame, LogicExit, LogicEntry, Coins, SymbolExchange
@@ -76,6 +82,16 @@ class StrategyBot(CommonTrait):
         verbose_name = 'Strategy'
         verbose_name_plural = 'Strategy'
 
+# def calculate():
+#     for i in range(0,100000000000):
+#         print(i)
+#
+# @receiver(post_save, sender=StrategyBot)
+# def sum_sharing(sender, instance, created, **kwargs):
+#     p = Process(target=calculate)
+#     p = Process(target=f, args=[q])
+#     p.start()
+#     p.join()
 
 class Bot(CommonTrait):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
