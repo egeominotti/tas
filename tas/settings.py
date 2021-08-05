@@ -205,7 +205,7 @@ else:
 
     Q_CLUSTER = {
         'name': 'tas',
-        'workers': 8,
+        'workers': 4,
         'recycle': 500,
         'timeout': None,
         'compress': True,
