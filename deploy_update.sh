@@ -4,7 +4,6 @@ git pull
 pip3 install -r requirements.txt
 python3 manage.py migrate --noinput
 python3 manage.py collectstatic --noinput
-systemctl restart mongod
 systemctl restart gunicorn
 systemctl restart dispatcherbot
 systemctl restart websocketstream
