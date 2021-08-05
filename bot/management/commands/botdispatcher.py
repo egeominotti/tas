@@ -1,4 +1,6 @@
 import asyncio
+from time import sleep
+
 from django.core.management import BaseCommand
 import logging
 from bot.model.bot import TradingBot
@@ -22,8 +24,7 @@ logger = logging.getLogger('main')
 # signal.signal(signal.SIGTERM, handler_stop_signals)
 
 @sync_to_async
-def asyncspawnbot(bot, user, userexchange, coins, BotLogger, Bot):
-
+def asyncspawnbot(bot, user, userexchange, coins):
     bot = TradingBot(
         current_bot=bot,
         user=user,
@@ -59,13 +60,10 @@ def init():
                             bot = Bot.objects.create(user=user, strategy=strategy, coins=coins)
                             user.counter_bot = strategy.coins.count()
                             user.save()
-                            print("entro")
-
                             asyncspawnbot(bot, user, userexchange, coins, BotLogger, Bot)
+                    sleep(15)
 
-                    asyncio.sleep(15)
-
-            asyncio.sleep(300)
+            sleep(300)
         except Exception as e:
             print(e)
             break
