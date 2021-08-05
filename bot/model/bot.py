@@ -145,17 +145,17 @@ class TradingBot:
 
                 now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 
-                if not self.logger.objects.filter(bot=self.current_bot).exists():
-                    self.logger_instance = self.logger.objects.create(
-                        bot=self.current_bot,
-                        entry_candle=self.item.get('entry_candle'),
-                        entry_candle_date=now,
-                        stop_loss_ratio=self.item.get('stoploss_ratio'),
-                        take_profit_ratio=self.item.get('takeprofit_ratio'),
-                        start_balance=self.exchange.get_current_balance_futures_(),
-                        coin_quantity=self.exchange.get_quantity_from_number_of_bot(),
-                        leverage=self.exchange.leverage
-                    )
+                self.logger_instance = self.logger.objects \
+                    .create(
+                    bot=self.current_bot,
+                    entry_candle=self.item.get('entry_candle'),
+                    entry_candle_date=now,
+                    stop_loss_ratio=self.item.get('stoploss_ratio'),
+                    take_profit_ratio=self.item.get('takeprofit_ratio'),
+                    start_balance=self.exchange.get_current_balance_futures_(),
+                    coin_quantity=self.exchange.get_quantity_from_number_of_bot(),
+                    leverage=self.exchange.leverage
+                )
 
                 if self.notify:
                     entry_text = "Entry: " + str(self.current_bot.name) + \
@@ -200,7 +200,9 @@ class TradingBot:
                         self.exchange.buy_market()
 
                 now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                self.logger.objects.filter(id=self.logger_instance.id).update(
+
+                self.logger.objects.filter(id=self.logger_instance.id) \
+                    .update(
                     end_balance=self.exchange.get_current_balance_futures_(),
                     candle_stop_loss=self.item.get('stoploss_candle'),
                     candle_stop_loss_date=now,
@@ -235,7 +237,9 @@ class TradingBot:
                         self.exchange.buy_market()
 
                 now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                self.logger.objects.filter(id=self.logger_instance.id).update(
+
+                self.logger.objects.filter(id=self.logger_instance.id) \
+                    .update(
                     end_balance=self.exchange.get_current_balance_futures_(),
                     candle_stop_loss=self.item.get('takeprofit_candle'),
                     candle_stop_loss_date=now,
