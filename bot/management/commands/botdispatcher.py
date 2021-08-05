@@ -1,4 +1,5 @@
 import asyncio
+import threading
 from time import sleep
 
 from django.core.management import BaseCommand
@@ -67,7 +68,10 @@ def init() -> None:
                             print("avvio")
                             user.counter_bot = strategy.coins.count()
                             user.save()
-                            asyncspawnbot(bot, user, userexchange, coins)
+
+                            # asyncspawnbot(bot, user, userexchange, coins)
+                            t = threading.Thread(target=asyncspawnbot, args=(bot, user, userexchange, coins,))
+                            t.start()
 
                         sleep(15)
             sleep(300)
