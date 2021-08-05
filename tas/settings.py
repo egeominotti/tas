@@ -203,12 +203,13 @@ if 'dev' in ENV:
     }
 
 else:
-    # mongodb broker
+
+
     Q_CLUSTER = {
         'name': 'MongoDB',
         'workers': 8,
-        'timeout': None,
-        'retry': None,
+        'timeout': 3200,
+        'retry': 3240,
         'queue_limit': 100,
         'mongo': {
             'host': '127.0.0.1',
