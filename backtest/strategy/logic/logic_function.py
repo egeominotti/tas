@@ -2,11 +2,8 @@ import json
 import logging
 import datetime
 from bot.models import BufferStreamWebSocket
-from time import sleep
 from analytics.model.indicator import btby_momentum
 from backtest.services.util import find_prev_candle
-from unicorn_binance_websocket_api.unicorn_binance_websocket_api_manager import BinanceWebSocketApiManager
-from unicorn_fy.unicorn_fy import UnicornFy
 
 logger = logging.getLogger(__name__)
 

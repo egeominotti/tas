@@ -1,13 +1,10 @@
-import threading
-from asyncio.subprocess import Process
-
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
 from exchange.models import ExchangeList
 from analytics.models import CommonTrait
+
 from strategy.models import TimeFrame, LogicExit, LogicEntry, Coins, SymbolExchange
 from exchange.models import User
 import uuid
@@ -55,7 +52,7 @@ class BotLogger(CommonTrait):
     coin_quantity = models.FloatField(default=0, blank=True)
     leverage = models.IntegerField(default=0, blank=True)
     take_profit_ratio = models.FloatField(default=0, blank=True)
-    stop_loss_ratio =  models.FloatField(default=0, blank=True)
+    stop_loss_ratio = models.FloatField(default=0, blank=True)
     stop_loss = models.BooleanField(default=False, blank=True)
     take_profit = models.BooleanField(default=False, blank=True)
 
@@ -85,17 +82,6 @@ class StrategyBot(CommonTrait):
         verbose_name_plural = 'Strategy'
 
 
-# def calculate():
-#     for i in range(0,100000000000):
-#         print(i)
-#
-# @receiver(post_save, sender=StrategyBot)
-# def sum_sharing(sender, instance, created, **kwargs):
-#     p = Process(target=calculate)
-#     p = Process(target=f, args=[q])
-#     p.start()
-#     p.join()
-
 class Bot(CommonTrait):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
     name = models.CharField(max_length=100, blank=False, null=False)
@@ -114,3 +100,20 @@ class Bot(CommonTrait):
         if len(self.name) == 0:
             self.name = 'bot' + str(uuid.uuid4().hex)
         super().save(*args, **kwargs)
+
+
+@receiver(post_save, sender=Bot)
+def sum_sharing(sender, instance, created, **kwargs):
+    from bot.model.bot import TradingBot
+    TradingBot(
+        current_bot=sender,
+        user=instance.user,
+        userexchange=UserExchange.objects.get(user=sender.user),
+        symbol=instance.coins.coins_taapi.symbol,
+        symbol_exchange=instance.coins.coins_exchange.symbol,
+        time_frame=instance.strategy.time_frame.time_frame,
+        func_entry=instance.strategy.logic_entry,
+        func_exit=instance.strategy.logic_exit,
+        logger=BotLogger,
+        bot_object=Bot,
+    )

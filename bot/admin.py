@@ -18,7 +18,7 @@ class BotAdmin(admin.ModelAdmin):
         return False
 
     def has_add_permission(self, request, obj=None):
-        return False
+        return True
 
 
 class BotLoggerAdmin(admin.ModelAdmin):

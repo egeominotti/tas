@@ -1,8 +1,6 @@
 import requests
 from binance import Client
 from binance.enums import *
-from bot.models import Bot
-from exchange.models import User
 
 class BinanceHelper:
     def __init__(self, api_key, api_secret, symbol, user, leverage=1):
