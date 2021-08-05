@@ -1,5 +1,3 @@
-from time import sleep
-
 from django.core.management import BaseCommand
 import logging
 from strategy.models import SymbolExchange
