@@ -55,8 +55,9 @@
     botdispatcher
         
         sudo nano /etc/systemd/system/dispatcherbot.service
-        sudo systemctl enable dispatcherbot
-        sudo systemctl status dispatcherbot
+        systemctl enable dispatcherbot
+        systemctl status dispatcherbot
+        systemctl status dispatcherbot.service
 
         # Check log
             journalctl -u dispatcherbot.service -f
