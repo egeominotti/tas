@@ -49,3 +49,4 @@ django-redis
 pymongo
 hypercorn
 uvicorn
+daphne

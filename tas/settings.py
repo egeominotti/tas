@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'csvexport',
     'dbbackup',
     'django_extensions',
-    #'django_q',
+    # 'django_q',
     'raven.contrib.django.raven_compat',
     'django_quill',
 ]
@@ -71,7 +71,7 @@ QUILL_CONFIGS = {
                     {'color': []},
                     {'background': []},
                 ],
-                ['code-block',],
+                ['code-block', ],
                 ['clean'],
             ]
         }
@@ -171,7 +171,7 @@ TEMPLATES = [
 ]
 
 ASGI_APPLICATION = 'tas.asgi.application'
-
+DJANGO_ALLOW_ASYNC_UNSAFE = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -182,7 +182,6 @@ DATABASES = {
         'PORT': config('DJANGO_POSTGRES_PORT'),
     }
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -198,7 +197,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 LANGUAGE_CODE = 'it-it'
 TIME_ZONE = 'UTC'
