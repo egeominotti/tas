@@ -25,7 +25,7 @@ import multiprocessing
 # signal.signal(signal.SIGINT, handler_stop_signals)
 # signal.signal(signal.SIGTERM, handler_stop_signals)
 
-def asyncspawnbot(bot, user, userexchange, coins):
+def asyncspawnbot(bot, user, userexchange, coins) -> None:
 
     print("avvio bot")
     bot = TradingBot(
@@ -40,10 +40,12 @@ def asyncspawnbot(bot, user, userexchange, coins):
         logger=BotLogger,
         bot_object=Bot
     )
-    bot.run()
+
+    if bot.run():
+        Bot.objects.filter(id=bot.id).delete()
 
 
-def init():
+def init() -> None:
 
     while True:
 
