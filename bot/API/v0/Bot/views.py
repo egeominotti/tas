@@ -23,3 +23,6 @@ class BotList(generics.ListAPIView):
 class BotCreate(generics.CreateAPIView):
     serializer_class = BotSerializer
     queryset = Bot.objects.all().order_by('-created_at')
+
+    def perform_create(self, serializer):
+        pass
