@@ -194,7 +194,7 @@ if 'dev' in ENV:
         'compress': True,
         'save_limit': 250,
         'queue_limit': 500,
-        'cpu_affinity': 2,
+        'cpu_affinity': None,
         'label': 'Django Q',
         'redis': {
             'host': 'tas_redis',
@@ -205,15 +205,19 @@ if 'dev' in ENV:
 else:
 
     Q_CLUSTER = {
-        'name': 'MongoDB',
+        'name': 'tas',
         'workers': 8,
-        'timeout': 60,
-        'retry': 70,
-        'queue_limit': 100,
-        'mongo': {
+        'recycle': 500,
+        'timeout': 7200,
+        'compress': True,
+        'save_limit': 250,
+        'queue_limit': 500,
+        'cpu_affinity': None,
+        'label': 'Django Q',
+        'redis': {
             'host': '127.0.0.1',
-            'port': 27017
-        }
+            'port': 6379,
+            'db': 0, }
     }
 
 
