@@ -216,7 +216,7 @@ else:
 
     Q_CLUSTER = {
         'name': 'DJRedis',
-        'workers': 4,
+        'workers': 2,
         'timeout': None,
         'django_redis': 'default'
     }
