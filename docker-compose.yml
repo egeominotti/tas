@@ -6,7 +6,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: daphne tas.asgi:application
+    command: python3 manage.py runserver 0:8000 --verbosity 3
     container_name: tas_developmet
     volumes:
       - .:/tas
@@ -16,22 +16,18 @@ services:
       - .env.dev
     depends_on:
       - postgres_db
-    links:
-      - postgres_db
 
-#  djangoq:
-#    build:
-#      context: .
-#      dockerfile: ./Dockerfile
-#    command: python manage.py qcluster
-#    volumes:
-#      - .:/tas
-#    env_file:
-#      - .env.dev
-#    depends_on:
-#      - redis
-#    links:
-#      - redis
+  djangoq:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: python manage.py qcluster
+    volumes:
+      - .:/tas
+    env_file:
+      - .env.dev
+    depends_on:
+      - redis
 
   postgres_db:
     container_name: tas_db

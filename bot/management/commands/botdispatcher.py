@@ -74,7 +74,7 @@ class Command(BaseCommand):
     help = 'AsyncBotRunner'
 
     def handle(self, *args, **kwargs):
-        print("Number of cpu : ", multiprocessing.cpu_count())
+        #print("Number of cpu : ", multiprocessing.cpu_count())
         p = Process(target=init)
         p.start()
         p.join()
