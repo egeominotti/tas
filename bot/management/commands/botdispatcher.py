@@ -6,7 +6,7 @@ from bot.models import Bot, BotLogger
 from bot.models import StrategyBot
 import logging
 from bot.models import UserExchange
-
+from django_q.brokers import get_broker
 logger = logging.getLogger('main')
 
 
@@ -22,9 +22,9 @@ class Command(BaseCommand):
     help = 'DispatcherBot'
 
     def handle(self, *args, **kwargs):
+        broker = get_broker()
 
         while True:
-            sleep(60)
             try:
 
                 qs = StrategyBot.objects.all() \
@@ -50,6 +50,8 @@ class Command(BaseCommand):
                                            coins.coins_exchange.symbol,
                                            Bot,
                                            BotLogger,
+                                           broker=broker,
+                                           cached=True,
                                            hook="bot.services.runner.get_runnerbot_hook")
 
                                 # wait for taapi

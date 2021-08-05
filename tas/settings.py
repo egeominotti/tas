@@ -194,7 +194,7 @@ if 'dev' in ENV:
         'compress': True,
         'save_limit': 250,
         'queue_limit': 500,
-        'cpu_affinity': None,
+        'cpu_affinity': 1,
         'label': 'Django Q',
         'redis': {
             'host': 'tas_redis',
@@ -212,7 +212,7 @@ else:
         'compress': True,
         'save_limit': 250,
         'queue_limit': 500,
-        'cpu_affinity': None,
+        'cpu_affinity': 1,
         'label': 'Django Q',
         'redis': {
             'host': '127.0.0.1',

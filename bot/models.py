@@ -6,10 +6,6 @@ from strategy.models import TimeFrame, LogicExit, LogicEntry, Coins, SymbolExcha
 from exchange.models import User
 import uuid
 
-BOT_STATUS = (
-    ('STOPPED', 'STOPPED'),
-    ('RUNNING', 'RUNNING'),
-)
 
 class BufferStreamWebSocket(CommonTrait):
     symbol = models.ForeignKey(SymbolExchange, on_delete=models.SET_NULL, null=True, blank=True)
