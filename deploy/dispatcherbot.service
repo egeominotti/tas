@@ -1,13 +1,14 @@
+#sudo nano /etc/systemd/system/dispatcherbot.service
+
 [Unit]
-Description=Bot Dispatcher
-After=multi-user.target
+Description=dispatcher bot demon
+After=network.target
 
 [Service]
-User=django
-Group=www-data
 ExecStart=/home/tas/venv/bin/python3 /home/tas/manage.py botdispatcher
 WorkingDirectory=/home/tas
 Restart=always
 
 [Install]
 WantedBy=multi-user.target
+
