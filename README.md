@@ -30,7 +30,13 @@
     npm install -g @vue/cli@latest
 
 ### Service
-    sudo systemctl start qcluster
-    sudo systemctl status qcluster
-    sudo nano /etc/systemd/system/qcluster.service
-    sudo nano /etc/systemd/system/gunicorn.service
+
+    qcluster
+
+        sudo systemctl start qcluster
+        sudo systemctl status qcluster
+        sudo nano /etc/systemd/system/qcluster.service
+    
+    gunicorn
+
+        sudo nano /etc/systemd/system/gunicorn.service
