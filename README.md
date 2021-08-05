@@ -8,6 +8,7 @@
     https://github.com/jesse-ai/jesse
 
 ### Run project
+
     - make build
     - make up
 
@@ -26,6 +27,7 @@
     0 0 * * 0  /home/tas/venv/bin/python3 /home/tas/manage.py taapiRecordData --tf '1w'
 
 ### CoreUI
+
     npm install
     npm install -g @vue/cli@latest
 
@@ -36,13 +38,26 @@
         sudo systemctl start qcluster
         sudo systemctl status qcluster
         sudo nano /etc/systemd/system/qcluster.service
+
+        
+        # Check log
+
+            journalctl -u qcluster.service -f
     
     gunicorn
 
         sudo nano /etc/systemd/system/gunicorn.service
+
+        # Check log
+            
+            journalctl -u gunicorn.service -f
 
     botdispatcher
         
         sudo nano /etc/systemd/system/dispatcherbot.service
         sudo systemctl enable dispatcherbot
         sudo systemctl status dispatcherbot
+
+        # Check log
+            journalctl -u dispatcherbot.service -f
+
