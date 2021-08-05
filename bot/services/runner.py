@@ -1,5 +1,6 @@
 from bot.model.bot import TradingBot
 from bot.models import Bot, BotLogger
+import asyncio
 
 
 def get_runnerbot_hook(task) -> None:
@@ -44,13 +45,18 @@ def runnerbot(instance, user, userexchange, symbol_taapi, symbol_exchange, bot_o
         logger=logger_object,
         bot_object=bot_object
     )
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(bot.run())
+    # if bot.run():
+    #     item = {
+    #         'id': instance.id,
+    #         'time_frame': instance.strategy.time_frame.time_frame
+    #     }
+    #
+    #     return item
+    item = {
+        'id': instance.id,
+        'time_frame': instance.strategy.time_frame.time_frame
+    }
 
-    if bot.run():
-        item = {
-            'id': instance.id,
-            'time_frame': instance.strategy.time_frame.time_frame
-        }
-
-        return item
-
-    return False
+    return item

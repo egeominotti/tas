@@ -1,24 +1,20 @@
 from django.core.management import BaseCommand
 import logging
-from backtest.models import BackTest
-from backtest.model.backtest import Backtest as backtests
-import datetime
-from time import time, sleep
-import secrets
+import asyncio
 
 logger = logging.getLogger('main')
-import time
-starttime = time.time()
-from backtest.strategy.logic.logic_function import *
-from bot.models import BufferStreamWebSocket
+
+
+
+async def main():
+    while 1:
+        print('done!')
 
 class Command(BaseCommand):
     help = 'Prende gli indici delle candele a '
 
     def handle(self, *args, **kwargs):
-        while True:
-            print(BufferStreamWebSocket.objects.filter(symbol__symbol='BTCUSDT',time_frame='1m').last().close_candle)
-
+        pass
         # for instance in BackTest.objects.all():
         #     bt = backtests(
         #         instance=instance,

@@ -4,6 +4,7 @@ from exchange.model.binance import BinanceHelper
 from time import sleep
 import datetime
 import signal
+import asyncio
 
 """
 Logic function
@@ -73,8 +74,6 @@ class TradingBot:
         else:
             self.live = False
 
-
-
         self.item = {
             'candle_close': 0,
             'entry_candle': 0,
@@ -101,7 +100,7 @@ class TradingBot:
             'user': self.user.username
         }
 
-    def start(self) -> None:
+    async def start(self) -> None:
 
         if self.notify:
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
@@ -116,7 +115,7 @@ class TradingBot:
                     "\nLet's go to the moon 🚀️"
             self.telegram.send(start)
 
-    def entry(self) -> bool:
+    async def entry(self) -> bool:
 
         func_entry = eval(self.func_entry.name)
         if self.item.get('entry') is False:
@@ -169,7 +168,7 @@ class TradingBot:
             print(self.item)
             # sleep(self.item.get('sleep_func_entry'))
 
-    def exit(self) -> bool:
+    async def exit(self) -> bool:
 
         func_exit = eval(self.func_exit.name)
 
@@ -236,9 +235,9 @@ class TradingBot:
 
                 return True
 
-    def run(self) -> bool:
+    async def run(self) -> bool:
 
-        self.start()
+        await self.start()
 
         entry = False
         exception = False
