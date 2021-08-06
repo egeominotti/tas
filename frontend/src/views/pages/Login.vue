@@ -50,6 +50,7 @@
 
 <script>
 
+const urlApiLogin = '/api-token-auth/'
 
 export default {
   name: 'Login',
@@ -61,12 +62,12 @@ export default {
   },
   methods: {
     login() {
-      axios.post('/rest-auth/login/', {
+      axios.post(urlApiLogin, {
         username: this.username,
         password: this.password,
       }).then((response) => {
         console.log(response);
-        localStorage.setItem('token', response.data.key)
+        localStorage.setItem('token', response.data.token)
         localStorage.setItem('username', this.username)
         localStorage.setItem('password', this.password)
         this.$router.push('/dashboard')
