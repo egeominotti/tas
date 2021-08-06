@@ -16,16 +16,19 @@
             New Bot
           </CButton>
           <CModal
-              size="lg"
-              centered="true"
+              size="md"
+              :centered="true"
               title="Create new bot"
               color="warning"
               :show.sync="warningModal"
           >
+
+
             <CCol sm="12">
 
               <label class="text">Choose Coin</label>
               <v-select
+                  label=""
                   :options="coins"
                   v-model="selected_coins"
               >
@@ -59,16 +62,28 @@
               </v-select>
               <br>
             </CCol>
-
             <CCol sm="12">
-              <CButton
-                  color="success"
-                  size="lg"
-                  @click="spawnbot()"
 
-              >
-                Spawn Bot
-              </CButton>
+            </CCol>
+            <CCol sm="12">
+
+<!--              <CCol sm="6">-->
+<!--                <CImg-->
+<!--                    :fluid="true"-->
+<!--                    width="150"-->
+<!--                    height="150"-->
+<!--                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXCpYPKA9Tar0qJRWzoiGvhbbwPoKooLYxgg&usqp=CAU"></CImg>-->
+<!--              </CCol>-->
+                <CButton
+                    class="custom-bot-spawn-bot"
+                    color="success"
+                    size="lg"
+                    @click="spawnbot()"
+
+                >
+                  Spawn Bot
+                </CButton>
+
             </CCol>
           </CModal>
           <br>
@@ -223,8 +238,8 @@ export default {
       console.log(this.selected_strategy);
 
       axios.post(apiCreateBot, {
-        coins: this.username,
-        strategy: this.password,
+        coins: this.selected_coins.id,
+        strategy: this.selected_strategy.id,
       }).then((response) => {
         console.log(response)
       }, (error) => {
@@ -239,7 +254,7 @@ export default {
       setTimeout(() => {
         this.loading = false
         this.getData();
-      }, 100)
+      }, 10)
     },
 
     getData() {
@@ -274,6 +289,7 @@ export default {
   mounted() {
     this.getCoins();
     this.getStrategy();
+    this.getData();
   },
 
   // created() {
@@ -302,5 +318,9 @@ button.btn:hover {
   color: #fff;
   background-color: #262625;
   text-align: center !important;
+}
+
+button.btn.custom-bot-spawn-bot.btn-success.btn-lg {
+    width: 100%;
 }
 </style>
