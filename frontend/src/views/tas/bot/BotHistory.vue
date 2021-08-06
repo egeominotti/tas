@@ -9,117 +9,16 @@
 
         <CCardBody>
 
-          <CModal
-              size="lg"
-              :centered="true"
-              title="Create new Bot"
-              :backdrop="true"
-              :closeOnBackdrop="false"
-              color="warning"
-              :show.sync="modalCreateBot"
-          >
-
-
-            <CCol sm="12">
-
-              <label class="text">Choose Coin</label>
-              <v-select
-                  label=""
-                  :options="coins"
-                  v-model="selected_coins"
-              >
-                <template slot="selected-option" slot-scope="option">
-                  {{ option.coins_exchange.symbol }}
-                </template>
-                <template slot="option" slot-scope="option">
-                  {{ option.coins_exchange.symbol }}
-                </template>
-                <span slot="no-options">Write name of coins</span>
-
-              </v-select>
-              <br>
-            </CCol>
-
-            <CCol sm="12">
-
-              <label class="text">Choose Strategy</label>
-              <v-select
-                  :options="strategy"
-                  v-model="selected_strategy"
-              >
-                <template slot="selected-option" slot-scope="option">
-                  {{ option.name }}
-                </template>
-                <template slot="option" slot-scope="option">
-                  {{ option.name }}
-                </template>
-                <span slot="no-options">Write name of coins</span>
-
-              </v-select>
-              <br>
-            </CCol>
-            <CCol sm="12">
-
-            </CCol>
-            <CCol sm="12">
-
-              <!--              <CCol sm="6">-->
-              <!--                <CImg-->
-              <!--                    :fluid="true"-->
-              <!--                    width="150"-->
-              <!--                    height="150"-->
-              <!--                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXCpYPKA9Tar0qJRWzoiGvhbbwPoKooLYxgg&usqp=CAU"></CImg>-->
-              <!--              </CCol>-->
-              <CButton
-                  class="custom-bot-spawn-bot"
-                  color="success"
-                  size="lg"
-                  @click="spawnbot()"
-
-              >
-                Spawn Bot
-              </CButton>
-
-            </CCol>
-          </CModal>
-          <br>
-
           <CDataTable
               :items="loadedItems"
               :fields="fields"
               :table-filter-value.sync="tableFilterValue"
-              :items-per-page="20"
+              :items-per-page="50"
               :active-page="1"
               outlined
               hover
               :loading="loading"
           >
-
-            <template #id="{item}">
-              <td>
-                <CSpinner color="success" size="sm"/>
-              </td>
-            </template>
-
-
-            <template #coins="{item}">
-              <td>
-                <h6>{{ item.coins.coins_exchange.symbol }}</h6>
-              </td>
-            </template>
-
-            <template #strategy="{item}">
-              <td>
-                <h6>{{ item.strategy.name }}</h6>
-              </td>
-            </template>
-
-
-            <template #time_frame="{item}">
-              <td>
-                <h6>{{ item.strategy.time_frame.time_frame }}</h6>
-              </td>
-            </template>
 
           </CDataTable>
 
@@ -137,38 +36,70 @@ const apiList = '/api/v0/botlogger/list';
 
 const fields = [
   {
-    key: 'id',
-    label: 'Status',
+    key: 'bot_id',
+    label: 'Bot name',
     sort: false,
     filter: false
   },
   {
-    key: 'name',
-    label: 'Name',
+    key: 'start_balance',
+    label: 'Start balance',
     sort: false,
     filter: false
   },
   {
-    key: 'coins',
-    label: 'Coins',
+    key: 'end_balance',
+    label: 'End balance',
     sort: false,
     filter: false
   },
   {
-    key: 'time_frame',
-    label: 'Time Frame',
+    key: 'entry_candle',
+    label: 'Entry Candle Value',
     sort: false,
     filter: false
   },
   {
-    key: 'strategy',
-    label: 'Strategy',
+    key: 'entry_candle_date',
+    label: 'Entry Candle Date',
     sort: false,
     filter: false
   },
   {
-    key: 'created_at',
-    label: 'Created',
+    key: 'candle_take_profit',
+    label: 'Candle Take Profit Value',
+    sort: false,
+    filter: false
+  },
+  {
+    key: 'candle_take_profit_date',
+    label: 'Candle Take Profit Date',
+    sort: false,
+    filter: false
+  },
+  {
+    key: 'candle_stop_loss',
+    label: 'Candle Stop Loss Value',
+    sort: false,
+    filter: false
+  },
+  {
+    key: 'candle_stop_loss_date',
+    label: 'Candle Stop Loss Date',
+    sort: false,
+    filter: false
+  },
+
+  {
+    key: 'take_profit_ratio',
+    label: 'Take profit ratio',
+    sort: false,
+    filter: false
+  },
+
+  {
+    key: 'stop_loss_ratio',
+    label: 'Stop loss ratio',
     sort: false,
     filter: false
   },
