@@ -30,13 +30,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         while True:
-            sleep(5)
+            sleep(30)
 
             qs = UserExchange.objects.all()
             processList = []
 
             for k in qs:
-                print(k)
                 process = multiprocessing.Process(target=compute, name=k.user, args=(k,))
                 processList.append(process)
 
