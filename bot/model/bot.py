@@ -295,6 +295,3 @@ class TradingBot:
                 print(e)
                 self.error(e)
                 continue
-            except InterfaceError as e:
-                print(e)
-                continue
