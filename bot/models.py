@@ -108,7 +108,7 @@ def sum_sharing(sender, instance, created, **kwargs):
     from bot.model.bot import TradingBot
 
     TradingBot(
-        current_bot=sender,
+        current_bot=instance,
         user=instance.user,
         userexchange=UserExchange.objects.get(user=instance.user),
         symbol=instance.coins.coins_taapi.symbol,

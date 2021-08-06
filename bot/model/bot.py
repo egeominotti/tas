@@ -85,7 +85,7 @@ class TradingBot:
             'user': self.user.username
         }
 
-        thread = threading.Thread(target=self.run, args=())
+        thread = threading.Thread(target=self.run,name=self.current_bot.name, args=())
         thread.daemon = True  # Daemonize thread
         thread.start()  # Start the execution
         self.thread = thread
