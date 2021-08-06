@@ -16,16 +16,48 @@ export default {
         },
           {
             _name: 'CSidebarNavDropdown',
-            name: 'btby',
+            name: 'Bot',
             route: '/btby',
             icon: 'cil-contact',
             items: [
               {
-                name: 'Lista BtBy',
+                name: 'Engine Bot',
+                to: '/btby/lista',
+              },
+              // {
+              //   name: 'List Bot',
+              //   to: '/btby/lista',
+              // },
+              // {
+              //   name: 'Log Bot',
+              //   to: '/btby/lista',
+              // },
+            ]
+          },
+          {
+            _name: 'CSidebarNavDropdown',
+            name: 'Statistics',
+            route: '/btby',
+            icon: 'cil-contact',
+            items: [
+              {
+                name: 'List statistics',
                 to: '/btby/lista',
               },
             ]
-          }
+          },
+          // {
+          //   _name: 'CSidebarNavDropdown',
+          //   name: 'btby',
+          //   route: '/btby',
+          //   icon: 'cil-contact',
+          //   items: [
+          //     {
+          //       name: 'Lista BtBy',
+          //       to: '/btby/lista',
+          //     },
+          //   ]
+          // }
         ]
       }]
     }

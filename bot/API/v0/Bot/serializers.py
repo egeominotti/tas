@@ -5,4 +5,5 @@ from bot.models import Bot
 class BotSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bot
-        fields = ('user', 'coins', 'strategy')
+        fields = '__all__'
+        depth = 2

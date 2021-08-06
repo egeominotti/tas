@@ -6,6 +6,7 @@ const Dashboard = () => import('@/views/Dashboard')
 
 
 const ListlongShortRateListLast = () => import('@/views/tas/btby/ListlongShortRateListLast')
+const Bot = () => import('@/views/tas/bot/Bot')
 
 
 const Page404 = () => import('@/views/pages/Page404')
@@ -43,7 +44,7 @@ export default new Router({
                         {
                             path: 'lista',
                             name: 'listBtBy',
-                            component: ListlongShortRateListLast
+                            component: Bot
                         },
                     ]
                 },

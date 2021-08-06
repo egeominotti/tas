@@ -6,9 +6,9 @@ from bot.model.bot import TradingBot
 
 
 class LargeResultsSetPagination(PageNumberPagination):
-    page_size = 1000000
+    page_size = 1
     page_size_query_param = 'page_size'
-    max_page_size = 100000
+    max_page_size = 1
 
 
 class SmallResultsSetPagination(PageNumberPagination):
@@ -19,6 +19,7 @@ class SmallResultsSetPagination(PageNumberPagination):
 
 class BotList(generics.ListAPIView):
     serializer_class = BotSerializer
+    pagination_class = LargeResultsSetPagination
     queryset = Bot.objects.all().order_by('-created_at')
 
 
