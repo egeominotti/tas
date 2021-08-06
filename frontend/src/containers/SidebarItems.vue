@@ -26,7 +26,7 @@ export default {
               },
               {
                 name: 'Trades History',
-                to: '/bot/list',
+                to: '/bot/history',
               },
             ]
           },
