@@ -16,7 +16,7 @@ class Command(BaseCommand):
         symbolList = []
         for symbol in SymbolExchange.objects.all():
             symbolList.append(symbol.symbol.lower())
-        print(symbolList)
+
         klines = ['kline_1m', 'kline_5m', 'kline_15m', 'kline_30m', 'kline_1h', 'kline_2h', 'kline_4h',
                   'kline_6h', 'kline_8h', 'kline_12h', 'kline_1d', 'kline_3d', 'kline_1w', 'kline_1M']
 
