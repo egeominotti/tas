@@ -21,7 +21,11 @@ export default {
             icon: 'cil-contact',
             items: [
               {
-                name: 'Engine Bot',
+                name: 'My trades',
+                to: '/bot/list',
+              },
+              {
+                name: 'Trades History',
                 to: '/bot/list',
               },
             ]
