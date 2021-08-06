@@ -106,17 +106,18 @@ class Bot(CommonTrait):
 
 @receiver(post_save, sender=Bot)
 def sum_sharing(sender, instance, created, **kwargs):
-    from bot.model.bot import TradingBot
+    if instance.user is not None:
 
-    TradingBot(
-        current_bot=instance,
-        user=instance.user,
-        userexchange=UserExchange.objects.get(user=instance.user),
-        symbol=instance.coins.coins_taapi.symbol,
-        symbol_exchange=instance.coins.coins_exchange.symbol,
-        time_frame=instance.strategy.time_frame.time_frame,
-        func_entry=instance.strategy.logic_entry,
-        func_exit=instance.strategy.logic_exit,
-        logger=BotLogger,
-        bot_object=Bot,
-    )
+        from bot.model.bot import TradingBot
+        TradingBot(
+            current_bot=instance,
+            user=instance.user,
+            userexchange=UserExchange.objects.get(user=instance.user),
+            symbol=instance.coins.coins_taapi.symbol,
+            symbol_exchange=instance.coins.coins_exchange.symbol,
+            time_frame=instance.strategy.time_frame.time_frame,
+            func_entry=instance.strategy.logic_entry,
+            func_exit=instance.strategy.logic_exit,
+            logger=BotLogger,
+            bot_object=Bot,
+        )

@@ -4,7 +4,7 @@
       <CCard>
 
         <CCardHeader>
-          <h5>My Acount</h5>
+          <h5>My Exchange</h5>
         </CCardHeader>
 
         <CCardBody>
@@ -13,7 +13,7 @@
               color="dark"
               size="md"
           >
-            Add Account
+            Add Exchange
           </CButton>
 
 <!--          <CButton-->

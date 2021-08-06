@@ -6,7 +6,7 @@ const Dashboard = () => import('@/views/Dashboard')
 
 
 const Bot = () => import('@/views/tas/bot/Bot')
-const Account = () => import('@/views/tas/bot/Account')
+const ExchangeAccount = () => import('@/views/tas/bot/ExchangeAccount')
 const BotHistory = () => import('@/views/tas/bot/BotHistory')
 
 
@@ -67,7 +67,7 @@ export default new Router({
                         {
                             path: 'view',
                             name: 'List',
-                            component: Account
+                            component: ExchangeAccount
                         },
                     ]
                 },

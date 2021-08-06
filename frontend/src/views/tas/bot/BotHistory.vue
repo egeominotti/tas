@@ -222,7 +222,7 @@ export default {
   created() {
     setInterval(function () {
       this.getData();
-    }.bind(this), 5000);
+    }.bind(this), 10000);
   }
 }
 
