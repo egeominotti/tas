@@ -23,10 +23,10 @@
             <template #stop_loss="{item}">
               <td>
                 <div v-if="item.stop_loss">
-                  <CBadge color="success" shape="pill">Yes</CBadge>
+                  <CBadge color="success" shape="pill">Y</CBadge>
                 </div>
                 <div v-else>
-                  <CBadge color="danger" shape="pill">Not</CBadge>
+                  <CBadge color="danger" shape="pill">N</CBadge>
                 </div>
               </td>
             </template>
@@ -34,10 +34,10 @@
             <template #take_profit="{item}">
               <td>
                 <div v-if="item.take_profit">
-                  <CBadge color="success" shape="pill">Yes</CBadge>
+                  <CBadge color="success" shape="pill">Y</CBadge>
                 </div>
                 <div v-else>
-                  <CBadge color="danger" shape="pill">Not</CBadge>
+                  <CBadge color="danger" shape="pill">N</CBadge>
                 </div>
               </td>
             </template>

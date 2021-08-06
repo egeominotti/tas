@@ -6,6 +6,7 @@ const Dashboard = () => import('@/views/Dashboard')
 
 
 const Bot = () => import('@/views/tas/bot/Bot')
+const Account = () => import('@/views/tas/bot/Account')
 const BotHistory = () => import('@/views/tas/bot/BotHistory')
 
 
@@ -50,6 +51,23 @@ export default new Router({
                             path: 'history',
                             name: 'History',
                             component: BotHistory
+                        },
+                    ]
+                },
+                {
+                    path: '/account',
+                    redirect: '/account/list',
+                    name: 'Bot',
+                    component: {
+                        render(c) {
+                            return c('router-view')
+                        }
+                    },
+                    children: [
+                        {
+                            path: 'view',
+                            name: 'List',
+                            component: Account
                         },
                     ]
                 },

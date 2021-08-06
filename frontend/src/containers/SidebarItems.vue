@@ -30,6 +30,18 @@ export default {
               },
             ]
           },
+             {
+            _name: 'CSidebarNavDropdown',
+            name: 'Account',
+            route: '/account',
+            icon: 'cil-contact',
+            items: [
+              {
+                name: 'My Account',
+                to: '/account/view',
+              },
+            ]
+          },
         ]
       }]
     }

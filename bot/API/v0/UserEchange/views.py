@@ -1,6 +1,6 @@
 from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.pagination import PageNumberPagination
-from bot.API.v0.UserEchange.serializers import UserExchangeSerializer
+from bot.API.v0.UserEchange.serializers import UserExchangeSerializer, UserExchangeCreateSerializer
 from bot.models import UserExchange
 
 
@@ -20,6 +20,8 @@ class UserExchangeList(ListAPIView):
     serializer_class = UserExchangeSerializer
     queryset = UserExchange.objects.all().order_by('-created_at')
 
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user).order_by('-created_at')
 
 class UserExchangeCreate(CreateAPIView):
-    serializer_class = UserExchangeSerializer
+    serializer_class = UserExchangeCreateSerializer
