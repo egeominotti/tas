@@ -11,7 +11,7 @@
                   <p class="text-muted text-center">Access the TAS dashboard</p>
                   <CInput
                       v-model="username"
-                      placeholder="Username"
+                      placeholder="Type Username"
                       autocomplete="email"
                   >
                     <template #prepend-content>
@@ -20,7 +20,7 @@
                   </CInput>
                   <CInput
                       v-model="password"
-                      placeholder="Password"
+                      placeholder="Type Password"
                       type="password"
                   >
                     <template #prepend-content>

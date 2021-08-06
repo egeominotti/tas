@@ -7,48 +7,26 @@
   >
     <template #toggler>
       <CHeaderNavLink>
-        <div class="c-avatar">
-          <img
-              class="c-avatar-img"
-          />
+
+        <div>
+          My Account
         </div>
       </CHeaderNavLink>
     </template>
     <CDropdownHeader tag="div" class="text-center" color="light">
-      <strong>Account</strong>
+      <strong>Info</strong>
     </CDropdownHeader>
 
-    <!--    <CDropdownItem>-->
-    <!--      <CIcon name="cil-bell"/> Updates-->
-    <!--      <CBadge color="info" class="mfs-auto">{{ itemsCount }}</CBadge>-->
-    <!--    </CDropdownItem>-->
-    <!--    <CDropdownItem>-->
-    <!--      <CIcon name="cil-envelope-open" /> Messages-->
-    <!--      <CBadge color="success" class="mfs-auto">{{ itemsCount }}</CBadge>-->
-    <!--    </CDropdownItem>-->
-    <!--    <CDropdownItem>-->
-    <!--      <CIcon name="cil-task" /> Tasks-->
-    <!--      <CBadge color="danger" class="mfs-auto">{{ itemsCount }}</CBadge>-->
-    <!--    </CDropdownItem>-->
-    <!--    <CDropdownItem>-->
-    <!--      <CIcon name="cil-comment-square" /> Comments-->
-    <!--      <CBadge color="warning" class="mfs-auto">{{ itemsCount }}</CBadge>-->
-    <!--    </CDropdownItem>-->
-
-    <!--    <CDropdownItem>-->
-    <!--      <CIcon name="cil-user"/>-->
-    <!--      Profilo-->
-    <!--    </CDropdownItem>-->
-    <!--    <CDropdownItem>-->
-    <!--      <CIcon name="cil-settings"/>-->
-    <!--      Impostazioni-->
-    <!--    </CDropdownItem>-->
+    <CDropdownItem v-on:click="logout">
+      Account
+    </CDropdownItem>
 
     <CDropdownItem v-on:click="logout">
-      <CIcon
-          name="cil-lock-locked"
-      />
-      Cambia account
+      My Trades
+    </CDropdownItem>
+
+    <CDropdownItem v-on:click="logout">
+      Login Page
     </CDropdownItem>
 
   </CDropdown>
@@ -58,8 +36,7 @@
 export default {
   name: 'TheHeaderDropdownAccnt',
   data() {
-    return {
-    }
+    return {}
   },
   methods: {
     logout() {
