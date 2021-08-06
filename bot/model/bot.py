@@ -88,7 +88,7 @@ class TradingBot:
         self.current_bot.save()
         self.telegram.send(exception)
         self.bot_object.objects.filter(id=self.current_bot.id).delete()
-        self.process.kill()
+        self.process.close()
 
     def start(self) -> None:
 
@@ -288,7 +288,7 @@ class TradingBot:
                             continue
                         else:
                             self.bot_object.objects.filter(id=self.current_bot.id).delete()
-                            self.process.kill()
+                            self.process.close()
                             break
 
             except Exception as e:
