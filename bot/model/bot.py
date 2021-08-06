@@ -175,11 +175,14 @@ class TradingBot:
         if self.item.get('entry') is True:
 
             val = func_exit(item=self.item, bot=True)
+
+            # If function result = Exception kill
             if isinstance(val, Exception):
                 exception = "ERROR" + str(val)
                 self.telegram.send(exception)
-                # kill process excep
+                self.bot_object.objects.filter(id=self.current_bot.id).delete()
                 self.process.kill()
+
             """
             Stoploss
             """
@@ -272,23 +275,16 @@ class TradingBot:
 
                 if entry is True:
                     self.item['exit_function'] = True
-                    if self.exit() is False:
+
+                    if self.exit():
                         if self.current_bot.perpetual:
-                            continue
-                        else:
                             self.bot_object.objects.filter(id=self.current_bot.id).delete()
                             self.process.kill()
-                            break
+                            continue
 
                     if self.exit() is True:
-                        sleep(30)
                         if self.current_bot.perpetual:
                             continue
-                        else:
-                            self.bot_object.objects.filter(id=self.current_bot.id).delete()
-                            # Successfully close position takeprofit/stoploss
-                            self.process.kill()
-                            break
 
             except Exception as e:
                 # if exception stop the bot and open position
