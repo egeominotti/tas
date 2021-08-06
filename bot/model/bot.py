@@ -1,13 +1,8 @@
-import threading
+import multiprocessing
 from time import sleep
 from bot.services.telegram import Telegram
 from analytics.services.exchangeApi import Taapi
 from exchange.model.binance import BinanceHelper
-
-"""
-Logic function
-"""
-
 from backtest.strategy.logic.logic_function import *
 
 
@@ -41,6 +36,7 @@ class TradingBot:
         self.logger_instance = None
         self.bot_object = bot_object
         self.notify = self.user.telegram_notifications
+        self.process = None
 
         if self.userexchange is not None:
 
@@ -85,13 +81,11 @@ class TradingBot:
             'user': self.user.username
         }
 
-        thread = threading.Thread(target=self.run, name=self.current_bot.name, args=())
-        thread.daemon = True  # Daemonize thread
-        thread.start()  # Start the execution
-        self.thread = thread
-
-        self.item['thread'] = self.thread
-        print("Thread Bot: " + str(self.thread))
+        process = multiprocessing.Process(target=self.run, name=self.current_bot.name, args=())
+        process.daemon = True  # Daemonize thread
+        process.start()  # Start the execution
+        self.process = process
+        print("Process Bot: " + str(self.process))
 
     def start(self) -> None:
 
@@ -146,14 +140,14 @@ class TradingBot:
                 now = datetime.datetime.now()
                 self.logger_instance = self.logger.objects \
                     .create(
-                        bot=self.current_bot,
-                        entry_candle=self.item.get('entry_candle'),
-                        entry_candle_date=now,
-                        stop_loss_ratio=self.item.get('stoploss_ratio'),
-                        take_profit_ratio=self.item.get('takeprofit_ratio'),
-                        start_balance=self.exchange.get_current_balance_futures_(),
-                        coin_quantity=self.exchange.get_quantity_from_number_of_bot(),
-                        leverage=self.exchange.leverage
+                    bot=self.current_bot,
+                    entry_candle=self.item.get('entry_candle'),
+                    entry_candle_date=now,
+                    stop_loss_ratio=self.item.get('stoploss_ratio'),
+                    take_profit_ratio=self.item.get('takeprofit_ratio'),
+                    start_balance=self.exchange.get_current_balance_futures_(),
+                    coin_quantity=self.exchange.get_quantity_from_number_of_bot(),
+                    leverage=self.exchange.leverage
                 )
 
                 if self.notify:
@@ -184,7 +178,8 @@ class TradingBot:
             if isinstance(val, Exception):
                 exception = "ERROR" + str(val)
                 self.telegram.send(exception)
-                return False
+                # kill process excep
+                self.process.kill()
             """
             Stoploss
             """
@@ -259,12 +254,11 @@ class TradingBot:
 
                 return True
 
-    def run(self) -> bool:
+    def run(self) -> None:
 
         self.start()
 
         entry = False
-        exception = False
 
         while True:
 
@@ -279,11 +273,11 @@ class TradingBot:
                 if entry is True:
                     self.item['exit_function'] = True
                     if self.exit() is False:
-                        exception = True
                         if self.current_bot.perpetual:
                             continue
                         else:
                             self.bot_object.objects.filter(id=self.current_bot.id).delete()
+                            self.process.kill()
                             break
 
                     if self.exit() is True:
@@ -293,16 +287,13 @@ class TradingBot:
                         else:
                             self.bot_object.objects.filter(id=self.current_bot.id).delete()
                             # Successfully close position takeprofit/stoploss
+                            self.process.kill()
                             break
 
             except Exception as e:
+                # if exception stop the bot and open position
                 exception = "ERROR" + str(e)
                 self.telegram.send(exception)
                 self.bot_object.objects.filter(id=self.current_bot.id).delete()
-                # if exception stop the bot and open position
-                exception = True
+                self.process.kill()
                 break
-
-        if exception:
-            return False
-        return True
