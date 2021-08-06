@@ -1,6 +1,6 @@
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
-from bot.API.v0.Bot.serializers import BotSerializer
+from bot.API.v0.Bot.serializers import BotSerializer, BotCreateSerializer
 from bot.models import Bot, UserExchange, BotLogger
 from bot.model.bot import TradingBot
 
@@ -24,7 +24,7 @@ class BotList(generics.ListAPIView):
 
 
 class BotCreate(generics.CreateAPIView):
-    serializer_class = BotSerializer
+    serializer_class = BotCreateSerializer
     queryset = Bot.objects.all().order_by('-created_at')
 
     def perform_create(self, serializer):

@@ -8,13 +8,76 @@
         </CCardHeader>
 
         <CCardBody>
+          <CButton
+              @click="warningModal = true"
+              color="success"
+              size="lg"
+          >
+            New Bot
+          </CButton>
+          <CModal
+              size="lg"
+              centered="true"
+              title="Create new bot"
+              color="warning"
+              :show.sync="warningModal"
+          >
+            <CCol sm="12">
 
+              <label class="text">Choose Coin</label>
+              <v-select
+                  :options="coins"
+                  v-model="selected_coins"
+              >
+                <template slot="selected-option" slot-scope="option">
+                  {{ option.coins_exchange.symbol }}
+                </template>
+                <template slot="option" slot-scope="option">
+                  {{ option.coins_exchange.symbol }}
+                </template>
+                <span slot="no-options">Write name of coins</span>
+
+              </v-select>
+              <br>
+            </CCol>
+
+            <CCol sm="12">
+
+              <label class="text">Choose Strategy</label>
+              <v-select
+                  :options="strategy"
+                  v-model="selected_strategy"
+              >
+                <template slot="selected-option" slot-scope="option">
+                  {{ option.name }}
+                </template>
+                <template slot="option" slot-scope="option">
+                  {{ option.name }}
+                </template>
+                <span slot="no-options">Write name of coins</span>
+
+              </v-select>
+              <br>
+            </CCol>
+
+            <CCol sm="12">
+              <CButton
+                  color="success"
+                  size="lg"
+                  @click="spawnbot()"
+
+              >
+                Spawn Bot
+              </CButton>
+            </CCol>
+          </CModal>
           <br>
+
           <CDataTable
               :items="loadedItems"
               :fields="fields"
               :table-filter-value.sync="tableFilterValue"
-              :items-per-page="288"
+              :items-per-page="20"
               :active-page="1"
               outlined
               hover
@@ -54,6 +117,9 @@
 <script>
 const titleList = "Bot"
 const apiList = '/api/v0/bot/list';
+const apiCreateBot = 'api/v0/bot/create';
+const apiGetListCoins = '/api/v0/coins/list'
+const apiGetListStrategy = '/api/v0/strategybot/list'
 
 const fields = [
   {
@@ -92,6 +158,10 @@ export default {
   name: 'Bot',
   data() {
     return {
+      coins: [],
+      selected_coins: null,
+      strategy: [],
+      selected_strategy: null,
       columnFilterValue: {},
       tableFilterValue: '',
       titleList: titleList,
@@ -122,6 +192,47 @@ export default {
     }
   },
   methods: {
+
+    getCoins() {
+      axios
+          .get(apiGetListCoins)
+          .then((response) => {
+            console.log(response);
+            if (response.statusText === 'OK' && response.status === 200) {
+              this.coins = response.data.results;
+            }
+          }, (error) => {
+            console.log(error);
+          });
+    },
+    getStrategy() {
+      axios
+          .get(apiGetListStrategy)
+          .then((response) => {
+            console.log(response);
+            if (response.statusText === 'OK' && response.status === 200) {
+              this.strategy = response.data.results;
+            }
+          }, (error) => {
+            console.log(error);
+          });
+    },
+
+    spawnbot() {
+      console.log(this.selected_coins);
+      console.log(this.selected_strategy);
+
+      axios.post(apiCreateBot, {
+        coins: this.username,
+        strategy: this.password,
+      }).then((response) => {
+        console.log(response)
+      }, (error) => {
+        console.log(error);
+      });
+
+      this.getData()
+    },
 
     onTableChange() {
       this.loading = true
@@ -159,11 +270,37 @@ export default {
 
     },
   },
-  created() {
-    setInterval(function () {
-      this.getData();
-    }.bind(this), 5000);
-  }
+
+  mounted() {
+    this.getCoins();
+    this.getStrategy();
+  },
+
+  // created() {
+  //   setInterval(function () {
+  //     this.getData();
+  //   }.bind(this), 5000);
+  // }
 
 }
 </script>
+
+<style>
+footer.modal-footer {
+  display: none;
+}
+
+button.btn {
+  background-color: #262626;
+}
+
+button.btn:hover {
+  background-color: #c03d3d;
+}
+
+.modal-warning .modal-header {
+  color: #fff;
+  background-color: #262625;
+  text-align: center !important;
+}
+</style>
