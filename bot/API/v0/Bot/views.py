@@ -1,8 +1,7 @@
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from bot.API.v0.Bot.serializers import BotSerializer, BotCreateSerializer
-from bot.models import Bot, UserExchange, BotLogger
-from bot.model.bot import TradingBot
+from bot.models import Bot
 from rest_framework import authentication
 
 
@@ -28,17 +27,4 @@ class BotCreate(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.validated_data['user'] = self.request.user
-        bot = serializer.save()
-        # usexg = UserExchange.objects.get(user=bot.user)
-        # TradingBot(
-        #     current_bot=bot,
-        #     user=bot.user,
-        #     userexchange=usexg,
-        #     symbol=bot.coins.coins_taapi.symbol,
-        #     symbol_exchange=bot.coins.coins_exchange.symbol,
-        #     time_frame=bot.strategy.time_frame.time_frame,
-        #     func_entry=bot.strategy.logic_entry,
-        #     func_exit=bot.strategy.logic_exit,
-        #     logger=BotLogger,
-        #     bot_object=Bot,
-        # )
+        serializer.save()
