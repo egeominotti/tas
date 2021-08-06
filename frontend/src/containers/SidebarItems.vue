@@ -17,47 +17,27 @@ export default {
           {
             _name: 'CSidebarNavDropdown',
             name: 'Bot',
-            route: '/btby',
+            route: '/bot',
             icon: 'cil-contact',
             items: [
               {
                 name: 'Engine Bot',
-                to: '/btby/lista',
-              },
-              // {
-              //   name: 'List Bot',
-              //   to: '/btby/lista',
-              // },
-              // {
-              //   name: 'Log Bot',
-              //   to: '/btby/lista',
-              // },
-            ]
-          },
-          {
-            _name: 'CSidebarNavDropdown',
-            name: 'Statistics',
-            route: '/btby',
-            icon: 'cil-contact',
-            items: [
-              {
-                name: 'List statistics',
-                to: '/btby/lista',
+                to: '/bot/list',
               },
             ]
           },
           // {
           //   _name: 'CSidebarNavDropdown',
-          //   name: 'btby',
+          //   name: 'Statistics',
           //   route: '/btby',
           //   icon: 'cil-contact',
           //   items: [
           //     {
-          //       name: 'Lista BtBy',
+          //       name: 'List statistics',
           //       to: '/btby/lista',
           //     },
           //   ]
-          // }
+          // },
         ]
       }]
     }

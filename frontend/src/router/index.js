@@ -32,9 +32,9 @@ export default new Router({
                     component: Dashboard
                 },
                 {
-                    path: '/btby',
-                    redirect: '/btby/lista',
-                    name: 'BtBy Analysis',
+                    path: '/bot',
+                    redirect: '/bot/list',
+                    name: 'Bot',
                     component: {
                         render(c) {
                             return c('router-view')
@@ -42,8 +42,8 @@ export default new Router({
                     },
                     children: [
                         {
-                            path: 'lista',
-                            name: 'listBtBy',
+                            path: 'list',
+                            name: 'listbot',
                             component: Bot
                         },
                     ]

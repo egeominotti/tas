@@ -67,22 +67,22 @@
             </CCol>
             <CCol sm="12">
 
-<!--              <CCol sm="6">-->
-<!--                <CImg-->
-<!--                    :fluid="true"-->
-<!--                    width="150"-->
-<!--                    height="150"-->
-<!--                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXCpYPKA9Tar0qJRWzoiGvhbbwPoKooLYxgg&usqp=CAU"></CImg>-->
-<!--              </CCol>-->
-                <CButton
-                    class="custom-bot-spawn-bot"
-                    color="success"
-                    size="lg"
-                    @click="spawnbot()"
+              <!--              <CCol sm="6">-->
+              <!--                <CImg-->
+              <!--                    :fluid="true"-->
+              <!--                    width="150"-->
+              <!--                    height="150"-->
+              <!--                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXCpYPKA9Tar0qJRWzoiGvhbbwPoKooLYxgg&usqp=CAU"></CImg>-->
+              <!--              </CCol>-->
+              <CButton
+                  class="custom-bot-spawn-bot"
+                  color="success"
+                  size="lg"
+                  @click="spawnbot()"
 
-                >
-                  Spawn Bot
-                </CButton>
+              >
+                Spawn Bot
+              </CButton>
 
             </CCol>
           </CModal>
@@ -182,7 +182,7 @@ export default {
       titleList: titleList,
       activePage: 1,
       loadedItems: [],
-      itemsPerPage: 12,
+      itemsPerPage: 10,
       message: '',
       loading: false,
       warningModal: false,
@@ -234,16 +234,29 @@ export default {
     },
 
     spawnbot() {
+
       console.log(this.selected_coins);
       console.log(this.selected_strategy);
 
-      axios.post(apiCreateBot, {
-        coins: this.selected_coins.id,
-        strategy: this.selected_strategy.id,
-      }).then((response) => {
-        console.log(response)
+      axios.post(apiCreateBot,
+          {
+            coins: this.selected_coins.id,
+            strategy: this.selected_strategy.id,
+          }, {
+            headers: {
+              'Authorization': 'Token ' + localStorage.getItem('token')
+            }
+          }
+      ).then((response) => {
+        if (response.status === 500) {
+        }
+        if (response.status === 201 && response.statusText === 'Created') {
+        }
+        console.log(response);
       }, (error) => {
-        console.log(error);
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
       });
 
       this.getData()
@@ -321,6 +334,6 @@ button.btn:hover {
 }
 
 button.btn.custom-bot-spawn-bot.btn-success.btn-lg {
-    width: 100%;
+  width: 100%;
 }
 </style>
