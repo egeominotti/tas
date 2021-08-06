@@ -21,7 +21,7 @@ export default {
             icon: 'cil-contact',
             items: [
               {
-                name: 'My trades',
+                name: 'My Trades',
                 to: '/bot/list',
               },
               {
@@ -30,18 +30,6 @@ export default {
               },
             ]
           },
-          // {
-          //   _name: 'CSidebarNavDropdown',
-          //   name: 'Statistics',
-          //   route: '/btby',
-          //   icon: 'cil-contact',
-          //   items: [
-          //     {
-          //       name: 'List statistics',
-          //       to: '/btby/lista',
-          //     },
-          //   ]
-          // },
         ]
       }]
     }

@@ -11,7 +11,7 @@
           <CButton
               @click="modalCreateBot = true"
               color="success"
-              size="lg"
+              size="md"
           >
             Create new bot
           </CButton>
