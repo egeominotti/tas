@@ -1,0 +1,14 @@
+#sudo nano /etc/systemd/system/runnerbot.service
+
+[Unit]
+Description=RunnerBot Engine
+After=network.target
+
+[Service]
+ExecStart=/home/tas/venv/bin/python3 /home/tas/manage.py runnerbot
+WorkingDirectory=/home/tas
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

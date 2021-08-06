@@ -41,7 +41,7 @@
             
             journalctl -u gunicorn.service -f
 
-    botdispatcher
+    balanceuserupdate
         
         sudo nano /etc/systemd/system/balanceuserupdate.service
         systemctl enable balanceuserupdate
@@ -50,7 +50,16 @@
 
         # Check log
             journalctl -u balanceuserupdate.service -f
+    
+    runnerbot
+        
+        sudo nano /etc/systemd/system/runnerbot.service
+        systemctl enable runnerbot
+        systemctl status runnerbot
+        systemctl status runnerbot.service
 
+        # Check log
+            journalctl -u runnerbot.service -f
     
     websocketstream
 
