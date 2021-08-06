@@ -6,7 +6,7 @@ const Dashboard = () => import('@/views/Dashboard')
 
 
 const Bot = () => import('@/views/tas/bot/Bot')
-const BotHistory = () => import('@/views/tas/bot/Bot')
+const BotHistory = () => import('@/views/tas/bot/BotHistory')
 
 
 const Page404 = () => import('@/views/pages/Page404')

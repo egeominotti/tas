@@ -133,10 +133,7 @@
 
 <script>
 const titleList = "Bot"
-const apiList = '/api/v0/bot/list';
-const apiCreateBot = 'api/v0/bot/create';
-const apiGetListCoins = '/api/v0/coins/list'
-const apiGetListStrategy = '/api/v0/strategybot/list'
+const apiList = '/api/v0/botlogger/list';
 
 const fields = [
   {
@@ -216,61 +213,6 @@ export default {
   },
   methods: {
 
-    getCoins() {
-      axios
-          .get(apiGetListCoins)
-          .then((response) => {
-            console.log(response);
-            if (response.statusText === 'OK' && response.status === 200) {
-              this.coins = response.data.results;
-            }
-          }, (error) => {
-            console.log(error);
-          });
-    },
-    getStrategy() {
-      axios
-          .get(apiGetListStrategy)
-          .then((response) => {
-            console.log(response);
-            if (response.statusText === 'OK' && response.status === 200) {
-              this.strategy = response.data.results;
-            }
-          }, (error) => {
-            console.log(error);
-          });
-    },
-
-    spawnbot() {
-
-      console.log(this.selected_coins);
-      console.log(this.selected_strategy);
-
-      axios.post(apiCreateBot,
-          {
-            coins: this.selected_coins.id,
-            strategy: this.selected_strategy.id,
-          }, {
-            headers: {
-              'Authorization': 'Token ' + localStorage.getItem('token')
-            }
-          }
-      ).then((response) => {
-        if (response.status === 500) {
-        }
-        if (response.status === 201 && response.statusText === 'Created') {
-          this.modalCreateBot = false
-        }
-        console.log(response);
-      }, (error) => {
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
-      });
-
-      this.getData()
-    },
-
     onTableChange() {
       this.loading = true
       setTimeout(() => {
@@ -310,16 +252,8 @@ export default {
   },
 
   mounted() {
-    this.getCoins();
-    this.getStrategy();
     this.getData();
   },
-
-  // created() {
-  //   setInterval(function () {
-  //     this.getData();
-  //   }.bind(this), 5000);
-  // }
 
 }
 </script>
