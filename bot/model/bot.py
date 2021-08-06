@@ -1,5 +1,4 @@
 import multiprocessing
-from time import sleep
 from bot.services.telegram import Telegram
 from analytics.services.exchangeApi import Taapi
 from exchange.model.binance import BinanceHelper
@@ -33,10 +32,10 @@ class TradingBot:
         self.func_entry = func_entry
         self.func_exit = func_exit
         self.logger = logger
-        self.logger_instance = None
         self.bot_object = bot_object
         self.notify = self.user.telegram_notifications
         self.process = None
+        self.logger_instance = None
 
         self.exchange = BinanceHelper(
             api_key=self.userexchange.api_key,
@@ -81,7 +80,6 @@ class TradingBot:
         process.daemon = True
         process.start()
         self.process = process
-
 
     def error(self, e):
         exception = "ERROR" + str(e)
@@ -173,20 +171,18 @@ class TradingBot:
         except Exception as e:
             self.error(e)
 
-
     def exit(self) -> bool:
 
         try:
             func_exit = eval(self.func_exit.name)
             if self.item.get('entry') is True:
-                val = func_exit(item=self.item, bot=True)
-
-                # If function result = Exception kill
-                if isinstance(val, Exception):
-                    exception = "ERROR" + str(val)
-                    self.telegram.send(exception)
-                    self.bot_object.objects.filter(id=self.current_bot.id).delete()
-                    self.process.kill()
+                func_exit(item=self.item, bot=True)
+                # # If function result = Exception kill
+                # if isinstance(val, Exception):
+                #     exception = "ERROR" + str(val)
+                #     self.telegram.send(exception)
+                #     self.bot_object.objects.filter(id=self.current_bot.id).delete()
+                #     self.process.kill()
 
                 """
                 Stoploss
@@ -265,7 +261,6 @@ class TradingBot:
         except Exception as e:
             self.error(e)
 
-
     def run(self) -> None:
 
         self.start()
@@ -296,9 +291,5 @@ class TradingBot:
                             continue
 
             except Exception as e:
-                # if exception stop the bot and open position
-                exception = "ERROR" + str(e)
-                self.telegram.send(exception)
-                self.bot_object.objects.filter(id=self.current_bot.id).delete()
-                self.process.kill()
+                self.error(e)
                 break
