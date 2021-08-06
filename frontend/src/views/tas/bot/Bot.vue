@@ -149,10 +149,10 @@
             <template #perpetual="{item}">
               <td>
                 <div v-if="item.perpetual">
-                  <CBadge color="success" shape="pill">Enabled</CBadge>
+                  <CBadge color="success" shape="pill">Y</CBadge>
                 </div>
                 <div v-else>
-                  <CBadge color="danger" shape="pill">Disabled</CBadge>
+                  <CBadge color="danger" shape="pill">N</CBadge>
                 </div>
               </td>
             </template>
