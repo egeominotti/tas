@@ -13,12 +13,14 @@
               color="success"
               size="lg"
           >
-            New Bot
+            Create new bot
           </CButton>
           <CModal
-              size="md"
+              size="lg"
               :centered="true"
               title="Create new Bot"
+              :backdrop="true"
+              :closeOnBackdrop="false"
               color="warning"
               :show.sync="modalCreateBot"
           >
@@ -99,6 +101,13 @@
               :loading="loading"
           >
 
+            <template #id="{item}">
+              <td>
+                <CSpinner color="success" size="sm"/>
+              </td>
+            </template>
+
+
             <template #coins="{item}">
               <td>
                 <h6>{{ item.coins.coins_exchange.symbol }}</h6>
@@ -117,7 +126,6 @@
                 <h6>{{ item.strategy.time_frame.time_frame }}</h6>
               </td>
             </template>
-
 
           </CDataTable>
 
@@ -139,13 +147,13 @@ const apiGetListStrategy = '/api/v0/strategybot/list'
 const fields = [
   {
     key: 'id',
-    label: 'Id',
+    label: 'Status',
     sort: false,
     filter: false
   },
   {
     key: 'name',
-    label: 'Id',
+    label: 'Name',
     sort: false,
     filter: false
   },
