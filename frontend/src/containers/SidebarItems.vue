@@ -18,7 +18,7 @@ export default {
             _name: 'CSidebarNavDropdown',
             name: 'Bot',
             route: '/bot',
-            icon: 'cil-contact',
+            icon: 'cib-probot',
             items: [
               {
                 name: 'My Trades',
@@ -37,7 +37,7 @@ export default {
             icon: 'cil-contact',
             items: [
               {
-                name: 'My Account',
+                name: 'Exchange',
                 to: '/account/view',
               },
             ]

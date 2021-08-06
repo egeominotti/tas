@@ -25,6 +25,7 @@ import {
     cibCcAmex,
     cilScreenSmartphone,
     cilContact,
+    cibProbot,
 } from '@coreui/icons'
 import {
     cifUs,
@@ -246,5 +247,6 @@ export const iconsSet = Object.assign({}, {logo}, {
     cibCcAmex,
     cilScreenSmartphone,
     cilXCircle,
-    cilContact
+    cilContact,
+    cibProbot
 })

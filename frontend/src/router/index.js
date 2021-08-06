@@ -56,8 +56,8 @@ export default new Router({
                 },
                 {
                     path: '/account',
-                    redirect: '/account/list',
-                    name: 'Bot',
+                    redirect: '/account/',
+                    name: 'Account',
                     component: {
                         render(c) {
                             return c('router-view')
