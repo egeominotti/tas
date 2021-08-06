@@ -28,8 +28,10 @@ def spawnbot(instance) -> None:
 def init() -> None:
     while True:
         sleep(60)
-        for instance in Bot.objects.filter(running=False):
-            spawnbot(instance)
+        qs = Bot.objects.filter(running=False)
+        if qs.count() > 0:
+            for instance in qs:
+                spawnbot(instance)
 
 
 class Command(BaseCommand):
