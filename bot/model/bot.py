@@ -85,7 +85,7 @@ class TradingBot:
             'user': self.user.username
         }
 
-        thread = threading.Thread(target=self.run,name=self.current_bot.name, args=())
+        thread = threading.Thread(target=self.run, name=self.current_bot.name, args=())
         thread.daemon = True  # Daemonize thread
         thread.start()  # Start the execution
         self.thread = thread
@@ -143,8 +143,7 @@ class TradingBot:
                         # SHORT
                         self.exchange.sell_market()
 
-                now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-
+                now = datetime.datetime.now()
                 self.logger_instance = self.logger.objects \
                     .create(
                     bot=self.current_bot,
@@ -158,6 +157,7 @@ class TradingBot:
                 )
 
                 if self.notify:
+                    now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                     entry_text = "Entry: " + str(self.current_bot.name) + \
                                  "\n" + "User: " + self.user.username + \
                                  "\nType Entry: " + self.item.get('type_text') + \
@@ -199,8 +199,7 @@ class TradingBot:
                         # SHORT
                         self.exchange.buy_market()
 
-                now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-
+                now = datetime.datetime.now()
                 self.logger.objects.filter(id=self.logger_instance.id) \
                     .update(
                     end_balance=self.exchange.get_current_balance_futures_(),
@@ -210,6 +209,7 @@ class TradingBot:
                 )
 
                 if self.notify:
+                    now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                     stop_loss = "Stoploss: " + str(self.current_bot.name) + \
                                 "\n" + "Current Balance: " + str(self.exchange.get_current_balance_futures_()) + \
                                 "\n" + "User: " + self.user.username + \
@@ -236,8 +236,7 @@ class TradingBot:
                         # SHORT
                         self.exchange.buy_market()
 
-                now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-
+                now = datetime.datetime.now()
                 self.logger.objects.filter(id=self.logger_instance.id) \
                     .update(
                     end_balance=self.exchange.get_current_balance_futures_(),
@@ -247,6 +246,7 @@ class TradingBot:
                 )
 
                 if self.notify:
+                    now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                     stop_loss = "Takeprofit: " + str(self.current_bot.name) + \
                                 "\n" + "Current Balance: " + str(self.exchange.get_current_balance_futures_()) + \
                                 "\n" + "User: " + self.user.username + \
