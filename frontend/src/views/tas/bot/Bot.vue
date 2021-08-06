@@ -112,7 +112,9 @@
 
             <template #id="{item}">
               <td>
-                <CSpinner color="dark" size="lg"/>
+
+                <CSpinner v-if="item.perpetual" color="success" size="md"/>
+                <CSpinner v-else color="dark" size="md"/>
               </td>
             </template>
 

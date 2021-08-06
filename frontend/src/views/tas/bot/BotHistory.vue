@@ -20,6 +20,28 @@
               :loading="loading"
           >
 
+            <template #stop_loss="{item}">
+              <td>
+                <div v-if="item.stop_loss">
+                  <CBadge color="success" shape="pill">Yes</CBadge>
+                </div>
+                <div v-else>
+                  <CBadge color="danger" shape="pill">Not</CBadge>
+                </div>
+              </td>
+            </template>
+
+            <template #take_profit="{item}">
+              <td>
+                <div v-if="item.take_profit">
+                  <CBadge color="success" shape="pill">Yes</CBadge>
+                </div>
+                <div v-else>
+                  <CBadge color="danger" shape="pill">Not</CBadge>
+                </div>
+              </td>
+            </template>
+
           </CDataTable>
 
         </CCardBody>
