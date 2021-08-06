@@ -4,7 +4,7 @@
       <CCard>
 
         <CCardHeader>
-          <h5>List/Create your bot</h5>
+          <h5>My Trades</h5>
         </CCardHeader>
 
         <CCardBody>
