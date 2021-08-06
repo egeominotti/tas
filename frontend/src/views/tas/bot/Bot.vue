@@ -16,13 +16,13 @@
             Create new bot
           </CButton>
 
-          <CButton
-              @click="modalCreateBot = true"
-              color="dark"
-              size="md"
-          >
-            Create cluster bot
-          </CButton>
+<!--          <CButton-->
+<!--              @click="modalCreateBot = true"-->
+<!--              color="dark"-->
+<!--              size="md"-->
+<!--          >-->
+<!--            Create cluster bot-->
+<!--          </CButton>-->
           <CModal
               size="lg"
               :centered="true"
