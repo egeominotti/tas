@@ -94,7 +94,6 @@ class TradingBot:
         if self.notify:
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
             start = "Started: " + str(self.current_bot.name) + \
-                    "\n" + "Process: " + str(self.process) + \
                     "\n" + "User: " + self.user.username + \
                     "\n" + "Balance: " + str(self.exchange.get_current_balance_futures_()) + \
                     "\n" + "Quantity of investement: " + str(self.exchange.get_quantity_from_number_of_bot()) + \
