@@ -1,5 +1,27 @@
 <template>
+
+
   <CRow>
+
+    <CCol sm="12">
+      <CCard>
+
+        <CCardHeader>
+          <strong>Add yor preferite exchange</strong>
+        </CCardHeader>
+
+        <CCardBody>
+          <CButton
+              @click="modalCreateBot = true"
+              color="dark"
+              size="md"
+          >
+            Add Exchange
+          </CButton>
+        </CCardBody>
+      </CCard>
+    </CCol>
+
     <CCol sm="12">
       <CCard>
 
@@ -7,22 +29,10 @@
           <h5>My Exchange</h5>
         </CCardHeader>
 
-        <CCardBody>
-         <CButton
-              @click="modalCreateBot = true"
-              color="dark"
-              size="md"
-          >
-            Add Exchange
-          </CButton>
 
-<!--          <CButton-->
-<!--              @click="modalCreateBot = true"-->
-<!--              color="dark"-->
-<!--              size="md"-->
-<!--          >-->
-<!--            Create cluster bot-->
-<!--          </CButton>-->
+        <CCardBody>
+
+
           <CModal
               size="lg"
               :centered="true"
@@ -82,7 +92,6 @@
                   class="custom-bot-spawn-bot"
                   color="dark"
                   size="lg"
-                  @click="spawnbot()"
 
               >
                 Start Trade
@@ -90,6 +99,8 @@
 
             </CCol>
           </CModal>
+
+
           <br>
           <CDataTable
               :items="loadedItems"
@@ -124,7 +135,42 @@
         </CCardBody>
       </CCard>
 
+
+      <CRow>
+        <CCol sm="12">
+          <CCard>
+
+            <CCardHeader>
+              <strong>Balance</strong>
+            </CCardHeader>
+
+            <CCardBody>
+              <table class="table">
+                <thead>
+                <tr>
+                  <th>Futures balance</th>
+                  <th>Spot balance</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td>
+                    <div>${{ balance_futures }} </div>
+                  </td>
+                  <td>
+                    <div>${{ balance_spot }}</div>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </CCardBody>
+          </CCard>
+        </CCol>
+      </CRow>
+
     </CCol>
+
+
   </CRow>
 </template>
 
@@ -149,18 +195,6 @@ const fields = [
   {
     key: 'api_secret',
     label: 'Api Secret',
-    sort: false,
-    filter: false
-  },
-  {
-    key: 'balance_futures',
-    label: 'Balance Futures',
-    sort: false,
-    filter: false
-  },
-  {
-    key: 'balance_spot',
-    label: 'Balance Spot',
     sort: false,
     filter: false
   },
@@ -198,7 +232,9 @@ export default {
       modalCreateBot: false,
       pages: 0,
       currentPages: 1,
-      fields: fields
+      fields: fields,
+      balance_futures: 0,
+      balance_spot: 0
     }
   },
   watch: {
@@ -235,6 +271,9 @@ export default {
             console.log(response);
             if (response.statusText === 'OK' && response.status === 200) {
               this.loadedItems = response.data.results;
+              console.log(response.data.results);
+              this.balance_spot = response.data.results[0].balance_spot;
+              this.balance_futures = response.data.results[0].balance_futures;
             }
           }, (error) => {
             console.log(error);
