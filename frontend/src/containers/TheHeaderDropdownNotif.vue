@@ -1,75 +1,70 @@
 <template>
-  <CDropdown
-    placement="bottom-end"
-    :caret="false"
-    in-nav
-    class="c-header-nav-item d-md-down-none mx-2"
-    add-menu-classes="pt-0"
-  >
-    <template #toggler>
-      <CHeaderNavLink>
-        <CIcon name="cil-bell"/>
-        <CBadge shape="pill" color="danger">{{itemsCount}}</CBadge>
-      </CHeaderNavLink>
-    </template>
-    <CDropdownHeader
-      tag="div"
-      class="text-center bg-light"
-    >
-      <strong>You have {{itemsCount}} notifications</strong>
-    </CDropdownHeader>
-    <CDropdownItem>
-      <CIcon name="cil-user-follow" class="text-success"/> New user registered
-    </CDropdownItem>
-    <CDropdownItem>
-      <CIcon name="cil-user-unfollow" class="text-danger"/> User deleted
-    </CDropdownItem>
-    <CDropdownItem>
-      <CIcon name="cil-chart-pie" class="text-info"/> Sales report is ready
-    </CDropdownItem>
-    <CDropdownItem>
-      <CIcon name="cil-basket" class="text-primary"/> New client
-    </CDropdownItem>
-    <CDropdownItem>
-      <CIcon name="cil-speedometer" class="text-warning"/> Server overloaded
-      </CDropdownItem>
-    <CDropdownHeader tag="div" class="text-center bg-light">
-      <strong>Server</strong>
-    </CDropdownHeader>
-    <CDropdownItem class="d-block">
-      <div class="text-uppercase mb-1">
-        <small><b>CPU Usage</b></small>
-      </div>
-      <CProgress class="progress-xs" color="info" :value="25"/>
-      <small class="text-muted">348 Processes. 1/4 Cores.</small>
-    </CDropdownItem>
-    <CDropdownItem class="d-block">
-      <div class="text-uppercase mb-1">
-        <small><b>Memory Usage</b></small>
-      </div>
-      <CProgress class="progress-xs" color="warning" :value="70"/>
-      <small class="text-muted">11444GB/16384MB</small>
-    </CDropdownItem>
-    <CDropdownItem class="d-block">
-      <div class="text-uppercase mb-1">
-        <small><b>SSD 1 Usage</b></small>
-      </div>
-      <CProgress class="progress-xs" color="danger" :value="90"/>
-      <small class="text-muted">243GB/256GB</small>
-    </CDropdownItem>
-  </CDropdown>
+<!--  <CDropdown -->
+<!--    :caret="false"-->
+<!--    placement="bottom-end"-->
+<!--    in-nav-->
+<!--    class="c-header-nav-item d-md-down-none mx-2"-->
+<!--    add-menu-classes="pt-0"-->
+<!--  >-->
+<!--    <template #toggler>-->
+<!--      <CHeaderNavLink>-->
+<!--        <CIcon name="cil-list-rich"/>-->
+<!--        <CBadge shape="pill" color="warning">{{itemsCount}}</CBadge>-->
+<!--      </CHeaderNavLink>-->
+<!--    </template>-->
+<!--    <CDropdownHeader -->
+<!--      tag="div" -->
+<!--      class="text-center bg-light"-->
+<!--    >-->
+<!--      <strong>You have {{itemsCount}} pending tasks</strong>-->
+<!--    </CDropdownHeader>-->
+
+<!--    <CDropdownItem class="d-block">-->
+<!--      <div class="small mb-1">-->
+<!--        Upgrade NPM &amp; Bower <span class="float-right"><strong>0%</strong></span>-->
+<!--      </div>-->
+<!--      <CProgress class="progress-xs" color="info"/>-->
+<!--    </CDropdownItem>-->
+
+<!--    <CDropdownItem class="d-block">-->
+<!--      <div class="small mb-1">-->
+<!--        ReactJS Version <span class="float-right"><strong>25%</strong></span>-->
+<!--      </div>-->
+<!--      <CProgress class="progress-xs" color="danger" :value="25"/>-->
+<!--    </CDropdownItem>-->
+
+<!--    <CDropdownItem class="d-block">-->
+<!--      <div class="small mb-1">-->
+<!--        VueJS Version <span class="float-right"><strong>50%</strong></span>-->
+<!--      </div>-->
+<!--      <CProgress class="progress-xs" color="warning" :value="50"/>-->
+<!--    </CDropdownItem>-->
+
+<!--    <CDropdownItem class="d-block">-->
+<!--      <div class="small mb-1">-->
+<!--        Add new layouts <span class="float-right"><strong>75%</strong></span>-->
+<!--      </div>-->
+<!--      <CProgress class="progress-xs" color="info" :value="75"/>-->
+<!--    </CDropdownItem>-->
+
+<!--    <CDropdownItem class="d-block">-->
+<!--      <div class="small mb-1">-->
+<!--        Angular 2 Cli Version <span class="float-right"><strong>100%</strong></span>-->
+<!--      </div>-->
+<!--      <CProgress class="progress-xs" color="success" :value="100"/>-->
+<!--    </CDropdownItem>-->
+
+<!--    <CDropdownItem class="text-center border-top">-->
+<!--      <strong>View all tasks</strong>-->
+<!--    </CDropdownItem>-->
+
+<!--  </CDropdown>-->
 </template>
 <script>
 export default {
-  name: 'TheHeaderDropdownNotif',
+  name: 'TheHeaderDropdownTasks',
   data () {
-    return { itemsCount: 5 }
+    return { itemsCount: 15 }
   }
 }
 </script>
-
-<style scoped>
-  .c-icon {
-    margin-right: 0.3rem;
-  }
-</style>

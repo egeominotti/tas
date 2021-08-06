@@ -12,17 +12,17 @@
     />
     <CHeaderBrand class="mx-auto d-lg-none" to="/">
       <!--      <CIcon name="logo" height="48" alt="Logo"/>-->
-    TAS
-<!--      <img v-if="$store.state.darkMode"-->
-<!--           src="@/assets/logo/logo_dashboard_sfondo_scuro.svg"-->
-<!--           class="c-sidebar-brand-full"-->
-<!--           height="35"-->
-<!--      >-->
-<!--      <img v-else-->
-<!--           src="@/assets/logo/logo_dashboard_sfondo_chiaro.svg"-->
-<!--           class="c-sidebar-brand-full"-->
-<!--           height="35"-->
-<!--      >-->
+
+      <img v-if="$store.state.darkMode"
+           src="@/assets/logo/logo_dashboard_sfondo_scuro.svg"
+           class="c-sidebar-brand-full"
+           height="35"
+      >
+      <img v-else
+           src="@/assets/logo/logo_dashboard_sfondo_chiaro.svg"
+           class="c-sidebar-brand-full"
+           height="35"
+      >
 
     </CHeaderBrand>
     <CHeaderNav class="d-md-down-none mr-auto">
@@ -31,16 +31,16 @@
           Dashboard
         </CHeaderNavLink>
       </CHeaderNavItem>
-<!--            <CHeaderNavItem class="px-3">-->
-<!--              <CHeaderNavLink to="/users" exact>-->
-<!--                Users-->
-<!--              </CHeaderNavLink>-->
-<!--            </CHeaderNavItem>-->
-<!--            <CHeaderNavItem class="px-3">-->
-<!--              <CHeaderNavLink>-->
-<!--                Settings-->
-<!--              </CHeaderNavLink>-->
-<!--            </CHeaderNavItem>-->
+      <!--      <CHeaderNavItem class="px-3">-->
+      <!--        <CHeaderNavLink to="/users" exact>-->
+      <!--          Users-->
+      <!--        </CHeaderNavLink>-->
+      <!--      </CHeaderNavItem>-->
+      <!--      <CHeaderNavItem class="px-3">-->
+      <!--        <CHeaderNavLink>-->
+      <!--          Settings-->
+      <!--        </CHeaderNavLink>-->
+      <!--      </CHeaderNavItem>-->
     </CHeaderNav>
     <CHeaderNav>
       <CHeaderNavItem class="px-3 c-d-legacy-none">
@@ -56,6 +56,7 @@
       <TheHeaderDropdownTasks/>
       <TheHeaderDropdownMssgs/>
       <TheHeaderDropdownAccnt/>
+      <!--
       <CHeaderNavItem class="px-3">
         <button
             class="c-header-nav-btn"
@@ -65,6 +66,7 @@
         </button>
       </CHeaderNavItem>
 
+     -->
     </CHeaderNav>
 
     <CSubheader class="px-3">

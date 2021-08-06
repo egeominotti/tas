@@ -8,7 +8,7 @@
               <CCardBody>
                 <CForm>
                   <h1 class="text-center">Login</h1>
-                  <p class="text-muted text-center">Accedi alla dashboard di TAS</p>
+                  <p class="text-muted text-center">Access the TAS dashboard</p>
                   <CInput
                       v-model="username"
                       placeholder="Username"
@@ -31,10 +31,11 @@
                     <CCol col="12" class="text-center">
                       <CButton
                           v-on:click="login"
-                          color="primary"
+                          color="dark"
                           size="lg"
                           class="px-4">
-                        Accedi adesso
+                        Log in now
+
                       </CButton>
                     </CCol>
                   </CRow>
