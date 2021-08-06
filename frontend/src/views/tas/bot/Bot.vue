@@ -15,6 +15,14 @@
           >
             Create new bot
           </CButton>
+
+          <CButton
+              @click="modalCreateBot = true"
+              color="dark"
+              size="md"
+          >
+            Create cluster bot
+          </CButton>
           <CModal
               size="lg"
               :centered="true"
@@ -175,13 +183,13 @@ const fields = [
   },
   {
     key: 'name',
-    label: 'Name',
+    label: 'Bot Id',
     sort: false,
     filter: false
   },
   {
     key: 'coins',
-    label: 'Coins',
+    label: 'Coin',
     sort: false,
     filter: false
   },
