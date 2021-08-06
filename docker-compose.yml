@@ -27,14 +27,14 @@ services:
     env_file:
       - .env.dev
 
-#  vuejs:
-#    build:
-#      context: .
-#      dockerfile: ./DockerfileFrontEnd
-#    depends_on:
-#      - tas_dev
-#    ports:
-#      - 9091:9091
+  vuejs:
+    build:
+      context: .
+      dockerfile: ./DockerfileFrontEnd
+    depends_on:
+      - tas_dev
+    ports:
+      - "9091:9091"
 
 volumes:
   postgres_data:
