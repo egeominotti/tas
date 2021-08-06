@@ -282,7 +282,7 @@ export default {
       setTimeout(() => {
         this.loading = false
         this.getData();
-      }, 10)
+      }, 200)
     },
 
     getData() {
