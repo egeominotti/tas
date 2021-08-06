@@ -1,3 +1,5 @@
+from time import sleep
+
 from django.core.management import BaseCommand
 import logging
 from bot.model.bot import TradingBot
@@ -25,6 +27,7 @@ def spawnbot(instance) -> None:
 
 def init() -> None:
     while True:
+        sleep(30)
         for instance in Bot.objects.filter(running=False):
             spawnbot(instance)
 
