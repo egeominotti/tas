@@ -30,7 +30,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         while True:
-            sleep(30)
 
             qs = UserExchange.objects.all()
             processList = []
@@ -43,3 +42,5 @@ class Command(BaseCommand):
                 p.daemon = True
                 p.start()
                 p.join()
+
+            sleep(30)
