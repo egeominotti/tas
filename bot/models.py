@@ -88,6 +88,7 @@ class Bot(CommonTrait):
     name = models.CharField(max_length=100, blank=False, null=False)
     coins = models.ForeignKey(Coins, on_delete=models.CASCADE, null=False, blank=False)
     strategy = models.ForeignKey(StrategyBot, on_delete=models.CASCADE, null=False, blank=False)
+    perpetual = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'Bot'

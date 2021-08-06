@@ -280,14 +280,20 @@ class TradingBot:
                     self.item['exit_function'] = True
                     if self.exit() is False:
                         exception = True
-                        self.bot_object.objects.filter(id=self.current_bot.id).delete()
-                        break
+                        if self.current_bot.perpetual:
+                            continue
+                        else:
+                            self.bot_object.objects.filter(id=self.current_bot.id).delete()
+                            break
 
                     if self.exit() is True:
                         sleep(30)
-                        self.bot_object.objects.filter(id=self.current_bot.id).delete()
-                        # Successfully close position takeprofit/stoploss
-                        break
+                        if self.current_bot.perpetual:
+                            continue
+                        else:
+                            self.bot_object.objects.filter(id=self.current_bot.id).delete()
+                            # Successfully close position takeprofit/stoploss
+                            break
 
             except Exception as e:
                 exception = "ERROR" + str(e)

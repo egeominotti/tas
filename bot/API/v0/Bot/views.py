@@ -16,6 +16,7 @@ class BotList(generics.ListAPIView):
     authentication_classes = [authentication.TokenAuthentication]
     serializer_class = BotSerializer
     pagination_class = LargeResultsSetPagination
+    queryset = Bot.objects.all()
 
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user).order_by('-created_at')

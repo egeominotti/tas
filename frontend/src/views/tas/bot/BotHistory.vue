@@ -4,7 +4,7 @@
       <CCard>
 
         <CCardHeader>
-          <h5>Bot history</h5>
+          <h5>Trades History</h5>
         </CCardHeader>
 
         <CCardBody>
@@ -35,12 +35,12 @@ const titleList = "Bot"
 const apiList = '/api/v0/botlogger/list';
 
 const fields = [
-  {
-    key: 'bot_id',
-    label: 'Bot name',
-    sort: false,
-    filter: false
-  },
+  // {
+  //   key: 'bot_id',
+  //   label: 'Bot name',
+  //   sort: false,
+  //   filter: false
+  // },
   {
     key: 'start_balance',
     label: 'Start balance',
@@ -197,7 +197,13 @@ export default {
     this.getData();
   },
 
+  created() {
+    setInterval(function () {
+      this.getData();
+    }.bind(this), 5000);
+  }
 }
+
 </script>
 
 <style>

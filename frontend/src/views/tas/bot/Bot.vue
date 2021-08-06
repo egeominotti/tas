@@ -10,7 +10,7 @@
         <CCardBody>
           <CButton
               @click="modalCreateBot = true"
-              color="success"
+              color="dark"
               size="md"
           >
             Create new bot
@@ -65,7 +65,16 @@
               <br>
             </CCol>
             <CCol sm="12">
-
+              <label class="text">Perpetual Mode</label>
+              <br>
+              <CSwitch
+                  class="mx-1"
+                  color="dark"
+                  name="switch1"
+                  :checked.sync="perpetual_mode"
+              />
+              <br>
+              <br>
             </CCol>
             <CCol sm="12">
 
@@ -78,12 +87,12 @@
               <!--              </CCol>-->
               <CButton
                   class="custom-bot-spawn-bot"
-                  color="success"
+                  color="dark"
                   size="lg"
                   @click="spawnbot()"
 
               >
-                Spawn Bot
+                Start Trade
               </CButton>
 
             </CCol>
@@ -103,7 +112,7 @@
 
             <template #id="{item}">
               <td>
-                <CSpinner color="success" size="sm"/>
+                <CSpinner color="dark" size="lg"/>
               </td>
             </template>
 
@@ -124,6 +133,17 @@
             <template #time_frame="{item}">
               <td>
                 <h6>{{ item.strategy.time_frame.time_frame }}</h6>
+              </td>
+            </template>
+
+            <template #perpetual="{item}">
+              <td>
+                <div v-if="item.perpetual">
+                  <CBadge color="success" shape="pill">Enabled</CBadge>
+                </div>
+                <div v-else>
+                  <CBadge color="danger" shape="pill">Disabled</CBadge>
+                </div>
               </td>
             </template>
 
@@ -176,6 +196,12 @@ const fields = [
     filter: false
   },
   {
+    key: 'perpetual',
+    label: 'Perpetual Mode',
+    sort: false,
+    filter: false
+  },
+  {
     key: 'created_at',
     label: 'Created',
     sort: false,
@@ -191,6 +217,7 @@ export default {
       selected_coins: null,
       strategy: [],
       selected_strategy: null,
+      perpetual_mode: false,
       columnFilterValue: {},
       tableFilterValue: '',
       titleList: titleList,
@@ -251,11 +278,12 @@ export default {
 
       console.log(this.selected_coins);
       console.log(this.selected_strategy);
-
+      console.log(this.perpetual_mode)
       axios.post(apiCreateBot,
           {
             coins: this.selected_coins.id,
             strategy: this.selected_strategy.id,
+            perpetual: this.perpetual_mode
           }, {
             headers: {
               'Authorization': 'Token ' + localStorage.getItem('token')
@@ -265,7 +293,9 @@ export default {
         if (response.status === 500) {
         }
         if (response.status === 201 && response.statusText === 'Created') {
+          this.getData();
           this.modalCreateBot = false
+
         }
         console.log(response);
       }, (error) => {
@@ -274,7 +304,7 @@ export default {
         console.log(error.response.headers);
       });
 
-      this.getData()
+
     },
 
     onTableChange() {
@@ -282,11 +312,11 @@ export default {
       setTimeout(() => {
         this.loading = false
         this.getData();
-      }, 200)
+      }, 0)
     },
 
     getData() {
-      const header = {headers: {'Authorization': 'Token ' + localStorage.getItem('token')}};
+      let header = {headers: {'Authorization': 'Token ' + localStorage.getItem('token')}};
 
       if (this.tableFilterValue.length > 0) {
         axios
