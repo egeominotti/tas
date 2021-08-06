@@ -71,8 +71,8 @@ class StrategyBot(CommonTrait):
     time_frame = models.ForeignKey(TimeFrame, on_delete=models.CASCADE, null=False, blank=False)
     logic_entry = models.ForeignKey(LogicEntry, on_delete=models.CASCADE, null=False, blank=False)
     logic_exit = models.ForeignKey(LogicExit, on_delete=models.CASCADE, null=False, blank=False)
-    coins = models.ManyToManyField(Coins, null=True, blank=True)
-    user = models.ManyToManyField(settings.AUTH_USER_MODEL, null=True, blank=True)
+    #coins = models.ManyToManyField(Coins, null=True, blank=True)
+    #user = models.ManyToManyField(settings.AUTH_USER_MODEL, null=True, blank=True)
 
     def __str__(self):
         if self.name is not None:
