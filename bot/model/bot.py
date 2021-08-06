@@ -1,5 +1,5 @@
 import threading
-
+from time import sleep
 from bot.services.telegram import Telegram
 from analytics.services.exchangeApi import Taapi
 from exchange.model.binance import BinanceHelper
