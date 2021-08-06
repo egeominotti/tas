@@ -3,8 +3,6 @@ from bot.services.telegram import Telegram
 from analytics.services.exchangeApi import Taapi
 from exchange.model.binance import BinanceHelper
 from backtest.strategy.logic.logic_function import *
-from django.db.utils import InterfaceError
-from django import db
 
 
 class TradingBot:
@@ -79,9 +77,10 @@ class TradingBot:
         }
 
         process = multiprocessing.Process(target=self.run, name=self.current_bot.name, args=())
+        self.process = process
+
         process.daemon = True
         process.start()
-        self.process = process
 
     def error(self, e):
         exception = "ERROR" + str(e)
@@ -176,8 +175,7 @@ class TradingBot:
 
         except Exception as e:
             self.error(e)
-        except InterfaceError:
-            db.connection.close()
+            return False
 
     def exit(self) -> bool:
 
@@ -185,12 +183,6 @@ class TradingBot:
             func_exit = eval(self.func_exit.name)
             if self.item.get('entry') is True:
                 func_exit(item=self.item, bot=True)
-                # # If function result = Exception kill
-                # if isinstance(val, Exception):
-                #     exception = "ERROR" + str(val)
-                #     self.telegram.send(exception)
-                #     self.bot_object.objects.filter(id=self.current_bot.id).delete()
-                #     self.process.kill()
 
                 """
                 Stoploss
@@ -268,8 +260,7 @@ class TradingBot:
 
         except Exception as e:
             self.error(e)
-        except InterfaceError:
-            db.connection.close()
+            return False
 
     def run(self) -> None:
 
@@ -292,8 +283,8 @@ class TradingBot:
 
                     if self.exit():
                         if self.current_bot.perpetual:
-                            #self.bot_object.objects.filter(id=self.current_bot.id).delete()
-                            #self.process.kill()
+                            # self.bot_object.objects.filter(id=self.current_bot.id).delete()
+                            # self.process.kill()
                             continue
                         else:
                             self.bot_object.objects.filter(id=self.current_bot.id).delete()
@@ -301,8 +292,9 @@ class TradingBot:
                             break
 
             except Exception as e:
+                print(e)
                 self.error(e)
                 continue
-            except InterfaceError:
-                db.connection.close()
+            except InterfaceError as e:
+                print(e)
                 continue
