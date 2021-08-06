@@ -282,13 +282,11 @@ class TradingBot:
 
                     if self.exit():
                         if self.current_bot.perpetual:
-                            self.bot_object.objects.filter(id=self.current_bot.id).delete()
-                            self.process.kill()
+                            #self.bot_object.objects.filter(id=self.current_bot.id).delete()
+                            #self.process.kill()
                             continue
-
-                    if self.exit() is True:
-                        if self.current_bot.perpetual:
-                            continue
+                        else:
+                            break
 
             except Exception as e:
                 self.error(e)
