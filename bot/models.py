@@ -1,3 +1,4 @@
+import multiprocessing
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
@@ -71,8 +72,6 @@ class StrategyBot(CommonTrait):
     time_frame = models.ForeignKey(TimeFrame, on_delete=models.CASCADE, null=False, blank=False)
     logic_entry = models.ForeignKey(LogicEntry, on_delete=models.CASCADE, null=False, blank=False)
     logic_exit = models.ForeignKey(LogicExit, on_delete=models.CASCADE, null=False, blank=False)
-    #coins = models.ManyToManyField(Coins, null=True, blank=True)
-    #user = models.ManyToManyField(settings.AUTH_USER_MODEL, null=True, blank=True)
 
     def __str__(self):
         if self.name is not None:
@@ -88,6 +87,8 @@ class Bot(CommonTrait):
     name = models.CharField(max_length=100, blank=False, null=False)
     coins = models.ForeignKey(Coins, on_delete=models.CASCADE, null=False, blank=False)
     strategy = models.ForeignKey(StrategyBot, on_delete=models.CASCADE, null=False, blank=False)
+    running = models.BooleanField(default=False)
+    stopped = models.BooleanField(default=False)
     perpetual = models.BooleanField(default=False)
 
     class Meta:
@@ -102,22 +103,3 @@ class Bot(CommonTrait):
         if len(self.name) == 0:
             self.name = 'bot' + str(uuid.uuid4().hex)
         super().save(*args, **kwargs)
-
-
-@receiver(post_save, sender=Bot)
-def sum_sharing(sender, instance, created, **kwargs):
-    if instance.user is not None:
-
-        from bot.model.bot import TradingBot
-        TradingBot(
-            current_bot=instance,
-            user=instance.user,
-            userexchange=UserExchange.objects.get(user=instance.user),
-            symbol=instance.coins.coins_taapi.symbol,
-            symbol_exchange=instance.coins.coins_exchange.symbol,
-            time_frame=instance.strategy.time_frame.time_frame,
-            func_entry=instance.strategy.logic_entry,
-            func_exit=instance.strategy.logic_exit,
-            logger=BotLogger,
-            bot_object=Bot,
-        )

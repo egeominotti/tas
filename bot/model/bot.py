@@ -3,6 +3,8 @@ from bot.services.telegram import Telegram
 from analytics.services.exchangeApi import Taapi
 from exchange.model.binance import BinanceHelper
 from backtest.strategy.logic.logic_function import *
+from django.db.utils import InterfaceError
+from django import db
 
 
 class TradingBot:
@@ -170,6 +172,8 @@ class TradingBot:
 
         except Exception as e:
             self.error(e)
+        except InterfaceError:
+            db.connection.close()
 
     def exit(self) -> bool:
 
@@ -260,6 +264,8 @@ class TradingBot:
 
         except Exception as e:
             self.error(e)
+        except InterfaceError:
+            db.connection.close()
 
     def run(self) -> None:
 
@@ -286,8 +292,13 @@ class TradingBot:
                             #self.process.kill()
                             continue
                         else:
+                            self.bot_object.objects.filter(id=self.current_bot.id).delete()
+                            self.process.kill()
                             break
 
             except Exception as e:
                 self.error(e)
-                break
+                continue
+            except InterfaceError:
+                db.connection.close()
+                continue
