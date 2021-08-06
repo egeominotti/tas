@@ -1,9 +1,6 @@
 import json
 from datetime import datetime
 from time import sleep
-
-from django_q.tasks import async_task
-
 from backtest.services.computedata import compute_data
 from binance import Client
 from decouple import config

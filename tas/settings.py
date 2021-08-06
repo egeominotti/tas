@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
+    'rest_framework.authtoken',
     'analytics',
     'bot',
     'backtest',
@@ -171,7 +172,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'tas.wsgi.application'
-#DJANGO_ALLOW_ASYNC_UNSAFE = True
+# DJANGO_ALLOW_ASYNC_UNSAFE = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',

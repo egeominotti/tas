@@ -1,5 +1,4 @@
 from django.db import models
-from django_q.tasks import async_task
 from strategy.models import TimeFrame, LogicExit, LogicEntry, SymbolExchange
 from analytics.models import CommonTrait
 from django.conf import settings
@@ -31,10 +30,6 @@ class BackTest(models.Model):
 
     def __str__(self):
         return self.strategy.name
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        async_task("backtest.services.runner.backtesting", self, hook="backtest.services.runner.get_backtesting_hook")
 
     class Meta:
         verbose_name = 'BackTesting'
