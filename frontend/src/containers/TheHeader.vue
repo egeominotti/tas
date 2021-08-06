@@ -12,17 +12,17 @@
     />
     <CHeaderBrand class="mx-auto d-lg-none" to="/">
       <!--      <CIcon name="logo" height="48" alt="Logo"/>-->
-
-      <img v-if="$store.state.darkMode"
-           src="@/assets/logo/logo_dashboard_sfondo_scuro.svg"
-           class="c-sidebar-brand-full"
-           height="35"
-      >
-      <img v-else
-           src="@/assets/logo/logo_dashboard_sfondo_chiaro.svg"
-           class="c-sidebar-brand-full"
-           height="35"
-      >
+    TAS
+<!--      <img v-if="$store.state.darkMode"-->
+<!--           src="@/assets/logo/logo_dashboard_sfondo_scuro.svg"-->
+<!--           class="c-sidebar-brand-full"-->
+<!--           height="35"-->
+<!--      >-->
+<!--      <img v-else-->
+<!--           src="@/assets/logo/logo_dashboard_sfondo_chiaro.svg"-->
+<!--           class="c-sidebar-brand-full"-->
+<!--           height="35"-->
+<!--      >-->
 
     </CHeaderBrand>
     <CHeaderNav class="d-md-down-none mr-auto">
