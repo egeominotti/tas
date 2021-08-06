@@ -66,6 +66,12 @@ const fields = [
     filter: false
   },
   {
+    key: 'take_profit',
+    label: 'Take profit',
+    sort: false,
+    filter: false
+  },
+  {
     key: 'candle_take_profit',
     label: 'Candle Take Profit Value',
     sort: false,
@@ -74,6 +80,12 @@ const fields = [
   {
     key: 'candle_take_profit_date',
     label: 'Candle Take Profit Date',
+    sort: false,
+    filter: false
+  },
+  {
+    key: 'stop_loss',
+    label: 'Stop loss',
     sort: false,
     filter: false
   },
@@ -96,7 +108,6 @@ const fields = [
     sort: false,
     filter: false
   },
-
   {
     key: 'stop_loss_ratio',
     label: 'Stop loss ratio',
