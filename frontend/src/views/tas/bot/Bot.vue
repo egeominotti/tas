@@ -138,6 +138,12 @@ const apiGetListStrategy = '/api/v0/strategybot/list'
 
 const fields = [
   {
+    key: 'id',
+    label: 'Id',
+    sort: false,
+    filter: false
+  },
+  {
     key: 'name',
     label: 'Id',
     sort: false,
@@ -272,10 +278,11 @@ export default {
     },
 
     getData() {
+      const header = {headers: {'Authorization': 'Token ' + localStorage.getItem('token')}};
 
       if (this.tableFilterValue.length > 0) {
         axios
-            .get(apiList)
+            .get(apiList, header)
             .then((response) => {
               console.log(response);
               if (response.statusText === 'OK' && response.status === 200) {
@@ -286,7 +293,7 @@ export default {
             });
       } else {
         axios
-            .get(apiList)
+            .get(apiList, header)
             .then((response) => {
               console.log(response);
               if (response.statusText === 'OK' && response.status === 200) {
