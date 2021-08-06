@@ -1,0 +1,14 @@
+#sudo nano /etc/systemd/system/balanceuserupdate.service
+
+[Unit]
+Description=dispatcher bot demon
+After=network.target
+
+[Service]
+ExecStart=/home/tas/venv/bin/python3 /home/tas/manage.py balanceuserupdate
+WorkingDirectory=/home/tas
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

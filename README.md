@@ -43,13 +43,13 @@
 
     botdispatcher
         
-        sudo nano /etc/systemd/system/dispatcherbot.service
-        systemctl enable dispatcherbot
-        systemctl status dispatcherbot
-        systemctl status dispatcherbot.service
+        sudo nano /etc/systemd/system/balanceuserupdate.service
+        systemctl enable balanceuserupdate
+        systemctl status balanceuserupdate
+        systemctl status balanceuserupdate.service
 
         # Check log
-            journalctl -u dispatcherbot.service -f
+            journalctl -u balanceuserupdate.service -f
 
     
     websocketstream
