@@ -146,14 +146,14 @@ class TradingBot:
                 now = datetime.datetime.now()
                 self.logger_instance = self.logger.objects \
                     .create(
-                    bot=self.current_bot,
-                    entry_candle=self.item.get('entry_candle'),
-                    entry_candle_date=now,
-                    stop_loss_ratio=self.item.get('stoploss_ratio'),
-                    take_profit_ratio=self.item.get('takeprofit_ratio'),
-                    start_balance=self.exchange.get_current_balance_futures_(),
-                    coin_quantity=self.exchange.get_quantity_from_number_of_bot(),
-                    leverage=self.exchange.leverage
+                        bot=self.current_bot,
+                        entry_candle=self.item.get('entry_candle'),
+                        entry_candle_date=now,
+                        stop_loss_ratio=self.item.get('stoploss_ratio'),
+                        take_profit_ratio=self.item.get('takeprofit_ratio'),
+                        start_balance=self.exchange.get_current_balance_futures_(),
+                        coin_quantity=self.exchange.get_quantity_from_number_of_bot(),
+                        leverage=self.exchange.leverage
                 )
 
                 if self.notify:
