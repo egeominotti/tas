@@ -2,13 +2,14 @@ from django.contrib import admin
 from bot.models import Bot, BotLogger, StrategyBot
 from bot.models import UserExchange
 
+
 class BotAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_per_page = 50
     ordering = ('id',)
     list_display = (
-        'name', 'user', 'strategy', 'coins', 'created_at', 'updated_at',)
-    readonly_fields = ('name',)
+        'name', 'user', 'running', 'stopped', 'strategy', 'coins', 'created_at', 'updated_at',)
+    readonly_fields = ('name', 'running', 'stopped')
     exclude = ['flgEnable', ]
 
     def has_delete_permission(self, request, obj=None):
@@ -56,6 +57,7 @@ class ExchangeAdmin(admin.ModelAdmin):
     list_display = ('user', 'exchange', 'balance_futures', 'balance_spot', 'leverage', 'live')
     readonly_fields = ('balance_futures', 'balance_spot')
     exclude = ['flgEnable', ]
+
 
 admin.site.register(UserExchange, ExchangeAdmin)
 admin.site.register(StrategyBot, StrategyBotAdmin)
