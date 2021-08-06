@@ -9,7 +9,7 @@
 
         <CCardBody>
           <CButton
-              @click="warningModal = true"
+              @click="modalCreateBot = true"
               color="success"
               size="lg"
           >
@@ -18,9 +18,9 @@
           <CModal
               size="md"
               :centered="true"
-              title="Create new bot"
+              title="Create new Bot"
               color="warning"
-              :show.sync="warningModal"
+              :show.sync="modalCreateBot"
           >
 
 
@@ -185,7 +185,7 @@ export default {
       itemsPerPage: 10,
       message: '',
       loading: false,
-      warningModal: false,
+      modalCreateBot: false,
       pages: 0,
       currentPages: 1,
       fields: fields
@@ -251,6 +251,7 @@ export default {
         if (response.status === 500) {
         }
         if (response.status === 201 && response.statusText === 'Created') {
+          this.modalCreateBot = false
         }
         console.log(response);
       }, (error) => {
@@ -336,4 +337,10 @@ button.btn:hover {
 button.btn.custom-bot-spawn-bot.btn-success.btn-lg {
   width: 100%;
 }
+
+label.text {
+  font-size: 16px !important;
+  font-weight: 700;
+}
+
 </style>
