@@ -31,16 +31,16 @@
           Dashboard
         </CHeaderNavLink>
       </CHeaderNavItem>
-      <!--      <CHeaderNavItem class="px-3">-->
-      <!--        <CHeaderNavLink to="/users" exact>-->
-      <!--          Users-->
-      <!--        </CHeaderNavLink>-->
-      <!--      </CHeaderNavItem>-->
-      <!--      <CHeaderNavItem class="px-3">-->
-      <!--        <CHeaderNavLink>-->
-      <!--          Settings-->
-      <!--        </CHeaderNavLink>-->
-      <!--      </CHeaderNavItem>-->
+<!--            <CHeaderNavItem class="px-3">-->
+<!--              <CHeaderNavLink to="/users" exact>-->
+<!--                Users-->
+<!--              </CHeaderNavLink>-->
+<!--            </CHeaderNavItem>-->
+<!--            <CHeaderNavItem class="px-3">-->
+<!--              <CHeaderNavLink>-->
+<!--                Settings-->
+<!--              </CHeaderNavLink>-->
+<!--            </CHeaderNavItem>-->
     </CHeaderNav>
     <CHeaderNav>
       <CHeaderNavItem class="px-3 c-d-legacy-none">
@@ -56,7 +56,6 @@
       <TheHeaderDropdownTasks/>
       <TheHeaderDropdownMssgs/>
       <TheHeaderDropdownAccnt/>
-      <!--
       <CHeaderNavItem class="px-3">
         <button
             class="c-header-nav-btn"
@@ -66,7 +65,6 @@
         </button>
       </CHeaderNavItem>
 
-     -->
     </CHeaderNav>
 
     <CSubheader class="px-3">
