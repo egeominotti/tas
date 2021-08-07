@@ -17,7 +17,7 @@ class TradingBot(Thread):
                  logger,
                  bot_object):
 
-        super().__init__()
+        Thread.__init__(self)
         self.current_bot = current_bot
         self.user = user
         self.userexchange = userexchange
@@ -72,7 +72,6 @@ class TradingBot(Thread):
             'exit_function': False,
             'user': self.user.username
         }
-        Thread.__init__(self)
 
     def error(self, e):
         exception = "ERROR" + str(e)
@@ -273,11 +272,12 @@ class TradingBot(Thread):
                     self.item['exit_function'] = True
 
                     if self.exit():
-                        if self.current_bot.perpetual:
-                            continue
-                        else:
-                            self.bot_object.objects.filter(id=self.current_bot.id).delete()
-                            break
+                        break
+                        # if self.current_bot.perpetual:
+                        #     continue
+                        # else:
+                        #     self.bot_object.objects.filter(id=self.current_bot.id).delete()
+                        #     break
 
             except Exception as e:
                 print(e)

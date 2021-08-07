@@ -23,7 +23,7 @@ def spawnbot(instance) -> None:
     instance.running = True
     instance.save()
     tb.run()
-
+    tb.join()
 
 def init() -> None:
     while True:
