@@ -265,12 +265,15 @@ class TradingBot:
                 if entry is False:
                     if datetime.datetime.now().second == 59:
                         if self.entry():
+                            print("HO TROVATO UNA ENTRY")
+
                             # Successfully open position
                             entry = True
 
                 if entry is True:
                     self.item['exit_function'] = True
                     if self.exit():
+                        print("HO TROVATO UNO STOP LOSS O TAKE PROFIT RINIZIO DA CAPO A CERCARE")
                         sleep(35)
                         continue
 
