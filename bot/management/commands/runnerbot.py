@@ -1,3 +1,4 @@
+from threading import Thread
 from time import sleep
 from django.core.management import BaseCommand
 import logging
@@ -36,4 +37,6 @@ class Command(BaseCommand):
     help = 'AsyncBotRunner'
 
     def handle(self, *args, **kwargs):
-        init()
+        thread = Thread(target=init, args=())
+        thread.daemon = True  # Daemonize thread
+        thread.start()  # Start the execution

@@ -2,7 +2,6 @@ from django.conf import settings
 from django.db import models
 from exchange.models import ExchangeList
 from analytics.models import CommonTrait
-
 from strategy.models import TimeFrame, LogicExit, LogicEntry, Coins, SymbolExchange
 from exchange.models import User
 import uuid
@@ -99,20 +98,4 @@ class Bot(CommonTrait):
     def save(self, *args, **kwargs):
         if len(self.name) == 0:
             self.name = 'bot' + str(uuid.uuid4().hex)
-        # from bot.model.bot import TradingBot
-        # tb = TradingBot(
-        #     current_bot=self,
-        #     user=self.user,
-        #     userexchange=UserExchange.objects.get(user=self.user),
-        #     symbol=self.coins.coins_taapi.symbol,
-        #     symbol_exchange=self.coins.coins_exchange.symbol,
-        #     time_frame=self.strategy.time_frame.time_frame,
-        #     func_entry=self.strategy.logic_entry,
-        #     func_exit=self.strategy.logic_exit,
-        #     logger=BotLogger,
-        #     bot_object=Bot,
-        # )
-        # self.running = True
-        # tb.run()
-
         super().save(*args, **kwargs)
