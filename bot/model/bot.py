@@ -5,7 +5,7 @@ from backtest.strategy.logic.logic_function import *
 from threading import Thread
 
 
-class TradingBot(Thread):
+class TradingBot:
 
     def __init__(self,
                  current_bot, user,
@@ -71,7 +71,14 @@ class TradingBot(Thread):
             'exit_function': False,
             'user': self.user.username
         }
-        Thread.__init__(self)
+
+        thread = Thread(target=self.run, name=self.current_bot.name, args=())
+        thread.daemon = True  # Daemonize thread
+        thread.start()  # Start the execution
+        self.thread = thread
+        self.item['thread'] = self.thread
+        print("Thread Bot: " + str(self.thread))
+
 
     def error(self, e):
         exception = "ERROR" + str(e)
