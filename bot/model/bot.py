@@ -310,9 +310,12 @@ class TradingBot:
                         print("Esco dal bot")
                         break
                     self.item['exit_function'] = True
+
                     if self.exit():
+
                         print("HO TROVATO UNO STOP LOSS O TAKE PROFIT RINIZIO DA CAPO A CERCARE")
                         sleep(5)
+
                         if self.abort('exit_true'):
                             # TODO: Chiudere la posizione aperta precedentemente
                             break
