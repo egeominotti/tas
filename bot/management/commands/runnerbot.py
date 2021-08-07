@@ -9,6 +9,7 @@ logger = logging.getLogger('main')
 
 
 def spawnbot(instance) -> None:
+
     tb =TradingBot(
         current_bot=instance,
         user=instance.user,
@@ -31,9 +32,8 @@ def init() -> None:
         if qs.count() > 0:
             for instance in qs:
                 thread = Thread(target=spawnbot, args=(instance,))
-                thread.daemon = True  # Daemonize thread
-                thread.start()  # Start the execution
-                #spawnbot(instance)
+                thread.daemon = True
+                thread.start()
         sleep(15)
 
 class Command(BaseCommand):
