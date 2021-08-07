@@ -30,7 +30,7 @@ def init() -> None:
         if qs.count() > 0:
             for instance in qs:
                 spawnbot(instance)
-        sleep(60)
+        sleep(15)
 
 class Command(BaseCommand):
     help = 'AsyncBotRunner'
