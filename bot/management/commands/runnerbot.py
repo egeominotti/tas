@@ -40,6 +40,9 @@ def init() -> None:
                     thread.start()
                     print("Sart thread: " + str(thread))
 
+                    # For taapi
+                    sleep(15)
+
         qs = Bot.objects.filter(abort=True)
         if qs.count() > 0:
             print("Trovato bot da abortine")
