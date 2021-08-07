@@ -88,6 +88,10 @@ class Bot(CommonTrait):
     strategy = models.ForeignKey(StrategyBot, on_delete=models.CASCADE, null=False, blank=False)
     running = models.BooleanField(default=False)
     abort = models.BooleanField(default=False)
+    market_spot = models.BooleanField(default=False)
+    market_futures = models.BooleanField(default=False)
+    leverage = models.FloatField(default=1, blank=True)
+
 
     class Meta:
         verbose_name = 'Bot'
