@@ -66,7 +66,7 @@ def logicentry_first(item, bot=False):
         # item['candle_close'] = BufferStreamWebSocket.objects.filter(symbol__symbol=item.get('symbol_exchange'),time_frame='1m').last().close_candle
 
         # item['long_short_ratio'] = btby_momentum(item.get('symbol_exchange').replace('USDT', ''))
-        longShortRatio = item['long_short_ratio']
+        #longShortRatio = item['long_short_ratio']
         time_frame = item['time_frame']
         taapi = item['taapi']
         canlde_close = item['candle_close']
