@@ -288,33 +288,3 @@ export default {
 
 }
 </script>
-
-<style>
-footer.modal-footer {
-  display: none;
-}
-
-button.btn {
-  background-color: #262626;
-}
-
-button.btn:hover {
-  background-color: #c03d3d;
-}
-
-.modal-warning .modal-header {
-  color: #fff;
-  background-color: #262625;
-  text-align: center !important;
-}
-
-button.btn.custom-bot-spawn-bot.btn-success.btn-lg {
-  width: 100%;
-}
-
-label.text {
-  font-size: 16px !important;
-  font-weight: 700;
-}
-
-</style>

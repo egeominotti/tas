@@ -30,27 +30,33 @@
               title="Stop Bot"
               :backdrop="true"
               :closeOnBackdrop="false"
-              color="warning"
+              color="dark"
               :show.sync="modalStopBot"
           >
+
+            <template #footer>
+              <CButton @click="modalStopBot = false" color="danger">Cancel</CButton>
+              <CButton @click="update()" color="success">Stop bot</CButton>
+            </template>
+
             <h6>Lorem ipsum, testo per confermare lo stop del bot</h6>
             <CCol sm="12">
 
-              <CButton
-                  color="warning"
-                  size="lg"
-                  @click="update()"
-              >
-                Yes
-              </CButton>
+              <!--              <CButton-->
+              <!--                  color="warning"-->
+              <!--                  size="lg"-->
+              <!--                  @click="update()"-->
+              <!--              >-->
+              <!--                Yes-->
+              <!--              </CButton>-->
 
-              <CButton
-                  color="success"
-                  size="lg"
-                  @click="modalStopBot=false"
-              >
-                No
-              </CButton>
+              <!--              <CButton-->
+              <!--                  color="success"-->
+              <!--                  size="lg"-->
+              <!--                  @click="modalStopBot=false"-->
+              <!--              >-->
+              <!--                No-->
+              <!--              </CButton>-->
             </CCol>
 
 
@@ -62,9 +68,15 @@
               title="Create new Bot"
               :backdrop="true"
               :closeOnBackdrop="false"
-              color="warning"
+              color="dark"
               :show.sync="modalCreateBot"
           >
+
+
+            <template #footer>
+              <CButton @click="modalCreateBot = false" color="danger">Cancel</CButton>
+              <CButton @click="spawnbot()" color="success">Start trade</CButton>
+            </template>
 
 
             <CCol sm="12">
@@ -105,26 +117,6 @@
               </v-select>
               <br>
             </CCol>
-            <CCol sm="12">
-
-              <!--              <CCol sm="6">-->
-              <!--                <CImg-->
-              <!--                    :fluid="true"-->
-              <!--                    width="150"-->
-              <!--                    height="150"-->
-              <!--                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXCpYPKA9Tar0qJRWzoiGvhbbwPoKooLYxgg&usqp=CAU"></CImg>-->
-              <!--              </CCol>-->
-              <CButton
-                  class="custom-bot-spawn-bot"
-                  color="dark"
-                  size="lg"
-                  @click="spawnbot()"
-
-              >
-                Start Trade
-              </CButton>
-
-            </CCol>
           </CModal>
           <br>
 
@@ -138,6 +130,7 @@
               hover
               :loading="loading"
           >
+
 
             <template #id="{item}">
               <td>
@@ -236,6 +229,27 @@
               </td>
             </template>
 
+            <template #market_spot="{item}">
+              <td>
+                <div v-if="item.market_stop">
+                  <CBadge color="success" shape="pill">Y</CBadge>
+                </div>
+                <div v-else>
+                  <CBadge color="danger" shape="pill">N</CBadge>
+                </div>
+              </td>
+            </template>
+
+            <template #market_futures="{item}">
+              <td>
+                <div v-if="item.market_futures">
+                  <CBadge color="success" shape="pill">Y</CBadge>
+                </div>
+                <div v-else>
+                  <CBadge color="danger" shape="pill">N</CBadge>
+                </div>
+              </td>
+            </template>
 
           </CDataTable>
 
@@ -296,6 +310,24 @@ const fields = [
   {
     key: 'abort',
     label: 'Abort',
+    sort: false,
+    filter: false
+  },
+  {
+    key: 'market_spot',
+    label: 'Market Spot',
+    sort: false,
+    filter: false
+  },
+  {
+    key: 'market_futures',
+    label: 'Market Futures',
+    sort: false,
+    filter: false
+  },
+  {
+    key: 'leverage',
+    label: 'Leverage',
     sort: false,
     filter: false
   },
@@ -523,38 +555,3 @@ export default {
 
 }
 </script>
-
-<style>
-footer.modal-footer {
-  display: none;
-}
-
-button.btn {
-  background-color: #262626;
-}
-
-button.btn:hover {
-  background-color: #c03d3d;
-}
-
-.modal-warning .modal-header {
-  color: #fff;
-  background-color: #262625;
-  text-align: center !important;
-}
-
-button.btn.custom-bot-spawn-bot.btn-success.btn-lg {
-  width: 100%;
-}
-
-label.text {
-  font-size: 16px !important;
-  font-weight: 700;
-}
-
-button.btn.custom-button-remove-bot.btn-danger.btn-sm {
-  background-color: #e63535;
-  font-weight: 500;
-}
-
-</style>

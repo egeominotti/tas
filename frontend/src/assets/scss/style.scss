@@ -7,48 +7,17 @@
 // If you want to add something do it here
 @import "custom";
 
-.card-header:not(.content-center) > .c-icon:first-child {
-  margin-right: 0.1rem;
-  margin-top: 0.1rem;
-  vertical-align: top;
-  width: 1.2rem;
-  height: 1.2rem;
-  font-size: 1.2rem;
+/**
+ul.c-sidebar-nav {
+  background-color: #0c0c14;
 }
 
-div.c-app.c-dark-theme > div.c-sidebar.c-sidebar-dark.c-sidebar-lg-show.c-sidebar-fixed {
-  background-color: #2a2b36;
+main.c-main {
+  background-color: #0c0c14;
 }
 
-div.c-app > div.c-sidebar.c-sidebar-dark.c-sidebar-lg-show.c-sidebar-fixed {
-  background-color: #262626;
+.c-dark-theme .c-sidebar .c-sidebar-nav-link:hover, .c-dark-theme .c-sidebar .c-sidebar-nav-dropdown-toggle:hover {
+    color: #fff;
+    background: rgba(237, 183, 12, 0.96);
 }
-
-.c-sidebar .c-sidebar-nav-link:hover, .c-sidebar .c-sidebar-nav-dropdown-toggle:hover {
-  color: #fff;
-  background: rgba(203, 232, 135, 0.34);;
-}
-
-a.router-link-active {
-  color: #f3ffcf;;
-}
-
-button.btn-info {
-  background-color: #f3ffcf;
-}
-
-.btn-info:hover {
-  color: #fff;
-  background-color: #FFBF01;
-  border-color: #0080ff;
-}
-
-a.router-link-active {
-    color: black;
-    font-weight: 500;
-}
-
-button.close {
-  color: white;
-  font-weight: 600;
-}
+**/
