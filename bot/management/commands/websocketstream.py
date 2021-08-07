@@ -34,7 +34,7 @@ class Command(BaseCommand):
                 if oldest_stream_data_from_stream_buffer:
                     binance_stream = UnicornFy.binance_com_websocket(oldest_stream_data_from_stream_buffer)
 
-                    sleep(1)
+                    sleep(0.9)
                     BufferStreamWebSocket.objects\
                         .filter(created_at__lte=datetime.datetime.now() - datetime.timedelta(minutes=1))\
                         .delete()
