@@ -252,12 +252,17 @@ class TradingBot:
             self.error(e, self.func_entry.name)
             return False
 
+    def abort(self):
+        if self.current_bot.objects.get(id=self.current_bot.id).abort:
+            return True
+        else:
+            return False
+
     def run(self) -> None:
 
         self.start()
 
         entry = False
-
         while True:
 
             try:
@@ -265,17 +270,35 @@ class TradingBot:
                 if entry is False:
                     if datetime.datetime.now().second == 59:
                         if self.entry():
-                            print("HO TROVATO UNA ENTRY")
-
-                            # Successfully open position
-                            entry = True
+                            if self.abort():
+                                print("Esco dal bot")
+                                self.current_bot.running = False
+                                self.current_bot.save()
+                                break
+                            else:
+                                print("HO TROVATO UNA ENTRY")
+                                print(self.item)
+                                entry = True
+                                self.current_bot.running = False
+                                self.current_bot.save()
+                                print("Esco dal bot")
+                                continue
+                                # Successfully open position
 
                 if entry is True:
                     self.item['exit_function'] = True
                     if self.exit():
                         print("HO TROVATO UNO STOP LOSS O TAKE PROFIT RINIZIO DA CAPO A CERCARE")
-                        sleep(35)
-                        continue
+                        sleep(5)
+                        print("value abort: " + self.current_bot.objects.get(id=self.current_bot.id).abort)
+                        if self.abort():
+                            break
+                        else:
+                            print("Esco dal bot")
+                            self.current_bot.running = False
+                            self.current_bot.save()
+                            entry = False
+                            continue
 
             except Exception as e:
                 print(e)

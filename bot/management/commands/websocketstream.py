@@ -22,21 +22,19 @@ class Command(BaseCommand):
 
         klines = ['kline_1m', 'kline_5m', 'kline_15m', 'kline_30m', 'kline_1h']
 
-        #klines = ['kline_1m', 'kline_5m', 'kline_15m', 'kline_30m', 'kline_1h', 'kline_2h', 'kline_4h', 'kline_6h', 'kline_8h', 'kline_12h', 'kline_1d', 'kline_3d', 'kline_1w', 'kline_1M']
+        # klines = ['kline_1m', 'kline_5m', 'kline_15m', 'kline_30m', 'kline_1h', 'kline_2h', 'kline_4h', 'kline_6h', 'kline_8h', 'kline_12h', 'kline_1d', 'kline_3d', 'kline_1w', 'kline_1M']
 
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com")
         binance_websocket_api_manager.create_stream(klines, symbolList, output="UnicornFy")
 
-        try:
-            while True:
-
+        while True:
+            try:
                 oldest_stream_data_from_stream_buffer = binance_websocket_api_manager.pop_stream_data_from_stream_buffer()
                 if oldest_stream_data_from_stream_buffer:
                     binance_stream = UnicornFy.binance_com_websocket(oldest_stream_data_from_stream_buffer)
 
-                    sleep(0.9)
-                    BufferStreamWebSocket.objects\
-                        .filter(created_at__lte=datetime.datetime.now() - datetime.timedelta(minutes=1))\
+                    BufferStreamWebSocket.objects \
+                        .filter(created_at__lte=datetime.datetime.now() - datetime.timedelta(minutes=1)) \
                         .delete()
 
                     for k, v in binance_stream.items():
@@ -51,6 +49,7 @@ class Command(BaseCommand):
                                 is_closed=v.get('is_closed')
                             )
 
-        except Exception as e:
-            print(e)
-            return e
+            except Exception as e:
+                print(e)
+                sleep(1)
+                continue
