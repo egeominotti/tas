@@ -58,10 +58,14 @@ logger = logging.getLogger(__name__)
 def logicentry_first(item, bot=False):
     if bot:
 
-        item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
+        item['candle_close'] = BufferStreamWebSocket.objects \
+            .filter(symbol__symbol=item.get('symbol_exchange'), time_frame=item.get('time_frame')) \
+            .last().close_candle
+
+        # item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
         # item['candle_close'] = BufferStreamWebSocket.objects.filter(symbol__symbol=item.get('symbol_exchange'),time_frame='1m').last().close_candle
 
-        item['long_short_ratio'] = btby_momentum(item.get('symbol_exchange').replace('USDT', ''))
+        # item['long_short_ratio'] = btby_momentum(item.get('symbol_exchange').replace('USDT', ''))
         longShortRatio = item['long_short_ratio']
         time_frame = item['time_frame']
         taapi = item['taapi']
@@ -84,43 +88,42 @@ def logicentry_first(item, bot=False):
         print("CANDLE HIGH PREV:" + str(candle_high_prev))
         print("CANDLE LOW PREV:" + str(candle_low_prev))
 
-        if longShortRatio is not None and longShortRatio > 1:
+        item['type'] = 0  # type = 0 corrisponde ad una entrata long
+        item['entry'] = True
+        item['entry_candle'] = item['candle_close']
+        return True
 
-            print("ENTRO LONG")
-
-            """
-            LONG entry
-            """
-
-            if ema8 > ema13:
-                if ema13 > ema21:
-                    if ema21 > ema34:
-                        if candle_low_prev <= ema8_prev:
-                            if ema8 / ema13 < 1.00165 and ema21 / ema34 < 1.00095:
-                                if canlde_close > candle_open_prev:
-                                    item['type'] = 0  # type = 0 corrisponde ad una entrata long
-                                    item['entry'] = True
-                                    item['entry_candle'] = item['candle_close']
-                                    return True
-
-        elif longShortRatio is not None and longShortRatio < 1:
-
-            print("ENTRO SHORT")
-
-            """
-            SHORT entry
-            """
-
-            if ema8 < ema13:
-                if ema13 < ema21:
-                    if ema21 < ema34:
-                        if candle_high_prev >= ema8_prev:
-                            if ema34 / ema21 < 1.0006 and ema13 / ema8 < 1.0009:
-                                if canlde_close < candle_open_prev:
-                                    item['type'] = 1  # type = 1 corrisponde ad una entrata short
-                                    item['entry'] = True
-                                    item['entry_candle'] = item['candle_close']
-                                    return True
+        # """
+        # LONG entry
+        # """
+        #
+        # if ema8 > ema13:
+        #     if ema13 > ema21:
+        #         if ema21 > ema34:
+        #             if candle_low_prev <= ema8_prev:
+        #                 if ema8 / ema13 < 1.00165 and ema21 / ema34 < 1.00095:
+        #                     if canlde_close > candle_open_prev:
+        #                         print("ENTRO LONG")
+        #                         item['type'] = 0  # type = 0 corrisponde ad una entrata long
+        #                         item['entry'] = True
+        #                         item['entry_candle'] = item['candle_close']
+        #                         return True
+        #
+        # """
+        # SHORT entry
+        # """
+        #
+        # if ema8 < ema13:
+        #     if ema13 < ema21:
+        #         if ema21 < ema34:
+        #             if candle_high_prev >= ema8_prev:
+        #                 if ema34 / ema21 < 1.0006 and ema13 / ema8 < 1.0009:
+        #                     if canlde_close < candle_open_prev:
+        #                         print("ENTRO SHORT")
+        #                         item['type'] = 1  # type = 1 corrisponde ad una entrata short
+        #                         item['entry'] = True
+        #                         item['entry_candle'] = item['candle_close']
+        #                         return True
 
     else:
         """
@@ -142,9 +145,12 @@ def logicexit_first(item, bot=False):
         sentinel = False
         try:
             while True:
+
                 print("SONO DENTRO logicexit_first")
-                item['candle_close'] = BufferStreamWebSocket.objects.filter(symbol__symbol=item.get('symbol_exchange'),
-                                                                            time_frame='1m').last().close_candle
+                item['candle_close'] = BufferStreamWebSocket.objects \
+                    .filter(symbol__symbol=item.get('symbol_exchange'), time_frame=item.get('time_frame')) \
+                    .last().close_candle
+
                 print("Candle close from binance: " + item['candle_close'])
                 if item['type'] == 0:
 
