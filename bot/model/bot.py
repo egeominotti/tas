@@ -276,6 +276,8 @@ class TradingBot:
         self.start()
 
         entry = False
+        sentinel = False
+
         while True:
 
             try:
@@ -310,8 +312,8 @@ class TradingBot:
                     if self.abort('exit_false'):
                         print("Esco dal bot")
                         break
-                    self.item['exit_function'] = True
 
+                    self.item['exit_function'] = True
                     if self.exit():
 
                         print("HO TROVATO UNO STOP LOSS O TAKE PROFIT RINIZIO DA CAPO A CERCARE")
@@ -321,8 +323,9 @@ class TradingBot:
                             # TODO: Chiudere la posizione aperta precedentemente
                             break
                         else:
-                            print("Esco dal bot")
+                            # Qui ho fatto profitto/perso esco dal ciclo
                             entry = False
+                            sentinel = True
                             break
 
             except Exception as e:
@@ -330,6 +333,15 @@ class TradingBot:
                 self.error(e, 'run')
                 sleep(5)
                 continue
+
+        #end-while-true
+
+        if sentinel:
+            sleep(5)
+            # Imposto a false in modo che può ripartire
+            self.current_bot.running = False
+            self.current_bot.save()
+            exit(1)
 
         if self.abort('abort_finale_exit_1'):
             print("Self abort con exit1")
