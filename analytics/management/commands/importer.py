@@ -1,6 +1,8 @@
 import json
 from datetime import datetime
 from multiprocessing import Process
+from threading import Thread
+
 from backtest.services.computedata import compute_data
 from binance import Client
 from django.core.management import BaseCommand
@@ -59,22 +61,22 @@ class Command(BaseCommand):
 
         telegram = Telegram()
 
-        list = []
+        threads = []
         qs = ToImportCoins.objects.all()
         for k in qs:
             print(k.time_frame.time_frame)
             print(k.coin.symbol)
 
             try:
-                process = Process(target=save, args=(k.coin.symbol, k.time_frame.time_frame,))
-                list.append(process)
+                thread = Thread(target=save, args=(k.coin.symbol, k.time_frame.time_frame,))
+                threads.append(thread)
 
             except Exception as e:
                 start = "Errore importazione dei dati: " + str(e) + " " + str(k.coin.symbol) + " " + str(
                     k.time_frame.time_frame)
                 telegram.send(start)
 
-        for process in list:
-            print(process)
-            process.run()
-            process.join()
+        for thread in threads:
+            thread.daemon = True
+            thread.start()
+            thread.join()
