@@ -121,8 +121,8 @@
             <template #id="{item}">
               <td>
 
-                <CSpinner v-if="item.perpetual" color="success" size="md"/>
-                <CSpinner v-else color="dark" size="md"/>
+                <CSpinner v-if="item.running" color="success" size="sm"/>
+                <CBadge v-else color="danger" shape="pill">X</CBadge>
               </td>
             </template>
 
@@ -148,7 +148,7 @@
 
             <template #running="{item}">
               <td>
-                <div v-if="item.perpetual">
+                <div v-if="item.running">
                   <CBadge color="success" shape="pill">Y</CBadge>
                 </div>
                 <div v-else>
@@ -159,7 +159,7 @@
 
             <template #abort="{item}">
               <td>
-                <div v-if="item.perpetual">
+                <div v-if="item.abort">
                   <CBadge color="success" shape="pill">Y</CBadge>
                 </div>
                 <div v-else>
