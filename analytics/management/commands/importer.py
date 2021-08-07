@@ -1,8 +1,6 @@
 import json
 from datetime import datetime
-from multiprocessing import Process
 from threading import Thread
-
 from backtest.services.computedata import compute_data
 from binance import Client
 from django.core.management import BaseCommand
