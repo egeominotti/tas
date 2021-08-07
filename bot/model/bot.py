@@ -326,6 +326,6 @@ class TradingBot:
                 sleep(5)
                 continue
 
-        if self.abort('exiit_1'):
+        if self.abort('abort_finale_exit_1'):
             print("Self abort con exit1")
             exit(1)
