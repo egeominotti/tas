@@ -142,24 +142,30 @@ class TradingBot:
                         start_balance=self.exchange.get_current_balance_futures_(),
                         coin_quantity=self.exchange.get_quantity_from_number_of_bot(),
                         leverage=self.exchange.leverage,
+                        short=False,
+                        long=False
                     )
 
                     if self.live:
                         if self.item.get('type') == 0:
                             # LONG
                             self.exchange.buy_market()
-                            self.logger.objects.filter(id=self.logger_instance.id) \
-                                .update(
-                                long=True
-                            )
 
                         if self.item.get('type') == 1:
                             # SHORT
                             self.exchange.sell_market()
-                            self.logger.objects.filter(id=self.logger_instance.id) \
-                                .update(
-                                short=True
-                            )
+
+                    if self.item.get('type') == 0:
+                        self.logger.objects.filter(id=self.logger_instance.id) \
+                            .update(
+                            long=True
+                        )
+
+                    if self.item.get('type') == 1:
+                        self.logger.objects.filter(id=self.logger_instance.id) \
+                            .update(
+                            short=True
+                        )
 
                     if self.notify:
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
