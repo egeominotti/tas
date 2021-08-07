@@ -34,7 +34,7 @@ def init() -> None:
             qs = Bot.objects.filter(running=False)
             if qs.count() > 0:
                 for instance in qs:
-                    thread = Thread(target=spawnbot, name=qs.name, args=(instance,))
+                    thread = Thread(target=spawnbot, name=instance.name, args=(instance,))
                     thread.daemon = True
                     thread.start()
 
