@@ -298,7 +298,7 @@ class TradingBot:
                             self.current_bot.running = False
                             self.current_bot.save()
                             entry = False
-                            continue
+                            break
 
             except Exception as e:
                 print(e)
