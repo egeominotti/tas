@@ -1,26 +1,23 @@
-import multiprocessing
 from bot.services.telegram import Telegram
 from analytics.services.exchangeApi import Taapi
 from exchange.model.binance import BinanceHelper
 from backtest.strategy.logic.logic_function import *
+from threading import Thread
 
 
-class TradingBot:
+class TradingBot(Thread):
 
-    def __init__(
-            self,
-            current_bot,
-            user,
-            userexchange,
-            symbol,
-            symbol_exchange,
-            time_frame,
-            func_entry,
-            func_exit,
-            logger,
-            bot_object,
-    ):
+    def __init__(self,
+                 current_bot, user,
+                 userexchange, symbol,
+                 symbol_exchange,
+                 time_frame,
+                 func_entry,
+                 func_exit,
+                 logger,
+                 bot_object):
 
+        super().__init__()
         self.current_bot = current_bot
         self.user = user
         self.userexchange = userexchange
@@ -75,12 +72,7 @@ class TradingBot:
             'exit_function': False,
             'user': self.user.username
         }
-
-        process = multiprocessing.Process(target=self.run, name=self.current_bot.name, args=())
-        self.process = process
-
-        process.daemon = True
-        process.start()
+        Thread.__init__(self)
 
     def error(self, e):
         exception = "ERROR" + str(e)
@@ -88,7 +80,6 @@ class TradingBot:
         self.current_bot.save()
         self.telegram.send(exception)
         self.bot_object.objects.filter(id=self.current_bot.id).delete()
-        self.process.close()
 
     def start(self) -> None:
 
@@ -284,11 +275,9 @@ class TradingBot:
                     if self.exit():
                         if self.current_bot.perpetual:
                             # self.bot_object.objects.filter(id=self.current_bot.id).delete()
-                            # self.process.kill()
                             continue
                         else:
                             self.bot_object.objects.filter(id=self.current_bot.id).delete()
-                            self.process.close()
                             break
 
             except Exception as e:
