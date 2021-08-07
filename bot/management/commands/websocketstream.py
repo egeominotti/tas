@@ -1,3 +1,4 @@
+import datetime
 from django.core.management import BaseCommand
 import logging
 from strategy.models import SymbolExchange
@@ -30,9 +31,8 @@ class Command(BaseCommand):
                 if oldest_stream_data_from_stream_buffer:
                     binance_stream = UnicornFy.binance_com_websocket(oldest_stream_data_from_stream_buffer)
 
-                    val = SymbolExchange.objects.all().count() * 14 * 100
-                    if BufferStreamWebSocket.objects.count() > val:
-                        BufferStreamWebSocket.objects.all().delete()
+                    BufferStreamWebSocket.objects.filter(
+                        created_at__lte=datetime.datetime.now() - datetime.timedelta(minutes=2)).delete()
 
                     for k, v in binance_stream.items():
                         if isinstance(v, dict):
