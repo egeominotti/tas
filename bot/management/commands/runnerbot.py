@@ -30,13 +30,14 @@ def init() -> None:
         qs = Bot.objects.filter(running=False)
         if qs.count() > 0:
             for instance in qs:
-                spawnbot(instance)
+                thread = Thread(target=spawnbot, args=(instance,))
+                thread.daemon = True  # Daemonize thread
+                thread.start()  # Start the execution
+                #spawnbot(instance)
         sleep(15)
 
 class Command(BaseCommand):
     help = 'AsyncBotRunner'
 
     def handle(self, *args, **kwargs):
-        thread = Thread(target=init, args=())
-        thread.daemon = True  # Daemonize thread
-        thread.start()  # Start the execution
+        init()
