@@ -253,7 +253,7 @@ class TradingBot:
             return False
 
     def abort(self):
-        if self.current_bot.objects.get(id=self.current_bot.id).abort:
+        if self.bot_object.objects.get(id=self.current_bot.id).abort:
             return True
         else:
             return False
@@ -303,5 +303,5 @@ class TradingBot:
             except Exception as e:
                 print(e)
                 self.error(e, 'run')
-                sleep(35)
+                sleep(5)
                 continue
