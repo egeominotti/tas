@@ -142,7 +142,6 @@ class TradingBot:
                     self.logger_instance = self.logger.objects \
                         .create(
                         user=self.user,
-                        bot=self.current_bot,
                         entry_candle=self.item.get('entry_candle'),
                         entry_candle_date=now,
                         stop_loss_ratio=self.item.get('stoploss_ratio'),

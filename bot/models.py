@@ -37,7 +37,6 @@ class UserExchange(CommonTrait):
 
 
 class BotLogger(CommonTrait):
-    bot = models.ForeignKey('Bot', on_delete=models.SET_NULL, null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False, blank=False)
     entry_candle = models.FloatField(default=0, blank=True)
     entry_candle_date = models.DateTimeField(blank=True, null=True)
