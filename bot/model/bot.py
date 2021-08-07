@@ -256,10 +256,11 @@ class TradingBot:
             self.error(e, self.func_entry.name)
             return False
 
-    def abort(self, funct):
-        print("Mi trovo in abort")
+    def abort(self, func):
+        print("Mi trovo in abort" + str(func))
         if self.bot_object.objects.get(id=self.current_bot.id).abort:
             self.current_bot.running = False
+            self.current_bot.abort = True
             self.current_bot.save()
             return True
         else:
