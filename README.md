@@ -55,3 +55,9 @@
 
         # Check log
             journalctl -u websocketstream.service -f
+
+## Tuning
+
+    Tuning postgres 13 link
+
+        https://pgtune.leopard.in.ua/#/
