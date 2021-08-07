@@ -10,8 +10,7 @@ logger = logging.getLogger('main')
 
 
 def spawnbot(instance) -> None:
-
-    tb =TradingBot(
+    tb = TradingBot(
         current_bot=instance,
         user=instance.user,
         userexchange=UserExchange.objects.get(user=instance.user),
@@ -27,17 +26,24 @@ def spawnbot(instance) -> None:
     instance.save()
     tb.run()
 
-def init() -> None:
 
+def init() -> None:
     while True:
 
         if datetime.datetime.now().second == 30:
             qs = Bot.objects.filter(running=False)
             if qs.count() > 0:
                 for instance in qs:
-                    thread = Thread(target=spawnbot, args=(instance,))
+                    thread = Thread(target=spawnbot, name=qs.name, args=(instance,))
                     thread.daemon = True
                     thread.start()
+
+        sleep(15)
+        qs = Bot.objects.filter(abort=True)
+        if qs.count() > 0:
+            for instance in qs:
+                print(instance)
+
 
 class Command(BaseCommand):
     help = 'AsyncBotRunner'

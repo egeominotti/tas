@@ -59,8 +59,7 @@ def logicentry_first(item, bot=False):
     if bot:
 
         item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
-        #item['candle_close'] = BufferStreamWebSocket.objects.filter(symbol__symbol=item.get('symbol_exchange'),time_frame='1m').last().close_candle
-
+        # item['candle_close'] = BufferStreamWebSocket.objects.filter(symbol__symbol=item.get('symbol_exchange'),time_frame='1m').last().close_candle
 
         item['long_short_ratio'] = btby_momentum(item.get('symbol_exchange').replace('USDT', ''))
         longShortRatio = item['long_short_ratio']
@@ -139,12 +138,13 @@ def logicentry_first(item, bot=False):
 
 def logicexit_first(item, bot=False):
     if bot:
-
+        sentinel = False
         try:
             while True:
 
-                item['candle_close'] = BufferStreamWebSocket.objects.filter(symbol__symbol=item.get('symbol_exchange'),time_frame='1m').last().close_candle
-
+                item['candle_close'] = BufferStreamWebSocket.objects.filter(symbol__symbol=item.get('symbol_exchange'),
+                                                                            time_frame='1m').last().close_candle
+                print("Candle close from binance: " + item['candle_close'])
                 if item['type'] == 0:
 
                     """
