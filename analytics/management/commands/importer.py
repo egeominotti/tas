@@ -25,11 +25,10 @@ def save(symbol, time_frame):
 
     if len(klines) > 0:
         klines_computed = compute_data(klines)
-
         for item in klines_computed:
             print(item)
             qs = Importer.objects.filter(Q(symbol=symbol) & Q(tf=time_frame) & Q(timestamp=item['timestamp']))
-            if len(qs) == 0:
+            if qs.count() == 0:
 
                 imp = Importer.objects.create(
                     symbol=symbol,
@@ -60,6 +59,7 @@ class Command(BaseCommand):
 
         telegram = Telegram()
 
+        list = []
         qs = ToImportCoins.objects.all()
         for k in qs:
             print(k.time_frame.time_frame)
@@ -67,10 +67,14 @@ class Command(BaseCommand):
 
             try:
                 process = Process(target=save, args=(k.coin.symbol, k.time_frame.time_frame,))
-                process.run()
-                process.join()
+                list.append(process)
 
             except Exception as e:
                 start = "Errore importazione dei dati: " + str(e) + " " + str(k.coin.symbol) + " " + str(
                     k.time_frame.time_frame)
                 telegram.send(start)
+
+        for process in list:
+            print(process)
+            process.run()
+            process.join()
