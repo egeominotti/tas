@@ -34,7 +34,7 @@ def init() -> None:
                 thread = Thread(target=spawnbot, args=(instance,))
                 thread.daemon = True
                 thread.start()
-        sleep(15)
+        sleep(30)
 
 class Command(BaseCommand):
     help = 'AsyncBotRunner'
