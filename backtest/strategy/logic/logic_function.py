@@ -77,6 +77,7 @@ def logicentry_first(item, bot=False):
         ema21 = taapi.ema(21, time_frame)
         ema34 = taapi.ema(34, time_frame)
 
+        print("\n")
         print(datetime.datetime.now())
         print("CANDLE CLOSE: " + str(canlde_close))
         print("CANDLE OPEN PREV:" + str(candle_open_prev))

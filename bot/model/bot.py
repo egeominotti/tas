@@ -73,9 +73,9 @@ class TradingBot:
             'user': self.user.username
         }
 
-    def error(self, e):
-        exception = "ERROR" + str(e)
-        print("ERRORE: " +str(e))
+    def error(self, e, func):
+        exception = "ERROR" + str(e) + " function:" + str(func)
+        print("ERROR" + str(e) + " function:" + str(func))
         self.telegram.send(exception)
 
     def start(self) -> None:
@@ -162,7 +162,7 @@ class TradingBot:
                     return True
 
         except Exception as e:
-            self.error(e)
+            self.error(e, self.func_entry.name)
             return False
 
     def exit(self) -> bool:
@@ -247,7 +247,7 @@ class TradingBot:
                     return True
 
         except Exception as e:
-            self.error(e)
+            self.error(e, self.func_entry.name)
             return False
 
     def run(self) -> None:
@@ -272,5 +272,5 @@ class TradingBot:
 
             except Exception as e:
                 print(e)
-                self.error(e)
+                self.error(e, 'run')
                 continue
