@@ -5,7 +5,6 @@ from django_quill.fields import QuillField
 
 class TimeFrame(CommonTrait):
     time_frame = models.CharField(max_length=10, blank=False)
-    to_import = models.BooleanField(default=False)
 
     def __str__(self):
         if len(self.time_frame) > 0:
@@ -31,7 +30,6 @@ class SymbolTaapiApi(CommonTrait):
 
 class SymbolExchange(CommonTrait):
     symbol = models.CharField(max_length=20, blank=False)
-    to_import = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'SymbolExchange'

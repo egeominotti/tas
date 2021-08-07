@@ -34,7 +34,7 @@ class TimeFrameAdmin(admin.ModelAdmin):
     # search_fields = ['time_frame']
     list_per_page = 20
     ordering = ('id',)
-    list_display = ('time_frame', 'to_import')
+    list_display = ('time_frame',)
     exclude = ['flgEnable', ]
 
 
@@ -43,7 +43,7 @@ class SymbolExchangeAdmin(admin.ModelAdmin):
     list_per_page = 50
     ordering = ('id',)
     list_display = (
-        'symbol', 'to_import')
+        'symbol',)
     exclude = ['flgEnable', ]
 
 

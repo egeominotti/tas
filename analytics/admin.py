@@ -1,5 +1,5 @@
 from django.contrib import admin
-from analytics.models import Importer, TrendChecker
+from analytics.models import Importer, TrendChecker, ToImportCoins
 
 
 class ExchangeRecordAdmin(admin.ModelAdmin):
@@ -34,5 +34,14 @@ class TradeCheckerAdmin(admin.ModelAdmin):
         return False
 
 
+class ToImportCoinsAdmin(admin.ModelAdmin):
+    search_fields = ['tf']
+    list_per_page = 50
+    exclude = ('flgEnable',)
+    list_display = ('coin', 'time_frame')
+    ordering = ('id',)
+
+
 admin.site.register(Importer, ExchangeRecordAdmin)
+admin.site.register(ToImportCoins, ToImportCoinsAdmin)
 admin.site.register(TrendChecker, TradeCheckerAdmin)

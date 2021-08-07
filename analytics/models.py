@@ -52,3 +52,11 @@ class TrendChecker(CommonTrait):
 
     def __str__(self):
         return str(self.id)
+
+class ToImportCoins(CommonTrait):
+    coin = models.ForeignKey(SymbolExchange, on_delete=models.CASCADE, null=False, blank=False)
+    time_frame = models.ForeignKey(TimeFrame, on_delete=models.CASCADE, null=False, blank=False)
+
+    class Meta:
+        verbose_name = 'ToImportCoins'
+        verbose_name_plural = 'ToImportCoins'
