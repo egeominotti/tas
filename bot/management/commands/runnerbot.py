@@ -29,7 +29,7 @@ def spawnbot(instance) -> None:
 
 def init() -> None:
     while True:
-        print(datetime.datetime.now().second)
+
         if datetime.datetime.now().second == 30:
             qs = Bot.objects.filter(running=False)
             if qs.count() > 0:
@@ -38,12 +38,13 @@ def init() -> None:
                     thread.daemon = True
                     thread.start()
 
-        sleep(15)
+
         qs = Bot.objects.filter(abort=True)
         if qs.count() > 0:
+            print("Trovato bot da abortine")
             for instance in qs:
                 print(instance)
-
+            sleep(1)
 
 class Command(BaseCommand):
     help = 'AsyncBotRunner'
