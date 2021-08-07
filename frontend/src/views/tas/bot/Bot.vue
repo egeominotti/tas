@@ -364,11 +364,8 @@ export default {
     openModalStopBot(item) {
       this.modalStopBot = true
       this.currentbotid = item
-      console.log(this.currentbotid)
-      console.log(this.currentbotid)
-      console.log(this.currentbotid)
-      console.log(this.currentbotid)
     },
+
     getCoins() {
       axios
           .get(apiGetListCoins)
@@ -420,7 +417,6 @@ export default {
 
       axios.patch(apiUpdateBot + this.currentbotid,
           {
-            abort: true,
             running: false
           }, {
             headers: {
