@@ -23,6 +23,39 @@
           <!--          >-->
           <!--            Create cluster bot-->
           <!--          </CButton>-->
+
+          <CModal
+              size="sm"
+              :centered="true"
+              title="Stop Bot"
+              :backdrop="true"
+              :closeOnBackdrop="false"
+              color="warning"
+              :show.sync="modalStopBot"
+          >
+            <h6>Lorem ipsum, testo per confermare lo stop del bot</h6>
+            <CCol sm="12">
+
+              <CButton
+                  color="warning"
+                  size="lg"
+                  @click="update()"
+              >
+                Yes
+              </CButton>
+
+              <CButton
+                  color="success"
+                  size="lg"
+                  @click="modalStopBot=false"
+              >
+                No
+              </CButton>
+            </CCol>
+
+
+          </CModal>
+
           <CModal
               size="lg"
               :centered="true"
@@ -156,6 +189,50 @@
               </td>
             </template>
 
+            <template #updated_at="{item}">
+              <td>
+                <CButton v-if="item.running"
+                         @click="openModalStopBot(item.id)"
+                         :disabled="false"
+                         color="danger"
+                         size="sm"
+                >
+                  Stop
+                </CButton>
+
+                <CButton v-else
+                         :disabled="true"
+                         color="danger"
+                         size="sm"
+                >
+                  Stop
+                </CButton>
+              </td>
+            </template>
+
+            <template #flgEnable="{item}">
+              <td>
+                <CButton v-if="item.abort"
+                         @click="destroy(item.id)"
+                         :disabled="false"
+                         color="danger"
+                         size="sm"
+                >
+                  Remove
+                </CButton>
+
+                <CButton v-else
+                         :disabled="true"
+                         color="danger"
+                         size="sm"
+                >
+                  Remove
+                </CButton>
+
+              </td>
+            </template>
+
+
           </CDataTable>
 
         </CCardBody>
@@ -170,6 +247,8 @@
 const titleList = "Bot"
 const apiList = '/api/v0/bot/list';
 const apiCreateBot = 'api/v0/bot/create';
+const apiDestroyBot = 'api/v0/bot/destroy/';
+const apiUpdateBot = 'api/v0/bot/update/';
 const apiGetListCoins = '/api/v0/coins/list'
 const apiGetListStrategy = '/api/v0/strategybot/list'
 
@@ -217,8 +296,20 @@ const fields = [
     filter: false
   },
   {
+    key: 'updated_at',
+    label: 'Operation',
+    sort: false,
+    filter: false
+  },
+  {
     key: 'created_at',
     label: 'Created',
+    sort: false,
+    filter: false
+  },
+  {
+    key: 'flgEnable',
+    label: 'Remove',
     sort: false,
     filter: false
   },
@@ -242,8 +333,10 @@ export default {
       message: '',
       loading: false,
       modalCreateBot: false,
+      modalStopBot: false,
       pages: 0,
       currentPages: 1,
+      currentbotid: null,
       fields: fields
     }
   },
@@ -264,6 +357,14 @@ export default {
   },
   methods: {
 
+    openModalStopBot(item) {
+      this.modalStopBot = true
+      this.currentbotid = item
+      console.log(this.currentbotid)
+      console.log(this.currentbotid)
+      console.log(this.currentbotid)
+      console.log(this.currentbotid)
+    },
     getCoins() {
       axios
           .get(apiGetListCoins)
@@ -287,6 +388,55 @@ export default {
           }, (error) => {
             console.log(error);
           });
+    },
+
+    destroy(id) {
+
+      axios.delete(apiDestroyBot + id, {
+            headers: {
+              'Authorization': 'Token ' + localStorage.getItem('token')
+            }
+          }
+      ).then((response) => {
+        if (response.status === 500) {
+        }
+        if (response.status === 204 && response.statusText === 'No Content') {
+          this.getData();
+
+        }
+        console.log(response);
+      }, (error) => {
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      });
+    },
+
+    update() {
+
+      axios.patch(apiUpdateBot + this.currentbotid,
+          {
+            abort: true,
+            running: false
+          }, {
+            headers: {
+              'Authorization': 'Token ' + localStorage.getItem('token')
+            }
+          }
+      ).then((response) => {
+        if (response.status === 500) {
+        }
+        if (response.status === 200 && response.statusText === 'OK') {
+          this.modalStopBot = false
+          this.getData();
+
+        }
+        console.log(response);
+      }, (error) => {
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      });
     },
 
     spawnbot() {

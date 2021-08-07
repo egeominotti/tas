@@ -43,14 +43,6 @@ def init() -> None:
                     # For taapi
                     sleep(15)
 
-        qs = Bot.objects.filter(abort=True)
-        if qs.count() > 0:
-            print("Trovato bot da abortine")
-            for instance in qs:
-                print(instance)
-            sleep(1)
-
-
 class Command(BaseCommand):
     help = 'AsyncBotRunner'
 

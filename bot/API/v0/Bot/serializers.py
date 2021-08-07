@@ -13,3 +13,8 @@ class BotSerializer(serializers.ModelSerializer):
         model = Bot
         fields = '__all__'
         depth = 2
+
+class BotUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bot
+        fields = '__all__'
