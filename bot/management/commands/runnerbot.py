@@ -38,6 +38,7 @@ def init() -> None:
                     instance.running = True
                     instance.save()
                     thread.start()
+                    print("Sart thread: " + str(thread))
 
         qs = Bot.objects.filter(abort=True)
         if qs.count() > 0:
