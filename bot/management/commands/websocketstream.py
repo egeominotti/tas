@@ -1,4 +1,6 @@
 import datetime
+from time import sleep
+
 from django.core.management import BaseCommand
 import logging
 from strategy.models import SymbolExchange
@@ -28,15 +30,14 @@ class Command(BaseCommand):
         try:
             while True:
 
-                print(BufferStreamWebSocket.objects.filter(symbol__symbol='ETHUSDT',
-                                                     time_frame='1m').last().close_candle)
-
                 oldest_stream_data_from_stream_buffer = binance_websocket_api_manager.pop_stream_data_from_stream_buffer()
                 if oldest_stream_data_from_stream_buffer:
                     binance_stream = UnicornFy.binance_com_websocket(oldest_stream_data_from_stream_buffer)
 
-                    BufferStreamWebSocket.objects.filter(
-                        created_at__lte=datetime.datetime.now() - datetime.timedelta(minutes=1)).delete()
+                    sleep(1)
+                    BufferStreamWebSocket.objects\
+                        .filter(created_at__lte=datetime.datetime.now() - datetime.timedelta(minutes=1))\
+                        .delete()
 
                     for k, v in binance_stream.items():
                         if isinstance(v, dict):
