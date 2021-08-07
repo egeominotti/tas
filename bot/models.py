@@ -66,6 +66,7 @@ class BotLogger(CommonTrait):
 class StrategyBot(CommonTrait):
     name = models.CharField(max_length=200, blank=False)
     time_frame = models.ForeignKey(TimeFrame, on_delete=models.CASCADE, null=False, blank=False)
+    description = models.TextField(blank=False, null=False)
     logic_entry = models.ForeignKey(LogicEntry, on_delete=models.CASCADE, null=False, blank=False)
     logic_exit = models.ForeignKey(LogicExit, on_delete=models.CASCADE, null=False, blank=False)
 
@@ -85,7 +86,6 @@ class Bot(CommonTrait):
     strategy = models.ForeignKey(StrategyBot, on_delete=models.CASCADE, null=False, blank=False)
     running = models.BooleanField(default=False)
     abort = models.BooleanField(default=False)
-    perpetual = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'Bot'

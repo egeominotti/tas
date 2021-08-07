@@ -16,13 +16,13 @@
             Create new bot
           </CButton>
 
-<!--          <CButton-->
-<!--              @click="modalCreateBot = true"-->
-<!--              color="dark"-->
-<!--              size="md"-->
-<!--          >-->
-<!--            Create cluster bot-->
-<!--          </CButton>-->
+          <!--          <CButton-->
+          <!--              @click="modalCreateBot = true"-->
+          <!--              color="dark"-->
+          <!--              size="md"-->
+          <!--          >-->
+          <!--            Create cluster bot-->
+          <!--          </CButton>-->
           <CModal
               size="lg"
               :centered="true"
@@ -146,7 +146,18 @@
               </td>
             </template>
 
-            <template #perpetual="{item}">
+            <template #running="{item}">
+              <td>
+                <div v-if="item.perpetual">
+                  <CBadge color="success" shape="pill">Y</CBadge>
+                </div>
+                <div v-else>
+                  <CBadge color="danger" shape="pill">N</CBadge>
+                </div>
+              </td>
+            </template>
+
+            <template #abort="{item}">
               <td>
                 <div v-if="item.perpetual">
                   <CBadge color="success" shape="pill">Y</CBadge>
@@ -206,8 +217,14 @@ const fields = [
     filter: false
   },
   {
-    key: 'perpetual',
-    label: 'Perpetual Mode',
+    key: 'running',
+    label: 'Running',
+    sort: false,
+    filter: false
+  },
+  {
+    key: 'abort',
+    label: 'Abort',
     sort: false,
     filter: false
   },

@@ -46,7 +46,7 @@ class StrategyBotAdmin(admin.ModelAdmin):
     list_per_page = 20
     ordering = ('id',)
     list_display = (
-        'name', 'time_frame', 'logic_entry', 'logic_exit',)
+        'name', 'time_frame', 'description', 'logic_entry', 'logic_exit',)
     exclude = ['flgEnable', ]
 
 
