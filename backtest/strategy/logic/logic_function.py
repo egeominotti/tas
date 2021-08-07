@@ -147,6 +147,10 @@ def logicexit_first(item, bot=False):
             while True:
 
                 print("SONO DENTRO logicexit_first")
+                print(BufferStreamWebSocket.objects \
+                    .filter(symbol__symbol=item.get('symbol_exchange'), time_frame=item.get('time_frame')) \
+                    .last().close_candle)
+                print(BufferStreamWebSocket)
                 item['candle_close'] = BufferStreamWebSocket.objects \
                     .filter(symbol__symbol=item.get('symbol_exchange'), time_frame=item.get('time_frame')) \
                     .last().close_candle
