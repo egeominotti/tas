@@ -17,7 +17,6 @@ class TradingBot(Thread):
                  logger,
                  bot_object):
 
-        Thread.__init__(self)
         self.current_bot = current_bot
         self.user = user
         self.userexchange = userexchange
@@ -72,6 +71,7 @@ class TradingBot(Thread):
             'exit_function': False,
             'user': self.user.username
         }
+        Thread.__init__(self)
 
     def error(self, e):
         exception = "ERROR" + str(e)
