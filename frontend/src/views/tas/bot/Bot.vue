@@ -192,6 +192,7 @@
             <template #updated_at="{item}">
               <td>
                 <CButton v-if="item.running"
+                         class="custom-button-remove-bot"
                          @click="openModalStopBot(item.id)"
                          :disabled="false"
                          color="danger"
@@ -201,6 +202,7 @@
                 </CButton>
 
                 <CButton v-else
+                         class="custom-button-remove-bot"
                          :disabled="true"
                          color="danger"
                          size="sm"
@@ -213,6 +215,7 @@
             <template #flgEnable="{item}">
               <td>
                 <CButton v-if="item.abort"
+                         class="custom-button-remove-bot"
                          @click="destroy(item.id)"
                          :disabled="false"
                          color="danger"
@@ -223,6 +226,7 @@
 
                 <CButton v-else
                          :disabled="true"
+                         class="custom-button-remove-bot"
                          color="danger"
                          size="sm"
                 >
@@ -549,6 +553,11 @@ button.btn.custom-bot-spawn-bot.btn-success.btn-lg {
 label.text {
   font-size: 16px !important;
   font-weight: 700;
+}
+
+button.btn.custom-button-remove-bot.btn-danger.btn-sm {
+  background-color: #e63535;
+  font-weight: 500;
 }
 
 </style>
