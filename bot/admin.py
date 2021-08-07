@@ -8,8 +8,8 @@ class BotAdmin(admin.ModelAdmin):
     list_per_page = 50
     ordering = ('id',)
     list_display = (
-        'name', 'user', 'running', 'stopped', 'strategy', 'coins', 'created_at', 'updated_at',)
-    readonly_fields = ('name', 'running', 'stopped')
+        'name', 'user', 'running', 'stopped', 'abort', 'strategy', 'coins', 'created_at', 'updated_at',)
+    readonly_fields = ('name', 'running',)
     exclude = ['flgEnable', ]
 
     def has_delete_permission(self, request, obj=None):

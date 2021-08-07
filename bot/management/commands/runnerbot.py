@@ -1,3 +1,4 @@
+import datetime
 from threading import Thread
 from time import sleep
 from django.core.management import BaseCommand
@@ -27,14 +28,16 @@ def spawnbot(instance) -> None:
     tb.run()
 
 def init() -> None:
+
     while True:
-        qs = Bot.objects.filter(running=False)
-        if qs.count() > 0:
-            for instance in qs:
-                thread = Thread(target=spawnbot, args=(instance,))
-                thread.daemon = True
-                thread.start()
-        sleep(30)
+
+        if datetime.datetime.now().second == 30:
+            qs = Bot.objects.filter(running=False)
+            if qs.count() > 0:
+                for instance in qs:
+                    thread = Thread(target=spawnbot, args=(instance,))
+                    thread.daemon = True
+                    thread.start()
 
 class Command(BaseCommand):
     help = 'AsyncBotRunner'

@@ -85,6 +85,7 @@ class Bot(CommonTrait):
     strategy = models.ForeignKey(StrategyBot, on_delete=models.CASCADE, null=False, blank=False)
     running = models.BooleanField(default=False)
     stopped = models.BooleanField(default=False)
+    abort = models.BooleanField(default=False)
     perpetual = models.BooleanField(default=False)
 
     class Meta:
