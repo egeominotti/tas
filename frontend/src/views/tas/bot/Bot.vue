@@ -73,18 +73,6 @@
               <br>
             </CCol>
             <CCol sm="12">
-              <label class="text">Perpetual Mode</label>
-              <br>
-              <CSwitch
-                  class="mx-1"
-                  color="dark"
-                  name="switch1"
-                  :checked.sync="perpetual_mode"
-              />
-              <br>
-              <br>
-            </CCol>
-            <CCol sm="12">
 
               <!--              <CCol sm="6">-->
               <!--                <CImg-->
@@ -305,12 +293,10 @@ export default {
 
       console.log(this.selected_coins);
       console.log(this.selected_strategy);
-      console.log(this.perpetual_mode)
       axios.post(apiCreateBot,
           {
             coins: this.selected_coins.id,
             strategy: this.selected_strategy.id,
-            perpetual: this.perpetual_mode
           }, {
             headers: {
               'Authorization': 'Token ' + localStorage.getItem('token')
