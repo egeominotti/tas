@@ -417,6 +417,7 @@ export default {
 
       axios.patch(apiUpdateBot + this.currentbotid,
           {
+            //abort: true,
             running: false
           }, {
             headers: {

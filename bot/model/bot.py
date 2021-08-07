@@ -258,8 +258,7 @@ class TradingBot:
 
     def abort(self, func):
         print("Mi trovo in abort" + str(func))
-        if self.bot_object.objects.get(id=self.current_bot.id).abort:
-            self.current_bot.running = False
+        if self.bot_object.objects.get(id=self.current_bot.id).running is False:
             self.current_bot.abort = True
             self.current_bot.save()
             return True
