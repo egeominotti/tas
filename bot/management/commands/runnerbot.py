@@ -27,12 +27,11 @@ def spawnbot(instance) -> None:
 
 def init() -> None:
     while True:
-        sleep(60)
         qs = Bot.objects.filter(running=False)
         if qs.count() > 0:
             for instance in qs:
                 spawnbot(instance)
-
+        sleep(60)
 
 class Command(BaseCommand):
     help = 'AsyncBotRunner'
