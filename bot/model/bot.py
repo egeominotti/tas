@@ -1,3 +1,5 @@
+from time import sleep
+
 from bot.services.telegram import Telegram
 from analytics.services.exchangeApi import Taapi
 from exchange.model.binance import BinanceHelper
@@ -255,6 +257,7 @@ class TradingBot:
         self.start()
 
         entry = False
+
         while True:
 
             try:
@@ -268,9 +271,11 @@ class TradingBot:
                 if entry is True:
                     self.item['exit_function'] = True
                     if self.exit():
+                        sleep(35)
                         continue
 
             except Exception as e:
                 print(e)
                 self.error(e, 'run')
+                sleep(35)
                 continue
