@@ -9,7 +9,7 @@ logger = logging.getLogger('main')
 
 
 def spawnbot(instance) -> None:
-    TradingBot(
+    tb =TradingBot(
         current_bot=instance,
         user=instance.user,
         userexchange=UserExchange.objects.get(user=instance.user),
@@ -23,6 +23,7 @@ def spawnbot(instance) -> None:
     )
     instance.running = True
     instance.save()
+    tb.run()
 
 
 def init() -> None:

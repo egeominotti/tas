@@ -274,7 +274,6 @@ class TradingBot(Thread):
 
                     if self.exit():
                         if self.current_bot.perpetual:
-                            # self.bot_object.objects.filter(id=self.current_bot.id).delete()
                             continue
                         else:
                             self.bot_object.objects.filter(id=self.current_bot.id).delete()
