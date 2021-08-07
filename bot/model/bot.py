@@ -75,6 +75,9 @@ class TradingBot:
             'user': self.user.username
         }
 
+        self.current_bot.running = True
+        self.current_bot.save()
+
     def error(self, e, func):
         exception = "ERROR" + str(e) + " function:" + str(func)
         print("ERROR" + str(e) + " function:" + str(func))
@@ -94,9 +97,6 @@ class TradingBot:
                     "\nStarted at: " + str(now) + \
                     "\nLet's go to the moon 🚀️"
             self.telegram.send(start)
-
-        self.current_bot.running = True
-        self.current_bot.save()
 
     def entry(self) -> bool:
 
@@ -258,8 +258,13 @@ class TradingBot:
 
     def abort(self, func):
         print("Mi trovo in abort" + str(func))
+        print(self.bot_object.objects.get(id=self.current_bot.id).running)
+        print(self.bot_object.objects.get(id=self.current_bot.id).running)
+        print(self.bot_object.objects.get(id=self.current_bot.id).running)
+        print(self.bot_object.objects.get(id=self.current_bot.id).running)
         if self.bot_object.objects.get(id=self.current_bot.id).running is False:
             self.current_bot.abort = True
+            self.current_bot.running = False
             self.current_bot.save()
             return True
         else:
@@ -308,14 +313,11 @@ class TradingBot:
                     if self.exit():
                         print("HO TROVATO UNO STOP LOSS O TAKE PROFIT RINIZIO DA CAPO A CERCARE")
                         sleep(5)
-                        print("value abort: " + self.current_bot.objects.get(id=self.current_bot.id).abort)
                         if self.abort('exit_true'):
                             # TODO: Chiudere la posizione aperta precedentemente
                             break
                         else:
                             print("Esco dal bot")
-                            # self.current_bot.running = False
-                            # self.current_bot.save()
                             entry = False
                             break
 
@@ -327,4 +329,5 @@ class TradingBot:
 
         if self.abort('abort_finale_exit_1'):
             print("Self abort con exit1")
+            sleep(5)
             exit(1)

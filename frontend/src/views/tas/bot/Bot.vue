@@ -515,11 +515,11 @@ export default {
     this.getData();
   },
 
-  // created() {
-  //   setInterval(function () {
-  //     this.getData();
-  //   }.bind(this), 5000);
-  // }
+  created() {
+    setInterval(function () {
+      this.getData();
+    }.bind(this), 5000);
+  }
 
 }
 </script>
