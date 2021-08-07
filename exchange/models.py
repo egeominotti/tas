@@ -17,7 +17,4 @@ class ExchangeList(CommonTrait):
 
 class User(AbstractUser):
     telegram_notifications = models.BooleanField(default=True)
-    counter_bot = models.IntegerField(default=0, blank=True)
-
-
-
+    telegram_id = models.CharField(max_length=100, blank=True, null=True)

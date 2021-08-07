@@ -42,6 +42,7 @@ class TradingBot:
             symbol=self.symbol_exchange,
             user=self.user,
             leverage=self.userexchange.leverage,
+            bot = self.bot_object.filer(user=user).count()
         )
 
         if self.userexchange.live:

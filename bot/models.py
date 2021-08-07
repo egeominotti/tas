@@ -59,8 +59,8 @@ class BotLogger(CommonTrait):
         verbose_name_plural = 'BotLogger'
 
     def __str__(self):
-        if self.bot is not None:
-            return str(self.bot.name)
+        if self.user is not None:
+            return str(self.user)
 
 
 class StrategyBot(CommonTrait):
