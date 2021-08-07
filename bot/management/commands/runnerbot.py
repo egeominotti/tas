@@ -29,7 +29,7 @@ def spawnbot(instance) -> None:
 
 def init() -> None:
     while True:
-
+        print(datetime.datetime.now().second)
         if datetime.datetime.now().second == 30:
             qs = Bot.objects.filter(running=False)
             if qs.count() > 0:
