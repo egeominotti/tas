@@ -52,6 +52,8 @@ class BotLogger(CommonTrait):
     stop_loss_ratio = models.FloatField(default=0, blank=True)
     stop_loss = models.BooleanField(default=False, blank=True)
     take_profit = models.BooleanField(default=False, blank=True)
+    long = models.BooleanField(default=False, blank=True)
+    short = models.BooleanField(default=False, blank=True)
     thread = models.CharField(max_length=200, blank=True)
 
     class Meta:

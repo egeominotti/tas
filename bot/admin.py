@@ -27,7 +27,8 @@ class BotLoggerAdmin(admin.ModelAdmin):
     list_per_page = 20
     ordering = ('id',)
     list_display = (
-        'user', 'entry_candle', 'entry_candle_date', 'take_profit', 'candle_take_profit',
+        'user', 'take_profit_ratio', 'stop_loss_ratio', 'entry_candle', 'entry_candle_date', 'take_profit',
+        'candle_take_profit',
         'candle_take_profit_date', 'created_at',
         'stop_loss', 'candle_stop_loss', 'candle_stop_loss_date')
     exclude = ['flgEnable', ]

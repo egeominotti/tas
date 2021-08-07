@@ -42,7 +42,7 @@ class TradingBot:
             symbol=self.symbol_exchange,
             user=self.user,
             leverage=self.userexchange.leverage,
-            counter_bot = self.bot_object.objects.filter(user=user).count()
+            counter_bot=self.bot_object.objects.filter(user=user).count()
         )
 
         if self.userexchange.live:
@@ -131,14 +131,6 @@ class TradingBot:
                             self.item.get('entry_candle') * self.item.get('stoploss_value_short'), 3)
                     self.item['type_text'] = type
 
-                    if self.live:
-                        if self.item.get('type') == 0:
-                            # LONG
-                            self.exchange.buy_market()
-                        if self.item.get('type') == 1:
-                            # SHORT
-                            self.exchange.sell_market()
-
                     now = datetime.datetime.now()
                     self.logger_instance = self.logger.objects \
                         .create(
@@ -149,8 +141,25 @@ class TradingBot:
                         take_profit_ratio=self.item.get('takeprofit_ratio'),
                         start_balance=self.exchange.get_current_balance_futures_(),
                         coin_quantity=self.exchange.get_quantity_from_number_of_bot(),
-                        leverage=self.exchange.leverage
+                        leverage=self.exchange.leverage,
                     )
+
+                    if self.live:
+                        if self.item.get('type') == 0:
+                            # LONG
+                            self.exchange.buy_market()
+                            self.logger.objects.filter(id=self.logger_instance.id) \
+                                .update(
+                                long=True
+                            )
+
+                        if self.item.get('type') == 1:
+                            # SHORT
+                            self.exchange.sell_market()
+                            self.logger.objects.filter(id=self.logger_instance.id) \
+                                .update(
+                                short=True
+                            )
 
                     if self.notify:
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
@@ -306,7 +315,6 @@ class TradingBot:
                                 entry = True
                                 continue
 
-
                 if entry is True:
 
                     if self.abort('exit_false'):
@@ -334,7 +342,7 @@ class TradingBot:
                 sleep(5)
                 continue
 
-        #end-while-true
+        # end-while-true
 
         if sentinel:
             sleep(5)
