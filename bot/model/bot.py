@@ -75,8 +75,9 @@ class TradingBot:
 
     def error(self, e):
         exception = "ERROR" + str(e)
-        self.current_bot.stopped = True
-        self.current_bot.save()
+        print("ERRORE: " +str(e))
+        #self.current_bot.stopped = True
+        #self.current_bot.save()
         self.telegram.send(exception)
         #self.bot_object.objects.filter(id=self.current_bot.id).delete()
 
