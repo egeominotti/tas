@@ -41,15 +41,7 @@
               v-model="apiSecret"
           />
 
-          <label class="text">Live Mode</label>
-          <br>
-          <CSwitch
-              class="mx-1"
-              color="dark"
-              name="switch1"
-              :checked.sync="liveMode"
-          />
-          <br>
+
           <br>
           <CButton
               @click="saveUserEchange()"
@@ -142,17 +134,6 @@
                   </td>
                 </template>
 
-                <template #live="{item}">
-                  <td>
-                    <div v-if="item.live">
-                      <CBadge color="success" shape="pill">Y</CBadge>
-                    </div>
-                    <div v-else>
-                      <CBadge color="danger" shape="pill">N</CBadge>
-                    </div>
-                  </td>
-                </template>
-
                 <template #id="{item}">
                   <td>
                     <CButton
@@ -234,12 +215,6 @@ const fields = [
   {
     key: 'api_secret',
     label: 'Api Secret',
-    sort: false,
-    filter: false
-  },
-  {
-    key: 'live',
-    label: 'Live',
     sort: false,
     filter: false
   },

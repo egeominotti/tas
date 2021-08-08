@@ -122,6 +122,16 @@
                   v-model="amount"
               />
 
+              <label class="text">Live Mode</label>
+              <br>
+              <CSwitch
+                  class="mx-1"
+                  color="dark"
+                  name="switch1"
+                  :checked.sync="live"
+              />
+              <br>
+
             </CCol>
 
 
@@ -187,6 +197,18 @@
             <template #abort="{item}">
               <td>
                 <div v-if="item.abort">
+                  <CBadge color="success" shape="pill">Y</CBadge>
+                </div>
+                <div v-else>
+                  <CBadge color="danger" shape="pill">N</CBadge>
+                </div>
+              </td>
+            </template>
+
+
+            <template #live="{item}">
+              <td>
+                <div v-if="item.live">
                   <CBadge color="success" shape="pill">Y</CBadge>
                 </div>
                 <div v-else>
@@ -325,6 +347,12 @@ const fields = [
     filter: false
   },
   {
+    key: 'live',
+    label: 'Live Mode',
+    sort: false,
+    filter: false
+  },
+  {
     key: 'created_at',
     label: 'Created',
     sort: false,
@@ -361,6 +389,7 @@ export default {
       itemsPerPage: 10,
       message: '',
       loading: false,
+      live: false,
       modalCreateBot: false,
       modalStopBot: false,
       pages: 0,
@@ -475,7 +504,8 @@ export default {
             strategy: this.selected_strategy.id,
             market_futures: true,
             leverage: this.leverage,
-            amount: this.amount
+            amount: this.amount,
+            live: this.live
           }, {
             headers: {
               'Authorization': 'Token ' + localStorage.getItem('token')

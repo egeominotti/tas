@@ -34,7 +34,7 @@ class UserExchange(CommonTrait):
     api_secret = models.CharField(max_length=200, blank=False, null=False)
     balance_futures = models.FloatField(default=0, blank=True)
     balance_spot = models.FloatField(default=0, blank=True)
-    live = models.BooleanField(default=False)
+    #live = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'UserExchange'
@@ -102,6 +102,7 @@ class Bot(CommonTrait):
     market_futures = models.BooleanField(default=False)
     leverage = models.IntegerField(default=1, blank=False)
     amount = models.FloatField(default=11, blank=False)
+    live = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'Bot'

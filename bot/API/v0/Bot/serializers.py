@@ -5,7 +5,7 @@ from bot.models import Bot
 class BotCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bot
-        fields = ('coins', 'strategy', 'market_futures', 'market_spot', 'leverage', 'amount')
+        fields = ('coins', 'strategy', 'market_futures', 'market_spot', 'leverage', 'amount', 'live')
 
 
 class BotSerializer(serializers.ModelSerializer):
