@@ -112,7 +112,7 @@
               <CInput
                   label="Amount investement (minimum 10 USDT)"
                   placeholder="Insert your investement"
-                  value="10"
+                  v-model="amount"
                   min-amount="1"
               />
 

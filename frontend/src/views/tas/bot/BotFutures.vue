@@ -114,14 +114,14 @@
                   label="Leverage"
                   placeholder="Insert your leverage"
                   min-amount="1"
-                  :value="leverage"
+                  v-model="leverage"
               />
 
               <CInput
                   label="Amount investement (minimum 10 USDT)"
                   placeholder="Insert your investement"
                   min-amount="10"
-                  :value="amount"
+                  v-model="amount"
               />
 
             </CCol>
