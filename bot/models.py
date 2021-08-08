@@ -53,7 +53,6 @@ class BotLogger(CommonTrait):
     take_profit = models.BooleanField(default=False, blank=True)
     long = models.BooleanField(default=False, blank=True)
     short = models.BooleanField(default=False, blank=True)
-    thread = models.CharField(max_length=200, blank=True)
 
     class Meta:
         verbose_name = 'BotLogger'
@@ -91,8 +90,8 @@ class Bot(CommonTrait):
     abort = models.BooleanField(default=False)
     market_spot = models.BooleanField(default=False)
     market_futures = models.BooleanField(default=False)
-    leverage = models.FloatField(default=1, blank=True)
-    amount = models.FloatField(default=10, blank=True)
+    leverage = models.FloatField(default=1, blank=False)
+    amount = models.FloatField(default=11, blank=False)
 
     class Meta:
         verbose_name = 'Bot'

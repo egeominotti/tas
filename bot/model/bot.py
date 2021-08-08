@@ -9,31 +9,26 @@ from backtest.strategy.logic.logic_function import *
 class TradingBot:
 
     def __init__(self,
-                 current_bot,
-                 user,
+                 instance,
                  userexchange,
                  symbol,
-                 symbol_exchange,
-                 time_frame,
-                 func_entry,
-                 func_exit,
                  logger,
                  bot_object):
 
-        self.current_bot = current_bot
-        self.user = user
-        self.userexchange = userexchange
-        self.telegram = Telegram()
-        self.symbol = symbol
-        self.symbol_exchange = symbol_exchange
-        self.taapi = Taapi(symbol)
-        self.time_frame = time_frame
-        self.func_entry = func_entry
-        self.func_exit = func_exit
+        self.current_bot = instance
         self.logger = logger
         self.bot_object = bot_object
+        self.user = instance.user
+        self.userexchange = userexchange
+        self.telegram = Telegram()
+        self.symbol = instance.coins.coins_taapi.symbol
+        self.symbol_exchange = instance.coins.coins_exchange.symbol
+        self.taapi = Taapi(symbol)
+        self.time_frame = instance.strategy.time_frame.time_frame
+        self.func_entry = instance.strategy.logic_entry
+        self.func_exit = instance.strategy.logic_exit
+
         self.notify = self.user.telegram_notifications
-        self.process = None
         self.logger_instance = None
 
         self.exchange = BinanceHelper(

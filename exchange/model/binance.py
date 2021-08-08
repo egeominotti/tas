@@ -14,7 +14,7 @@ class BinanceHelper:
             self.leverage = self.bot.leverage
 
         if bot is not None:
-            self.client.futures_change_leverage(symbol=symbol, marginType='ISOLATED', leverage=self.leverage)
+            self.client.futures_change_leverage(symbol=symbol, marginType='ISOLATED', leverage=self.bot.leverage)
         else:
             self.client.futures_change_leverage(symbol=symbol, marginType='ISOLATED', leverage=1)
 
