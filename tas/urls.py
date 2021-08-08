@@ -9,6 +9,7 @@ urlpatterns = [
     path('websocket/', websocket),
     path('', include('bot.urls')),
     path('', include('strategy.urls')),
+    path('', include('exchange.urls')),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('api-token-auth/', views.obtain_auth_token),

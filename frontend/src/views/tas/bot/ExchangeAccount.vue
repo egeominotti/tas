@@ -1,27 +1,5 @@
 <template>
-
-
   <CRow>
-
-    <CCol sm="12">
-      <CCard>
-
-        <CCardHeader>
-          <strong>Add yor preferite exchange</strong>
-        </CCardHeader>
-
-        <CCardBody>
-          <CButton
-              @click="modalCreateBot = true"
-              color="dark"
-              size="md"
-          >
-            Add Exchange
-          </CButton>
-        </CCardBody>
-      </CCard>
-    </CCol>
-
     <CCol sm="12">
       <CCard>
 
@@ -32,6 +10,54 @@
 
         <CCardBody>
 
+          <label class="text">Choose Exchange</label>
+          <v-select
+              label="name"
+              :options="exchangeList"
+              v-model="selected_coins"
+          >
+            <template slot="selected-option" slot-scope="option">
+              {{ option.name }}
+            </template>
+            <template slot="option" slot-scope="option">
+              {{ option.name }}
+            </template>
+            <span slot="no-options">Write name of exchange</span>
+
+          </v-select>
+          <br>
+
+          <CInput
+              label="Api Key"
+              placeholder="Insert your api key"
+              min-amount="1"
+              v-model="apiKey"
+          />
+
+          <CInput
+              label="Api Secret"
+              placeholder="Insert your secret api key"
+              min-amount="10"
+              v-model="apiSecret"
+          />
+
+          <label class="text">Live Mode</label>
+          <br>
+          <CSwitch
+              class="mx-1"
+              color="dark"
+              name="switch1"
+              :checked.sync="liveMode"
+          />
+          <br>
+          <br>
+          <CButton
+              @click="save()"
+              color="dark"
+              size="md"
+          >
+            Save Exchange
+          </CButton>
 
           <CModal
               size="lg"
@@ -79,62 +105,59 @@
               <br>
               <br>
             </CCol>
-            <CCol sm="12">
 
-              <!--              <CCol sm="6">-->
-              <!--                <CImg-->
-              <!--                    :fluid="true"-->
-              <!--                    width="150"-->
-              <!--                    height="150"-->
-              <!--                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXCpYPKA9Tar0qJRWzoiGvhbbwPoKooLYxgg&usqp=CAU"></CImg>-->
-              <!--              </CCol>-->
-              <CButton
-                  class="custom-bot-spawn-bot"
-                  color="dark"
-                  size="lg"
-
-              >
-                Start Trade
-              </CButton>
-
-            </CCol>
           </CModal>
 
 
           <br>
-          <CDataTable
-              :items="loadedItems"
-              :fields="fields"
-              :table-filter-value.sync="tableFilterValue"
-              :items-per-page="50"
-              :active-page="1"
-              outlined
-              hover
-              :loading="loading"
-          >
 
-            <template #exchange="{item}">
-              <td>
-                <h6>{{ item.exchange.name }}</h6>
-              </td>
-            </template>
-
-            <template #live="{item}">
-              <td>
-                <div v-if="item.live">
-                  <CBadge color="success" shape="pill">Y</CBadge>
-                </div>
-                <div v-else>
-                  <CBadge color="danger" shape="pill">N</CBadge>
-                </div>
-              </td>
-            </template>
-
-          </CDataTable>
 
         </CCardBody>
       </CCard>
 
+
+      <CRow>
+        <CCol sm="12">
+          <CCard>
+
+            <CCardHeader>
+              <strong>Balance</strong>
+            </CCardHeader>
+
+            <CCardBody>
+              <CDataTable
+                  :items="loadedItems"
+                  :fields="fields"
+                  :table-filter-value.sync="tableFilterValue"
+                  :items-per-page="50"
+                  :active-page="1"
+                  outlined
+                  hover
+                  :loading="loading"
+              >
+
+                <template #exchange="{item}">
+                  <td>
+                    <h6>{{ item.exchange.name }}</h6>
+                  </td>
+                </template>
+
+                <template #live="{item}">
+                  <td>
+                    <div v-if="item.live">
+                      <CBadge color="success" shape="pill">Y</CBadge>
+                    </div>
+                    <div v-else>
+                      <CBadge color="danger" shape="pill">N</CBadge>
+                    </div>
+                  </td>
+                </template>
+
+              </CDataTable>
+            </CCardBody>
+          </CCard>
+        </CCol>
+      </CRow>
 
       <CRow>
         <CCol sm="12">
@@ -155,7 +178,7 @@
                 <tbody>
                 <tr>
                   <td>
-                    <div>${{ balance_futures }} </div>
+                    <div>${{ balance_futures }}</div>
                   </td>
                   <td>
                     <div>${{ balance_spot }}</div>
@@ -177,7 +200,8 @@
 
 <script>
 const apiListUserExchange = '/api/v0/userexhcange/list';
-const apiCreateUserExchange = 'api/v0/userexhcange/create';
+const apiCreateUserExchange = '/api/v0/userexhcange/create';
+const apiExchangeList = '/api/v0/exchangelist/list';
 
 const fields = [
   {
@@ -214,6 +238,11 @@ export default {
       coins: [],
       selected_coins: null,
       strategy: [],
+      apiKey: null,
+      apiSecret: null,
+      liveMode: null,
+      exchangeList: [],
+      exchange: [],
       selected_strategy: null,
       perpetual_mode: false,
       columnFilterValue: {},
@@ -253,7 +282,7 @@ export default {
       setTimeout(() => {
         this.loading = false
         this.getData();
-      }, 0)
+      }, 500)
     },
 
     getData() {
@@ -267,17 +296,36 @@ export default {
               this.loadedItems = response.data.results;
               console.log(response.data.results);
               this.balance_spot = response.data.results[0].balance_spot;
+              this.apiKey = response.data.results[0].api_key;
+              this.apiSecret = response.data.results[0].api_secret;
+              this.liveMode = response.data.results[0].live_mode;
               this.balance_futures = response.data.results[0].balance_futures;
             }
           }, (error) => {
             console.log(error);
           });
+    },
 
+    getExchangeList() {
+      let header = {headers: {'Authorization': 'Token ' + localStorage.getItem('token')}};
+
+      axios
+          .get(apiExchangeList, header)
+          .then((response) => {
+            console.log(response);
+            if (response.statusText === 'OK' && response.status === 200) {
+              this.exchangeList = response.data.results;
+              console.log(response.data.results);
+            }
+          }, (error) => {
+            console.log(error);
+          });
     },
   },
 
   mounted() {
     this.getData();
+    this.getExchangeList()
   },
 
 }
