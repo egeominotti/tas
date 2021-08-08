@@ -6,8 +6,8 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: daphne -b 0.0.0.0 -p 8000 tas.asgi:application
-    #command: python3 manage.py runserver 0:8000 --verbosity 3
+    #command: daphne -b 0.0.0.0 -p 8000 tas.asgi:application
+    command: python3 manage.py runserver 0:8000 --verbosity 3
     container_name: tas_developmet
     volumes:
       - .:/tas

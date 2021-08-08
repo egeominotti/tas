@@ -153,6 +153,20 @@
                   </td>
                 </template>
 
+                <template #id="{item}">
+                  <td>
+                    <CButton
+                        class="custom-button-remove-bot"
+                        @click="destroy(item.id)"
+                        color="danger"
+                        size="sm"
+                    >
+                      Remove
+                    </CButton>
+
+                  </td>
+                </template>
+
               </CDataTable>
             </CCardBody>
           </CCard>
@@ -201,6 +215,7 @@
 <script>
 const apiListUserExchange = '/api/v0/userexhcange/list';
 const apiCreateUserExchange = '/api/v0/userexhcange/create';
+const apiDestroyUserExchange = '/api/v0/userexhcange/destroy/';
 const apiExchangeList = '/api/v0/exchangelist/list';
 
 const fields = [
@@ -228,6 +243,12 @@ const fields = [
     sort: false,
     filter: false
   },
+  {
+    key: 'id',
+    label: 'Operation',
+    sort: false,
+    filter: false
+  },
 ]
 
 export default {
@@ -240,7 +261,7 @@ export default {
       strategy: [],
       apiKey: null,
       apiSecret: null,
-      liveMode: null,
+      liveMode: false,
       exchangeList: [],
       exchange: null,
       selected_strategy: null,
@@ -314,6 +335,27 @@ export default {
 
     },
 
+    destroy(id) {
+
+      axios.delete(apiDestroyUserExchange + id, {
+            headers: {
+              'Authorization': 'Token ' + localStorage.getItem('token')
+            }
+          }
+      ).then((response) => {
+        if (response.status === 500) {
+        }
+        if (response.status === 204 && response.statusText === 'No Content') {
+          this.getData();
+        }
+        console.log(response);
+      }, (error) => {
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      });
+    },
+
     getData() {
       let header = {headers: {'Authorization': 'Token ' + localStorage.getItem('token')}};
 
@@ -325,11 +367,11 @@ export default {
               this.loadedItems = response.data.results;
               console.log(response.data.results);
               this.balance_spot = response.data.results[0].balance_spot;
-              this.apiKey = response.data.results[0].api_key;
-              this.apiSecret = response.data.results[0].api_secret;
-              this.liveMode = response.data.results[0].live;
               this.balance_futures = response.data.results[0].balance_futures;
-              this.exchange = response.data.results[0].exchange;
+              // this.apiKey = response.data.results[0].api_key;
+              // this.apiSecret = response.data.results[0].api_secret;
+              // this.liveMode = response.data.results[0].live;
+              // this.exchange = response.data.results[0].exchange;
             }
           }, (error) => {
             console.log(error);

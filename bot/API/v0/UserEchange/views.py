@@ -1,5 +1,5 @@
 from rest_framework import authentication
-from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, DestroyAPIView
 from rest_framework.pagination import PageNumberPagination
 from bot.API.v0.UserEchange.serializers import UserExchangeSerializer, UserExchangeCreateSerializer
 from bot.models import UserExchange
@@ -33,3 +33,8 @@ class UserExchangeCreate(CreateAPIView):
     def perform_create(self, serializer):
         serializer.validated_data['user'] = self.request.user
         serializer.save()
+
+class UserExchangeDestroy(DestroyAPIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    serializer_class = UserExchangeCreateSerializer
+    queryset = UserExchange.objects.all()

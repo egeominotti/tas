@@ -29,7 +29,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         while True:
 
-            qs = UserExchange.objects.all()
+            qs = UserExchange.objects.all(exchange__name='binance')
             processList = []
 
             for k in qs:
