@@ -97,6 +97,7 @@ class TradingBot:
             start = "Started: " + str(self.current_bot.name) + \
                     "\n" + "User: " + self.user.username + \
                     "\n" + "Balance: " + str(self.exchange.get_current_balance_futures_()) + \
+                    "\n" + "Live Mode: " + str(self.userexchange.live) + \
                     "\n" + "Investment amount: " + str(self.exchange.get_current_investment_amount()) + \
                     "\n" + "Quantity of investement: " + str(self.exchange.get_quantity_from_number_of_bot()) + \
                     "\n" + "Leverage: " + str(self.exchange.leverage) + \
@@ -179,6 +180,7 @@ class TradingBot:
                         entry_text = "Entry: " + str(self.current_bot.name) + \
                                      "\n" + "User: " + self.user.username + \
                                      "\nType Entry: " + self.item.get('type_text') + \
+                                     "\n" + "Live Mode: " + str(self.userexchange.live) + \
                                      "\nEntry Candle value: " + str(self.item.get('entry_candle')) + \
                                      "\nEntry Candle date: " + str(now) + \
                                      "\nStoploss ratio: " + str(self.item.get('stoploss_ratio')) + \
@@ -227,6 +229,7 @@ class TradingBot:
                     if self.notify:
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                         stop_loss = "Stoploss: " + str(self.current_bot.name) + \
+                                    "\n" + "Live Mode: " + str(self.userexchange.live) + \
                                     "\n" + "Current Balance: " + str(self.exchange.get_current_balance_futures_()) + \
                                     "\n" + "Investement: " + str(self.exchange.get_current_investment_amount()) + \
                                     "\n" + "User: " + self.user.username + \
@@ -265,6 +268,7 @@ class TradingBot:
                     if self.notify:
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                         stop_loss = "Takeprofit: " + str(self.current_bot.name) + \
+                                    "\n" + "Live Mode: " + str(self.userexchange.live) + \
                                     "\n" + "Current Balance: " + str(self.exchange.get_current_balance_futures_()) + \
                                     "\n" + "Investement: " + str(self.exchange.get_current_investment_amount()) + \
                                     "\n" + "User: " + self.user.username + \
