@@ -198,7 +198,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'tas.wsgi.application'
+#WSGI_APPLICATION = 'tas.wsgi.application'
+ASGI_APPLICATION = 'tas.wsgi.application'
 # DJANGO_ALLOW_ASYNC_UNSAFE = True
 DATABASES = {
     'default': {

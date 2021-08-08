@@ -1,0 +1,33 @@
+<html>
+<head>
+    <title>Test web socket ordini</title>
+</head>
+<body>
+<h1>Test web socket</h1>
+<script>
+    //64.225.70.181:9001
+    //?token=9e1058f3d0539b51ff7350ae6f0b096a6553b240
+    var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+    var conn = new WebSocket(ws_scheme + '://'
+        + window.location.host
+        + '/ws/observer/bot/'
+    );
+    conn.onmessage = function (e) {
+        console.log("connesso")
+        console.log(e.data);
+    };
+    conn.onclose = function (e) {
+        console.log(e)
+        console.error('Error websocket');
+    };
+
+    conn.onopen = () => conn.send(
+        (JSON.stringify({
+            "action": "subscribe_instance",
+            "pk": 1,
+            "request_id": 12223
+        })));
+
+</script>
+</body>
+</html>
