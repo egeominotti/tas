@@ -1,28 +1,33 @@
 <template>
   <CRow>
     <CCol sm="12">
+
       <CCard>
 
         <CCardHeader>
-          <h5>My Trades</h5>
+          <h5>Trades Spot</h5>
         </CCardHeader>
 
-        <CCardBody>
-          <CButton
-              @click="modalCreateBot = true"
-              color="dark"
-              size="md"
-          >
-            Create new bot
-          </CButton>
 
-          <!--          <CButton-->
-          <!--              @click="modalCreateBot = true"-->
-          <!--              color="dark"-->
-          <!--              size="md"-->
-          <!--          >-->
-          <!--            Create cluster bot-->
-          <!--          </CButton>-->
+        <CCardBody>
+
+          <CRow>
+            <CCol lg="2">
+              <CButton
+                  @click="modalCreateBot = true"
+                  color="dark"
+                  size="md"
+              >
+                Create new spot bot
+              </CButton>
+            </CCol>
+
+          </CRow>
+
+        </CCardBody>
+
+        <CCardBody class="bot-list-custom">
+
 
           <CModal
               size="sm"
@@ -40,24 +45,6 @@
             </template>
 
             <h6>Lorem ipsum, testo per confermare lo stop del bot</h6>
-            <CCol sm="12">
-
-              <!--              <CButton-->
-              <!--                  color="warning"-->
-              <!--                  size="lg"-->
-              <!--                  @click="update()"-->
-              <!--              >-->
-              <!--                Yes-->
-              <!--              </CButton>-->
-
-              <!--              <CButton-->
-              <!--                  color="success"-->
-              <!--                  size="lg"-->
-              <!--                  @click="modalStopBot=false"-->
-              <!--              >-->
-              <!--                No-->
-              <!--              </CButton>-->
-            </CCol>
 
 
           </CModal>
@@ -80,6 +67,11 @@
 
 
             <CCol sm="12">
+              <br>
+              <div>Current Wallet</div>
+              <br>
+              <div>Balance Spot <p class="text-custom-balance">${{ balance_spot }}</p></div>
+              <br>
 
               <label class="text">Choose Coin</label>
               <v-select
@@ -116,7 +108,17 @@
 
               </v-select>
               <br>
+
+              <CInput
+                  label="Amount investement (minimum 10 USDT)"
+                  placeholder="Insert your investement"
+                  value="10"
+                  min-amount="1"
+              />
+
             </CCol>
+
+
           </CModal>
           <br>
 
@@ -269,6 +271,8 @@ const apiDestroyBot = 'api/v0/bot/destroy/';
 const apiUpdateBot = 'api/v0/bot/update/';
 const apiGetListCoins = '/api/v0/coins/list'
 const apiGetListStrategy = '/api/v0/strategybot/list'
+const apiListUserExchange = '/api/v0/userexhcange/list';
+
 
 const fields = [
   {
@@ -359,6 +363,9 @@ export default {
       selected_coins: null,
       strategy: [],
       selected_strategy: null,
+      userEchange: null,
+      balance_spot: null,
+      balance_futures: null,
       perpetual_mode: false,
       columnFilterValue: {},
       tableFilterValue: '',
@@ -480,6 +487,7 @@ export default {
           {
             coins: this.selected_coins.id,
             strategy: this.selected_strategy.id,
+            market_spot: true
           }, {
             headers: {
               'Authorization': 'Token ' + localStorage.getItem('token')
@@ -509,6 +517,25 @@ export default {
         this.loading = false
         this.getData();
       }, 0)
+    },
+
+    getDataUserExchange() {
+      let header = {headers: {'Authorization': 'Token ' + localStorage.getItem('token')}};
+
+      axios
+          .get(apiListUserExchange, header)
+          .then((response) => {
+            console.log(response);
+            if (response.statusText === 'OK' && response.status === 200) {
+              this.userEchange = response.data.results;
+              console.log(response.data.results);
+              this.balance_spot = response.data.results[0].balance_spot;
+              this.balance_futures = response.data.results[0].balance_futures;
+            }
+          }, (error) => {
+            console.log(error);
+          });
+
     },
 
     getData() {
@@ -545,7 +572,9 @@ export default {
     this.getCoins();
     this.getStrategy();
     this.getData();
-  },
+    this.getDataUserExchange();
+  }
+  ,
 
   created() {
     setInterval(function () {
@@ -555,3 +584,14 @@ export default {
 
 }
 </script>
+
+<style>
+.card-body.bot-list-custom {
+  padding-top: 1px;
+  margin-top: -20px;
+}
+
+p.text-custom-balance {
+  font-weight: 700;
+}
+</style>

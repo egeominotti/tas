@@ -21,8 +21,12 @@ export default {
             icon: 'cib-probot',
             items: [
               {
-                name: 'My Trades',
-                to: '/bot/list',
+                name: 'Trades Futures',
+                to: '/bot/listFutures',
+              },
+              {
+                name: 'Trades Spot',
+                to: '/bot/listSpot',
               },
               {
                 name: 'Trades History',
@@ -30,7 +34,7 @@ export default {
               },
             ]
           },
-             {
+          {
             _name: 'CSidebarNavDropdown',
             name: 'Account',
             route: '/account',

@@ -5,7 +5,8 @@ const TheContainer = () => import('@/containers/TheContainer')
 const Dashboard = () => import('@/views/Dashboard')
 
 
-const Bot = () => import('@/views/tas/bot/Bot')
+const BotFutures = () => import('@/views/tas/bot/BotFutures')
+const BotSpot = () => import('@/views/tas/bot/BotSpot')
 const ExchangeAccount = () => import('@/views/tas/bot/ExchangeAccount')
 const BotHistory = () => import('@/views/tas/bot/BotHistory')
 
@@ -43,9 +44,14 @@ export default new Router({
                     },
                     children: [
                         {
-                            path: 'list',
-                            name: 'List',
-                            component: Bot
+                            path: 'listFutures',
+                            name: 'ListFutures',
+                            component: BotFutures
+                        },
+                        {
+                            path: 'listSpot',
+                            name: 'ListSpot',
+                            component: BotSpot
                         },
                         {
                             path: 'history',
