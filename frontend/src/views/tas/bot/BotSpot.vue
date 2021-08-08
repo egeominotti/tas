@@ -417,7 +417,6 @@ export default {
 
       axios.patch(apiUpdateBot + this.currentbotid,
           {
-            //abort: true,
             running: false
           }, {
             headers: {
@@ -490,7 +489,6 @@ export default {
             console.log(response);
             if (response.statusText === 'OK' && response.status === 200) {
               this.userEchange = response.data.results;
-              console.log(response.data.results);
               this.balance_spot = response.data.results[0].balance_spot.toFixed(3);
               this.balance_futures = response.data.results[0].balance_futures.toFixed(3);
             }
@@ -538,11 +536,11 @@ export default {
   }
   ,
 
-  created() {
-    setInterval(function () {
-      this.getData();
-    }.bind(this), 5000);
-  }
+  // created() {
+  //   setInterval(function () {
+  //     this.getData();
+  //   }.bind(this), 5000);
+  // }
 
 }
 </script>
