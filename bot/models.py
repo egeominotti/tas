@@ -24,7 +24,6 @@ class UserExchange(CommonTrait):
     api_secret = models.CharField(max_length=200, blank=False, null=False)
     balance_futures = models.FloatField(default=0, blank=True)
     balance_spot = models.FloatField(default=0, blank=True)
-    leverage = models.IntegerField(default=0, blank=True)
     live = models.BooleanField(default=False)
 
     class Meta:

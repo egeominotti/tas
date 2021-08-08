@@ -15,7 +15,6 @@ def compute(q):
         api_secret=q.api_secret,
         symbol='BTCUSDT',
         user=q.user,
-        leverage=q.leverage,
     )
 
     UserExchange.objects.filter(user=q.user).update(

@@ -55,7 +55,7 @@ class ExchangeAdmin(admin.ModelAdmin):
     search_fields = ['exchange']
     list_per_page = 50
     ordering = ('id',)
-    list_display = ('user', 'exchange', 'balance_futures', 'balance_spot', 'leverage', 'live')
+    list_display = ('user', 'exchange', 'balance_futures', 'balance_spot', 'live')
     readonly_fields = ('balance_futures', 'balance_spot')
     exclude = ['flgEnable', ]
 

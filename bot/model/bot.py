@@ -42,7 +42,6 @@ class TradingBot:
             api_secret=self.userexchange.api_secret,
             symbol=self.symbol_exchange,
             user=self.user,
-            leverage=self.userexchange.leverage,
         )
 
         if self.userexchange.live:

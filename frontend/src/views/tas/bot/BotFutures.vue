@@ -69,7 +69,7 @@
             <CCol sm="12">
               <br>
               <!-- <div>Balance Spot <p class="text-custom-balance">${{ balance_spot }}</p></div> -->
-              <div>Balance Futures<p class="text-custom-balance"> ${{ balance_futures }}</p></div>
+              <div>Balance Futures<p class="text-custom-balance"> ${{ balance_futures.toFixed(3) }}</p></div>
               <br>
 
               <label class="text">Choose Coin</label>
@@ -521,10 +521,9 @@ export default {
             if (response.statusText === 'OK' && response.status === 200) {
               this.userEchange = response.data.results;
               console.log(response.data.results);
-
-
               this.balance_spot = response.data.results[0].balance_spot.toFixed(3);
               this.balance_futures = response.data.results[0].balance_futures.toFixed(3);
+
             }
           }, (error) => {
             console.log(error);
@@ -543,7 +542,7 @@ export default {
               if (response.statusText === 'OK' && response.status === 200) {
                 this.loadedItems = response.data.results;
 
-               let totalInvestment = 0
+                let totalInvestment = 0
                 for (const bot of response.data.results) {
                   console.log(bot.amount)
                   totalInvestment += bot.amount

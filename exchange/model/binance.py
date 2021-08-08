@@ -4,13 +4,20 @@ from binance.enums import *
 
 
 class BinanceHelper:
-    def __init__(self, bot, api_key, api_secret, symbol, user, leverage=1):
-        self.bot = bot
+    def __init__(self, api_key, api_secret, symbol, user, bot=None):
         self.symbol = symbol
         self.user = user
-        self.leverage = self.bot.leverage
+
+        if bot:
+            self.bot = bot
+            self.leverage = self.bot.leverage
+
         self.client = Client(api_key, api_secret)
-        self.client.futures_change_leverage(symbol=symbol, marginType='ISOLATED', leverage=leverage)
+
+        if bot:
+            self.client.futures_change_leverage(symbol=symbol, marginType='ISOLATED', leverage=self.leverage)
+        else:
+            self.client.futures_change_leverage(symbol=symbol, marginType='ISOLATED', leverage=1)
 
     def get_quantity_from_number_of_bot(self):
         """
