@@ -277,7 +277,7 @@ class TradingBot:
         print("Mi trovo in abort" + str(func))
         print("Mi trovo in abort" + str(func))
         print("Mi trovo in abort" + str(func))
-        if self.bot_object.objects.get(id=self.current_bot.id).running is False:
+        if not self.bot_object.objects.get(id=self.current_bot.id).running:
             self.current_bot.abort = True
             self.current_bot.running = False
             self.current_bot.save()
@@ -295,6 +295,8 @@ class TradingBot:
             try:
 
                 if entry is False:
+
+                    self.abort('entry_false')
 
                     if datetime.datetime.now().second == 59:
 
@@ -318,9 +320,8 @@ class TradingBot:
 
                     self.item['exit_function'] = True
                     if self.exit():
-
                         print("HO TROVATO UNO STOP LOSS O TAKE PROFIT RINIZIO DA CAPO A CERCARE")
-                        sleep(5)
+
 
                         self.abort('exit_true')
 
