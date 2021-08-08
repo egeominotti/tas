@@ -533,14 +533,9 @@ export default {
     this.getStrategy();
     this.getData();
     this.getDataUserExchange();
-  }
-  ,
+  },
 
-  // created() {
-  //   setInterval(function () {
-  //     this.getData();
-  //   }.bind(this), 5000);
-  // }
+
 
 }
 </script>

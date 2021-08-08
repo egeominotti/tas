@@ -567,14 +567,7 @@ export default {
     this.getStrategy();
     this.getData();
     this.getDataUserExchange();
-  }
-  ,
-
-  // created() {
-  //   setInterval(function () {
-  //     this.getData();
-  //   }.bind(this), 10000);
-  // }
+  },
 
 }
 </script>
