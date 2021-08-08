@@ -39,15 +39,16 @@ class Command(BaseCommand):
 
                     for k, v in binance_stream.items():
                         if isinstance(v, dict):
-                            BufferStreamWebSocket.objects.create(
-                                symbol=SymbolExchange.objects.get(symbol=v.get('symbol')),
-                                time_frame=v.get('interval'),
-                                close_candle=float(v.get('close_price')),
-                                open_candle=float(v.get('open_price')),
-                                high_candle=float(v.get('high_price')),
-                                low_candle=float(v.get('low_price')),
-                                is_closed=v.get('is_closed')
-                            )
+                            if v.get('is_closed'):
+                                BufferStreamWebSocket.objects.create(
+                                    symbol=SymbolExchange.objects.get(symbol=v.get('symbol')),
+                                    time_frame=v.get('interval'),
+                                    close_candle=float(v.get('close_price')),
+                                    open_candle=float(v.get('open_price')),
+                                    high_candle=float(v.get('high_price')),
+                                    low_candle=float(v.get('low_price')),
+                                    is_closed=v.get('is_closed')
+                                )
 
             except Exception as e:
                 print(e)
