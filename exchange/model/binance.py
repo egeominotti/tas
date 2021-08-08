@@ -132,4 +132,4 @@ class BinanceHelper:
         print(self.orderId)
         print(self.orderId)
         print(self.orderId)
-        self.client.futures_cancel_order(symbol=self.orderId['symbol'], orderId=self.orderId['orderid'])
+        self.client.futures_cancel_order(symbol=self.orderId['symbol'], orderId=self.orderId['orderId'])
