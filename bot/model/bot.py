@@ -274,10 +274,6 @@ class TradingBot:
 
     def abort(self, func):
         print("Mi trovo in abort" + str(func))
-        print(self.bot_object.objects.get(id=self.current_bot.id).running)
-        print(self.bot_object.objects.get(id=self.current_bot.id).running)
-        print(self.bot_object.objects.get(id=self.current_bot.id).running)
-        print(self.bot_object.objects.get(id=self.current_bot.id).running)
         if self.bot_object.objects.get(id=self.current_bot.id).running is False:
             self.current_bot.abort = True
             self.current_bot.running = False
@@ -304,7 +300,8 @@ class TradingBot:
                         # Controllo se è arrivato il segnale di abort per fermare il bot
                         if self.abort('entry_false'):
                             print("Esco dal bot")
-                            break
+                            exit(1)
+                            #break
 
                         # Controllo se si è verificata una entry
                         if self.entry():
@@ -325,7 +322,8 @@ class TradingBot:
 
                     if self.abort('exit_false'):
                         print("Esco dal bot")
-                        break
+                        exit(1)
+                        #break
 
                     self.item['exit_function'] = True
                     if self.exit():
