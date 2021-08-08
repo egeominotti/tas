@@ -1,6 +1,5 @@
 from time import sleep
 import multiprocessing
-
 from bot.models import UserExchange
 from django.core.management import BaseCommand
 from exchange.model.binance import BinanceHelper
