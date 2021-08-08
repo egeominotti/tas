@@ -14,7 +14,7 @@
           <v-select
               label="name"
               :options="exchangeList"
-              v-model="selected_coins"
+              v-model="exchange"
           >
             <template slot="selected-option" slot-scope="option">
               {{ option.name }}
@@ -52,7 +52,7 @@
           <br>
           <br>
           <CButton
-              @click="save()"
+              @click="saveUserEchange()"
               color="dark"
               size="md"
           >
@@ -242,7 +242,7 @@ export default {
       apiSecret: null,
       liveMode: null,
       exchangeList: [],
-      exchange: [],
+      exchange: null,
       selected_strategy: null,
       perpetual_mode: false,
       columnFilterValue: {},
@@ -285,6 +285,35 @@ export default {
       }, 500)
     },
 
+    saveUserEchange() {
+      axios.post(apiCreateUserExchange,
+          {
+            exchange: this.exchange.id,
+            api_key: this.apiKey,
+            api_secret: this.apiSecret,
+            live: this.liveMode
+          }, {
+            headers: {
+              'Authorization': 'Token ' + localStorage.getItem('token')
+            }
+          }
+      ).then((response) => {
+        if (response.status === 500) {
+        }
+        if (response.status === 201 && response.statusText === 'Created') {
+          this.getData();
+          this.getExchangeList()
+
+        }
+        console.log(response);
+      }, (error) => {
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      });
+
+    },
+
     getData() {
       let header = {headers: {'Authorization': 'Token ' + localStorage.getItem('token')}};
 
@@ -298,8 +327,9 @@ export default {
               this.balance_spot = response.data.results[0].balance_spot;
               this.apiKey = response.data.results[0].api_key;
               this.apiSecret = response.data.results[0].api_secret;
-              this.liveMode = response.data.results[0].live_mode;
+              this.liveMode = response.data.results[0].live;
               this.balance_futures = response.data.results[0].balance_futures;
+              this.exchange = response.data.results[0].exchange;
             }
           }, (error) => {
             console.log(error);

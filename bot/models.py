@@ -18,7 +18,7 @@ class BufferStreamWebSocket(CommonTrait):
 
 
 class UserExchange(CommonTrait):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
     exchange = models.ForeignKey(ExchangeList, on_delete=models.CASCADE, null=False, blank=False)
     api_key = models.CharField(max_length=200, blank=False, null=False)
     api_secret = models.CharField(max_length=200, blank=False, null=False)
