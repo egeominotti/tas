@@ -4,12 +4,11 @@ from binance.enums import *
 
 
 class BinanceHelper:
-    def __init__(self, bot, api_key, api_secret, symbol, user, counter_bot, leverage=1):
+    def __init__(self, bot, api_key, api_secret, symbol, user, leverage=1):
         self.bot = bot
         self.symbol = symbol
         self.user = user
-        self.leverage = leverage
-        self.counter_bot = counter_bot
+        self.leverage = self.bot.leverage
         self.client = Client(api_key, api_secret)
         self.client.futures_change_leverage(symbol=symbol, marginType='ISOLATED', leverage=leverage)
 
@@ -28,7 +27,7 @@ class BinanceHelper:
         """
         :return: Entrata al 100% del capitale
         """
-        #balance_wallet = self.get_current_balance_futures_() - 0.5
+        # balance_wallet = self.get_current_balance_futures_() - 0.5
         balance_wallet = self.bot.amount - 0.5
         symbol_precision = self.get_symbol_precision()
         price_coin = self.current_price_coin()
@@ -46,6 +45,9 @@ class BinanceHelper:
         resp = requests.get('https://api.binance.com/api/v1/ticker/price?symbol=' + self.symbol).json()
         price = float(resp['price'])
         return price
+
+    def get_current_investment_amount(self):
+        return self.bot.amount
 
     def get_current_balance_futures_(self, coin='USDT'):
         item = {}

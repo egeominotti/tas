@@ -43,7 +43,6 @@ class TradingBot:
             symbol=self.symbol_exchange,
             user=self.user,
             leverage=self.userexchange.leverage,
-            counter_bot=self.bot_object.objects.filter(user=user).count()
         )
 
         if self.userexchange.live:
@@ -92,6 +91,7 @@ class TradingBot:
             start = "Started: " + str(self.current_bot.name) + \
                     "\n" + "User: " + self.user.username + \
                     "\n" + "Balance: " + str(self.exchange.get_current_balance_futures_()) + \
+                    "\n" + "Investment amount: " + str(self.exchange.get_current_investment_amount()) + \
                     "\n" + "Quantity of investement: " + str(self.exchange.get_quantity_from_number_of_bot()) + \
                     "\n" + "Leverage: " + str(self.exchange.leverage) + \
                     "\n" + "Symbol: " + str(self.symbol) + \
@@ -222,6 +222,7 @@ class TradingBot:
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                         stop_loss = "Stoploss: " + str(self.current_bot.name) + \
                                     "\n" + "Current Balance: " + str(self.exchange.get_current_balance_futures_()) + \
+                                    "\n" + "Investement: " + str(self.exchange.get_current_investment_amount()) + \
                                     "\n" + "User: " + self.user.username + \
                                     "\nType Entry: " + self.item.get('type_text') + \
                                     "\nStoploss candle value: " + str(self.item.get('stoploss_candle')) + \
@@ -259,6 +260,7 @@ class TradingBot:
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                         stop_loss = "Takeprofit: " + str(self.current_bot.name) + \
                                     "\n" + "Current Balance: " + str(self.exchange.get_current_balance_futures_()) + \
+                                    "\n" + "Investement: " + str(self.exchange.get_current_investment_amount()) + \
                                     "\n" + "User: " + self.user.username + \
                                     "\nType Entry: " + self.item.get('type_text') + \
                                     "\nTakeprofit candle value: " + str(self.item.get('takeprofit_candle')) + \
