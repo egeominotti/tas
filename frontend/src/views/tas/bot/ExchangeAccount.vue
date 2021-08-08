@@ -324,6 +324,10 @@ export default {
         if (response.status === 201 && response.statusText === 'Created') {
           this.getData();
           this.getExchangeList()
+          this.apiKey = null;
+          this.apiSecret = null;
+          this.liveMode = false;
+          this.exchange = null;
 
         }
         console.log(response);
