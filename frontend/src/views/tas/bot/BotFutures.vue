@@ -113,15 +113,15 @@
               <CInput
                   label="Leverage"
                   placeholder="Insert your leverage"
-                  value="1"
                   min-amount="1"
+                  :value="leverage"
               />
 
               <CInput
                   label="Amount investement (minimum 10 USDT)"
                   placeholder="Insert your investement"
-                  value="10"
-                  min-amount="1"
+                  min-amount="10"
+                  :value="amount"
               />
 
             </CCol>
@@ -374,6 +374,8 @@ export default {
       userEchange: null,
       balance_spot: null,
       balance_futures: null,
+      amount: 10,
+      leverage: 1,
       perpetual_mode: false,
       columnFilterValue: {},
       tableFilterValue: '',
@@ -495,7 +497,8 @@ export default {
           {
             coins: this.selected_coins.id,
             strategy: this.selected_strategy.id,
-            market_futures: true
+            market_futures: true,
+            amount: this.amount
           }, {
             headers: {
               'Authorization': 'Token ' + localStorage.getItem('token')
