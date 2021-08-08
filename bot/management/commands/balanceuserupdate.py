@@ -26,7 +26,7 @@ def compute(q):
 
 
 class Command(BaseCommand):
-    help = 'AsyncBotRunner'
+    help = 'Bot che scarica il bilancio di ogni utente e lo salva nel sistema ogni 15 secondi'
 
     def handle(self, *args, **kwargs):
         while True:
