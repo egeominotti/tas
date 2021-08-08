@@ -5,16 +5,15 @@ from binance.enums import *
 
 class BinanceHelper:
     def __init__(self, api_key, api_secret, symbol, user, bot=None):
+        self.client = Client(api_key, api_secret)
         self.symbol = symbol
         self.user = user
 
-        if bot:
+        if bot is not None:
             self.bot = bot
             self.leverage = self.bot.leverage
 
-        self.client = Client(api_key, api_secret)
-
-        if bot:
+        if bot is not None:
             self.client.futures_change_leverage(symbol=symbol, marginType='ISOLATED', leverage=self.leverage)
         else:
             self.client.futures_change_leverage(symbol=symbol, marginType='ISOLATED', leverage=1)

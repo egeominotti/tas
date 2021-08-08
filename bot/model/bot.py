@@ -275,10 +275,6 @@ class TradingBot:
             return False
 
     def abort(self, func) -> None:
-        # print("Mi trovo in abort" + str(func))
-        # print("Mi trovo in abort" + str(func))
-        # print("Mi trovo in abort" + str(func))
-        # print("Mi trovo in abort" + str(func))
         if not self.bot_object.objects.get(id=self.current_bot.id).running:
             print("STOPPO IL BOT")
             self.current_bot.abort = True
@@ -338,7 +334,6 @@ class TradingBot:
         self.abort('abort_finale_exit_1')
         if sentinel:
             self.abort('abort_finale_exit_1')
-            sleep(5)
             # Imposto a false in modo che può ripartire
             self.current_bot.running = False
             self.current_bot.save()
