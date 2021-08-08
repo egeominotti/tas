@@ -199,12 +199,6 @@ const fields = [
     filter: false
   },
   {
-    key: 'leverage',
-    label: 'Global Leverage',
-    sort: false,
-    filter: false
-  },
-  {
     key: 'live',
     label: 'Live',
     sort: false,
