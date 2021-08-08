@@ -272,15 +272,16 @@ class TradingBot:
             self.error(e, self.func_entry.name)
             return False
 
-    def abort(self, func):
+    def abort(self, func) -> None:
+        print("Mi trovo in abort" + str(func))
+        print("Mi trovo in abort" + str(func))
+        print("Mi trovo in abort" + str(func))
         print("Mi trovo in abort" + str(func))
         if self.bot_object.objects.get(id=self.current_bot.id).running is False:
             self.current_bot.abort = True
             self.current_bot.running = False
             self.current_bot.save()
-            return True
-        else:
-            return False
+            exit(1)
 
     def run(self) -> None:
 
@@ -298,32 +299,22 @@ class TradingBot:
                     if datetime.datetime.now().second == 59:
 
                         # Controllo se è arrivato il segnale di abort per fermare il bot
-                        if self.abort('entry_false'):
-                            print("Esco dal bot")
-                            exit(1)
-                            #break
+                        self.abort('entry_false')
 
                         # Controllo se si è verificata una entry
                         if self.entry():
-
                             # Controllo se è arrivato il segnale di abort per fermare il bot
-                            if self.abort('entry_true'):
-                                # TODO: Chiudere la posizione aperta precedentemente
-                                print("Esco dal bot")
-                                break
-                            else:
-                                # Successfully open position
-                                print("HO TROVATO UNA ENTRY")
-                                print(self.item)
-                                entry = True
-                                continue
+                            self.abort('entry_true')
+
+                            # Successfully open position
+                            print("HO TROVATO UNA ENTRY")
+                            print(self.item)
+                            entry = True
+                            continue
 
                 if entry is True:
 
-                    if self.abort('exit_false'):
-                        print("Esco dal bot")
-                        exit(1)
-                        #break
+                    self.abort('exit_false')
 
                     self.item['exit_function'] = True
                     if self.exit():
@@ -331,20 +322,14 @@ class TradingBot:
                         print("HO TROVATO UNO STOP LOSS O TAKE PROFIT RINIZIO DA CAPO A CERCARE")
                         sleep(5)
 
-                        if self.abort('exit_true'):
-                            # TODO: Chiudere la posizione aperta precedentemente
-                            break
-                        else:
-                            # Qui ho fatto profitto/perso esco dal ciclo
-                            entry = False
-                            sentinel = True
-                            break
+                        self.abort('exit_true')
+
+                        entry = False
+                        sentinel = True
+                        break
 
             except Exception as e:
-                print(e)
-                self.error(e, 'run')
-                sleep(5)
-                continue
+                self.abort('exception' + str(e))
 
         # end-while-true
 
@@ -355,7 +340,4 @@ class TradingBot:
             self.current_bot.save()
             exit(1)
 
-        if self.abort('abort_finale_exit_1'):
-            print("Self abort con exit1")
-            sleep(5)
-            exit(1)
+        self.abort('abort_finale_exit_1')
