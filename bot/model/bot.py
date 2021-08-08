@@ -97,7 +97,7 @@ class TradingBot:
             start = "Started: " + str(self.current_bot.name) + \
                     "\n" + "User: " + self.user.username + \
                     "\n" + "Balance: " + str(self.exchange.get_current_balance_futures_()) + \
-                    "\n" + "Live Mode: " + str(self.userexchange.live) + \
+                    "\n" + "Live Mode: " + str(self.current_bot.live) + \
                     "\n" + "Investment amount: " + str(self.exchange.get_current_investment_amount()) + \
                     "\n" + "Quantity of investement: " + str(self.exchange.get_quantity_from_number_of_bot()) + \
                     "\n" + "Leverage: " + str(self.exchange.leverage) + \
@@ -180,7 +180,7 @@ class TradingBot:
                         entry_text = "Entry: " + str(self.current_bot.name) + \
                                      "\n" + "User: " + self.user.username + \
                                      "\nType Entry: " + self.item.get('type_text') + \
-                                     "\n" + "Live Mode: " + str(self.userexchange.live) + \
+                                     "\n" + "Live Mode: " + str(self.current_bot.live) + \
                                      "\nEntry Candle value: " + str(self.item.get('entry_candle')) + \
                                      "\nEntry Candle date: " + str(now) + \
                                      "\nStoploss ratio: " + str(self.item.get('stoploss_ratio')) + \
