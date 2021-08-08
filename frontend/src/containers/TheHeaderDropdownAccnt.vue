@@ -17,11 +17,11 @@
       <strong>Info</strong>
     </CDropdownHeader>
 
-    <CDropdownItem v-on:click="logout">
+    <CDropdownItem>
       Account
     </CDropdownItem>
 
-    <CDropdownItem v-on:click="logout">
+    <CDropdownItem>
       My Trades
     </CDropdownItem>
 
@@ -45,9 +45,6 @@ export default {
       });
     },
   },
-  mounted() {
-    this.getData();
-  }
 }
 </script>
 
