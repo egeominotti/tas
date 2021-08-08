@@ -131,4 +131,7 @@ class BinanceHelper:
 
         if self.orderId is not None:
             print(self.orderId)
-            self.client.futures_cancel_order(symbol=self.orderId['symbol'], orderId=self.orderId['orderId'])
+            openOrder = self.client.get_open_orders(symbol=self.symbol)
+            orderId = openOrder[0]['orderId']
+            print(orderId)
+            self.client.futures_cancel_order(symbol=self.symbol, orderId=orderId)
