@@ -486,8 +486,8 @@ export default {
         }
         if (response.status === 201 && response.statusText === 'Created') {
 
-          this.listAmount.push(this.amount)
-          this.balance_futures -= this.amount
+          // this.listAmount.push(this.amount)
+          // this.balance_futures -= this.amount
           this.amount = 10
           this.leverage = 1
           this.getData();
@@ -542,15 +542,15 @@ export default {
               if (response.statusText === 'OK' && response.status === 200) {
                 this.loadedItems = response.data.results;
 
-                let totalInvestment = 0
-                for (const bot of response.data.results) {
-                  console.log(bot.amount)
-                  totalInvestment += bot.amount
-                }
-                console.log(totalInvestment)
-                console.log(totalInvestment)
-                console.log(totalInvestment)
-                this.balance_futures -= totalInvestment
+                // let totalInvestment = 0
+                // for (const bot of response.data.results) {
+                //   console.log(bot.amount)
+                //   totalInvestment += bot.amount
+                // }
+                // console.log(totalInvestment)
+                // console.log(totalInvestment)
+                // console.log(totalInvestment)
+                // this.balance_futures -= totalInvestment
 
               }
             }, (error) => {
@@ -564,15 +564,15 @@ export default {
               if (response.statusText === 'OK' && response.status === 200) {
                 this.loadedItems = response.data.results;
 
-                let totalInvestment = 0
-                for (const bot of response.data.results) {
-                  console.log(bot.amount)
-                  totalInvestment += bot.amount
-                }
-                console.log(totalInvestment)
-                console.log(totalInvestment)
-                console.log(totalInvestment)
-                this.balance_futures -= totalInvestment
+                // let totalInvestment = 0
+                // for (const bot of response.data.results) {
+                //   console.log(bot.amount)
+                //   totalInvestment += bot.amount
+                // }
+                // console.log(totalInvestment)
+                // console.log(totalInvestment)
+                // console.log(totalInvestment)
+                // this.balance_futures -= totalInvestment
               }
             }, (error) => {
               console.log(error);

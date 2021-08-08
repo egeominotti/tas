@@ -35,7 +35,24 @@ if 'production' in ENV:
 
 if 'dev' in ENV:
     ALLOWED_HOSTS = ['*']
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels.layers.InMemoryChannelLayer"
+        }
+    }
+
 else:
+
+    # CHANNEL_LAYERS = {
+    #     "default": {
+    #         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+    #         "CONFIG": {
+    #             "hosts": [("127.0.0.1", 6379)],
+    #             # "hosts": [("rediss://default:ykhwetrsti3paw7p@private-db-redis-funer24-do-user-3323991-0.b.db.ondigitalocean.com:25061")],
+    #         },
+    #     },
+    # }
+
     ALLOWED_HOSTS = ['http://164.90.198.149/',
                      '127.0.0.1',
                      'cryptotradebot.io',

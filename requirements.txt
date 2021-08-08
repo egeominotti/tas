@@ -49,3 +49,5 @@ pymongo
 hypercorn
 uvicorn
 daphne
+djangochannelsrestframework
+channels
