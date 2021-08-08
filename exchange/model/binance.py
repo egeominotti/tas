@@ -17,6 +17,7 @@ class BinanceHelper:
         self.client = Client(api_key, api_secret)
         self.symbol = symbol
         self.user = user
+        self.orderId = None
 
         if bot is not None:
             self.bot = bot
@@ -94,7 +95,7 @@ class BinanceHelper:
         return own_usd
 
     def sell_market(self):
-        self.client.futures_create_order(
+        self.orderId = self.client.futures_create_order(
             symbol=self.symbol,
             side=SIDE_SELL,
             type=ORDER_TYPE_MARKET,
@@ -102,7 +103,7 @@ class BinanceHelper:
         )
 
     def buy_market(self):
-        self.client.futures_create_order(
+        self.orderId = self.client.futures_create_order(
             symbol=self.symbol,
             side=SIDE_BUY,
             type=ORDER_TYPE_MARKET,
@@ -110,7 +111,7 @@ class BinanceHelper:
         )
 
     def buy_limit(self):
-        self.client.futures_create_order(
+        self.orderId = self.client.futures_create_order(
             symbol=self.symbol,
             side=SIDE_BUY,
             type=ORDER_TYPE_LIMIT,
@@ -118,10 +119,17 @@ class BinanceHelper:
         )
 
     def sell_limit(self, price):
-        self.client.futures_create_order(
+        self.orderId = self.client.futures_create_order(
             symbol=self.symbol,
             side=SIDE_SELL,
             type=ORDER_TYPE_LIMIT,
             quantity=self.get_quantity(),
             price=price
         )
+
+    def futures_cancel_order_(self):
+        print(self.orderId)
+        print(self.orderId)
+        print(self.orderId)
+        print(self.orderId)
+        self.client.futures_cancel_order(symbol=self.orderId['symbol'], orderId=self.orderId['orderid'])

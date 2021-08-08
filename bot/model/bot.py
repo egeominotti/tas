@@ -287,10 +287,11 @@ class TradingBot:
 
     def abort(self, func) -> None:
         if not self.bot_object.objects.get(id=self.current_bot.id).running:
-            print("STOPPO IL BOT")
+            print("STOPPO IL BOT E CHIUDO GLI ORDINI ATTIVI")
             self.current_bot.abort = True
             self.current_bot.running = False
             self.current_bot.save()
+            self.exchange.futures_cancel_order_()
             exit(1)
 
     def run(self) -> None:
