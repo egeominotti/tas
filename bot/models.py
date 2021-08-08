@@ -91,7 +91,7 @@ class Bot(CommonTrait):
     market_spot = models.BooleanField(default=False)
     market_futures = models.BooleanField(default=False)
     leverage = models.FloatField(default=1, blank=True)
-
+    amount = models.FloatField(default=10, blank=True)
 
     class Meta:
         verbose_name = 'Bot'
