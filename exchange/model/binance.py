@@ -4,7 +4,16 @@ from binance.enums import *
 
 
 class BinanceHelper:
-    def __init__(self, api_key, api_secret, symbol, user, bot=None):
+
+    def __init__(
+            self,
+            api_key,
+            api_secret,
+            symbol,
+            user,
+            bot=None
+    ):
+
         self.client = Client(api_key, api_secret)
         self.symbol = symbol
         self.user = user
@@ -82,8 +91,6 @@ class BinanceHelper:
         current_btc_price_USD = self.client.get_symbol_ticker(symbol="BTCUSDT")["price"]
         own_usd = sum_btc * float(current_btc_price_USD)
         return own_usd
-        # print(" * Spot => %.8f BTC == " % sum_btc, end="")
-        # print("%.8f USDT" % own_usd)
 
     def sell_market(self):
         self.client.futures_create_order(
