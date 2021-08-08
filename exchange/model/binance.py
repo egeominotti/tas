@@ -4,7 +4,8 @@ from binance.enums import *
 
 
 class BinanceHelper:
-    def __init__(self, api_key, api_secret, symbol, user, counter_bot, leverage=1):
+    def __init__(self, bot, api_key, api_secret, symbol, user, counter_bot, leverage=1):
+        self.bot = bot
         self.symbol = symbol
         self.user = user
         self.leverage = leverage
@@ -16,7 +17,8 @@ class BinanceHelper:
         """
         :return: Entrata al 100% del capitale divisa per bot attivi per utente
         """
-        balance_wallet = (self.get_current_balance_futures_() - 0.5) / self.counter_bot
+        # balance_wallet = (self.get_current_balance_futures_() - 0.5) / self.counter_bot
+        balance_wallet = self.bot.amount - 0.5
         symbol_precision = self.get_symbol_precision()
         price_coin = self.current_price_coin()
         qty = round(balance_wallet / price_coin, symbol_precision)
@@ -26,7 +28,8 @@ class BinanceHelper:
         """
         :return: Entrata al 100% del capitale
         """
-        balance_wallet = self.get_current_balance_futures_() - 0.5
+        #balance_wallet = self.get_current_balance_futures_() - 0.5
+        balance_wallet = self.bot.amount - 0.5
         symbol_precision = self.get_symbol_precision()
         price_coin = self.current_price_coin()
         qty = round(balance_wallet / price_coin, symbol_precision)

@@ -37,6 +37,7 @@ class TradingBot:
         self.logger_instance = None
 
         self.exchange = BinanceHelper(
+            bot=self.current_bot,
             api_key=self.userexchange.api_key,
             api_secret=self.userexchange.api_secret,
             symbol=self.symbol_exchange,
@@ -273,11 +274,12 @@ class TradingBot:
             return False
 
     def abort(self, func) -> None:
-        print("Mi trovo in abort" + str(func))
-        print("Mi trovo in abort" + str(func))
-        print("Mi trovo in abort" + str(func))
-        print("Mi trovo in abort" + str(func))
+        # print("Mi trovo in abort" + str(func))
+        # print("Mi trovo in abort" + str(func))
+        # print("Mi trovo in abort" + str(func))
+        # print("Mi trovo in abort" + str(func))
         if not self.bot_object.objects.get(id=self.current_bot.id).running:
+            print("STOPPO IL BOT")
             self.current_bot.abort = True
             self.current_bot.running = False
             self.current_bot.save()
@@ -318,10 +320,9 @@ class TradingBot:
 
                     self.abort('exit_false')
 
-                    self.item['exit_function'] = True
                     if self.exit():
+                        self.item['exit_function'] = True
                         print("HO TROVATO UNO STOP LOSS O TAKE PROFIT RINIZIO DA CAPO A CERCARE")
-
 
                         self.abort('exit_true')
 
@@ -333,12 +334,11 @@ class TradingBot:
                 self.abort('exception' + str(e))
 
         # end-while-true
-
+        self.abort('abort_finale_exit_1')
         if sentinel:
+            self.abort('abort_finale_exit_1')
             sleep(5)
             # Imposto a false in modo che può ripartire
             self.current_bot.running = False
             self.current_bot.save()
             exit(1)
-
-        self.abort('abort_finale_exit_1')

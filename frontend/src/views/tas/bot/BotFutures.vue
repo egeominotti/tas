@@ -141,6 +141,11 @@
               :loading="loading"
           >
 
+             <template #amount="{item}">
+              <td>
+                <h6>${{ item.amount}}</h6>
+              </td>
+            </template>
 
             <template #id="{item}">
               <td>
@@ -264,6 +269,12 @@ const fields = [
   {
     key: 'id',
     label: 'Status',
+    sort: false,
+    filter: false
+  },
+  {
+    key: 'amount',
+    label: 'Amount',
     sort: false,
     filter: false
   },
