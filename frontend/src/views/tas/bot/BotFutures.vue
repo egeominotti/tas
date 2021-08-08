@@ -18,7 +18,7 @@
                   color="dark"
                   size="md"
               >
-                Create new futures bot
+                Create new Futures bot
               </CButton>
             </CCol>
 
@@ -239,28 +239,6 @@
               </td>
             </template>
 
-            <template #market_spot="{item}">
-              <td>
-                <div v-if="item.market_stop">
-                  <CBadge color="success" shape="pill">Y</CBadge>
-                </div>
-                <div v-else>
-                  <CBadge color="danger" shape="pill">N</CBadge>
-                </div>
-              </td>
-            </template>
-
-            <template #market_futures="{item}">
-              <td>
-                <div v-if="item.market_futures">
-                  <CBadge color="success" shape="pill">Y</CBadge>
-                </div>
-                <div v-else>
-                  <CBadge color="danger" shape="pill">N</CBadge>
-                </div>
-              </td>
-            </template>
-
           </CDataTable>
 
         </CCardBody>
@@ -273,7 +251,7 @@
 
 <script>
 const titleList = "Bot"
-const apiList = '/api/v0/bot/list';
+const apiList = '/api/v0/bot/futures/list';
 const apiCreateBot = 'api/v0/bot/create';
 const apiDestroyBot = 'api/v0/bot/destroy/';
 const apiUpdateBot = 'api/v0/bot/update/';
@@ -326,18 +304,6 @@ const fields = [
     filter: false
   },
   {
-    key: 'market_spot',
-    label: 'Market Spot',
-    sort: false,
-    filter: false
-  },
-  {
-    key: 'market_futures',
-    label: 'Market Futures',
-    sort: false,
-    filter: false
-  },
-  {
     key: 'leverage',
     label: 'Leverage',
     sort: false,
@@ -364,7 +330,7 @@ const fields = [
 ]
 
 export default {
-  name: 'Bot',
+  name: 'BotFutures',
   data() {
     return {
       coins: [],
@@ -498,6 +464,7 @@ export default {
             coins: this.selected_coins.id,
             strategy: this.selected_strategy.id,
             market_futures: true,
+            leverage: this.leverage,
             amount: this.amount
           }, {
             headers: {

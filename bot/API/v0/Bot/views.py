@@ -11,14 +11,24 @@ class LargeResultsSetPagination(PageNumberPagination):
     max_page_size = 1
 
 
-class BotList(generics.ListAPIView):
+class BotFuturesList(generics.ListAPIView):
     authentication_classes = [authentication.TokenAuthentication]
     serializer_class = BotSerializer
     pagination_class = LargeResultsSetPagination
     queryset = Bot.objects.all()
 
     def get_queryset(self):
-        return self.queryset.filter(user=self.request.user).order_by('-created_at')
+        return self.queryset.filter(user=self.request.user, market_futures=True).order_by('-created_at')
+
+
+class BotSpotList(generics.ListAPIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    serializer_class = BotSerializer
+    pagination_class = LargeResultsSetPagination
+    queryset = Bot.objects.all()
+
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user, market_spot=True).order_by('-created_at')
 
 
 class BotCreate(generics.CreateAPIView):
@@ -34,7 +44,6 @@ class BotUpdate(generics.UpdateAPIView):
     authentication_classes = [authentication.TokenAuthentication]
     serializer_class = BotUpdateSerializer
     queryset = Bot.objects.all()
-
 
 
 class BotDestroy(generics.DestroyAPIView):
