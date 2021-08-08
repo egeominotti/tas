@@ -35,7 +35,6 @@ class TradingBot:
         self.time_frame = instance.strategy.time_frame.time_frame
         self.func_entry = instance.strategy.logic_entry
         self.func_exit = instance.strategy.logic_exit
-
         self.notify = self.user.telegram_notifications
         self.logger_instance = None
 
