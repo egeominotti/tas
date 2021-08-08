@@ -8,12 +8,9 @@ class BinanceHelper:
         self.client = Client(api_key, api_secret)
         self.symbol = symbol
         self.user = user
+
         if bot is not None:
             self.bot = bot
-            print(self.bot.leverage)
-            print(self.bot.leverage)
-            print(self.bot.leverage)
-            print(self.bot.leverage)
             self.leverage = self.bot.leverage
 
         if bot is not None:
