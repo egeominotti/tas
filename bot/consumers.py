@@ -2,9 +2,9 @@ from djangochannelsrestframework.observer.generics import ObserverModelInstanceM
 from djangochannelsrestframework.generics import GenericAsyncAPIConsumer
 from djangochannelsrestframework import permissions
 from bot.models import UserExchange
-from bot.API.v0.UserEchange.serializers import UserExchangeSerializer
+from bot.API.v0.UserEchange.serializers import UserExchangeCreateSerializer
 
 class BotConsumer(ObserverModelInstanceMixin, GenericAsyncAPIConsumer):
     queryset = UserExchange.objects.all()
-    serializer_class = UserExchangeSerializer
-    #permission_classes = (permissions.AllowAny,)
+    serializer_class = UserExchangeCreateSerializer
+    permission_classes = (permissions.AllowAny,)

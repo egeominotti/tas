@@ -5,8 +5,6 @@
 <body>
 <h1>Test web socket</h1>
 <script>
-    //64.225.70.181:9001
-    //?token=9e1058f3d0539b51ff7350ae6f0b096a6553b240
     var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
     var conn = new WebSocket(ws_scheme + '://'
         + window.location.host

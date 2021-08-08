@@ -28,6 +28,16 @@ services:
     env_file:
       - .env.dev
 
+  redis:
+    container_name: tas_redis
+    image: redis:6.2.5
+    restart: always
+    volumes:
+      - redis-data:/data
+    ports:
+      - "6379:6379"
+    expose:
+      - 6379
 #  vuejs:
 #    build:
 #      context: .
@@ -39,3 +49,4 @@ services:
 
 volumes:
   postgres_data:
+  redis-data:

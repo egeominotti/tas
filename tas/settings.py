@@ -35,11 +35,21 @@ if 'production' in ENV:
 
 if 'dev' in ENV:
     ALLOWED_HOSTS = ['*']
+
     CHANNEL_LAYERS = {
         "default": {
-            "BACKEND": "channels.layers.InMemoryChannelLayer"
-        }
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [("tas_redis", 6379)],
+            },
+        },
     }
+
+    # CHANNEL_LAYERS = {
+    #     "default": {
+    #         "BACKEND": "channels.layers.InMemoryChannelLayer"
+    #     }
+    # }
 
 else:
 
