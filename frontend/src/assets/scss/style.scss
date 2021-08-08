@@ -7,21 +7,6 @@
 // If you want to add something do it here
 @import "custom";
 
-/**
-ul.c-sidebar-nav {
-  background-color: #0c0c14;
-}
-
-main.c-main {
-  background-color: #0c0c14;
-}
-
-.c-dark-theme .c-sidebar .c-sidebar-nav-link:hover, .c-dark-theme .c-sidebar .c-sidebar-nav-dropdown-toggle:hover {
-    color: #fff;
-    background: rgba(237, 183, 12, 0.96);
-}
-**/
-
 ul.c-sidebar-nav {
     background-color: #1d2125;
 }
@@ -29,16 +14,6 @@ ul.c-sidebar-nav {
 button.c-sidebar-minimizer {
     background-color: #3e4e5d;
 }
-
-/*
-main.c-main {
-    background-color: #1d2125f0;
-}
-
-footer.c-footer {
-    background-color: #1d2125;
-}
- */
 
 c-sidebar .c-sidebar-nav-dropdown.c-show .c-sidebar-nav-dropdown-toggle, .c-sidebar .c-sidebar-nav-dropdown.c-show .c-sidebar-nav-link {
     color: #fff;
