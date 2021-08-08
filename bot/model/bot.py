@@ -48,42 +48,42 @@ class TradingBot:
                 user=self.user,
             )
 
-            if self.userexchange.live:
+            if self.current_bot.live:
                 self.live = True
             else:
                 self.live = False
 
-            self.item = {
-                'candle_close': 0,
-                'entry_candle': 0,
-                'takeprofit_ratio': 0,
-                'takeprofit_candle': 0,
-                'takeprofit': False,
-                'stoploss_ratio': 0,
-                'stoploss_candle': 0,
-                'stoploss': False,
-                'entry': False,
-                'sleep_func_entry': self.func_entry.sleep,
-                'taapi': self.taapi,
-                'symbol': self.symbol,
-                'symbol_exchange': self.symbol_exchange,
-                'type': -1,
-                'time_frame': self.time_frame,
-                'ratio': self.func_entry.ratio,
-                'takeprofit_value_long': self.func_exit.takeprofit_long,
-                'takeprofit_value_short': self.func_exit.takeprofit_short,
-                'stoploss_value_long': self.func_exit.stoploss_long,
-                'stoploss_value_short': self.func_exit.stoploss_short,
-                'entry_function': False,
-                'exit_function': False,
-                'user': self.user.username
-            }
-
-            self.current_bot.running = True
-            self.current_bot.save()
-
         except Exception as e:
             self.abort('init_binance' + str(e))
+
+        self.item = {
+            'candle_close': 0,
+            'entry_candle': 0,
+            'takeprofit_ratio': 0,
+            'takeprofit_candle': 0,
+            'takeprofit': False,
+            'stoploss_ratio': 0,
+            'stoploss_candle': 0,
+            'stoploss': False,
+            'entry': False,
+            'sleep_func_entry': self.func_entry.sleep,
+            'taapi': self.taapi,
+            'symbol': self.symbol,
+            'symbol_exchange': self.symbol_exchange,
+            'type': -1,
+            'time_frame': self.time_frame,
+            'ratio': self.func_entry.ratio,
+            'takeprofit_value_long': self.func_exit.takeprofit_long,
+            'takeprofit_value_short': self.func_exit.takeprofit_short,
+            'stoploss_value_long': self.func_exit.stoploss_long,
+            'stoploss_value_short': self.func_exit.stoploss_short,
+            'entry_function': False,
+            'exit_function': False,
+            'user': self.user.username
+        }
+
+        self.current_bot.running = True
+        self.current_bot.save()
 
     def error(self, e, func):
         exception = "ERROR" + str(e) + " function:" + str(func)
