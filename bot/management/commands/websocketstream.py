@@ -20,9 +20,9 @@ class Command(BaseCommand):
         for symbol in SymbolExchange.objects.all():
             symbolList.append(symbol.symbol.lower())
 
-        klines = ['kline_1m', 'kline_5m', 'kline_15m', 'kline_30m', 'kline_1h']
+        #klines = ['kline_1m', 'kline_5m', 'kline_15m', 'kline_30m', 'kline_1h']
 
-        # klines = ['kline_1m', 'kline_5m', 'kline_15m', 'kline_30m', 'kline_1h', 'kline_2h', 'kline_4h', 'kline_6h', 'kline_8h', 'kline_12h', 'kline_1d', 'kline_3d', 'kline_1w', 'kline_1M']
+        klines = ['kline_1m', 'kline_5m', 'kline_15m', 'kline_30m', 'kline_1h', 'kline_2h', 'kline_4h', 'kline_6h', 'kline_8h', 'kline_12h', 'kline_1d', 'kline_3d', 'kline_1w', 'kline_1M']
 
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com")
         binance_websocket_api_manager.create_stream(klines, symbolList, output="UnicornFy")
@@ -33,9 +33,9 @@ class Command(BaseCommand):
                 if oldest_stream_data_from_stream_buffer:
                     binance_stream = UnicornFy.binance_com_websocket(oldest_stream_data_from_stream_buffer)
 
-                    BufferStreamWebSocket.objects \
-                        .filter(created_at__lte=datetime.datetime.now() - datetime.timedelta(minutes=1)) \
-                        .delete()
+                    # BufferStreamWebSocket.objects \
+                    #     .filter(created_at__lte=datetime.datetime.now() - datetime.timedelta(minutes=1)) \
+                    #     .delete()
 
                     for k, v in binance_stream.items():
                         if isinstance(v, dict):
