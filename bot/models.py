@@ -90,7 +90,7 @@ class Bot(CommonTrait):
     abort = models.BooleanField(default=False)
     market_spot = models.BooleanField(default=False)
     market_futures = models.BooleanField(default=False)
-    leverage = models.FloatField(default=1, blank=False)
+    leverage = models.IntegerField(default=1, blank=False)
     amount = models.FloatField(default=11, blank=False)
 
     class Meta:
