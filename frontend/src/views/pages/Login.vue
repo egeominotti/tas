@@ -73,7 +73,9 @@ export default {
         localStorage.setItem('password', this.password)
         this.$router.push('/dashboard')
       }, (error) => {
-        console.log(error);
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
       });
     },
   },
