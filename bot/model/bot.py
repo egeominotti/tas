@@ -8,12 +8,20 @@ from backtest.strategy.logic.logic_function import *
 
 class TradingBot:
 
-    def __init__(self,
-                 instance,
-                 userexchange,
-                 symbol,
-                 logger,
-                 bot_object):
+    def __init__(
+            self,
+            instance,
+            userexchange,
+            logger,
+            bot_object
+    ):
+        """
+
+        :param instance: Istanza del bot
+        :param userexchange:  Exchange dell'utente
+        :param logger:  Oggetto logger queryset
+        :param bot_object:  Oggetto bot queryset
+        """
 
         self.current_bot = instance
         self.logger = logger
@@ -23,7 +31,7 @@ class TradingBot:
         self.telegram = Telegram()
         self.symbol = instance.coins.coins_taapi.symbol
         self.symbol_exchange = instance.coins.coins_exchange.symbol
-        self.taapi = Taapi(symbol)
+        self.taapi = Taapi(self.symbol)
         self.time_frame = instance.strategy.time_frame.time_frame
         self.func_entry = instance.strategy.logic_entry
         self.func_exit = instance.strategy.logic_exit
