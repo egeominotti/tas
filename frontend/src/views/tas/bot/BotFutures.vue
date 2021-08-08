@@ -68,8 +68,6 @@
 
             <CCol sm="12">
               <br>
-              <div>Current Wallet</div>
-              <br>
               <!-- <div>Balance Spot <p class="text-custom-balance">${{ balance_spot }}</p></div> -->
               <div>Balance Futures<p class="text-custom-balance"> ${{ balance_futures }}</p></div>
               <br>
@@ -525,8 +523,8 @@ export default {
               console.log(response.data.results);
 
 
-              this.balance_spot = response.data.results[0].balance_spot;
-              this.balance_futures = response.data.results[0].balance_futures;
+              this.balance_spot = response.data.results[0].balance_spot.toFixed(3);
+              this.balance_futures = response.data.results[0].balance_futures.toFixed(3);
             }
           }, (error) => {
             console.log(error);
