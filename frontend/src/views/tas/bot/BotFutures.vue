@@ -141,9 +141,9 @@
               :loading="loading"
           >
 
-             <template #amount="{item}">
+            <template #amount="{item}">
               <td>
-                <h6>${{ item.amount}}</h6>
+                <h6>${{ item.amount }}</h6>
               </td>
             </template>
 
@@ -357,6 +357,7 @@ export default {
       columnFilterValue: {},
       tableFilterValue: '',
       titleList: titleList,
+      listAmount: [],
       activePage: 1,
       loadedItems: [],
       itemsPerPage: 10,
@@ -486,9 +487,13 @@ export default {
         if (response.status === 500) {
         }
         if (response.status === 201 && response.statusText === 'Created') {
+
+          this.listAmount.push(this.amount)
+          this.balance_futures -= this.amount
+          this.amount = 10
+          this.leverage = 1
           this.getData();
           this.modalCreateBot = false
-
         }
         console.log(response);
       }, (error) => {
@@ -518,6 +523,8 @@ export default {
             if (response.statusText === 'OK' && response.status === 200) {
               this.userEchange = response.data.results;
               console.log(response.data.results);
+
+
               this.balance_spot = response.data.results[0].balance_spot;
               this.balance_futures = response.data.results[0].balance_futures;
             }
@@ -537,6 +544,17 @@ export default {
               console.log(response);
               if (response.statusText === 'OK' && response.status === 200) {
                 this.loadedItems = response.data.results;
+
+               let totalInvestment = 0
+                for (const bot of response.data.results) {
+                  console.log(bot.amount)
+                  totalInvestment += bot.amount
+                }
+                console.log(totalInvestment)
+                console.log(totalInvestment)
+                console.log(totalInvestment)
+                this.balance_futures -= totalInvestment
+
               }
             }, (error) => {
               console.log(error);
@@ -548,6 +566,16 @@ export default {
               console.log(response);
               if (response.statusText === 'OK' && response.status === 200) {
                 this.loadedItems = response.data.results;
+
+                let totalInvestment = 0
+                for (const bot of response.data.results) {
+                  console.log(bot.amount)
+                  totalInvestment += bot.amount
+                }
+                console.log(totalInvestment)
+                console.log(totalInvestment)
+                console.log(totalInvestment)
+                this.balance_futures -= totalInvestment
               }
             }, (error) => {
               console.log(error);
