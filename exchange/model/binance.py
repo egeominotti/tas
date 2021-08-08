@@ -25,6 +25,7 @@ class BinanceHelper:
         if bot is not None:
             self.client.futures_change_leverage(symbol=symbol, marginType='ISOLATED', leverage=self.bot.leverage)
         else:
+            self.client.get_my_trades()
             self.client.futures_change_leverage(symbol=symbol, marginType='ISOLATED', leverage=1)
 
     def get_quantity_from_number_of_bot(self):
