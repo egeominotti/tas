@@ -43,15 +43,14 @@ if 'dev' in ENV:
 
 else:
 
-    # CHANNEL_LAYERS = {
-    #     "default": {
-    #         'BACKEND': 'channels_redis.core.RedisChannelLayer',
-    #         "CONFIG": {
-    #             "hosts": [("127.0.0.1", 6379)],
-    #             # "hosts": [("rediss://default:ykhwetrsti3paw7p@private-db-redis-funer24-do-user-3323991-0.b.db.ondigitalocean.com:25061")],
-    #         },
-    #     },
-    # }
+    CHANNEL_LAYERS = {
+        "default": {
+            'BACKEND': 'channels_redis.core.RedisChannelLayer',
+            "CONFIG": {
+                "hosts": [("127.0.0.1", 6379)],
+            },
+        },
+    }
 
     ALLOWED_HOSTS = ['http://164.90.198.149/',
                      '127.0.0.1',
@@ -83,6 +82,7 @@ INSTALLED_APPS = [
     # 'django_q',
     'raven.contrib.django.raven_compat',
     'django_quill',
+    'channels',
 ]
 
 QUILL_CONFIGS = {
@@ -198,8 +198,8 @@ TEMPLATES = [
     },
 ]
 
-#WSGI_APPLICATION = 'tas.wsgi.application'
-ASGI_APPLICATION = 'tas.wsgi.application'
+# WSGI_APPLICATION = 'tas.wsgi.application'
+ASGI_APPLICATION = 'tas.asgi.application'
 # DJANGO_ALLOW_ASYNC_UNSAFE = True
 DATABASES = {
     'default': {
