@@ -33,7 +33,17 @@ DEBUG = True
 if 'production' in ENV:
     DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+if 'dev' in ENV:
+    ALLOWED_HOSTS = ['*']
+else:
+    ALLOWED_HOSTS = ['http://164.90.198.149/',
+                     '127.0.0.1',
+                     'cryptotradebot.io',
+                     'www.cryptotradebot.io',
+                     'https://www.cryptotradebot.io/',
+                     'www.app.funer24.com',
+                     'dashboard.cryptotradebot.io'
+                     ]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
