@@ -55,7 +55,7 @@ class StrategyBacktestingAdmin(admin.ModelAdmin):
 class LogicEntryAdmin(admin.ModelAdmin):
     list_per_page = 20
     ordering = ('id',)
-    list_display = ('name', 'ratio', 'sleep',)
+    list_display = ('name', 'ratio',)
     exclude = ['flgEnable', ]
 
 
