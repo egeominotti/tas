@@ -8,7 +8,7 @@ logger = logging.getLogger('main')
 
 
 def init():
-    qs = BackTest.objects.filter(scheduled=False)
+    qs = BackTest.objects.filter(completed=False)
     if qs.count() > 0:
         for instance in qs:
             bt = BackTesting(
