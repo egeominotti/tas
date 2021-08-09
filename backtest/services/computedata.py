@@ -4,7 +4,6 @@ import talib as ta
 
 
 def compute_data(klines):
-
     time = [entry[0] / 1000 for entry in klines]
     open = [float(entry[1]) for entry in klines]
     high = [float(entry[2]) for entry in klines]
@@ -47,7 +46,7 @@ def compute_data(klines):
                             slowd_period=3, slowd_matype=0)
     fastk, fastd = ta.STOCHF(high_array, low_array, close_array, fastk_period=5, fastd_period=3, fastd_matype=0)
     fastk_rsi, fastd_rsi = ta.STOCHRSI(close_array, timeperiod=14, fastk_period=5, fastd_period=3, fastd_matype=0)
-    upperband, middleband, lowerband = ta.BBANDS(close_array, timeperiod=5, nbdevup=2, nbdevdn=2, matype=0)
+    upperband, middleband, lowerband = ta.BBANDS(close_array, timeperiod=20, nbdevup=2, nbdevdn=2, matype=0)
     ma20 = ta.MA(close_array, timeperiod=20, matype=0)
     ma20_rsi = ta.MA(rsi, timeperiod=20, matype=0)
     doji = ta.CDLDOJI(open_array, high_array, low_array, close_array)
