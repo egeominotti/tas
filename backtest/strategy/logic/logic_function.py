@@ -6,9 +6,6 @@ logger = logging.getLogger(__name__)
 
 
 def logicentry_first(item):
-    """
-    Casistica usata dal backtesting
-    """
 
     prev_item = find_prev_candle(item, 1)
     prev_indicators = json.loads(prev_item.indicators)
@@ -21,10 +18,13 @@ def logicentry_first(item):
 
 
 def logicexit_first(item):
+
     if item['close_candle'] >= item['open_candle'] * item['take_profit']:
+        item['takeprofit_func'] = True
         return True
 
     if item['close_candle'] <= item['open_candle'] * item['stop_loss']:
+        item['stoploss_func'] = True
         return True
 
     return False
