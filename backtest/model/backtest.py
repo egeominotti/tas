@@ -32,16 +32,24 @@ class BackTesting:
     def run(self):
 
         try:
+            self.instance.scheduled = True
+            self.instance.save()
+
             qs = UserExchange.objects.get(user__username='egeo')
             client = Client(qs.api_key, qs.api_secret)
 
             self.klines = client.get_historical_klines(self.symbol, self.time_frame, self.start_period, self.end_period)
             if len(self.klines) > 0:
+                self.instance.running = True
+                self.instance.save()
+
                 self.find_entry()
                 self.find_exit()
                 self.postprocessing()
 
         except Exception as e:
+            self.instance.error = True
+            self.instance.save()
             print("Esco dal backtest errore inaspettato: " + str(e))
             exit(1)
 
@@ -135,7 +143,6 @@ class BackTesting:
 
     def postprocessing(self):
 
-        BackTest.objects.filter(id=self.instance.id).update(scheduled=True)
         qs = BackTestLog.objects.filter(time_frame=self.time_frame, symbol=self.time_frame)
 
         sum_loss = 0
@@ -205,3 +212,6 @@ class BackTesting:
             current_wallet=sd,
             composite_value=sd - initial_investment
         )
+
+        self.instance.completed = True
+        self.instance.save()
