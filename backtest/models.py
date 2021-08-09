@@ -48,10 +48,18 @@ class BackTest(models.Model):
     symbol = models.ForeignKey(SymbolExchange, on_delete=models.CASCADE, null=False, blank=False)
     completed = models.BooleanField(default=False)
     initial_investment = models.FloatField(default=1000, blank=False, null=False)
+    reset = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if len(self.name) == 0:
             self.name = 'backtesting_' + self.name_strategy
+
+        if self.reset:
+            self.scheduled = False
+            self.running = False
+            self.completed = False
+            self.error = False
+            self.reset = False
         super().save(*args, **kwargs)
 
     def __str__(self):
