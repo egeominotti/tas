@@ -10,6 +10,7 @@ STRATEGY 2: RSI 20 BOLLINGER
 
 
 def logicentry_backtest_rsi_20_bollinger(item):
+
     rsi = item['rsi']
     bband_lower = item['lowerband']
     if rsi < 20 and item['close'] <= bband_lower:
@@ -31,16 +32,6 @@ def logicexit_backtest_rsi_20_bollinger(item):
         return True
 
     return False
-
-    # if item['high'] >= item['open'] * item['takeprofit']:
-    #     item['takeprofit_func'] = True
-    #     return True
-    #
-    # if item['close'] <= item['open'] * item['stoploss']:
-    #     item['stoploss_func'] = True
-    #     return True
-    #
-    # return False
 
 def logicentry_backtest_first(item):
     prev_item = find_prev_candle(item, 1)
