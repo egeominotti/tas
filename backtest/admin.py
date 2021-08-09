@@ -41,7 +41,7 @@ class BackTestAdmin(admin.ModelAdmin):
     list_per_page = 20
     ordering = ('id',)
     list_display = ('strategy', 'start_period', 'start_period', 'running', 'scheduled', 'error')
-    readonly_fields = ('scheduled', 'error')
+    readonly_fields = ('scheduled', 'running', 'error')
     exclude = ['flgEnable', ]
 
 
