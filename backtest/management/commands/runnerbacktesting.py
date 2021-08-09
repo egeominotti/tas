@@ -25,4 +25,5 @@ class Command(BaseCommand):
     help = 'AsyncRunnerBacktesting'
 
     def handle(self, *args, **kwargs):
-        init()
+        while True:
+            init()
