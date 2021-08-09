@@ -110,6 +110,7 @@ class BackTesting:
                     'stoploss_func': False,
                     'takeprofit_func': False
                 }
+                print(item)
 
                 if self.logic_exit(item) is True:
 
