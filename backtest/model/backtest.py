@@ -143,7 +143,7 @@ class BackTesting:
 
     def postprocessing(self):
 
-        qs = BackTestLog.objects.filter(time_frame=self.time_frame, symbol=self.time_frame)
+        qs = BackTestLog.objects.filter(time_frame=self.time_frame, symbol=self.symbol)
 
         sum_loss = 0
         sum_takeprofit = 0
@@ -180,7 +180,7 @@ class BackTesting:
                 if k.candle_take_profit_date is not None:
                     if next_obj.entry_candle_date < k.candle_take_profit_date:
                         BackTestLog.objects.filter(time_frame=self.time_frame,
-                                                   symbol=self.time_frame,
+                                                   symbol=self.symbol,
                                                    entry_candle_date__exact=next_obj.entry_candle_date).delete()
 
         qs = BackTestLog.objects.filter(time_frame=self.time_frame, symbol=self.symbol)
