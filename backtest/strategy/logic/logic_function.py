@@ -29,7 +29,7 @@ def logicexit_backtest_rsi_20_bollinger(item):
         item['takeprofit_func'] = True
         return True
 
-    if item['close_candle'] <= item['open_candle'] * item['stop_loss']:
+    if item['close'] <= item['open'] * item['stoploss']:
         item['stoploss_func'] = True
         return True
 
@@ -50,11 +50,11 @@ def logicentry_backtest_first(item):
 
 def logicexit_backtest_first(item):
 
-    if item['close_candle'] >= item['open_candle'] * item['take_profit']:
+    if item['close'] >= item['open'] * item['take_profit']:
         item['takeprofit_func'] = True
         return True
 
-    if item['close_candle'] <= item['open_candle'] * item['stop_loss']:
+    if item['close'] <= item['open'] * item['stop_loss']:
         item['stoploss_func'] = True
         return True
 

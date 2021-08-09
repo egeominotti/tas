@@ -95,10 +95,10 @@ class BackTesting:
                 item = {
                     'time_frame': self.time_frame,
                     'symbol': self.symbol,
-                    'stop_loss': self.stoploss,
-                    'take_profit': self.takeprofit,
-                    'open_candle': entry_candle,
-                    'close_candle': current_candle,
+                    'stoploss': self.stoploss,
+                    'takeprofit': self.takeprofit,
+                    'open': entry_candle,
+                    'close': current_candle,
                     'stoploss_func': False,
                     'takeprofit_func': False
                 }
