@@ -1,14 +1,62 @@
 import pandas
 from backtest.models import BackTestLog, StatisticsPortfolio
 from backtest.services.computedata import compute_data
-from backtest.model.portfolio import Portfolio
-from backtest.model.strategy import Strategy
 from binance import Client
-from decouple import config
+from bot.models import UserExchange
 from datetime import datetime
+from backtest.strategy.logic.logic_function import *
 
 
-class PortfolioChecker(Portfolio):
+class Backtest:
+
+    def __init__(self,
+                 instance,
+                 start_period,
+                 end_period
+                 ):
+        self.instance = instance
+        self.start_period = start_period.strftime("%d %b,%Y")
+        self.end_period = end_period.strftime("%d %b,%Y")
+        self.symbol = instance.strategy.symbol_exchange.symbol
+        self.time_frame = instance.strategy.time_frame.time_frame
+        self.logic_entry = eval(instance.strategy.logic_entry.name)
+        self.logic_exit = eval(instance.strategy.logic_exit.name)
+        self.takeprofit_long = instance.strategy.logic_exit.takeprofit_long
+        self.stoploss_long = instance.strategy.logic_exit.stoploss_long
+        self.takeprofit_short = instance.strategy.logic_exit.takeprofit_short
+        self.stoploss_short = instance.strategy.logic_exit.stoploss_short
+        self.ratio = instance.strategy.logic_entry.ratio
+
+    def run(self):
+
+        qs = UserExchange.objects.get(user__username='egeo')
+        client = Client(qs.api_key, qs.api_secret)
+
+        try:
+
+            klines = client.get_historical_klines(self.symbol, self.time_frame, self.start_period, self.end_period)
+            print(klines)
+
+            if len(klines) > 0:
+                st = StrategyChecker(klines=klines, symbol=self.symbol, time_frame=self.time_frame, ratio=self.ratio)
+                print(st)
+                PortfolioChecker(instance=self.instance,
+                                 func_exit=self.logic_exit,
+                                 time_frame=self.time_frame,
+                                 symbol=self.symbol,
+                                 klines=klines,
+                                 signals=st.add_strategy(self.logic_entry),
+                                 take_profit=self.takeprofit_long,
+                                 stop_loss=self.takeprofit_short
+                                 )
+
+                return True
+
+        except Exception as e:
+            print(e)
+
+
+class PortfolioChecker:
 
     def __init__(
             self,
@@ -110,7 +158,7 @@ class PortfolioChecker(Portfolio):
                 #     break
 
 
-class StrategyChecker(Strategy):
+class StrategyChecker:
 
     def __init__(
             self,
@@ -141,57 +189,3 @@ class StrategyChecker(Strategy):
                 if val is True:
                     diz[item['timestamp']] = item
         return diz
-
-
-class Backtest:
-
-    def __init__(self,
-                 instance,
-                 first_period,
-                 logic_entry,
-                 logic_exit,
-                 time_frame,
-                 symbol,
-                 take_profit_value=0,
-                 stop_loss_value=0,
-                 ratio_value=0
-                 ):
-        self.instance = instance
-        self.first_period = first_period
-        self.logic_entry = logic_entry
-        self.logic_exit = logic_exit
-        self.tf = str(time_frame),
-        self.symbol = symbol
-        self.take_profit_value = take_profit_value
-        self.stop_loss_value = stop_loss_value
-        self.ratio_value = ratio_value
-        self.tf = ''.join(self.tf)
-
-    def run(self):
-
-        now = datetime.now().strftime("%d %b, %Y")
-        client = Client(config('API_KEY_BINANCE'), config('API_SECRET_BINANCE'))
-
-        klines = None
-        try:
-            klines = client.get_historical_klines(self.symbol, self.tf, self.first_period, now)
-        except Exception as e:
-            exit(1)
-
-        if len(klines) > 0:
-            st = StrategyChecker(klines=klines, symbol=self.symbol, time_frame=self.tf, ratio=self.ratio_value)
-            print(st)
-            # PortfolioChecker(instance=self.instance,
-            #                  func_exit=self.logic_exit,
-            #                  time_frame=self.tf,
-            #                  symbol=self.symbol,
-            #                  klines=klines,
-            #                  signals=st.add_strategy(self.logic_entry),
-            #                  take_profit=self.take_profit_value,
-            #                  stop_loss=self.stop_loss_value
-            #                  )
-
-            return True
-
-        if len(klines) == 0:
-            exit(1)

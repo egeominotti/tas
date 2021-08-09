@@ -1,5 +1,5 @@
 from django.contrib import admin
-from bot.models import Bot, BotLogger, StrategyBot
+from bot.models import Bot, BotLogger, StrategyBot, LogicExit, LogicEntry
 from bot.models import UserExchange
 
 
@@ -60,9 +60,24 @@ class ExchangeAdmin(admin.ModelAdmin):
     exclude = ['flgEnable', ]
 
 
+class LogicExitAdmin(admin.ModelAdmin):
+    list_per_page = 20
+    ordering = ('id',)
+    list_display = ('name', 'takeprofit_long', 'takeprofit_short', 'stoploss_long', 'stoploss_short')
+    exclude = ['flgEnable', ]
+
+
+class LogicEntryAdmin(admin.ModelAdmin):
+    list_per_page = 20
+    ordering = ('id',)
+    list_display = ('name', 'ratio', 'sleep',)
+    exclude = ['flgEnable', ]
+
+
 admin.site.register(UserExchange, ExchangeAdmin)
 admin.site.register(StrategyBot, StrategyBotAdmin)
 admin.site.register(BotLogger, BotLoggerAdmin)
 admin.site.register(Bot, BotAdmin)
-
+admin.site.register(LogicEntry, LogicEntryAdmin)
+admin.site.register(LogicExit, LogicExitAdmin)
 admin.site.site_header = 'Amministrazione TAS'

@@ -1,14 +1,45 @@
 from django.db import models
-from strategy.models import TimeFrame, LogicExit, LogicEntry, SymbolExchange
+from django_quill.fields import QuillField
+
+from strategy.models import TimeFrame, SymbolExchange
 from analytics.models import CommonTrait
-from django.conf import settings
+
+
+class LogicEntry(CommonTrait):
+    name = models.CharField(max_length=200, blank=True)
+    ratio = models.FloatField(default=0, blank=False)
+    sleep = models.IntegerField(default=0, blank=False, null=False)
+    function = QuillField(blank=True)
+
+    def __str__(self):
+        if self.name is not None:
+            return str(self.name)
+
+    class Meta:
+        verbose_name = 'LogicEntry'
+        verbose_name_plural = 'LogicEntry'
+
+
+class LogicExit(CommonTrait):
+    name = models.CharField(max_length=200, blank=True)
+    takeprofit = models.FloatField(default=0, blank=False)
+    stoploss = models.FloatField(default=0, blank=False)
+    function = QuillField(blank=True)
+
+    def __str__(self):
+        if self.name is not None:
+            return str(self.name)
+
+    class Meta:
+        verbose_name = 'LogicExit'
+        verbose_name_plural = 'LogicExit'
 
 
 class StrategyBacktesting(CommonTrait):
     name = models.CharField(max_length=200, blank=False)
     time_frame = models.ForeignKey(TimeFrame, on_delete=models.CASCADE, null=False, blank=False)
-    logic_entry = models.ForeignKey(LogicEntry, on_delete=models.CASCADE, null=False, blank=False)
-    logic_exit = models.ForeignKey(LogicExit, on_delete=models.CASCADE, null=False, blank=False)
+    logic_entry = models.ForeignKey(LogicEntry, on_delete=models.SET_NULL, null=True, blank=True)
+    logic_exit = models.ForeignKey(LogicExit, on_delete=models.SET_NULL, null=True, blank=True)
     symbol_exchange = models.ForeignKey(SymbolExchange, on_delete=models.CASCADE, null=False, blank=False)
 
     def __str__(self):

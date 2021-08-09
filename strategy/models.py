@@ -1,6 +1,5 @@
 from django.db import models
 from analytics.models import CommonTrait
-from django_quill.fields import QuillField
 
 
 class TimeFrame(CommonTrait):
@@ -51,35 +50,3 @@ class Coins(CommonTrait):
     class Meta:
         verbose_name = 'Coins'
         verbose_name_plural = 'Coins'
-
-
-class LogicEntry(CommonTrait):
-    name = models.CharField(max_length=200, blank=True)
-    ratio = models.FloatField(default=0, blank=False)
-    sleep = models.IntegerField(default=0, blank=False, null=False)
-    function = QuillField(blank=True)
-
-    def __str__(self):
-        if self.name is not None:
-            return str(self.name)
-
-    class Meta:
-        verbose_name = 'LogicEntry'
-        verbose_name_plural = 'LogicEntry'
-
-
-class LogicExit(CommonTrait):
-    name = models.CharField(max_length=200, blank=True)
-    takeprofit_long = models.FloatField(default=0, blank=False)
-    takeprofit_short = models.FloatField(default=0, blank=False)
-    stoploss_long = models.FloatField(default=0, blank=False)
-    stoploss_short = models.FloatField(default=0, blank=False)
-    function = QuillField(blank=True)
-
-    def __str__(self):
-        if self.name is not None:
-            return str(self.name)
-
-    class Meta:
-        verbose_name = 'LogicExit'
-        verbose_name_plural = 'LogicExit'

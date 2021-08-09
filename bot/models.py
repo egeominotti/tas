@@ -1,10 +1,44 @@
 from django.conf import settings
 from django.db import models
+from django_quill.fields import QuillField
+
 from exchange.models import ExchangeList
 from analytics.models import CommonTrait
-from strategy.models import TimeFrame, LogicExit, LogicEntry, Coins, SymbolExchange
+from strategy.models import TimeFrame, Coins, SymbolExchange
 from exchange.models import User
 import uuid
+
+
+class LogicEntry(CommonTrait):
+    name = models.CharField(max_length=200, blank=True)
+    ratio = models.FloatField(default=0, blank=False)
+    sleep = models.IntegerField(default=0, blank=False, null=False)
+    function = QuillField(blank=True)
+
+    def __str__(self):
+        if self.name is not None:
+            return str(self.name)
+
+    class Meta:
+        verbose_name = 'LogicEntry'
+        verbose_name_plural = 'LogicEntry'
+
+
+class LogicExit(CommonTrait):
+    name = models.CharField(max_length=200, blank=True)
+    takeprofit_long = models.FloatField(default=0, blank=False)
+    takeprofit_short = models.FloatField(default=0, blank=False)
+    stoploss_long = models.FloatField(default=0, blank=False)
+    stoploss_short = models.FloatField(default=0, blank=False)
+    function = QuillField(blank=True)
+
+    def __str__(self):
+        if self.name is not None:
+            return str(self.name)
+
+    class Meta:
+        verbose_name = 'LogicExit'
+        verbose_name_plural = 'LogicExit'
 
 
 class BufferStreamWebSocket(CommonTrait):
@@ -34,7 +68,6 @@ class UserExchange(CommonTrait):
     api_secret = models.CharField(max_length=200, blank=False, null=False)
     balance_futures = models.FloatField(default=0, blank=True)
     balance_spot = models.FloatField(default=0, blank=True)
-    #live = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'UserExchange'

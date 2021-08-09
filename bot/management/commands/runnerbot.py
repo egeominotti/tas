@@ -39,7 +39,7 @@ def init() -> None:
 
 
 class Command(BaseCommand):
-    help = 'AsyncBotRunner'
+    help = 'AsyncRunnerBot'
 
     def handle(self, *args, **kwargs):
         init()

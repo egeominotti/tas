@@ -1,7 +1,5 @@
-import csv
 from django.contrib import admin
-from django.http import HttpResponse
-from backtest.models import BackTest, BackTestLog, StrategyBacktesting, StatisticsPortfolio
+from backtest.models import BackTest, BackTestLog, StrategyBacktesting, StatisticsPortfolio, LogicExit, LogicEntry
 from csvexport.actions import csvexport
 
 
@@ -54,6 +52,22 @@ class StrategyBacktestingAdmin(admin.ModelAdmin):
     exclude = ['flgEnable', ]
 
 
+class LogicEntryAdmin(admin.ModelAdmin):
+    list_per_page = 20
+    ordering = ('id',)
+    list_display = ('name', 'ratio', 'sleep',)
+    exclude = ['flgEnable', ]
+
+
+class LogicExitAdmin(admin.ModelAdmin):
+    list_per_page = 20
+    ordering = ('id',)
+    list_display = ('name', 'takeprofit', 'stoploss',)
+    exclude = ['flgEnable', ]
+
+
+admin.site.register(LogicEntry, LogicEntryAdmin)
+admin.site.register(LogicExit, LogicExitAdmin)
 admin.site.register(StrategyBacktesting, StrategyBacktestingAdmin)
 admin.site.register(BackTestLog, BackTestLogAdmin)
 admin.site.register(BackTest, BackTestAdmin)

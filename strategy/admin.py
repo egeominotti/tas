@@ -1,37 +1,8 @@
 from django.contrib import admin
-from strategy.models import TimeFrame, SymbolExchange, SymbolTaapiApi, LogicEntry, LogicExit, Coins
-
-
-class LogicEntryAdmin(admin.ModelAdmin):
-    list_per_page = 20
-    ordering = ('id',)
-    list_display = ('name', 'ratio', 'sleep',)
-    exclude = ['flgEnable', ]
-
-
-class LogicExitAdmin(admin.ModelAdmin):
-    list_per_page = 20
-    ordering = ('id',)
-    list_display = ('name', 'takeprofit_long', 'takeprofit_short', 'stoploss_long', 'stoploss_short')
-    exclude = ['flgEnable', ]
-
-
-class LogicTakepProfitAdmin(admin.ModelAdmin):
-    list_per_page = 20
-    ordering = ('id',)
-    list_display = ('name',)
-    exclude = ['flgEnable', ]
-
-
-class LogicStopLossAdmin(admin.ModelAdmin):
-    list_per_page = 20
-    ordering = ('id',)
-    list_display = ('name',)
-    exclude = ['flgEnable', ]
+from strategy.models import TimeFrame, SymbolExchange, SymbolTaapiApi, Coins
 
 
 class TimeFrameAdmin(admin.ModelAdmin):
-    # search_fields = ['time_frame']
     list_per_page = 20
     ordering = ('id',)
     list_display = ('time_frame',)
@@ -69,5 +40,3 @@ admin.site.register(TimeFrame, TimeFrameAdmin)
 admin.site.register(SymbolExchange, SymbolExchangeAdmin)
 admin.site.register(SymbolTaapiApi, SymbolTaapiApiAmin)
 admin.site.register(Coins, CoinsAdmin)
-admin.site.register(LogicEntry, LogicEntryAdmin)
-admin.site.register(LogicExit, LogicExitAdmin)
