@@ -57,7 +57,7 @@ class BackTest(models.Model):
     running = models.BooleanField(default=False)
     scheduled = models.BooleanField(default=False)
     error = models.BooleanField(default=False)
-    initial_investment = models.FloatField(default=0, blank=True)
+    initial_investment = models.FloatField(default=1000, blank=False, null=False)
 
     def __str__(self):
         return self.strategy.name
