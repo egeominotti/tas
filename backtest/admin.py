@@ -4,7 +4,7 @@ from csvexport.actions import csvexport
 
 
 class BackTestLogAdmin(admin.ModelAdmin):
-    search_fields = ['tf']
+    search_fields = ['name_strategy']
     actions = [csvexport]
     list_per_page = 50
     ordering = ('id',)
@@ -22,7 +22,7 @@ class BackTestLogAdmin(admin.ModelAdmin):
 
 
 class StatisticsPortfolioAdmin(admin.ModelAdmin):
-    search_fields = ['tf']
+    search_fields = ['name_strategy']
     list_per_page = 50
     ordering = ('id',)
     actions = [csvexport]
