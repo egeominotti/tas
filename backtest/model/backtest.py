@@ -1,9 +1,10 @@
 import pandas
-from backtest.models import BackTestLog, StatisticsPortfolio
+from backtest.models import BackTestLog, StatisticsPortfolio, BackTest
 from backtest.services.computedata import compute_data
 from binance import Client
 from bot.models import UserExchange
-from datetime import datetime
+
+
 from backtest.strategy.logic.logic_function import *
 
 
@@ -105,7 +106,6 @@ class BackTesting:
                 if self.logic_exit(item) is True:
 
                     if item.get('stoploss_func'):
-
                         BackTestLog.objects.create(
                             backtest=self.instance,
                             symbol=self.symbol,
@@ -120,7 +120,6 @@ class BackTesting:
                         break
 
                     if item.get('takeprofit_func'):
-
                         BackTestLog.objects.create(
                             backtest=self.instance,
                             symbol=self.symbol,
@@ -134,19 +133,10 @@ class BackTesting:
                         )
                         break
 
+    def postprocessing(self):
 
-def get_backtesting_hook(task):
-    """
-    DATA ANALYSIS BACKTESTING
-    """
-    from backtest.models import BackTest
-
-    if isinstance(task.result, dict):
-
-        backtest_instance = BackTest.objects.get(id=task.result.get('id'))
-
-        BackTest.objects.filter(id=task.result.get('id')).update(scheduled=True)
-        qs = BackTestLog.objects.filter(time_frame=task.result.get('time_frame'), symbol=task.result.get('symbol'))
+        BackTest.objects.filter(id=self.instance.id).update(scheduled=True)
+        qs = BackTestLog.objects.filter(time_frame=self.time_frame, symbol=self.time_frame)
 
         sum_loss = 0
         sum_takeprofit = 0
@@ -166,69 +156,52 @@ def get_backtesting_hook(task):
                     profit_percentage=profit_percentage * 100
                 )
 
-            if BackTestLog.objects.filter(time_frame=task.result.get('time_frame'),
-                                          symbol=task.result.get('symbol'),
+            if BackTestLog.objects.filter(time_frame=self.time_frame,
+                                          symbol=self.symbol,
                                           entry_candle_date__gt=k.entry_candle_date).exists():
 
-                next_obj = BackTestLog.objects.filter(time_frame=task.result.get('time_frame'),
-                                                      symbol=task.result.get('symbol'),
+                next_obj = BackTestLog.objects.filter(time_frame=self.time_frame,
+                                                      symbol=self.symbol,
                                                       entry_candle_date__gt=k.entry_candle_date).first()
 
                 if k.candle_stop_loss_date is not None:
                     if next_obj.entry_candle_date < k.candle_stop_loss_date:
-                        BackTestLog.objects.filter(time_frame=task.result.get('time_frame'),
-                                                   symbol=task.result.get('symbol'),
+                        BackTestLog.objects.filter(time_frame=self.time_frame,
+                                                   symbol=self.symbol,
                                                    entry_candle_date__exact=next_obj.entry_candle_date).delete()
 
                 if k.candle_take_profit_date is not None:
                     if next_obj.entry_candle_date < k.candle_take_profit_date:
-                        BackTestLog.objects.filter(time_frame=task.result.get('time_frame'),
-                                                   symbol=task.result.get('symbol'),
+                        BackTestLog.objects.filter(time_frame=self.time_frame,
+                                                   symbol=self.time_frame,
                                                    entry_candle_date__exact=next_obj.entry_candle_date).delete()
 
-        qs = BackTestLog.objects.filter(time_frame=task.result.get('time_frame'), symbol=task.result.get('symbol'))
+        qs = BackTestLog.objects.filter(time_frame=self.time_frame, symbol=self.symbol)
 
         sum_loss = 0
-        sum_profit = 0
         counter_stoploss = 0
         counter_takeprofit = 0
-        sum_composite_loss = 0
-        sum_composite_profit = 0
 
         for k in qs:
 
             if k.stop_loss is True:
                 counter_stoploss += 1
-                # loss_value = (k.entry_candle - k.candle_stop_loss) / k.entry_candle
-                # sum_composite_loss += loss_value
-                # sum_loss += initial_investment * loss_value
-                # initial_investment = initial_investment * loss_value
 
             if k.take_profit is True:
                 counter_takeprofit += 1
-                # profit_value = (k.entry_candle - k.take_profit) / k.entry_candle
-                # sum_composite_profit += profit_value
-                # sum_profit += initial_investment * profit_value
-                # initial_investment = initial_investment * profit_value
 
-        # net_profit = ((sum_loss + sum_profit) / initial_investment) * 100
-        # composite_value = sum_composite_loss + sum_composite_profit
-
-        initial_investment = backtest_instance.initial_investment
+        initial_investment = self.instance.initial_investment
         total = sum_takeprofit - sum_loss
 
         sd = initial_investment + (total * initial_investment)
 
         StatisticsPortfolio.objects.create(
-            backtest=backtest_instance,
-            time_frame=task.result.get('time_frame'),
+            backtest=self.instance,
+            time_frame=self.time_frame,
             entry=len(qs),
             take_profit=counter_takeprofit,
             stop_loss=counter_stoploss,
-            initial_investment=backtest_instance.initial_investment,
+            initial_investment=self.instance.initial_investment,
             current_wallet=sd,
             composite_value=sd - initial_investment
         )
-
-    if isinstance(task.result, bool):
-        BackTest.objects.filter(id=task.result.get('id')).update(error=True)
