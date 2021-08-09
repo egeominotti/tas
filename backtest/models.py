@@ -57,6 +57,7 @@ class BackTest(models.Model):
     running = models.BooleanField(default=False)
     scheduled = models.BooleanField(default=False)
     error = models.BooleanField(default=False)
+    #time_frame = models.ForeignKey(TimeFrame, on_delete=models.CASCADE, null=False, blank=False)
     completed = models.BooleanField(default=False)
     initial_investment = models.FloatField(default=1000, blank=False, null=False)
 
