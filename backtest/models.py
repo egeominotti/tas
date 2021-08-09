@@ -92,10 +92,15 @@ class StatisticsPortfolio(CommonTrait):
     stop_loss = models.IntegerField(default=0, blank=True)
     profit_ratio = models.IntegerField(default=0, blank=True)
     loss_ratio = models.IntegerField(default=0, blank=True)
+    symbol = models.CharField(max_length=10, blank=True)
+    logic_entry = models.CharField(max_length=250, blank=True)
+    logic_exit = models.CharField(max_length=250, blank=True)
     profit_loss_percentage = models.FloatField(default=0, blank=True)
     initial_investment = models.FloatField(default=0, blank=True)
     current_wallet = models.FloatField(default=0, blank=True)
     composite_value = models.FloatField(default=0, blank=True)
+    start_period = models.DateField(blank=True, null=True)
+    end_period = models.DateField(blank=True, null=True)
 
     class Meta:
         verbose_name = 'StatisticsPortfolio'

@@ -109,7 +109,6 @@ class BackTesting:
                 n['stoploss_func'] = False
                 n['takeprofit_func'] = False
 
-
                 if self.logic_exit(n) is True:
 
                     if n.get('stoploss_func'):
@@ -209,7 +208,12 @@ class BackTesting:
             stop_loss=counter_stoploss,
             initial_investment=self.instance.initial_investment,
             current_wallet=sd,
-            composite_value=sd - initial_investment
+            composite_value=sd - initial_investment,
+            start_period=self.instance.start_period,
+            end_period=self.instance.end_period,
+            symbol=self.symbol,
+            logic_entry=self.instance.logic_entry.name,
+            logix_exit=self.instance.logic_entry.name
         )
 
         self.instance.completed = True
