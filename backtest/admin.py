@@ -40,8 +40,8 @@ class StatisticsPortfolioAdmin(admin.ModelAdmin):
 class BackTestAdmin(admin.ModelAdmin):
     list_per_page = 20
     ordering = ('id',)
-    list_display = ('strategy', 'start_period', 'start_period', 'running', 'scheduled', 'completed', 'error')
-    readonly_fields = ('scheduled', 'running', 'completed', 'error')
+    list_display = ('name', 'strategy', 'start_period', 'start_period', 'running', 'scheduled', 'completed', 'error')
+    readonly_fields = ('name', 'scheduled', 'running', 'completed', 'error')
     exclude = ['flgEnable', ]
 
 

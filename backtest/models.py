@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django_quill.fields import QuillField
 
@@ -51,15 +53,21 @@ class StrategyBacktesting(CommonTrait):
 
 
 class BackTest(models.Model):
+    name = models.CharField(max_length=200, blank=True)
     strategy = models.ForeignKey(StrategyBacktesting, on_delete=models.CASCADE, null=False, blank=False)
     start_period = models.DateField(blank=True, null=True)
     end_period = models.DateField(blank=True, null=True)
     running = models.BooleanField(default=False)
     scheduled = models.BooleanField(default=False)
     error = models.BooleanField(default=False)
-    #time_frame = models.ForeignKey(TimeFrame, on_delete=models.CASCADE, null=False, blank=False)
+    # time_frame = models.ForeignKey(TimeFrame, on_delete=models.CASCADE, null=False, blank=False)
     completed = models.BooleanField(default=False)
     initial_investment = models.FloatField(default=1000, blank=False, null=False)
+
+    def save(self, *args, **kwargs):
+        if len(self.name) == 0:
+            self.name = 'backtesting_' + str(uuid.uuid4().hex)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.strategy.name
