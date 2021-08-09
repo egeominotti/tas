@@ -43,7 +43,8 @@ class BackTesting:
                 self.postprocessing()
 
         except Exception as e:
-            print(e)
+            print("Esco dal backtest errore inaspettato: " + str(e))
+            exit(1)
 
     def find_entry(
             self,
