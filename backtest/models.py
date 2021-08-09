@@ -1,8 +1,6 @@
 import uuid
-
 from django.db import models
 from django_quill.fields import QuillField
-
 from strategy.models import TimeFrame, SymbolExchange
 from analytics.models import CommonTrait
 
@@ -36,31 +34,17 @@ class LogicExit(CommonTrait):
         verbose_name_plural = 'LogicExit'
 
 
-class StrategyBacktesting(CommonTrait):
-    name = models.CharField(max_length=200, blank=False)
-    time_frame = models.ForeignKey(TimeFrame, on_delete=models.CASCADE, null=False, blank=False)
-    logic_entry = models.ForeignKey(LogicEntry, on_delete=models.SET_NULL, null=True, blank=True)
-    logic_exit = models.ForeignKey(LogicExit, on_delete=models.SET_NULL, null=True, blank=True)
-    symbol_exchange = models.ForeignKey(SymbolExchange, on_delete=models.CASCADE, null=False, blank=False)
-
-    def __str__(self):
-        if self.name is not None:
-            return str(self.name)
-
-    class Meta:
-        verbose_name = 'Strategy'
-        verbose_name_plural = 'Strategy'
-
-
 class BackTest(models.Model):
     name = models.CharField(max_length=200, blank=True)
-    strategy = models.ForeignKey(StrategyBacktesting, on_delete=models.CASCADE, null=False, blank=False)
     start_period = models.DateField(blank=True, null=True)
     end_period = models.DateField(blank=True, null=True)
     running = models.BooleanField(default=False)
     scheduled = models.BooleanField(default=False)
     error = models.BooleanField(default=False)
-    # time_frame = models.ForeignKey(TimeFrame, on_delete=models.CASCADE, null=False, blank=False)
+    time_frame = models.ForeignKey(TimeFrame, on_delete=models.SET_NULL, null=True, blank=True)
+    logic_entry = models.ForeignKey(LogicEntry, on_delete=models.SET_NULL, null=True, blank=True)
+    logic_exit = models.ForeignKey(LogicExit, on_delete=models.SET_NULL, null=True, blank=True)
+    symbol = models.ForeignKey(SymbolExchange, on_delete=models.SET_NULL, null=True, blank=True)
     completed = models.BooleanField(default=False)
     initial_investment = models.FloatField(default=1000, blank=False, null=False)
 
@@ -70,7 +54,8 @@ class BackTest(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.strategy.name
+        if self.name:
+            return self.name
 
     class Meta:
         verbose_name = 'BackTesting'

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from backtest.models import BackTest, BackTestLog, StrategyBacktesting, StatisticsPortfolio, LogicExit, LogicEntry
+from backtest.models import BackTest, BackTestLog, StatisticsPortfolio, LogicExit, LogicEntry
 from csvexport.actions import csvexport
 
 
@@ -40,15 +40,10 @@ class StatisticsPortfolioAdmin(admin.ModelAdmin):
 class BackTestAdmin(admin.ModelAdmin):
     list_per_page = 20
     ordering = ('id',)
-    list_display = ('name', 'strategy', 'start_period', 'start_period', 'running', 'scheduled', 'completed', 'error')
+    list_display = (
+        'name', 'time_frame', 'symbol', 'logic_entry', 'logic_exit', 'start_period', 'end_period', 'scheduled',
+        'running', 'completed', 'error')
     readonly_fields = ('name', 'scheduled', 'running', 'completed', 'error')
-    exclude = ['flgEnable', ]
-
-
-class StrategyBacktestingAdmin(admin.ModelAdmin):
-    list_per_page = 20
-    ordering = ('id',)
-    list_display = ('name', 'time_frame', 'logic_entry', 'logic_exit', 'symbol_exchange')
     exclude = ['flgEnable', ]
 
 
@@ -68,7 +63,6 @@ class LogicExitAdmin(admin.ModelAdmin):
 
 admin.site.register(LogicEntry, LogicEntryAdmin)
 admin.site.register(LogicExit, LogicExitAdmin)
-admin.site.register(StrategyBacktesting, StrategyBacktestingAdmin)
 admin.site.register(BackTestLog, BackTestLogAdmin)
 admin.site.register(BackTest, BackTestAdmin)
 admin.site.register(StatisticsPortfolio, StatisticsPortfolioAdmin)

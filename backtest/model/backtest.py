@@ -1,5 +1,5 @@
 import pandas
-from backtest.models import BackTestLog, StatisticsPortfolio, BackTest
+from backtest.models import BackTestLog, StatisticsPortfolio
 from backtest.services.computedata import compute_data
 from binance import Client
 from bot.models import UserExchange
@@ -19,13 +19,13 @@ class BackTesting:
         self.start_period = start_period.strftime("%d %b,%Y")
         self.end_period = end_period.strftime("%d %b,%Y")
         self.initial_investment = instance.initial_investment
-        self.symbol = instance.strategy.symbol_exchange.symbol
-        self.time_frame = instance.strategy.time_frame.time_frame
-        self.logic_entry = eval(instance.strategy.logic_entry.name)
-        self.logic_exit = eval(instance.strategy.logic_exit.name)
-        self.takeprofit = instance.strategy.logic_exit.takeprofit
-        self.stoploss = instance.strategy.logic_exit.stoploss
-        self.ratio = instance.strategy.logic_entry.ratio
+        self.symbol = instance.symbol.symbol
+        self.time_frame = instance.time_frame.time_frame
+        self.logic_entry = eval(instance.logic_entry.name)
+        self.logic_exit = eval(instance.logic_exit.name)
+        self.takeprofit = instance.logic_exit.takeprofit
+        self.stoploss = instance.logic_exit.stoploss
+        self.ratio = instance.logic_entry.ratio
         self.entry = None
         self.klines = None
 
