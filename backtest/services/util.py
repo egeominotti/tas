@@ -41,6 +41,11 @@ def find_prev_candle(item, backtrack):
     if item['time_frame'] == '1M':
         now_prev = item['timestamp'] - relativedelta(months=1 * backtrack)
 
+    print(now)
+    print(now_prev)
+    print(item['symbol'])
+    print(item['time_frame'])
+
     return Importer.objects.filter(symbol=item['symbol'],
                                    tf=item['time_frame'],
                                    timestamp__range=[now_prev, now]) \
