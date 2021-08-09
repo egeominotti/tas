@@ -36,7 +36,7 @@ class LogicExit(CommonTrait):
 
 class BackTest(models.Model):
     name = models.CharField(max_length=200, blank=True)
-    name_strategy = models.CharField(max_length=200, blank=True)
+    name_strategy = models.CharField(max_length=200, blank=False)
     start_period = models.DateField(blank=False, null=False)
     end_period = models.DateField(blank=False, null=False)
     running = models.BooleanField(default=False)
@@ -51,7 +51,7 @@ class BackTest(models.Model):
 
     def save(self, *args, **kwargs):
         if len(self.name) == 0:
-            self.name = 'backtesting_' + str(uuid.uuid4().hex)
+            self.name = 'backtesting_' + self.name_strategy
         super().save(*args, **kwargs)
 
     def __str__(self):
