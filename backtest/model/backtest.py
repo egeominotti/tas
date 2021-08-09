@@ -180,15 +180,16 @@ class Backtest:
 
         if len(klines) > 0:
             st = StrategyChecker(klines=klines, symbol=self.symbol, time_frame=self.tf, ratio=self.ratio_value)
-            PortfolioChecker(instance=self.instance,
-                             func_exit=self.logic_exit,
-                             time_frame=self.tf,
-                             symbol=self.symbol,
-                             klines=klines,
-                             signals=st.add_strategy(self.logic_entry),
-                             take_profit=self.take_profit_value,
-                             stop_loss=self.stop_loss_value
-                             )
+            print(st)
+            # PortfolioChecker(instance=self.instance,
+            #                  func_exit=self.logic_exit,
+            #                  time_frame=self.tf,
+            #                  symbol=self.symbol,
+            #                  klines=klines,
+            #                  signals=st.add_strategy(self.logic_entry),
+            #                  take_profit=self.take_profit_value,
+            #                  stop_loss=self.stop_loss_value
+            #                  )
 
             return True
 

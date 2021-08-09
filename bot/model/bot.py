@@ -3,7 +3,7 @@ from time import sleep
 from bot.services.telegram import Telegram
 from analytics.services.exchangeApi import Taapi
 from exchange.model.binance import BinanceHelper
-from backtest.strategy.logic.logic_function import *
+from bot.strategy.logic.logic_function import *
 
 
 class TradingBot:
@@ -113,7 +113,7 @@ class TradingBot:
 
             func_entry = eval(self.func_entry.name)
             if self.item.get('entry') is False:
-                func_entry(item=self.item, bot=True)
+                func_entry(item=self.item)
 
                 print(self.item)
 
@@ -201,7 +201,7 @@ class TradingBot:
             func_exit = eval(self.func_exit.name)
 
             if self.item.get('entry') is True:
-                func_exit(item=self.item, bot=True)
+                func_exit(item=self.item)
 
                 """
                 Stoploss
