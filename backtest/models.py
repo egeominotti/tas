@@ -36,15 +36,15 @@ class LogicExit(CommonTrait):
 
 class BackTest(models.Model):
     name = models.CharField(max_length=200, blank=True)
-    start_period = models.DateField(blank=True, null=True)
-    end_period = models.DateField(blank=True, null=True)
+    start_period = models.DateField(blank=False, null=False)
+    end_period = models.DateField(blank=False, null=False)
     running = models.BooleanField(default=False)
     scheduled = models.BooleanField(default=False)
     error = models.BooleanField(default=False)
-    time_frame = models.ForeignKey(TimeFrame, on_delete=models.SET_NULL, null=True, blank=True)
-    logic_entry = models.ForeignKey(LogicEntry, on_delete=models.SET_NULL, null=True, blank=True)
-    logic_exit = models.ForeignKey(LogicExit, on_delete=models.SET_NULL, null=True, blank=True)
-    symbol = models.ForeignKey(SymbolExchange, on_delete=models.SET_NULL, null=True, blank=True)
+    time_frame = models.ForeignKey(TimeFrame, on_delete=models.CASCADE, null=False, blank=False)
+    logic_entry = models.ForeignKey(LogicEntry, on_delete=models.CASCADE, null=False, blank=False)
+    logic_exit = models.ForeignKey(LogicExit, on_delete=models.CASCADE, null=False, blank=False)
+    symbol = models.ForeignKey(SymbolExchange, on_delete=models.CASCADE, null=False, blank=False)
     completed = models.BooleanField(default=False)
     initial_investment = models.FloatField(default=1000, blank=False, null=False)
 
