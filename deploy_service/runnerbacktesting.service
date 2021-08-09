@@ -1,0 +1,14 @@
+#sudo nano /etc/systemd/system/runnerbacktesting.service
+
+[Unit]
+Description=AsyncRunnerBacktesting
+After=network.target
+
+[Service]
+ExecStart=/home/tas/venv/bin/python3 /home/tas/manage.py runnerbacktesting
+WorkingDirectory=/home/tas
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

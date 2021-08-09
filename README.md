@@ -37,6 +37,15 @@
         # Check log
             journalctl -u balanceuserupdate.service -f
     
+    runnerbacktesting
+        
+        sudo nano /etc/systemd/system/runnerbacktesting.service
+        systemctl enable runnerbacktesting
+        systemctl status runnerbacktesting.service
+
+        # Check log
+            journalctl -u runnerbacktesting.service -f
+
     runnerbot
         
         sudo nano /etc/systemd/system/runnerbot.service

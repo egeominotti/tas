@@ -41,4 +41,4 @@ class Command(BaseCommand):
                 p.start()
                 p.join()
 
-            sleep(15)
+            sleep(10)

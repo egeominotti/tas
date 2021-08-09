@@ -7,11 +7,8 @@ import logging
 logger = logging.getLogger('main')
 
 
-
 def init():
-
-    for instance in BackTest.objects.all():
-
+    for instance in BackTest.objects.filter(scheduled=False):
         bt = BackTesting(
             instance=instance,
             start_period=instance.start_period,
@@ -29,4 +26,3 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         init()
-
