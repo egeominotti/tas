@@ -29,17 +29,17 @@ def logicexit_backtest_rsi_20_bollinger(item):
         return True
 
     return False
-    # bband_upper = item['upperband']
-    #
-    # if item['close'] >= bband_upper:
-    #     item['takeprofit_func'] = True
-    #     return True
-    #
-    # if item['close'] <= item['open'] * item['stoploss']:
-    #     item['stoploss_func'] = True
-    #     return True
-    #
-    # return False
+    bband_upper = item['upperband']
+
+    if item['close'] >= bband_upper:
+        item['takeprofit_func'] = True
+        return True
+
+    if item['close'] <= item['open'] * item['stoploss']:
+        item['stoploss_func'] = True
+        return True
+
+    return False
 
 
 def logicentry_backtest_first(item):

@@ -36,6 +36,7 @@ class LogicExit(CommonTrait):
 
 class BackTest(models.Model):
     name = models.CharField(max_length=200, blank=True)
+    name_strategy = models.CharField(max_length=200, blank=True)
     start_period = models.DateField(blank=False, null=False)
     end_period = models.DateField(blank=False, null=False)
     running = models.BooleanField(default=False)
