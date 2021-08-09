@@ -112,8 +112,8 @@ class StrategyBot(CommonTrait):
     description = models.TextField(blank=False, null=False)
     logic_entry = models.ForeignKey(LogicEntry, on_delete=models.CASCADE, null=False, blank=False)
     logic_exit = models.ForeignKey(LogicExit, on_delete=models.CASCADE, null=False, blank=False)
-    market_spot = models.BooleanField(default=False)
-    market_futures = models.BooleanField(default=False)
+    #market_spot = models.BooleanField(default=False)
+    #market_futures = models.BooleanField(default=False)
 
     def __str__(self):
         if self.name is not None:
