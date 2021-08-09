@@ -20,7 +20,6 @@ def logicentry_backtest_rsi_20_bollinger(item):
 
 def logicexit_backtest_rsi_20_bollinger(item):
 
-
     if item['high'] >= item['open'] * item['takeprofit']:
         item['takeprofit_func'] = True
         return True

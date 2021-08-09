@@ -95,26 +95,40 @@ class BackTesting:
 
             for j, n in tf.iterrows():
 
+                print(n)
+
                 current_candle = n['close']
                 currente_candle_timestamp = n['timestamp']
 
                 percentage = (current_candle - entry_candle) / entry_candle
 
-                item = {
-                    'time_frame': self.time_frame,
-                    'symbol': self.symbol,
-                    'stoploss': self.stoploss,
-                    'takeprofit': self.takeprofit,
-                    'open': entry_candle,
-                    'close': current_candle,
-                    'stoploss_func': False,
-                    'takeprofit_func': False
-                }
-                print(item)
+                n['time_frame'] = self.time_frame
+                n['symbol'] = self.symbol
+                n['stoploss'] = self.stoploss
+                n['takeprofit'] = self.takeprofit
+                n['entry'] = entry_candle
+                n['stoploss'] = self.stoploss
+                n['stoploss_func'] = False
+                n['takeprofit_func'] = False
 
-                if self.logic_exit(item) is True:
+                # item = {
+                #     'time_frame': self.time_frame,
+                #     'symbol': self.symbol,
+                #     'stoploss': self.stoploss,
+                #     'takeprofit': self.takeprofit,
+                #     'entry': entry_candle,
+                #     'close':    n['close'],
+                #     'high':     n['high'],
+                #     'low':      n['low'],
+                #     'open':     n['open'],
+                #     'stoploss_func': False,
+                #     'takeprofit_func': False
+                # }
+                print(n)
 
-                    if item.get('stoploss_func'):
+                if self.logic_exit(n) is True:
+
+                    if n.get('stoploss_func'):
                         BackTestLog.objects.create(
                             backtest=self.instance,
                             symbol=self.symbol,
@@ -128,7 +142,7 @@ class BackTesting:
                         )
                         break
 
-                    if item.get('takeprofit_func'):
+                    if n.get('takeprofit_func'):
                         BackTestLog.objects.create(
                             backtest=self.instance,
                             symbol=self.symbol,
