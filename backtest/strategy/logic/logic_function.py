@@ -5,7 +5,7 @@ from backtest.services.util import find_prev_candle
 logger = logging.getLogger(__name__)
 
 
-def logicentry_first(item):
+def logicentry_backtest_first(item):
 
 
     prev_item = find_prev_candle(item, 1)
@@ -18,7 +18,7 @@ def logicentry_first(item):
     return False
 
 
-def logicexit_first(item):
+def logicexit_backtest_first(item):
 
     if item['close_candle'] >= item['open_candle'] * item['take_profit']:
         item['takeprofit_func'] = True
