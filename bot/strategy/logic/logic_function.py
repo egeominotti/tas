@@ -52,7 +52,7 @@ logger = logging.getLogger(__name__)
 """
 
 
-def logicentry_first(item):
+def logicentry_bot_first(item):
     item['candle_close'] = BufferStreamWebSocket.objects \
         .filter(symbol__symbol=item.get('symbol_exchange'), time_frame=item.get('time_frame')) \
         .last().close_candle
@@ -116,7 +116,8 @@ def logicentry_first(item):
                             return True
 
 
-def logicexit_first(item):
+def logicexit_bot_first(item):
+
     sentinel = False
     try:
         while True:
