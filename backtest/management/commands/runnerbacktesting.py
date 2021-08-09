@@ -8,7 +8,7 @@ logger = logging.getLogger('main')
 
 
 def init():
-    qs = BackTest.objects.filter(completed=False)
+    qs = BackTest.objects.filter(running=False, scheduled=False, ompleted=False)
     if qs.count() > 0:
         for instance in qs:
             bt = BackTesting(
@@ -21,7 +21,6 @@ def init():
             thread.daemon = True
             thread.start()
             thread.join()
-
 
 
 class Command(BaseCommand):
