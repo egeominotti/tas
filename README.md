@@ -18,10 +18,12 @@
     npm run serve
 
 ### Service
+    
+    service --status-all
 
     gunicorn
 
-        sudo nano /etc/systemd/system/gunicorn.service
+         nano /etc/systemd/system/gunicorn.service
 
         # Check log
             
@@ -29,19 +31,21 @@
 
     balanceuserupdate
         
-        sudo nano /etc/systemd/system/balanceuserupdate.service
+        nano /etc/systemd/system/balanceuserupdate.service
         systemctl enable balanceuserupdate
+        systemctl stop balanceuserupdate
         systemctl status balanceuserupdate
-        systemctl status balanceuserupdate.service
 
         # Check log
             journalctl -u balanceuserupdate.service -f
     
     runnerbacktesting
         
-        sudo nano /etc/systemd/system/runnerbacktesting.service
+        nano /etc/systemd/system/runnerbacktesting.service
+
         systemctl enable runnerbacktesting
-        systemctl status runnerbacktesting.service
+        systemctl stop runnerbacktesting
+        systemctl status runnerbacktesting
 
         # Check log
             journalctl -u runnerbacktesting.service -f
@@ -49,18 +53,21 @@
     runnerbot
         
         sudo nano /etc/systemd/system/runnerbot.service
+
         systemctl enable runnerbot
+        systemctl stop runnerbot
         systemctl status runnerbot
-        systemctl status runnerbot.service
 
         # Check log
             journalctl -u runnerbot.service -f
     
     websocketstream
 
-        sudo nano /etc/systemd/system/websocketstream.service
-        sudo systemctl enable websocketstream
-        sudo systemctl status websocketstream
+        nano /etc/systemd/system/websocketstream.service
+
+        systemctl enable websocketstream
+        systemctl stop websocketstream
+        systemctl status websocketstream
 
         # Check log
             journalctl -u websocketstream.service -f
