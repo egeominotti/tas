@@ -40,6 +40,7 @@ class BackTesting:
             if len(self.klines) > 0:
                 self.find_entry()
                 self.find_exit()
+                self.postprocessing()
 
         except Exception as e:
             print(e)
@@ -48,7 +49,6 @@ class BackTesting:
             self,
     ) -> None:
 
-        print("find entry")
         diz = {}
         computed_data = compute_data(self.klines)
         for item in computed_data:
@@ -66,14 +66,14 @@ class BackTesting:
             self,
     ) -> None:
 
-        # # # Erase db record
-        # qsBacktest = BackTestLog.objects.filter(backtest=self.instance)
-        # if qsBacktest.exists():
-        #     qsBacktest.delete()
-        #
-        # qsPortfolio = StatisticsPortfolio.objects.filter(backtest=self.instance)
-        # if qsPortfolio.exists():
-        #     qsPortfolio.delete()
+        # # Erase db record
+        qsBacktest = BackTestLog.objects.filter(backtest=self.instance)
+        if qsBacktest.exists():
+            qsBacktest.delete()
+
+        qsPortfolio = StatisticsPortfolio.objects.filter(backtest=self.instance)
+        if qsPortfolio.exists():
+            qsPortfolio.delete()
 
         computed_bars = compute_data(self.klines)
         computed_bars_dataframe = pandas.DataFrame.from_dict(computed_bars)
@@ -109,7 +109,7 @@ class BackTesting:
                         BackTestLog.objects.create(
                             backtest=self.instance,
                             symbol=self.symbol,
-                            time_frame=self.tf,
+                            time_frame=self.time_frame,
                             entry_candle=entry_candle,
                             entry_candle_date=entry_candle_timestamp,
                             candle_stop_loss=current_candle,

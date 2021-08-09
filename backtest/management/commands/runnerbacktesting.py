@@ -9,21 +9,19 @@ logger = logging.getLogger('main')
 
 
 def init():
+
     for instance in BackTest.objects.all():
+
         bt = BackTesting(
             instance=instance,
             start_period=instance.start_period,
             end_period=instance.end_period,
         )
-        return_value = bt.run()
 
-        item = {
-            'result': return_value,
-            'id': instance.id,
-            'symbol': instance.strategy.symbol_exchange.symbol,
-            'time_frame': instance.strategy.time_frame.time_frame
-        }
-        print(item)
+        thread = Thread(target=bt.run)
+        thread.daemon = True
+        thread.start()
+        thread.join()
 
 
 class Command(BaseCommand):
@@ -31,6 +29,4 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         init()
-        # thread = Thread(target=init)
-        # thread.daemon = True
-        # thread.start()
+
