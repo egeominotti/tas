@@ -11,6 +11,7 @@ def init():
     qs = BackTest.objects.filter(running=False, scheduled=False, completed=False)
     if qs.count() > 0:
         for instance in qs:
+
             bt = BackTesting(
                 instance=instance,
                 start_period=instance.start_period,
