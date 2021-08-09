@@ -12,8 +12,8 @@ def init():
     for instance in BackTest.objects.all():
         bt = backtests(
             instance=instance,
-            start_period=instance.start_period.strftime("%d %b,%Y"),
-            end_period=instance.end_period.strftime("%d %b,%Y"),
+            start_period=instance.start_period,
+            end_period=instance.end_period,
         )
         return_value = bt.run()
 

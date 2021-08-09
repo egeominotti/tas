@@ -15,16 +15,15 @@ class Backtest:
                  end_period
                  ):
         self.instance = instance
+        self.initial_investment = instance.initial_investment
         self.start_period = start_period.strftime("%d %b,%Y")
         self.end_period = end_period.strftime("%d %b,%Y")
         self.symbol = instance.strategy.symbol_exchange.symbol
         self.time_frame = instance.strategy.time_frame.time_frame
         self.logic_entry = eval(instance.strategy.logic_entry.name)
         self.logic_exit = eval(instance.strategy.logic_exit.name)
-        self.takeprofit_long = instance.strategy.logic_exit.takeprofit_long
-        self.stoploss_long = instance.strategy.logic_exit.stoploss_long
-        self.takeprofit_short = instance.strategy.logic_exit.takeprofit_short
-        self.stoploss_short = instance.strategy.logic_exit.stoploss_short
+        self.takeprofit = instance.strategy.logic_exit.takeprofit
+        self.stoploss = instance.strategy.logic_exit.stoploss
         self.ratio = instance.strategy.logic_entry.ratio
 
     def run(self):
@@ -39,15 +38,14 @@ class Backtest:
 
             if len(klines) > 0:
                 st = StrategyChecker(klines=klines, symbol=self.symbol, time_frame=self.time_frame, ratio=self.ratio)
-                print(st)
                 PortfolioChecker(instance=self.instance,
                                  func_exit=self.logic_exit,
                                  time_frame=self.time_frame,
                                  symbol=self.symbol,
                                  klines=klines,
                                  signals=st.add_strategy(self.logic_entry),
-                                 take_profit=self.takeprofit_long,
-                                 stop_loss=self.takeprofit_short
+                                 take_profit=self.takeprofit,
+                                 stop_loss=self.stoploss
                                  )
 
                 return True
