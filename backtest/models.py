@@ -54,6 +54,7 @@ class BackTest(models.Model):
     strategy = models.ForeignKey(StrategyBacktesting, on_delete=models.CASCADE, null=False, blank=False)
     start_period = models.DateField(blank=True, null=True)
     end_period = models.DateField(blank=True, null=True)
+    running = models.BooleanField(default=False)
     scheduled = models.BooleanField(default=False)
     error = models.BooleanField(default=False)
     initial_investment = models.FloatField(default=0, blank=True)

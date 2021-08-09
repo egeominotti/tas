@@ -19,6 +19,8 @@ def init():
 
             thread = Thread(target=bt.run)
             thread.daemon = True
+            instance.running = True
+            instance.save()
             thread.start()
             thread.join()
 
