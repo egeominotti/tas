@@ -213,7 +213,7 @@ class BackTesting:
             end_period=self.instance.end_period,
             symbol=self.symbol,
             logic_entry=self.instance.logic_entry.name,
-            logix_exit=self.instance.logic_entry.name
+            logic_exit=self.instance.logic_entry.name
         )
 
         self.instance.completed = True
