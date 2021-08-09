@@ -95,8 +95,6 @@ class BackTesting:
 
             for j, n in tf.iterrows():
 
-                print(n)
-
                 current_candle = n['close']
                 currente_candle_timestamp = n['timestamp']
 
@@ -111,20 +109,6 @@ class BackTesting:
                 n['stoploss_func'] = False
                 n['takeprofit_func'] = False
 
-                # item = {
-                #     'time_frame': self.time_frame,
-                #     'symbol': self.symbol,
-                #     'stoploss': self.stoploss,
-                #     'takeprofit': self.takeprofit,
-                #     'entry': entry_candle,
-                #     'close':    n['close'],
-                #     'high':     n['high'],
-                #     'low':      n['low'],
-                #     'open':     n['open'],
-                #     'stoploss_func': False,
-                #     'takeprofit_func': False
-                # }
-                print(n)
 
                 if self.logic_exit(n) is True:
 
