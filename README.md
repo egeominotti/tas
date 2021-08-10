@@ -23,11 +23,14 @@
 
     gunicorn
 
-         nano /etc/systemd/system/gunicorn.service
+         nano /etc/systemd/system/daphne.service
+         systemctl enable daphne
+         systemctl stop daphne
+         systemctl status daphne
 
         # Check log
             
-            journalctl -u gunicorn.service -f
+            journalctl -u daphne.service -f
 
     balanceuserupdate
         
