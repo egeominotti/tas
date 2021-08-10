@@ -67,5 +67,5 @@ class Command(BaseCommand):
 
             except Exception as e:
                 print(e)
-                sleep(1)
+                sleep(15)
                 continue
