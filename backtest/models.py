@@ -49,10 +49,16 @@ class BackTest(models.Model):
     initial_investment = models.FloatField(default=1000, blank=False, null=False)
     reset = models.BooleanField(default=False)
     verified = models.BooleanField(default=False)
+    long = models.BooleanField(default=False, blank=True)
+    short = models.BooleanField(default=False, blank=True)
 
     def save(self, *args, **kwargs):
         if len(self.name) == 0:
-            self.name = self.logic_entry.name + "_symbol_" + self.symbol.symbol + "_timeframe_" + self.time_frame.time_frame
+
+            if self.long:
+                self.name = "LONG" + "_" + self.logic_entry.name + "_symbol_" + self.symbol.symbol + "_timeframe_" + self.time_frame.time_frame
+            if self.short:
+                self.name = "SHORT" + "_" + self.logic_entry.name + "_symbol_" + self.symbol.symbol + "_timeframe_" + self.time_frame.time_frame
 
         if self.reset:
             self.scheduled = False
