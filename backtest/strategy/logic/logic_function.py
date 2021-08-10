@@ -42,9 +42,9 @@ def logicentry_short_backtest_rsi_20_bollinger(item):
 
 
 def logicexit_short_backtest_rsi_20_bollinger(item):
-    loweband = item['loweband']
+    lowerband = item['lowerband']
 
-    if item['close'] <= loweband:
+    if item['close'] <= lowerband:
         item['takeprofit_func'] = True
         return True
 
