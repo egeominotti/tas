@@ -5,6 +5,56 @@ from backtest.services.util import find_prev_candle
 logger = logging.getLogger(__name__)
 
 """
+STRATEGY 3: EMA 60 / EMA 222
+"""
+
+
+def logicentry_long_backtest_ema60_ema223(item):
+    ema60 = item['ema60']
+    ema223 = item['ema223']
+
+    if ema60 > ema223:
+        return True
+
+    return False
+
+
+def logicexit_long_backtest_ema60_ema223(item):
+
+    if item['close'] >= item['open'] * item['take_profit']:
+        item['takeprofit_func'] = True
+        return True
+
+    if item['close'] <= item['open'] * item['stop_loss']:
+        item['stoploss_func'] = True
+        return True
+
+    return False
+
+
+def logicentry_short_backtest_ema60_ema223(item):
+    ema60 = item['ema60']
+    ema223 = item['ema223']
+
+    if ema60 < ema223:
+        return True
+
+    return False
+
+
+def logicexit_short_backtest_ema60_ema223(item):
+    if item['close'] <= item['open'] * item['take_profit']:
+        item['takeprofit_func'] = True
+        return True
+
+    if item['close'] >= item['open'] * item['stop_loss']:
+        item['stoploss_func'] = True
+        return True
+
+    return False
+
+
+"""
 STRATEGY 2: RSI 20 BOLLINGER
 """
 
@@ -53,6 +103,11 @@ def logicexit_short_backtest_rsi_20_bollinger(item):
         return True
 
     return False
+
+
+"""
+STRATEGIA CA CAPIRE
+"""
 
 
 def logicentry_backtest_first(item):
