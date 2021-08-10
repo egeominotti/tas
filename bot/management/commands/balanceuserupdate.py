@@ -29,16 +29,22 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         while True:
 
-            qs = UserExchange.objects.all(exchange__name='binance')
-            processList = []
+            try:
 
-            for k in qs:
-                process = multiprocessing.Process(target=compute, name=k.user, args=(k,))
-                processList.append(process)
+                qs = UserExchange.objects.filter(exchange__name='binance')
+                processList = []
 
-            for p in processList:
-                p.daemon = True
-                p.start()
-                p.join()
+                for k in qs:
+                    process = multiprocessing.Process(target=compute, name=k.user, args=(k,))
+                    processList.append(process)
 
-            sleep(10)
+                for p in processList:
+                    p.daemon = True
+                    p.start()
+                    p.join()
+
+                sleep(10)
+
+            except Exception as e:
+                print(e)
+                continue
