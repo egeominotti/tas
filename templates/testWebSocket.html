@@ -5,13 +5,12 @@
 <body>
 <h1>Test web socket</h1>
 <script>
-    //64.225.70.181:9001
-    //?token=9e1058f3d0539b51ff7350ae6f0b096a6553b240
     var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
     var conn = new WebSocket(ws_scheme + '://'
         + window.location.host
         + '/ws/bot/list'
     );
+
     conn.onmessage = function (e) {
         console.log("connesso")
         console.log(e.data);
@@ -21,10 +20,18 @@
         console.error('Error websocket');
     };
 
+    /*
     conn.onopen = () => conn.send(
         (JSON.stringify({
-            "action": "list",
-            "request_id": 12223
+            action: "list",
+            request_id: new Date().getTime(),
+        })));
+    */
+    conn.onopen = () => conn.send(
+        (JSON.stringify({
+            action: "retrieve",
+            request_id: new Date().getTime(),
+            pk: 1,
         })));
 
 </script>

@@ -1,3 +1,4 @@
+from threading import Thread
 from time import sleep
 import multiprocessing
 from bot.models import UserExchange
@@ -10,10 +11,11 @@ logger = logging.getLogger('main')
 
 
 def compute(q):
+
     bh = BinanceHelper(
         api_key=q.api_key,
         api_secret=q.api_secret,
-        symbol='BTCUSDT',
+        symbol='',
         user=q.user,
     )
 
@@ -27,24 +29,20 @@ class Command(BaseCommand):
     help = 'Bot che scarica il bilancio di ogni utente e lo salva nel sistema ogni 15 secondi'
 
     def handle(self, *args, **kwargs):
-        while True:
-
-            try:
-
-                qs = UserExchange.objects.filter(exchange__name='binance')
-                processList = []
-
-                for k in qs:
-                    process = multiprocessing.Process(target=compute, name=k.user, args=(k,))
-                    processList.append(process)
-
-                for p in processList:
-                    p.daemon = True
-                    p.start()
-                    p.join()
-
-                sleep(10)
-
-            except Exception as e:
-                print(e)
-                continue
+        pass
+        # while True:
+        #
+        #     try:
+        #
+        #         qs = UserExchange.objects.filter(exchange__name='binance')
+        #         print(qs)
+        #         for k in qs:
+        #             thread = Thread(target=compute, name=k.user, args=(k,))
+        #             thread.daemon = True
+        #             thread.start()
+        #             thread.join()
+        #         sleep(10)
+        #
+        #     except Exception as e:
+        #         print(e)
+        #         continue
