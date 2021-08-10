@@ -1,5 +1,7 @@
 import logging
 import datetime
+from time import sleep
+
 from bot.models import BufferStreamWebSocket
 
 logger = logging.getLogger(__name__)
@@ -53,6 +55,7 @@ logger = logging.getLogger(__name__)
 
 
 def logicentry_bot_rsi_20_bollinger(item):
+
     time_frame = item['time_frame']
     item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
 
@@ -76,16 +79,64 @@ def logicentry_bot_rsi_20_bollinger(item):
 
 
 def logicexit_bot_rsi_20_bollinger(item):
-    bband_upper = item['upperband']
 
-    if item['close'] >= bband_upper:
-        item['takeprofit_func'] = True
-        return True
+    sentinel = False
+    try:
+        while True:
 
-    if item['close'] <= item['entry'] * item['stoploss']:
-        item['stoploss_func'] = True
-        return True
+            item['candle_close'] = BufferStreamWebSocket.objects \
+                .filter(symbol__symbol=item.get('symbol_exchange'), time_frame=item.get('time_frame')) \
+                .last().close_candle
 
+            if item['type'] == 0:
+
+                """
+                LONG
+                """
+
+                valueUpperBand = item.get('taapi').bbands(item.get('time_frame')).get('valueUpperBand')
+
+                if item['candle_close'] >= valueUpperBand:
+                    item['takeprofit_candle'] = item['candle_close']
+                    item['takeprofit'] = True
+                    sentinel = True
+                    break
+
+                if item['candle_close'] <= item['entry_candle'] * item['stoploss_value_long']:
+                    item['stoploss_candle'] = item['candle_close']
+                    item['stoploss'] = True
+                    sentinel = True
+                    break
+
+                sleep(3)
+
+
+            else:
+
+                """
+                SHORT
+                """
+                valueLowerBand = item.get('taapi').bbands(item.get('time_frame')).get('valueLowerBand')
+
+                if item['candle_close'] <= valueLowerBand:
+                    item['takeprofit_candle'] = item['candle_close']
+                    item['takeprofit'] = True
+                    sentinel = True
+                    break
+
+                if item['candle_close'] <= item['entry_candle'] * item['stoploss_value_short']:
+                    item['stoploss_candle'] = item['candle_close']
+                    item['stoploss'] = True
+                    sentinel = True
+                    break
+
+                sleep(3)
+
+    except Exception as e:
+        return e
+
+    if sentinel is True:
+        return sentinel
     return False
 
 
