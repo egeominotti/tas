@@ -5,11 +5,30 @@
 <body>
 <h1>Test web socket</h1>
 <script>
+
+
+    const conn = new WebSocket("ws" + '://'
+        + window.location.host
+        + 'ws/observer/bot/'
+    );
+
+    conn.send(JSON.stringify({
+        action: "list",
+        request_id: new Date().getTime(),
+    }))
+    /*
     var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
     var conn = new WebSocket(ws_scheme + '://'
         + window.location.host
         + '/ws/observer/bot/'
     );
+
+    conn.onopen = () => conn.send(
+        (JSON.stringify({
+            action: "list",
+            request_id: new Date().getTime(),
+        })));
+
     conn.onmessage = function (e) {
         console.log("connesso")
         console.log(e.data);
@@ -19,13 +38,15 @@
         console.error('Error websocket');
     };
 
+    */
+    /*
     conn.onopen = () => conn.send(
         (JSON.stringify({
             "action": "subscribe_instance",
             "pk": 1,
             "request_id": 12223
         })));
-
+    */
 </script>
 </body>
 </html>

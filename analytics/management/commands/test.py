@@ -1,6 +1,6 @@
 import datetime
 from time import sleep
-
+from bot.models import Bot
 import pandas
 from binance import Client
 from django.core.management import BaseCommand
@@ -20,6 +20,11 @@ class Command(BaseCommand):
     help = ''
 
     def handle(self, *args, **kwargs):
+
+        # for k in Bot.objects.all():
+        #     k.flgEnable = False
+        #     k.save()
+
         qs = UserExchange.objects.get(user__username='egeo')
         client = Client(qs.api_key, qs.api_secret)
 

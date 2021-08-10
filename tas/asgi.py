@@ -1,5 +1,5 @@
 import os
-from channels.routing import ProtocolTypeRouter
+from bot.consumers import BotConsumer
 from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
 from django.conf.urls import url
@@ -9,7 +9,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tas.settings')
 
 django_asgi_app = get_asgi_application()
 
-from bot.consumers import BotConsumer
+
 
 application = ProtocolTypeRouter({
     # Django's ASGI application to handle traditional HTTP requests
