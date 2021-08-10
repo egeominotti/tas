@@ -18,7 +18,7 @@ if 'production' in ENV:
         "default": {
             "BACKEND": "channels_redis.core.RedisChannelLayer",
             "CONFIG": {
-                "hosts": [("tas_redis", 6379)],
+                "hosts": [("127.0.0.1", 6379)],
             },
         },
     }
@@ -37,7 +37,7 @@ else:
         "default": {
             'BACKEND': 'channels_redis.core.RedisChannelLayer',
             "CONFIG": {
-                "hosts": [("127.0.0.1", 6379)],
+                "hosts": [("tas_redis", 6379)],
             },
         },
     }
