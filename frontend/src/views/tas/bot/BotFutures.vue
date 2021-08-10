@@ -68,8 +68,7 @@
 
             <CCol sm="12">
               <br>
-              <!-- <div>Balance Spot <p class="text-custom-balance">${{ balance_spot }}</p></div> -->
-              <div>Balance Futures<p class="text-custom-balance"> ${{ balance_futures.toFixed(3) }}</p></div>
+              <div>Balance Futures<p class="text-custom-balance"> ${{ balance_futures }}</p></div>
               <br>
 
               <label class="text">Choose Coin</label>
@@ -375,7 +374,6 @@ export default {
       strategy: [],
       selected_strategy: null,
       userEchange: null,
-      balance_spot: null,
       balance_futures: null,
       amount: 10,
       leverage: 1,
@@ -468,7 +466,6 @@ export default {
     },
 
     update() {
-
       axios.patch(apiUpdateBot + this.currentbotid,
           {
             //abort: true,
@@ -495,9 +492,6 @@ export default {
     },
 
     spawnbot() {
-
-      console.log(this.selected_coins);
-      console.log(this.selected_strategy);
       axios.post(apiCreateBot,
           {
             coins: this.selected_coins.id,
@@ -515,7 +509,6 @@ export default {
         if (response.status === 500) {
         }
         if (response.status === 201 && response.statusText === 'Created') {
-
           this.amount = 10
           this.leverage = 1
           this.getData();
@@ -548,10 +541,7 @@ export default {
             console.log(response);
             if (response.statusText === 'OK' && response.status === 200) {
               this.userEchange = response.data.results;
-              console.log(response.data.results);
-              this.balance_spot = response.data.results[0].balance_spot;
               this.balance_futures = response.data.results[0].balance_futures;
-
             }
           }, (error) => {
             console.log(error);
