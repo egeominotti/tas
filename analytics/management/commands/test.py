@@ -1,4 +1,5 @@
 import datetime
+from time import sleep
 
 import pandas
 from binance import Client
@@ -41,17 +42,17 @@ class Command(BaseCommand):
         #     klines.append(list)
         # print(klines)
         # print(compute_data(klines))
+        while True:
+            klines = []
+            for k in BufferRecordData.objects.filter(symbol__symbol='BTCUSDT', time_frame='1m'):
+                list = [int(k.unix), k.open_candle, k.high_candle, k.low_candle, k.close_candle, k.volume]
+                klines.append(list)
+            compute_klines = compute_data(klines)
 
-        klines = []
-        for k in BufferRecordData.objects.filter(symbol__symbol='BTCUSDT', time_frame='1m'):
-            list = [int(k.unix), k.open_candle, k.high_candle, k.low_candle, k.close_candle, k.volume]
-            klines.append(list)
-        compute_klines = compute_data(klines)
-
-        last_klines = BufferRecordData.objects.filter(symbol__symbol='BTCUSDT', time_frame='1m').last()
-        computed_bars_dataframe = pandas.DataFrame.from_dict(compute_klines)
-        tf = computed_bars_dataframe.iloc[[0, -1]]
-        print(tf)
+            computed_bars_dataframe = pandas.DataFrame.from_dict(compute_klines)
+            tf = computed_bars_dataframe.iloc[-1]
+            print(tf)
+            sleep(1)
 
         # klines = []
         # for k in Importer.objects.filter(symbol='BTCUSDT', tf='5m'):
