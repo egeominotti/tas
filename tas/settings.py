@@ -223,7 +223,7 @@ if 'dev' in ENV:
             'PORT': '25060',
         }
     }
-else:
+if 'production' in ENV:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
