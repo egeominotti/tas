@@ -108,7 +108,7 @@ def logicexit_bot_rsi_20_bollinger(item):
                     sentinel = True
                     break
 
-                sleep(3)
+                sleep(5)
 
 
             else:
@@ -130,7 +130,7 @@ def logicexit_bot_rsi_20_bollinger(item):
                     sentinel = True
                     break
 
-                sleep(3)
+                sleep(5)
 
     except Exception as e:
         return e
