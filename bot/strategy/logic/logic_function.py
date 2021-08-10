@@ -31,7 +31,11 @@ logger = logging.getLogger(__name__)
 def logicentry_bot_rsi_20_bollinger(item):
 
     time_frame = item['time_frame']
-    item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
+    #item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
+
+    item['candle_close'] = BufferStreamWebSocket.objects \
+        .filter(symbol__symbol=item.get('symbol_exchange'), time_frame=item.get('time_frame')) \
+        .last().close_candle
 
     rsi = item.get('taapi').rsi(time_frame).get('value')
     valueLowerBand = item.get('taapi').bbands(time_frame).get('valueLowerBand')
@@ -82,7 +86,7 @@ def logicexit_bot_rsi_20_bollinger(item):
                     sentinel = True
                     break
 
-                sleep(5)
+                sleep(2)
 
 
             else:
@@ -104,7 +108,7 @@ def logicexit_bot_rsi_20_bollinger(item):
                     sentinel = True
                     break
 
-                sleep(5)
+                sleep(2)
 
     except Exception as e:
         return e
