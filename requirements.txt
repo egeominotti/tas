@@ -52,3 +52,4 @@ daphne
 djangochannelsrestframework
 channels
 channels_redis
+hypercorn

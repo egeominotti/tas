@@ -39,6 +39,7 @@ class Command(BaseCommand):
 
                     for k, v in binance_stream.items():
                         if isinstance(v, dict):
+
                             # TODO: capire come registrare i dati ed elabolarli
                             # dt = datetime.fromtimestamp(v.get('kline_start_time') / 1000)
                             # BufferRecordData.objects.create(
@@ -68,5 +69,4 @@ class Command(BaseCommand):
 
             except Exception as e:
                 print(e)
-                sleep(1)
                 continue
