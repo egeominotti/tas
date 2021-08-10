@@ -214,40 +214,17 @@ TEMPLATES = [
 ASGI_APPLICATION = 'tas.asgi.application'
 # DJANGO_ALLOW_ASYNC_UNSAFE = True
 
-# Config docker
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': config('POSTGRES_DB'),
-#         'USER': config('POSTGRES_USER'),
-#         'PASSWORD': config('POSTGRES_PASSWORD'),
-#         'HOST': config('DJANGO_POSTGRES_HOST'),
-#         'PORT': config('DJANGO_POSTGRES_PORT'),
-#     }
-# }
 
-if 'dev' in ENV:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'tas',
-            'USER': 'django',
-            'PASSWORD': 'r18zq835ynhhfxtk',
-            'HOST': 'db-postgresql-ams3-25592-do-user-3323991-0.b.db.ondigitalocean.com',
-            'PORT': '25060',
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': config('POSTGRES_DB'),
+        'USER': config('POSTGRES_USER'),
+        'PASSWORD': config('POSTGRES_PASSWORD'),
+        'HOST': config('DJANGO_POSTGRES_HOST'),
+        'PORT': config('DJANGO_POSTGRES_PORT'),
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'tas',
-            'USER': 'django',
-            'PASSWORD': 'r18zq835ynhhfxtk',
-            'HOST': 'db-postgresql-ams3-25592-do-user-3323991-0.b.db.ondigitalocean.com',
-            'PORT': '25060',
-        }
-    }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
