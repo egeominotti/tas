@@ -27,7 +27,9 @@ class StatisticsPortfolioAdmin(admin.ModelAdmin):
     ordering = ('id',)
     actions = [csvexport]
     list_display = (
-        'backtest', 'initial_investment', 'current_wallet', 'composite_value', 'entry', 'take_profit', 'stop_loss')
+        'backtest', 'start_period', 'end_period', 'symbol', 'time_frame', 'initial_investment', 'current_wallet',
+        'composite_value', 'entry',
+        'take_profit', 'stop_loss')
     exclude = ['flgEnable', ]
 
     def has_change_permission(self, request, obj=None):
