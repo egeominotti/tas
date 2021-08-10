@@ -11,10 +11,9 @@ SECRET_KEY = config('SECRET_KEY')
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 if 'production' in ENV:
+
     DEBUG = False
-
     ALLOWED_HOSTS = ['*']
-
     CHANNEL_LAYERS = {
         "default": {
             "BACKEND": "channels_redis.core.RedisChannelLayer",
@@ -24,7 +23,6 @@ if 'production' in ENV:
         },
     }
 
-    # https://docs.sentry.io/platforms/python/guides/django/
     sentry_sdk.init(
         dsn="https://ce5d2c2138fc4cd4b8d1c04c5fa91982@o936455.ingest.sentry.io/5886823",
         integrations=[DjangoIntegration()],
@@ -33,8 +31,8 @@ if 'production' in ENV:
     )
 
 else:
-    DEBUG = True
 
+    DEBUG = True
     CHANNEL_LAYERS = {
         "default": {
             'BACKEND': 'channels_redis.core.RedisChannelLayer',
