@@ -7,8 +7,11 @@ import bot.routing
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tas.settings")
 
+django_asgi_app = get_asgi_application()
+
+
 application = ProtocolTypeRouter({
-  "http": get_asgi_application(),
+  "http": django_asgi_app,
   "websocket": AuthMiddlewareStack(
         URLRouter(
             bot.routing.websocket_urlpatterns
