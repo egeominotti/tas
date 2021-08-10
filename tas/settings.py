@@ -4,9 +4,6 @@ from decouple import config
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
-
-
-
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 ENV = config('ENVIRONMENT')
@@ -14,20 +11,8 @@ SECRET_KEY = config('SECRET_KEY')
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 if 'production' in ENV:
-# https://docs.sentry.io/platforms/python/guides/django/
-    sentry_sdk.init(
-        dsn="https://ce5d2c2138fc4cd4b8d1c04c5fa91982@o936455.ingest.sentry.io/5886823",
-        integrations=[DjangoIntegration()],
-        traces_sample_rate=1.0,
-        send_default_pii=True
-    )
-
-if 'env' in ENV:
-    DEBUG = True
-else:
     DEBUG = False
 
-if 'dev' in ENV:
     ALLOWED_HOSTS = ['*']
 
     CHANNEL_LAYERS = {
@@ -39,13 +24,16 @@ if 'dev' in ENV:
         },
     }
 
-    # CHANNEL_LAYERS = {
-    #     "default": {
-    #         "BACKEND": "channels.layers.InMemoryChannelLayer"
-    #     }
-    # }
+    # https://docs.sentry.io/platforms/python/guides/django/
+    sentry_sdk.init(
+        dsn="https://ce5d2c2138fc4cd4b8d1c04c5fa91982@o936455.ingest.sentry.io/5886823",
+        integrations=[DjangoIntegration()],
+        traces_sample_rate=1.0,
+        send_default_pii=True
+    )
 
 else:
+    DEBUG = True
 
     CHANNEL_LAYERS = {
         "default": {
@@ -64,6 +52,8 @@ else:
                      'www.app.funer24.com',
                      'dashboard.cryptotradebot.io'
                      ]
+
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -204,8 +194,6 @@ TEMPLATES = [
 
 # WSGI_APPLICATION = 'tas.wsgi.application'
 ASGI_APPLICATION = 'tas.asgi.application'
-# DJANGO_ALLOW_ASYNC_UNSAFE = True
-
 
 DATABASES = {
     'default': {
