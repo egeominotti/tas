@@ -71,7 +71,6 @@ INSTALLED_APPS = [
     'csvexport',
     'dbbackup',
     'django_extensions',
-    # 'django_q',
     'raven.contrib.django.raven_compat',
     'django_quill',
     'channels',
