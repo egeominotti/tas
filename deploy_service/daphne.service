@@ -1,0 +1,20 @@
+#sudo nano /etc/systemd/system/daphne.service
+
+[Unit]
+Description=Daphne Daemon
+After=network.target
+
+[Service]
+PIDFile=/run/daphne/pid
+User=django
+Group=www-data
+WorkingDirectory=/home/tas
+Environment="DJANGO_SETTINGS_MODULE=tas.settings"
+ExecStart=/home/tas/venv/bin/daphne --bind 0.0.0.0 --port 8000 --verbosity 3 tas.asgi:application
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+Restart=on-abort
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
