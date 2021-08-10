@@ -52,6 +52,43 @@ logger = logging.getLogger(__name__)
 """
 
 
+def logicentry_bot_rsi_20_bollinger(item):
+    time_frame = item['time_frame']
+    item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
+
+    rsi = item.get('taapi').rsi(time_frame).get('value')
+    valueLowerBand = item.get('taapi').bbands(time_frame).get('valueLowerBand')
+
+    if rsi < 20 and item['candle_close'] <= valueLowerBand:
+        item['type'] = 0  # type = 0 corrisponde ad una entrata long
+        item['entry'] = True
+        item['entry_candle'] = item['candle_close']
+        return True
+
+    valueUpperBand = item.get('taapi').bbands(time_frame).get('valueUpperBand')
+    if rsi > 80 and item['candle_close'] >= valueUpperBand:
+        item['type'] = 1  # type = 1 corrisponde ad una entrata short
+        item['entry'] = True
+        item['entry_candle'] = item['candle_close']
+        return True
+
+    return False
+
+
+def logicexit_bot_rsi_20_bollinger(item):
+    bband_upper = item['upperband']
+
+    if item['close'] >= bband_upper:
+        item['takeprofit_func'] = True
+        return True
+
+    if item['close'] <= item['entry'] * item['stoploss']:
+        item['stoploss_func'] = True
+        return True
+
+    return False
+
+
 def logicentry_bot_first(item):
     item['candle_close'] = BufferStreamWebSocket.objects \
         .filter(symbol__symbol=item.get('symbol_exchange'), time_frame=item.get('time_frame')) \
@@ -117,7 +154,6 @@ def logicentry_bot_first(item):
 
 
 def logicexit_bot_first(item):
-
     sentinel = False
     try:
         while True:
