@@ -59,6 +59,9 @@ class BufferRecordData(CommonTrait):
     high_candle = models.FloatField(default=0, blank=True)
     low_candle = models.FloatField(default=0, blank=True)
     is_closed = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(null=True, blank=True)
+    unix = models.CharField(max_length=100, null=True, blank=True)
+    volume = models.FloatField(blank=True)
 
 
 class UserExchange(CommonTrait):
@@ -112,8 +115,9 @@ class StrategyBot(CommonTrait):
     description = models.TextField(blank=False, null=False)
     logic_entry = models.ForeignKey(LogicEntry, on_delete=models.CASCADE, null=False, blank=False)
     logic_exit = models.ForeignKey(LogicExit, on_delete=models.CASCADE, null=False, blank=False)
-    #market_spot = models.BooleanField(default=False)
-    #market_futures = models.BooleanField(default=False)
+
+    # market_spot = models.BooleanField(default=False)
+    # market_futures = models.BooleanField(default=False)
 
     def __str__(self):
         if self.name is not None:

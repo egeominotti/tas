@@ -1,5 +1,5 @@
-import datetime
 from time import sleep
+from datetime import datetime
 
 from django.core.management import BaseCommand
 import logging
@@ -34,22 +34,25 @@ class Command(BaseCommand):
                 if oldest_stream_data_from_stream_buffer:
                     binance_stream = UnicornFy.binance_com_websocket(oldest_stream_data_from_stream_buffer)
 
-                    BufferStreamWebSocket.objects \
-                        .filter(created_at__lte=datetime.datetime.now() - datetime.timedelta(minutes=1)) \
-                        .delete()
+                    # BufferStreamWebSocket.objects \
+                    #     .filter(created_at__lte=datetime.now() - datetime.timedelta(minutes=1)) \
+                    #     .delete()
 
                     for k, v in binance_stream.items():
                         if isinstance(v, dict):
-
+                            dt = datetime.fromtimestamp(v.get('kline_start_time') / 1000)
                             BufferRecordData.objects.create(
-                                    symbol=SymbolExchange.objects.get(symbol=v.get('symbol')),
-                                    time_frame=v.get('interval'),
-                                    close_candle=float(v.get('close_price')),
-                                    open_candle=float(v.get('open_price')),
-                                    high_candle=float(v.get('high_price')),
-                                    low_candle=float(v.get('low_price')),
-                                    is_closed=v.get('is_closed')
-                                )
+                                timestamp=dt,
+                                unix=v.get('kline_start_time'),
+                                symbol=SymbolExchange.objects.get(symbol=v.get('symbol')),
+                                time_frame=v.get('interval'),
+                                close_candle=float(v.get('close_price')),
+                                open_candle=float(v.get('open_price')),
+                                high_candle=float(v.get('high_price')),
+                                low_candle=float(v.get('low_price')),
+                                volume=float(v.get('base_volume')),
+                                is_closed=v.get('is_closed')
+                            )
 
                             BufferStreamWebSocket.objects.create(
                                 symbol=SymbolExchange.objects.get(symbol=v.get('symbol')),
@@ -60,20 +63,6 @@ class Command(BaseCommand):
                                 low_candle=float(v.get('low_price')),
                                 is_closed=v.get('is_closed')
                             )
-
-                            # if v.get('is_closed'):
-                            #
-                            #     BufferRecordData.objects.create(
-                            #         symbol=SymbolExchange.objects.get(symbol=v.get('symbol')),
-                            #         time_frame=v.get('interval'),
-                            #         close_candle=float(v.get('close_price')),
-                            #         open_candle=float(v.get('open_price')),
-                            #         high_candle=float(v.get('high_price')),
-                            #         low_candle=float(v.get('low_price')),
-                            #         is_closed=v.get('is_closed')
-                            #     )
-                            #
-                            # else:
 
 
 
