@@ -3,8 +3,7 @@ from dateutil.relativedelta import relativedelta
 from analytics.models import Importer
 
 
-def find_prev_candle(item, backtrack):
-
+def find_prev_candle(item, minutes, backtrack):
     """
     :param item:
     :param backtrack:
@@ -14,31 +13,31 @@ def find_prev_candle(item, backtrack):
     now_prev = None
     now = item['timestamp']
 
-    if item['time_frame'] == '1m':
+    if minutes == '1m':
         now_prev = item['timestamp'] - relativedelta(minutes=1 * backtrack)
-    if item['time_frame'] == '5m':
+    if minutes == '5m':
         now_prev = item['timestamp'] - relativedelta(minutes=5 * backtrack)
-    if item['time_frame'] == '15m':
+    if minutes == '15m':
         now_prev = item['timestamp'] - relativedelta(minutes=15 * backtrack)
-    if item['time_frame'] == '30m':
+    if minutes == '30m':
         now_prev = item['timestamp'] - relativedelta(minutes=30 * backtrack)
-    if item['time_frame'] == '15m':
+    if minutes == '15m':
         now_prev = item['timestamp'] - relativedelta(minutes=15 * backtrack)
-    if item['time_frame'] == '1h':
+    if minutes == '1h':
         now_prev = item['timestamp'] - relativedelta(hours=1 * backtrack)
-    if item['time_frame'] == '2h':
+    if minutes == '2h':
         now_prev = item['timestamp'] - relativedelta(hours=2 * backtrack)
-    if item['time_frame'] == '4h':
+    if minutes == '4h':
         now_prev = item['timestamp'] - relativedelta(hours=4 * backtrack)
-    if item['time_frame'] == '8h':
+    if minutes == '8h':
         now_prev = item['timestamp'] - relativedelta(hours=8 * backtrack)
-    if item['time_frame'] == '12h':
+    if minutes == '12h':
         now_prev = item['timestamp'] - relativedelta(hours=12 * backtrack)
-    if item['time_frame'] == '1d':
+    if minutes == '1d':
         now_prev = item['timestamp'] - relativedelta(days=1 * backtrack)
-    if item['time_frame'] == '3d':
+    if minutes == '3d':
         now_prev = item['timestamp'] - relativedelta(days=3 * backtrack)
-    if item['time_frame'] == '1M':
+    if minutes == '1M':
         now_prev = item['timestamp'] - relativedelta(months=1 * backtrack)
 
     print(now)
