@@ -49,6 +49,7 @@ class BackTest(models.Model):
     completed = models.BooleanField(default=False)
     initial_investment = models.FloatField(default=1000, blank=False, null=False)
     reset = models.BooleanField(default=False)
+    verified = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if len(self.name) == 0:

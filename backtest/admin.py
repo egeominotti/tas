@@ -43,7 +43,7 @@ class BackTestAdmin(admin.ModelAdmin):
     ordering = ('id',)
     list_display = (
         'name', 'time_frame', 'symbol', 'logic_entry', 'logic_exit', 'start_period', 'end_period', 'scheduled',
-        'running', 'completed', 'error')
+        'running', 'completed', 'error', 'verified')
     readonly_fields = ('name', 'scheduled', 'running', 'completed', 'error')
     exclude = ['flgEnable', ]
 
