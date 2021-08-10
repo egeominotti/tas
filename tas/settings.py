@@ -29,8 +29,10 @@ ENV = config('ENVIRONMENT')
 SECRET_KEY = config('SECRET_KEY')
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-DEBUG = True
-if 'production' in ENV:
+
+if 'env' in ENV:
+    DEBUG = True
+else:
     DEBUG = False
 
 if 'dev' in ENV:
@@ -62,7 +64,7 @@ else:
         },
     }
 
-    ALLOWED_HOSTS = ['http://164.90.198.149/',
+    ALLOWED_HOSTS = ['*', 'http://164.90.198.149/',
                      '127.0.0.1',
                      'cryptotradebot.io',
                      'www.cryptotradebot.io',
@@ -212,6 +214,18 @@ TEMPLATES = [
 ASGI_APPLICATION = 'tas.asgi.application'
 # DJANGO_ALLOW_ASYNC_UNSAFE = True
 
+# Config docker
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': config('POSTGRES_DB'),
+#         'USER': config('POSTGRES_USER'),
+#         'PASSWORD': config('POSTGRES_PASSWORD'),
+#         'HOST': config('DJANGO_POSTGRES_HOST'),
+#         'PORT': config('DJANGO_POSTGRES_PORT'),
+#     }
+# }
+
 if 'dev' in ENV:
     DATABASES = {
         'default': {
@@ -223,7 +237,7 @@ if 'dev' in ENV:
             'PORT': '25060',
         }
     }
-if 'production' in ENV:
+else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -234,16 +248,6 @@ if 'production' in ENV:
             'PORT': '25060',
         }
     }
-    # DATABASES = {
-    #     'default': {
-    #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #         'NAME': config('POSTGRES_DB'),
-    #         'USER': config('POSTGRES_USER'),
-    #         'PASSWORD': config('POSTGRES_PASSWORD'),
-    #         'HOST': config('DJANGO_POSTGRES_HOST'),
-    #         'PORT': config('DJANGO_POSTGRES_PORT'),
-    #     }
-    # }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
