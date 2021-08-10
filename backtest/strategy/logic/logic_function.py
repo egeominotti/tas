@@ -10,6 +10,7 @@ STRATEGY 3: EMA 60 / EMA 222
 
 
 def logicentry_long_backtest_ema60_ema223(item):
+
     ema60 = item['ema60']
     ema223 = item['ema223']
 
@@ -21,11 +22,11 @@ def logicentry_long_backtest_ema60_ema223(item):
 
 def logicexit_long_backtest_ema60_ema223(item):
 
-    if item['close'] >= item['open'] * item['take_profit']:
+    if item['close'] >= item['open'] * item['takeprofit']:
         item['takeprofit_func'] = True
         return True
 
-    if item['close'] <= item['open'] * item['stop_loss']:
+    if item['close'] <= item['open'] * item['stoploss']:
         item['stoploss_func'] = True
         return True
 
@@ -33,6 +34,7 @@ def logicexit_long_backtest_ema60_ema223(item):
 
 
 def logicentry_short_backtest_ema60_ema223(item):
+
     ema60 = item['ema60']
     ema223 = item['ema223']
 
@@ -43,11 +45,11 @@ def logicentry_short_backtest_ema60_ema223(item):
 
 
 def logicexit_short_backtest_ema60_ema223(item):
-    if item['close'] <= item['open'] * item['take_profit']:
+    if item['close'] <= item['open'] * item['takeprofit']:
         item['takeprofit_func'] = True
         return True
 
-    if item['close'] >= item['open'] * item['stop_loss']:
+    if item['close'] >= item['open'] * item['stoploss']:
         item['stoploss_func'] = True
         return True
 
@@ -122,11 +124,11 @@ def logicentry_backtest_first(item):
 
 
 def logicexit_backtest_first(item):
-    if item['close'] >= item['open'] * item['take_profit']:
+    if item['close'] >= item['open'] * item['takeprofit']:
         item['takeprofit_func'] = True
         return True
 
-    if item['close'] <= item['open'] * item['stop_loss']:
+    if item['close'] <= item['open'] * item['stoploss']:
         item['stoploss_func'] = True
         return True
 
