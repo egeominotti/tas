@@ -218,12 +218,6 @@ export default {
   mounted() {
     this.getData();
   },
-
-  created() {
-    setInterval(function () {
-      this.getData();
-    }.bind(this), 5000);
-  }
 }
 
 </script>

@@ -347,10 +347,6 @@ export default {
               console.log(response.data.results);
               this.balance_spot = response.data.results[0].balance_spot;
               this.balance_futures = response.data.results[0].balance_futures;
-              // this.apiKey = response.data.results[0].api_key;
-              // this.apiSecret = response.data.results[0].api_secret;
-              // this.liveMode = response.data.results[0].live;
-              // this.exchange = response.data.results[0].exchange;
             }
           }, (error) => {
             console.log(error);

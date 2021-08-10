@@ -535,8 +535,6 @@ export default {
     this.getDataUserExchange();
   },
 
-
-
 }
 </script>
 
