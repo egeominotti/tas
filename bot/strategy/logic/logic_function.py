@@ -19,6 +19,11 @@ def logicentry_test(item):
 
 
 def logicexit_test(item):
+
+    item['candle_close'] = BufferStreamWebSocket.objects \
+        .filter(symbol__symbol=item.get('symbol_exchange'), time_frame=item.get('time_frame')) \
+        .last().close_candle
+
     item['takeprofit_candle'] = item['candle_close']
     item['takeprofit'] = True
     return True
