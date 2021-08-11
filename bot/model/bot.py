@@ -335,6 +335,10 @@ class TradingBot:
                             # Controllo se è arrivato il segnale di abort per fermare il bot
                             self.abort()
 
+                            """
+                            FOUND ENTRY
+                            """
+                            print("I have found an entry: " + str(self.item))
                             # Successfully open position
                             logger.info("I have found an entry: " + str(self.item))
                             entry = True
@@ -346,7 +350,10 @@ class TradingBot:
 
                     if self.exit():
                         self.item['exit_function'] = True
-
+                        """
+                        FOUND EXIT
+                        """
+                        print("I have found an stoploss or takeprofit restart bot : " + str(self.item))
                         logger.info("I have found an stoploss or takeprofit restart bot : " + str(self.item))
                         self.abort()
 
@@ -364,5 +371,9 @@ class TradingBot:
             print(self.item)
             print("Esco dal bot")
             self.abort()
+            # Set running = False for restart bot
+            self.current_bot.running = False
+            self.current_bot.save()
             # Imposto a false in modo che può ripartire
+            sleep(15)
             exit(1)
