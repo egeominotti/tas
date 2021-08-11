@@ -191,7 +191,7 @@ class TradingBot:
                         entry_text = "Entry: " + str(self.current_bot.name) + \
                                      "\n" + "User: " + self.user.username + \
                                      "\nType Entry: " + self.item.get('type_text') + \
-                                     "\n" + "Live Mode: " + str(self.current_bot.live) + \
+                                     "\n" + "Live Mode: " + str(self.live) + \
                                      "\nEntry Candle value: " + str(self.item.get('entry_candle')) + \
                                      "\nEntry Candle date: " + str(now) + \
                                      "\nStoploss ratio: " + str(self.item.get('stoploss_ratio')) + \
