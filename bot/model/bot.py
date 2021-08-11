@@ -92,9 +92,19 @@ class TradingBot:
             self.abort()
 
     def error(self, e):
+
         exception = 'Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e
         print(exception)
-        #
+
+        now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+        start = "Warning Stopped Bot: " + str(self.current_bot.name) + \
+                "\n" + "Fatal error: " + str(exception) + \
+                "\n" + "User: " + self.user.username + \
+                "\n" + "Symbol: " + str(self.symbol) + \
+                "\nTime frame: " + str(self.time_frame) + \
+                "\nStopped at: " + str(now)
+        self.telegram.send(start)
+
         self.current_bot.abort = True
         self.current_bot.running = False
         self.current_bot.save()

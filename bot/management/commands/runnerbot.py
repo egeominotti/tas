@@ -5,6 +5,9 @@ from django.core.management import BaseCommand
 import logging
 from bot.model.bot import TradingBot
 from bot.models import Bot, UserExchange, BotLogger
+from queue import Queue
+from collections import deque
+
 
 logger = logging.getLogger('main')
 
