@@ -54,7 +54,6 @@ class TradingBot:
                 self.live = False
 
         except Exception as e:
-            error = 'Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e
             self.error(e)
             self.abort(str(e))
 
@@ -97,7 +96,8 @@ class TradingBot:
 
     def error(self, e):
         exception =  'Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e
-        print("ERROR: " + str(e))
+        print(exception)
+        logger.error(exception)
         self.telegram.send(exception)
 
     def start(self) -> None:
