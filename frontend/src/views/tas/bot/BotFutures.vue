@@ -113,6 +113,7 @@
                   :options="leverageList"
                   v-model="leverage"
               />
+              <br>
               <CInput
                   label="Amount investement (minimum 10 USDT)"
                   placeholder="Insert your investement"
