@@ -107,30 +107,19 @@
               </v-select>
               <br>
 
-              <CInput
-                  label="Leverage"
-                  placeholder="Insert your leverage"
-                  min-amount="1"
+
+              <label class="text">Insert your leverage</label>
+              <v-select
+                  :options="leverageList"
                   v-model="leverage"
               />
-
               <CInput
                   label="Amount investement (minimum 10 USDT)"
                   placeholder="Insert your investement"
                   min-amount="10"
                   v-model="amount"
               />
-
-              <label class="text">Live Mode</label>
               <br>
-              <CSwitch
-                  class="mx-1"
-                  color="dark"
-                  name="switch1"
-                  :checked.sync="live"
-              />
-              <br>
-
             </CCol>
 
 
@@ -372,6 +361,7 @@ export default {
       coins: [],
       selected_coins: null,
       strategy: [],
+      leverageList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
       selected_strategy: null,
       userEchange: null,
       balance_futures: null,
@@ -499,7 +489,7 @@ export default {
             market_futures: true,
             leverage: this.leverage,
             amount: this.amount,
-            live: this.live
+            live: true
           }, {
             headers: {
               'Authorization': 'Token ' + localStorage.getItem('token')
