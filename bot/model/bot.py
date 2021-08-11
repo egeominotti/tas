@@ -97,7 +97,7 @@ class TradingBot:
     def error(self, e):
         exception =  'Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e
         print(exception)
-        logger.error(exception)
+        #logger.error(exception)
         self.telegram.send(str(e))
 
     def start(self) -> None:
