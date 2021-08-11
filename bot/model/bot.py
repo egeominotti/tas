@@ -92,13 +92,13 @@ class TradingBot:
             self.current_bot.running = False
             self.current_bot.save()
             self.error(e)
-            self.abort(str(e))
+            self.abort()
 
     def error(self, e):
         exception =  'Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e
         print(exception)
         logger.error(exception)
-        self.telegram.send(exception)
+        self.telegram.send(str(e))
 
     def start(self) -> None:
 
