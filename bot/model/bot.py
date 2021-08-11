@@ -318,6 +318,14 @@ class TradingBot:
             except Exception as e:
                 self.error(e)
 
+            now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+            start = "Aborted bot: " + str(self.current_bot.name) + \
+                    "\n" + "User: " + self.user.username + \
+                    "\n" + "Symbol: " + str(self.symbol) + \
+                    "\nTime frame: " + str(self.time_frame) + \
+                    "\nAborted at: " + str(now)
+            self.telegram.send(start)
+
             sleep(5)
             exit(1)
 
