@@ -361,6 +361,8 @@ class TradingBot:
         # end-while-true
         self.abort()
         if sentinel:
+            print(self.item)
+            print("Esco dal bot")
             self.abort()
             # Imposto a false in modo che può ripartire
             exit(1)
