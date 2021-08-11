@@ -55,7 +55,7 @@ class TradingBot:
 
         except Exception as e:
             self.error(e)
-            self.abort(str(e))
+            self.abort()
 
         self.item = {
             'candle_close': 0,
@@ -107,7 +107,7 @@ class TradingBot:
             start = "Started: " + str(self.current_bot.name) + \
                     "\n" + "User: " + self.user.username + \
                     "\n" + "Balance: " + str(self.exchange.get_current_balance_futures_()) + \
-                    "\n" + "Live Mode: " + str(self.current_bot.live) + \
+                    "\n" + "Live Mode: " + str(self.live) + \
                     "\n" + "Investment amount: " + str(self.exchange.get_current_investment_amount()) + \
                     "\n" + "Quantity of investement: " + str(self.exchange.get_quantity_from_number_of_bot()) + \
                     "\n" + "Leverage: " + str(self.exchange.leverage) + \
@@ -201,7 +201,7 @@ class TradingBot:
 
         except Exception as e:
             self.error(e)
-            self.abort(str(e))
+            self.abort()
 
     def exit(self) -> bool:
 
