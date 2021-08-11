@@ -34,6 +34,7 @@ class TradingBot:
         self.func_entry = instance.strategy.logic_entry
         self.func_exit = instance.strategy.logic_exit
         self.logger_instance = None
+        self.live = False
 
         try:
 
@@ -50,8 +51,6 @@ class TradingBot:
 
             if self.current_bot.live:
                 self.live = True
-            else:
-                self.live = False
 
         except Exception as e:
             self.error(e)
@@ -95,12 +94,12 @@ class TradingBot:
             self.abort()
 
     def error(self, e):
-        exception =  'Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e
+        exception = 'Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e
         print(exception)
         self.current_bot.abort = True
         self.current_bot.running = False
         self.current_bot.save()
-        #logger.error(exception)
+        # logger.error(exception)
         self.telegram.send(str(e))
         exit(1)
 
