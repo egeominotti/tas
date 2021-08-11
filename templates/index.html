@@ -12,7 +12,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-
     <!--=== Reset Css ===-->
     <link rel="stylesheet" href="{% static "css/normalize.css" %}">
     <!--=== Bootstrap ===-->
@@ -34,216 +33,272 @@
 </head>
 
 <body>
-    <!-- ==========Preloader========== -->
-    <div class="preloader">
-        <div class="preloader-inner">
-            <div class="preloader-icon">
-                <span></span>
-                <span></span>
-            </div>
+<!-- ==========Preloader========== -->
+<div class="preloader">
+    <div class="preloader-inner">
+        <div class="preloader-icon">
+            <span></span>
+            <span></span>
         </div>
     </div>
-    <!-- ==========Preloader========== -->
+</div>
+<!-- ==========Preloader========== -->
 
-    <!-- Main-menu Strat -->
-    <div class="mein-menu">
-        <nav class="navbar navbar-expand-lg navbar-dark ">
-            <div class="container">
-                <a class="navbar-brand" href="#">
-                    <img src="{% static "img/logo.png" %}" class="logo" alt="logo">
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+<!-- Main-menu Strat -->
+<div class="mein-menu">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="{% static "img/logo.png" %}" class="logo" alt="logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
                     aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="index.html">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="about-us.html">About Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="affiliate.html">Affiliate</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                                aria-expanded="false">Pages</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="features.html">Features</a></li>
-                                <li><a class="dropdown-item" href="pricing.html">pricing</a></li>
-                                <li><a class="dropdown-item" href="faq.html">Faq</a></li>
-                                <li><a class="dropdown-item" href="blog.html">Blog</a></li>
-                                <li><a class="dropdown-item" href="blog-details.html">Blog Details</a></li>
-                                <li><a class="dropdown-item" href="login.html">Login</a></li>
-                                <li><a class="dropdown-item" href="registration.html">Registration</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="contact.html">Contact</a>
-                        </li>
-                        <li class="nav-item">
-                            <div class="language-select">
-                                <select class="select-bar">
-                                    <option value="">EN</option>
-                                    <option value="">IN</option>
-                                    <option value="">IT</option>
-                                    <option value="">BN</option>
-                                </select>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link button-1" href="registration.html">Start Now !</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </div>
-    <!-- Main-menu End -->
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about-us.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="affiliate.html">Affiliate</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                           aria-expanded="false">Pages</a>
+                        <ul class="dropdown-menu">
+                            <!--
+                            <li><a class="dropdown-item" href="features.html">Features</a></li>
+                            <li><a class="dropdown-item" href="blog.html">Blog</a></li>
+                            <li><a class="dropdown-item" href="blog-details.html">Blog Details</a></li>
+                            -->
+                            <li><a class="dropdown-item" href="https://dashboard.cryptotradebot.io/#/pages/login">Login</a></li>
+                            <li><a class="dropdown-item" href="registration.html">Registration</a></li>
+                            <li><a class="dropdown-item" href="pricing.html">pricing</a></li>
+                            <li><a class="dropdown-item" href="faq.html">Faq</a></li>
 
-    <!-- Banners Start -->
-    <div class="banner" id="home" style="background-image: url('{% static "img/banner-bg.png" %}')">
-        <div class="hero-area">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-xl-6 col-lg-8">
-                        <div class="banner-content">
-                            <h3 class="subtitle wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">Welcome to
-                                Gooland</h3>
-                            <h1 class="head wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">The simplest
-                                way to invest in crypto</h1>
-                            <p class="text wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
-                                We've helped over 10,000 people start Bitcoin
-                                investing. Build your future.
-                            </p>
-                            <a href="registration.html" class="button button-1 wow fadeInUp" data-wow-duration="0.3s"
-                                data-wow-delay="0.3s">Start Now !</a>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <div class="language-select">
+                            <select class="select-bar">
+                                <option value="">EN</option>
+                                <option value="">IN</option>
+                                <option value="">IT</option>
+                                <option value="">BN</option>
+                            </select>
                         </div>
-                    </div>
-                </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link button-1" href="registration.html">Start Now !</a>
+                    </li>
+                </ul>
             </div>
         </div>
-    </div>
+    </nav>
+</div>
+<!-- Main-menu End -->
 
-
-    <!-- Compare Start -->
-    <div class="compare" id="currency">
+<!-- Banners Start -->
+<div class="banner" id="home" style="background-image: url('{% static "img/banner-bg.png" %}')">
+    <div class="hero-area">
         <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="coin-box owl-carousel owl-theme">
-                        <div class="compare-box item wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
-                            <div class="single">
-                                <div class="icon">
-                                    <img src="{% static "img/coin-icon-1.png" %}" alt="" class="coin-icon">
-                                    <p class="text">Bitcoin <span>BTC</span></p>
-                                </div>
-                                <h4 class="lasthead">$10,260.74 <span>+2.01%</span></h4>
-                                <p class="text">Price (24 hours)</p>
-                            </div>
-                        </div>
-                        <div class="compare-box item wow fadeInUp" data-wow-duration="0.4s" data-wow-delay="0.3s">
-                            <div class="single">
-                                <div class="icon">
-                                    <img src="{% static "img/coin-icon-2.png" %}" alt="" class="coin-icon">
-                                    <p class="text">Ethereum <span>ETH</span></p>
-                                </div>
-                                <h4 class="lasthead">$352.72 <span>+7.34%</span></h4>
-                                <p class="text">Price (24 hours)</p>
-                            </div>
-                        </div>
-                        <div class="compare-box item wow fadeInUp" data-wow-duration="0.4s" data-wow-delay="0.3s">
-                            <div class="single">
-                                <div class="icon">
-                                    <img src="{% static "img/coin-icon-3.png" %}" alt="" class="coin-icon">
-                                    <p class="text">Litecoin <span>LTC</span></p>
-                                </div>
-                                <h4 class="lasthead">$48.24 <span>+2.59%</span></h4>
-                                <p class="text">Price (24 hours)</p>
-                            </div>
-                        </div>
-                        <div class="compare-box item wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.3s">
-                            <div class="single">
-                                <div class="icon">
-                                    <img src="{% static "img/coin-icon-4.png" %}" alt="" class="coin-icon">
-                                    <p class="text">Dash <span>DASH</span></p>
-                                </div>
-                                <h4 class="lasthead">$68.64 <span>+1.23%</span></h4>
-                                <p class="text">Price (24 hours)</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Feature Start -->
-    <div class="feature" id="feature">
-        <div class="shap">
-            <img src="{% static "img/feature-shap.png" %}" alt="" class="fshap">
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-6">
-                    <div class="upper-content">
-                        <h4 class="lasthead wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">Why choose
-                            Gooland</h4>
-                        <h2 class="title wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">Effortless crypto
-                            investing</h2>
+            <div class="row align-items-center">
+                <div class="col-xl-6 col-lg-8">
+                    <div class="banner-content">
+                        <h3 class="subtitle wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">Welcome to
+                            Gooland</h3>
+                        <h1 class="head wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">The simplest
+                            way to invest in crypto</h1>
                         <p class="text wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
-                            The simple way to grow your money like the world’s most sophisticated investors.
+                            We've helped over 10,000 people start Bitcoin
+                            investing. Build your future.
                         </p>
                         <a href="registration.html" class="button button-1 wow fadeInUp" data-wow-duration="0.3s"
-                            data-wow-delay="0.3s">Sign up for free </a>
+                           data-wow-delay="0.3s">Start Now !</a>
                     </div>
                 </div>
-                <div class="col-xl-6">
-                    <div class="row">
-                        <div class="col-lg-6 wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
-                            <div class="feature-box one">
-                                <div class="tumb">
-                                    <img src="{% static "img/feature-icon-1.png" %}" alt="">
-                                </div>
-                                <p class="text">
-                                    The fast & simpleway to Invest crypto
-                                </p>
+            </div>
+        </div>
+    </div>
+</div>
 
-                            </div>
-                        </div>
-                        <div class="col-lg-6 wow fadeInUp" data-wow-duration="0.4s" data-wow-delay="0.3s">
-                            <div class="feature-box two">
-                                <div class="tumb">
-                                    <img src="{% static "img/feature-icon-2.png" %}" alt="">
-                                </div>
-                                <p class="text">
-                                    Professional, Safe & Secure
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.3s">
-                            <div class="feature-box three">
-                                <div class="tumb">
-                                    <img src="{% static "img/feature-icon-3.png" %}" alt="">
-                                </div>
-                                <p class="text">
-                                    Multi-Currency Support
-                                </p>
 
+<!-- Compare Start -->
+<div class="compare" id="currency">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="coin-box owl-carousel owl-theme">
+                    <div class="compare-box item wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
+                        <div class="single">
+                            <div class="icon">
+                                <img src="{% static "img/coin-icon-1.png" %}" alt="" class="coin-icon">
+                                <p class="text">Bitcoin <span>BTC</span></p>
+                            </div>
+                            <h4 class="lasthead">$10,260.74 <span>+2.01%</span></h4>
+                            <p class="text">Price (24 hours)</p>
+                        </div>
+                    </div>
+                    <div class="compare-box item wow fadeInUp" data-wow-duration="0.4s" data-wow-delay="0.3s">
+                        <div class="single">
+                            <div class="icon">
+                                <img src="{% static "img/coin-icon-2.png" %}" alt="" class="coin-icon">
+                                <p class="text">Ethereum <span>ETH</span></p>
+                            </div>
+                            <h4 class="lasthead">$352.72 <span>+7.34%</span></h4>
+                            <p class="text">Price (24 hours)</p>
+                        </div>
+                    </div>
+                    <div class="compare-box item wow fadeInUp" data-wow-duration="0.4s" data-wow-delay="0.3s">
+                        <div class="single">
+                            <div class="icon">
+                                <img src="{% static "img/coin-icon-3.png" %}" alt="" class="coin-icon">
+                                <p class="text">Litecoin <span>LTC</span></p>
+                            </div>
+                            <h4 class="lasthead">$48.24 <span>+2.59%</span></h4>
+                            <p class="text">Price (24 hours)</p>
+                        </div>
+                    </div>
+                    <div class="compare-box item wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.3s">
+                        <div class="single">
+                            <div class="icon">
+                                <img src="{% static "img/coin-icon-4.png" %}" alt="" class="coin-icon">
+                                <p class="text">Dash <span>DASH</span></p>
+                            </div>
+                            <h4 class="lasthead">$68.64 <span>+1.23%</span></h4>
+                            <p class="text">Price (24 hours)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Feature Start -->
+<div class="feature" id="feature">
+    <div class="shap">
+        <img src="{% static "img/feature-shap.png" %}" alt="" class="fshap">
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="upper-content">
+                    <h4 class="lasthead wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">Why choose
+                        Gooland</h4>
+                    <h2 class="title wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">Effortless crypto
+                        investing</h2>
+                    <p class="text wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
+                        The simple way to grow your money like the world’s most sophisticated investors.
+                    </p>
+                    <a href="registration.html" class="button button-1 wow fadeInUp" data-wow-duration="0.3s"
+                       data-wow-delay="0.3s">Sign up for free </a>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="row">
+                    <div class="col-lg-6 wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
+                        <div class="feature-box one">
+                            <div class="tumb">
+                                <img src="{% static "img/feature-icon-1.png" %}" alt="">
+                            </div>
+                            <p class="text">
+                                The fast & simpleway to Invest crypto
+                            </p>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6 wow fadeInUp" data-wow-duration="0.4s" data-wow-delay="0.3s">
+                        <div class="feature-box two">
+                            <div class="tumb">
+                                <img src="{% static "img/feature-icon-2.png" %}" alt="">
+                            </div>
+                            <p class="text">
+                                Professional, Safe & Secure
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.3s">
+                        <div class="feature-box three">
+                            <div class="tumb">
+                                <img src="{% static "img/feature-icon-3.png" %}" alt="">
+                            </div>
+                            <p class="text">
+                                Multi-Currency Support
+                            </p>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6 wow fadeInUp" data-wow-duration="0.6s" data-wow-delay="0.3s">
+                        <div class="feature-box four">
+                            <div class="tumb">
+                                <img src="{% static "img/feature-icon-4.png" %}" alt="">
+                            </div>
+                            <p class="text">
+                                Our people are available for you 24/7
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Deposit Start -->
+<div class="deposit" id="deposit" style="background-image: url('{% static "img/deposit-bg.png" %}')">
+    <div class="sape">
+        <img src="{% static "img/rdot-1.png" %}" alt="" class="rdot-1">
+        <img src="{% static "img/rdot-2.png" %}" alt="" class="rdot-2">
+        <img src="{% static "img/rdot-3.png" %}" alt="" class="rdot-3">
+    </div>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-6 col-lg-8 m-auto">
+                <div class="upper-content text-center wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
+                    <h4 class="lasthead">Our investment offer</h4>
+                    <h2 class="title">Deposit Portfolio</h2>
+                    <p class="text">
+                        Your total income directly depends on the amount you invest,
+                        so the more you contribute, the more you can earn.
+                    </p>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="offer">
+                    <h3 class="subtitle">We are Offering</h3>
+                    <div class="offer-box" style="background-image: url('{% static "img/offer-box-bg.png" %}')">
+                        <div class="offer-item wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
+                            <div class="icon">
+                                <img src="{% static "img/offer-icon-1.png" %}" alt="" class="offer-icon">
+                            </div>
+                            <div class="content">
+                                <h2 class="pursent">2.00%</h2>
+                                <p class="text">Daily Profit</p>
                             </div>
                         </div>
-                        <div class="col-lg-6 wow fadeInUp" data-wow-duration="0.6s" data-wow-delay="0.3s">
-                            <div class="feature-box four">
-                                <div class="tumb">
-                                    <img src="{% static "img/feature-icon-4.png" %}" alt="">
-                                </div>
-                                <p class="text">
-                                    Our people are available for you 24/7
-                                </p>
+                        <div class="arrow wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
+                            <img src="{% static "img/arrow-right.png" %}" alt="" class="arrow-pic">
+                        </div>
+                        <div class="offer-item wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
+                            <div class="icon">
+                                <img src="{% static "img/offer-icon-2.png" %}" alt="" class="offer-icon">
+                            </div>
+                            <div class="content">
+                                <h2 class="pursent">3.00%</h2>
+                                <p class="text">Daily Profit</p>
                             </div>
                         </div>
                     </div>
@@ -251,66 +306,16 @@
             </div>
         </div>
     </div>
+</div>
 
 
-
-    <!-- Deposit Start -->
-    <div class="deposit" id="deposit" style="background-image: url('{% static "img/deposit-bg.png" %}')">
-        <div class="sape">
-            <img src="{% static "img/rdot-1.png" %}" alt="" class="rdot-1">
-            <img src="{% static "img/rdot-2.png" %}" alt="" class="rdot-2">
-            <img src="{% static "img/rdot-3.png" %}" alt="" class="rdot-3">
-        </div>
-
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-6 col-lg-8 m-auto">
-                    <div class="upper-content text-center wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
-                        <h4 class="lasthead">Our investment offer</h4>
-                        <h2 class="title">Deposit Portfolio</h2>
-                        <p class="text">
-                            Your total income directly depends on the amount you invest,
-                            so the more you contribute, the more you can earn.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="offer">
-                        <h3 class="subtitle">We are Offering</h3>
-                        <div class="offer-box" style="background-image: url('assets/img/offer-box-bg.png')">
-                            <div class="offer-item wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
-                                <div class="icon">
-                                    <img src="assets/img/offer-icon-1.png" alt="" class="offer-icon">
-                                </div>
-                                <div class="content">
-                                    <h2 class="pursent">2.00%</h2>
-                                    <p class="text">Daily Profit</p>
-                                </div>
-                            </div>
-                            <div class="arrow wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
-                                <img src="assets/img/arrow-right.png" alt="" class="arrow-pic">
-                            </div>
-                            <div class="offer-item wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
-                                <div class="icon">
-                                    <img src="assets/img/offer-icon-2.png" alt="" class="offer-icon">
-                                </div>
-                                <div class="content">
-                                    <h2 class="pursent">3.00%</h2>
-                                    <p class="text">Daily Profit</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- Earningpartners Start -->
+<div class="earningpartners">
+    <div class="bg">
+        <img src="{% static "img/profit-bg.png" %}" alt="" class="dp-bg">
     </div>
 
-    <!-- Earningpartners Start -->
-    <div class="earningpartners">
-        <div class="bg">
-            <img src="assets/img/profit-bg.png" alt="" class="dp-bg">
-        </div>
+    <!--
         <div class="deposit-amounts">
             <div class="container">
                 <div class="row">
@@ -320,49 +325,49 @@
                         <div class="coin-box">
                             <div class="item wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
                                 <div class="tumb">
-                                    <img src="assets/img/coin-icon-1.png" alt="">
+                                    <img src="{% static "img/coin-icon-1.png" %}" alt="">
                                 </div>
                                 <p class="text">0.00100036 BTC</p>
                             </div>
                             <div class="item wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
                                 <div class="tumb">
-                                    <img src="assets/img/coin-icon-2.png" alt="">
+                                    <img src="{% static "coin-icon-2.png" %}" alt="">
                                 </div>
                                 <p class="text">0.21220267 LTC</p>
                             </div>
                             <div class="item wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
                                 <div class="tumb">
-                                    <img src="assets/img/coin-icon-3.png" alt="">
+                                    <img src="{% static "coin-icon-3.png" %}" alt="">
                                 </div>
                                 <p class="text">0.02980346 ETH</p>
                             </div>
                             <div class="item wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
                                 <div class="tumb">
-                                    <img src="assets/img/coin-icon-4.png" alt="">
+                                    <img src="{% static "coin-icon-4.png" %}" alt="">
                                 </div>
                                 <p class="text">0.02980346 DASH</p>
                             </div>
                             <div class="item wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
                                 <div class="tumb">
-                                    <img src="assets/img/coin-icon-5.png" alt="">
+                                    <img src="{% static "coin-icon-5.png" %}" alt="">
                                 </div>
                                 <p class="text">0.00100036 ETC</p>
                             </div>
                             <div class="item wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
                                 <div class="tumb">
-                                    <img src="assets/img/coin-icon-6.png" alt="">
+                                    <img src="{% static "coin-icon-6.png" %}" alt="">
                                 </div>
                                 <p class="text">0.21220267 TRX</p>
                             </div>
                             <div class="item wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
                                 <div class="tumb">
-                                    <img src="assets/img/coin-icon-7.png" alt="">
+                                    <img src="{% static "coin-icon-7.png" %}" alt="">
                                 </div>
                                 <p class="text">0.02980346 BCH</p>
                             </div>
                             <div class="item wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
                                 <div class="tumb">
-                                    <img src="assets/img/coin-icon-8.png" alt="">
+                                    <img src="{% static "coin-icon-8.png" %}" alt="">
                                 </div>
                                 <p class="text">1.21220267 USD</p>
                             </div>
@@ -371,748 +376,758 @@
                 </div>
             </div>
         </div>
-        <div class="earning">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="content text-center">
-                            <div class="content">
-                                <h2 class="title wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">How much
-                                    you will earn?</h2>
-                                <div class="compare-box">
-                                    <div class="item wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
-                                        <div class="country">
-                                            <img src="assets/img/coin-icon-1.png" alt="">
-                                            <div class="language-select">
-                                                <select class="select-bar">
-                                                    <option value="">BTC</option>
-                                                    <option value="">LTC)</option>
-                                                    <option value="">ETH</option>
-                                                </select>
-                                            </div>
+        -->
+
+
+    <div class="earning">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="content text-center">
+                        <div class="content">
+                            <h2 class="title wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">How much
+                                you will earn?</h2>
+                            <div class="compare-box">
+                                <div class="item wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
+                                    <div class="country">
+                                        <img src="{% static "img/coin-icon-1.png" %}" alt="">
+                                        <div class="language-select">
+                                            <select class="select-bar">
+                                                <option value="">BTC</option>
+                                                <option value="">LTC)</option>
+                                                <option value="">ETH</option>
+                                            </select>
                                         </div>
                                     </div>
-                                    <div class="item wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
-                                        <form class="account-form">
-                                            <div class="form-group">
-                                                <input class="lasthead" type="text" placeholder="02 BTC" id="#"
-                                                    name="#">
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="item wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
-                                        <a href="#" class="button button-1">Deposit now</a>
-                                    </div>
+                                </div>
+                                <div class="item wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
+                                    <form class="account-form">
+                                        <div class="form-group">
+                                            <input class="lasthead" type="text" placeholder="02 BTC" id="#"
+                                                   name="#">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="item wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
+                                    <a href="#" class="button button-1">Deposit now</a>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
-                        <div class="profit-box">
-                            <p class="text">Hourly Profit</p>
-                            <h4 class="rate">0.00256250 <span>BTC</span></h4>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
-                        <div class="profit-box">
-                            <p class="text">Daily profit</p>
-                            <h4 class="rate">0.00256250 <span>BTC</span></h4>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
-                        <div class="profit-box">
-                            <p class="text">Weekly profit</p>
-                            <h4 class="rate">0.00256250 <span>BTC</span></h4>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
-                        <div class="profit-box">
-                            <p class="text">Monthly profit</p>
-                            <h4 class="rate">0.00256250 <span>BTC</span></h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Transaction Start -->
-    <div class="transaction" id="transaction">
-        <div class="bg">
-            <img src="assets/img/table-bg.png" alt="" class="secton-bg">
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 m-auto wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
-                    <div class="upper-content text-center">
-                        <h4 class="lasthead">User Statistics</h4>
-                        <h2 class="title">Latest Transaction</h2>
-                        <p class="text">
-                            Our goal is to simplify investing so that anyone can be an investor.Withthis in mind,
-                            we hand-pick the investments we offer on our platform.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-lg-12 wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
-                    <div class="transaction-box">
-                        <ul class="nav nav-pills" id="pills-tab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
-                                    aria-selected="true">
-                                    <img src="assets/img/icon-1.png" alt=""> Last <br> Deposits
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-profile" type="button" role="tab"
-                                    aria-controls="pills-profile" aria-selected="false">
-                                    <img src="assets/img/icon-2.png" alt=""> Last <br> withdrawals
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-contact" type="button" role="tab"
-                                    aria-controls="pills-contact" aria-selected="false">
-                                    <img src="assets/img/icon-3.png" alt=""> Top <br> investors
-                                </button>
-                            </li>
-                        </ul>
-                        <div class="tab-content" id="pills-tabContent">
-                            <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
-                                aria-labelledby="pills-home-tab">
-                                <div class="responsive-table">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">NAME</th>
-                                                <th scope="col">PRICE</th>
-                                                <th scope="col">Daily Dividend</th>
-                                                <th scope="col">AMOUNTS</th>
-                                                <th scope="col">Deposit by</th>
-                                                <th scope="col">Currency</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <img src="assets/img/man-1.png" alt="">
-                                                    <span> Jim Adams</span>
-                                                </td>
-                                                <td>
-                                                    $10.50
-                                                </td>
-                                                <td>
-                                                    $0.09
-                                                </td>
-                                                <td>
-                                                    $718
-                                                </td>
-                                                <td>21 DAYS</td>
-                                                <td>
-                                                    <img src="assets/img/coin-icon-1.png" alt="">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="assets/img/man-2.png" alt="">
-                                                    <span> Willie Barton </span>
-                                                </td>
-                                                <td>
-                                                    $10.50
-                                                </td>
-                                                <td>
-                                                    $0.09
-                                                </td>
-                                                <td>
-                                                    $718
-                                                </td>
-                                                <td>21 DAYS</td>
-                                                <td>
-                                                    <img src="assets/img/coin-icon-2.png" alt="">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="assets/img/man-3.png" alt="">
-                                                    <span>Kim Mccoy </span>
-                                                </td>
-                                                <td>
-                                                    $10.50
-                                                </td>
-                                                <td>
-                                                    $0.09
-                                                </td>
-                                                <td>
-                                                    $718
-                                                </td>
-                                                <td>21 DAYS</td>
-                                                <td>
-                                                    <img src="assets/img/coin-icon-3.png" alt="">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="assets/img/man-4.png" alt="">
-                                                    <span>Sheryl Tran</span>
-                                                </td>
-                                                <td>
-                                                    $10.50
-                                                </td>
-                                                <td>
-                                                    $0.09
-                                                </td>
-                                                <td>
-                                                    $718
-                                                </td>
-                                                <td>21 DAYS</td>
-                                                <td>
-                                                    <img src="assets/img/coin-icon-4.png" alt="">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="assets/img/man-5.png" alt="">
-                                                    <span>Toby Davis</span>
-                                                </td>
-                                                <td>
-                                                    $10.50
-                                                </td>
-                                                <td>
-                                                    $0.09
-                                                </td>
-                                                <td>
-                                                    $718
-                                                </td>
-                                                <td>21 DAYS</td>
-                                                <td>
-                                                    <img src="assets/img/coin-icon-5.png" alt="">
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="pills-profile" role="tabpanel"
-                                aria-labelledby="pills-profile-tab">
-                                <div class="responsive-table">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">NAME</th>
-                                                <th scope="col">PRICE</th>
-                                                <th scope="col">Daily Dividend</th>
-                                                <th scope="col">AMOUNTS</th>
-                                                <th scope="col">Deposit by</th>
-                                                <th scope="col">Currency</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <img src="assets/img/man-1.png" alt="">
-                                                    <span> Jim Adams</span>
-                                                </td>
-                                                <td>
-                                                    $10.50
-                                                </td>
-                                                <td>
-                                                    $0.09
-                                                </td>
-                                                <td>
-                                                    $718
-                                                </td>
-                                                <td>21 DAYS</td>
-                                                <td>
-                                                    <img src="assets/img/coin-icon-1.png" alt="">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="assets/img/man-2.png" alt="">
-                                                    <span> Willie Barton </span>
-                                                </td>
-                                                <td>
-                                                    $10.50
-                                                </td>
-                                                <td>
-                                                    $0.09
-                                                </td>
-                                                <td>
-                                                    $718
-                                                </td>
-                                                <td>21 DAYS</td>
-                                                <td>
-                                                    <img src="assets/img/coin-icon-2.png" alt="">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="assets/img/man-3.png" alt="">
-                                                    <span>Kim Mccoy </span>
-                                                </td>
-                                                <td>
-                                                    $10.50
-                                                </td>
-                                                <td>
-                                                    $0.09
-                                                </td>
-                                                <td>
-                                                    $718
-                                                </td>
-                                                <td>21 DAYS</td>
-                                                <td>
-                                                    <img src="assets/img/coin-icon-3.png" alt="">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="assets/img/man-4.png" alt="">
-                                                    <span>Sheryl Tran</span>
-                                                </td>
-                                                <td>
-                                                    $10.50
-                                                </td>
-                                                <td>
-                                                    $0.09
-                                                </td>
-                                                <td>
-                                                    $718
-                                                </td>
-                                                <td>21 DAYS</td>
-                                                <td>
-                                                    <img src="assets/img/coin-icon-4.png" alt="">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="assets/img/man-5.png" alt="">
-                                                    <span>Toby Davis</span>
-                                                </td>
-                                                <td>
-                                                    $10.50
-                                                </td>
-                                                <td>
-                                                    $0.09
-                                                </td>
-                                                <td>
-                                                    $718
-                                                </td>
-                                                <td>21 DAYS</td>
-                                                <td>
-                                                    <img src="assets/img/coin-icon-5.png" alt="">
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="pills-contact" role="tabpanel"
-                                aria-labelledby="pills-contact-tab">
-                                <div class="responsive-table">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">NAME</th>
-                                                <th scope="col">PRICE</th>
-                                                <th scope="col">Daily Dividend</th>
-                                                <th scope="col">AMOUNTS</th>
-                                                <th scope="col">Deposit by</th>
-                                                <th scope="col">Currency</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <img src="assets/img/man-1.png" alt="">
-                                                    <span> Jim Adams</span>
-                                                </td>
-                                                <td>
-                                                    $10.50
-                                                </td>
-                                                <td>
-                                                    $0.09
-                                                </td>
-                                                <td>
-                                                    $718
-                                                </td>
-                                                <td>21 DAYS</td>
-                                                <td>
-                                                    <img src="assets/img/coin-icon-1.png" alt="">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="assets/img/man-2.png" alt="">
-                                                    <span> Willie Barton </span>
-                                                </td>
-                                                <td>
-                                                    $10.50
-                                                </td>
-                                                <td>
-                                                    $0.09
-                                                </td>
-                                                <td>
-                                                    $718
-                                                </td>
-                                                <td>21 DAYS</td>
-                                                <td>
-                                                    <img src="assets/img/coin-icon-2.png" alt="">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="assets/img/man-3.png" alt="">
-                                                    <span>Kim Mccoy </span>
-                                                </td>
-                                                <td>
-                                                    $10.50
-                                                </td>
-                                                <td>
-                                                    $0.09
-                                                </td>
-                                                <td>
-                                                    $718
-                                                </td>
-                                                <td>21 DAYS</td>
-                                                <td>
-                                                    <img src="assets/img/coin-icon-3.png" alt="">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="assets/img/man-4.png" alt="">
-                                                    <span>Sheryl Tran</span>
-                                                </td>
-                                                <td>
-                                                    $10.50
-                                                </td>
-                                                <td>
-                                                    $0.09
-                                                </td>
-                                                <td>
-                                                    $718
-                                                </td>
-                                                <td>21 DAYS</td>
-                                                <td>
-                                                    <img src="assets/img/coin-icon-4.png" alt="">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <img src="assets/img/man-5.png" alt="">
-                                                    <span>Toby Davis</span>
-                                                </td>
-                                                <td>
-                                                    $10.50
-                                                </td>
-                                                <td>
-                                                    $0.09
-                                                </td>
-                                                <td>
-                                                    $718
-                                                </td>
-                                                <td>21 DAYS</td>
-                                                <td>
-                                                    <img src="assets/img/coin-icon-5.png" alt="">
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
-                    <a href="pricing.html" class="button button-1">browse more</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Counter Start -->
-    <div class="counter" style="background-image: url('assets/img/counter-bg.png')">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-duration="0.2s" data-wow-delay="0.2s">
-                    <div class="page-counter">
-                        <div class="counter-item">
-                            <h2 class="title"><span class="count-num">36</span>M</h2>
-                            <p class="text">Registered users</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
-                    <div class="page-counter">
-                        <div class="counter-item">
-                            <h2 class="title"><span class="count-num">178</span></h2>
-                            <p class="text">Countries supported</p>
+                    <div class="profit-box">
+                        <p class="text">Hourly Profit</p>
+                        <h4 class="rate">0.00256250 <span>BTC</span></h4>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
+                    <div class="profit-box">
+                        <p class="text">Daily profit</p>
+                        <h4 class="rate">0.00256250 <span>BTC</span></h4>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
+                    <div class="profit-box">
+                        <p class="text">Weekly profit</p>
+                        <h4 class="rate">0.00256250 <span>BTC</span></h4>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
+                    <div class="profit-box">
+                        <p class="text">Monthly profit</p>
+                        <h4 class="rate">0.00256250 <span>BTC</span></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Transaction Start -->
+<!--
+<div class="transaction" id="transaction">
+    <div class="bg">
+        <img src="{% static "img/table-bg.png" %}" alt="" class="secton-bg">
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 m-auto wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
+                <div class="upper-content text-center">
+                    <h4 class="lasthead">User Statistics</h4>
+                    <h2 class="title">Latest Transaction</h2>
+                    <p class="text">
+                        Our goal is to simplify investing so that anyone can be an investor.Withthis in mind,
+                        we hand-pick the investments we offer on our platform.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-12 wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
+                <div class="transaction-box">
+                    <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
+                                    aria-selected="true">
+                                <img src="{% static "img/icon-1.png" %}" alt=""> Last <br> Deposits
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-profile" type="button" role="tab"
+                                    aria-controls="pills-profile" aria-selected="false">
+                                <img src="{% static "img/icon-2.png" %}" alt=""> Last <br> withdrawals
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-contact" type="button" role="tab"
+                                    aria-controls="pills-contact" aria-selected="false">
+                                <img src="{% static "img/icon-3.png" %}" alt=""> Top <br> investors
+                            </button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
+                             aria-labelledby="pills-home-tab">
+                            <div class="responsive-table">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">NAME</th>
+                                        <th scope="col">PRICE</th>
+                                        <th scope="col">Daily Dividend</th>
+                                        <th scope="col">AMOUNTS</th>
+                                        <th scope="col">Deposit by</th>
+                                        <th scope="col">Currency</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <img src="{% static "img/man-1.png" %}" alt="">
+                                            <span> Jim Adams</span>
+                                        </td>
+                                        <td>
+                                            $10.50
+                                        </td>
+                                        <td>
+                                            $0.09
+                                        </td>
+                                        <td>
+                                            $718
+                                        </td>
+                                        <td>21 DAYS</td>
+                                        <td>
+                                            <img src="{% static "img/coin-icon-1.png" %}" alt="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="{% static "img/man-2.png" %}" alt="">
+                                            <span> Willie Barton </span>
+                                        </td>
+                                        <td>
+                                            $10.50
+                                        </td>
+                                        <td>
+                                            $0.09
+                                        </td>
+                                        <td>
+                                            $718
+                                        </td>
+                                        <td>21 DAYS</td>
+                                        <td>
+                                            <img src="{% static "img/coin-icon-2.png" %}" alt="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="{% static "img/man-3.png" %}" alt="">
+                                            <span>Kim Mccoy </span>
+                                        </td>
+                                        <td>
+                                            $10.50
+                                        </td>
+                                        <td>
+                                            $0.09
+                                        </td>
+                                        <td>
+                                            $718
+                                        </td>
+                                        <td>21 DAYS</td>
+                                        <td>
+                                            <img src="{% static "img/coin-icon-3.png" %}" alt="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="{% static "img/man-4.png" %}" alt="">
+                                            <span>Sheryl Tran</span>
+                                        </td>
+                                        <td>
+                                            $10.50
+                                        </td>
+                                        <td>
+                                            $0.09
+                                        </td>
+                                        <td>
+                                            $718
+                                        </td>
+                                        <td>21 DAYS</td>
+                                        <td>
+                                            <img src="{% static "img/coin-icon-4.png" %}" alt="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="{% static "img/man-5.png" %}" alt="">
+                                            <span>Toby Davis</span>
+                                        </td>
+                                        <td>
+                                            $10.50
+                                        </td>
+                                        <td>
+                                            $0.09
+                                        </td>
+                                        <td>
+                                            $718
+                                        </td>
+                                        <td>21 DAYS</td>
+                                        <td>
+                                            <img src="{% static "img/coin-icon-5.png" %}" alt="">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-profile" role="tabpanel"
+                             aria-labelledby="pills-profile-tab">
+                            <div class="responsive-table">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">NAME</th>
+                                        <th scope="col">PRICE</th>
+                                        <th scope="col">Daily Dividend</th>
+                                        <th scope="col">AMOUNTS</th>
+                                        <th scope="col">Deposit by</th>
+                                        <th scope="col">Currency</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <img src="{% static "img/man-1.png" %}" alt="">
+                                            <span> Jim Adams</span>
+                                        </td>
+                                        <td>
+                                            $10.50
+                                        </td>
+                                        <td>
+                                            $0.09
+                                        </td>
+                                        <td>
+                                            $718
+                                        </td>
+                                        <td>21 DAYS</td>
+                                        <td>
+                                            <img src="assets/img/coin-icon-1.png" alt="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="assets/img/man-2.png" alt="">
+                                            <span> Willie Barton </span>
+                                        </td>
+                                        <td>
+                                            $10.50
+                                        </td>
+                                        <td>
+                                            $0.09
+                                        </td>
+                                        <td>
+                                            $718
+                                        </td>
+                                        <td>21 DAYS</td>
+                                        <td>
+                                            <img src="assets/img/coin-icon-2.png" alt="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="assets/img/man-3.png" alt="">
+                                            <span>Kim Mccoy </span>
+                                        </td>
+                                        <td>
+                                            $10.50
+                                        </td>
+                                        <td>
+                                            $0.09
+                                        </td>
+                                        <td>
+                                            $718
+                                        </td>
+                                        <td>21 DAYS</td>
+                                        <td>
+                                            <img src="assets/img/coin-icon-3.png" alt="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="assets/img/man-4.png" alt="">
+                                            <span>Sheryl Tran</span>
+                                        </td>
+                                        <td>
+                                            $10.50
+                                        </td>
+                                        <td>
+                                            $0.09
+                                        </td>
+                                        <td>
+                                            $718
+                                        </td>
+                                        <td>21 DAYS</td>
+                                        <td>
+                                            <img src="assets/img/coin-icon-4.png" alt="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="assets/img/man-5.png" alt="">
+                                            <span>Toby Davis</span>
+                                        </td>
+                                        <td>
+                                            $10.50
+                                        </td>
+                                        <td>
+                                            $0.09
+                                        </td>
+                                        <td>
+                                            $718
+                                        </td>
+                                        <td>21 DAYS</td>
+                                        <td>
+                                            <img src="assets/img/coin-icon-5.png" alt="">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-contact" role="tabpanel"
+                             aria-labelledby="pills-contact-tab">
+                            <div class="responsive-table">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">NAME</th>
+                                        <th scope="col">PRICE</th>
+                                        <th scope="col">Daily Dividend</th>
+                                        <th scope="col">AMOUNTS</th>
+                                        <th scope="col">Deposit by</th>
+                                        <th scope="col">Currency</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <img src="assets/img/man-1.png" alt="">
+                                            <span> Jim Adams</span>
+                                        </td>
+                                        <td>
+                                            $10.50
+                                        </td>
+                                        <td>
+                                            $0.09
+                                        </td>
+                                        <td>
+                                            $718
+                                        </td>
+                                        <td>21 DAYS</td>
+                                        <td>
+                                            <img src="assets/img/coin-icon-1.png" alt="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="assets/img/man-2.png" alt="">
+                                            <span> Willie Barton </span>
+                                        </td>
+                                        <td>
+                                            $10.50
+                                        </td>
+                                        <td>
+                                            $0.09
+                                        </td>
+                                        <td>
+                                            $718
+                                        </td>
+                                        <td>21 DAYS</td>
+                                        <td>
+                                            <img src="assets/img/coin-icon-2.png" alt="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="assets/img/man-3.png" alt="">
+                                            <span>Kim Mccoy </span>
+                                        </td>
+                                        <td>
+                                            $10.50
+                                        </td>
+                                        <td>
+                                            $0.09
+                                        </td>
+                                        <td>
+                                            $718
+                                        </td>
+                                        <td>21 DAYS</td>
+                                        <td>
+                                            <img src="assets/img/coin-icon-3.png" alt="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="assets/img/man-4.png" alt="">
+                                            <span>Sheryl Tran</span>
+                                        </td>
+                                        <td>
+                                            $10.50
+                                        </td>
+                                        <td>
+                                            $0.09
+                                        </td>
+                                        <td>
+                                            $718
+                                        </td>
+                                        <td>21 DAYS</td>
+                                        <td>
+                                            <img src="assets/img/coin-icon-4.png" alt="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="assets/img/man-5.png" alt="">
+                                            <span>Toby Davis</span>
+                                        </td>
+                                        <td>
+                                            $10.50
+                                        </td>
+                                        <td>
+                                            $0.09
+                                        </td>
+                                        <td>
+                                            $718
+                                        </td>
+                                        <td>21 DAYS</td>
+                                        <td>
+                                            <img src="assets/img/coin-icon-5.png" alt="">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-duration="0.4s" data-wow-delay="0.4s">
-                    <div class="page-counter">
-                        <div class="counter-item">
-                            <h2 class="title">$<span class="count-num">10</span>M</h2>
-                            <p class="text">Withdrawn each month</p>
-                        </div>
+            </div>
+            <div class="col-12 wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
+                <a href="pricing.html" class="button button-1">browse more</a>
+            </div>
+        </div>
+    </div>
+</div>
+-->
+
+<!-- Counter Start -->
+<div class="counter" style="background-image: url('{% static "img/counter-bg.png" %}')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-duration="0.2s" data-wow-delay="0.2s">
+                <div class="page-counter">
+                    <div class="counter-item">
+                        <h2 class="title"><span class="count-num">36</span>M</h2>
+                        <p class="text">Registered users</p>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.5s">
-                    <div class="page-counter four">
-                        <div class="counter-item">
-                            <h2 class="title"><span class="count-num">18</span>k</h2>
-                            <p class="text">Active investors daily</p>
+            </div>
+            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
+                <div class="page-counter">
+                    <div class="counter-item">
+                        <h2 class="title"><span class="count-num">178</span></h2>
+                        <p class="text">Countries supported</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-duration="0.4s" data-wow-delay="0.4s">
+                <div class="page-counter">
+                    <div class="counter-item">
+                        <h2 class="title">$<span class="count-num">10</span>M</h2>
+                        <p class="text">Withdrawn each month</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.5s">
+                <div class="page-counter four">
+                    <div class="counter-item">
+                        <h2 class="title"><span class="count-num">18</span>k</h2>
+                        <p class="text">Active investors daily</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<br>
+<!-- Process Start -->
+<!--
+<div class="process">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-8 col-lg-10 m-auto wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
+                <div class="upper-content text-center">
+                    <h4 class="lasthead">Watch this video presentation to know more</h4>
+                    <h2 class="title">Simple Process to Start</h2>
+                    <p class="text">Let's See how it work </p>
+                </div>
+            </div>
+            <div class="col-12 wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
+                <div class="videoo">
+                    <img src="{% static "img/video-bg.png" %}" alt="" class="video-bg">
+                    <div class="video-box">
+                        <div class="video-img">
+                            <a class="youtube-video mfp-iframe video-play-btn video-icon"
+                               href="https://www.youtube.com/watch?v=4DCTTrGjGU4">
+                                <i class="fas fa-play"></i>
+                            </a>
+                        </div>
+                        <div class="video-text">
+                            <p class="text">Watch Video Now</p>
+                            <span><i class="far fa-clock"></i> 2:32 minutes</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+-->
 
-    <!-- Process Start -->
-    <div class="process">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-8 col-lg-10 m-auto wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
-                    <div class="upper-content text-center">
-                        <h4 class="lasthead">Watch this video presentation to know more</h4>
-                        <h2 class="title">Simple Process to Start</h2>
-                        <p class="text">Let's See how it work </p>
+<!-- testomonial Start -->
+<div class="testomonial wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s" id="testimonial">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="testo-box owl-carousel owl-theme">
+                    <div class="single item">
+                        <div class="person">
+                            <div class="tumb">
+                                <img src="{% static "img/reviewer1.png" %}" alt="">
+                            </div>
+                            <h2 class="name">Martha Vargas</h2>
+                            <h5>Founder of Pinterest</h5>
+                        </div>
+                        <div class="content">
+                            <h4 class="lasthead">
+                                “Very helpful excellent service always answering all my questions And the most
+                                important thing was that wat they offer me is wat it was I highly recommended thanks
+                                for all the help keep up the good work”
+                            </h4>
+                        </div>
                     </div>
-                </div>
-                <div class="col-12 wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
-                    <div class="videoo">
-                        <img src="assets/img/video-bg.png" alt="" class="video-bg">
-                        <div class="video-box">
-                            <div class="video-img">
-                                <a class="youtube-video mfp-iframe video-play-btn video-icon"
-                                    href="https://www.youtube.com/watch?v=4DCTTrGjGU4">
-                                    <i class="fas fa-play"></i>
-                                </a>
+                    <div class="single item">
+                        <div class="person">
+                            <div class="tumb">
+                                <img src="{% static "img/reviewer2.png" %}" alt="">
                             </div>
-                            <div class="video-text">
-                                <p class="text">Watch Video Now</p>
-                                <span><i class="far fa-clock"></i> 2:32 minutes</span>
+                            <h2 class="name">Chris Bates</h2>
+                            <h5>Founder of Facebook</h5>
+                        </div>
+                        <div class="content">
+                            <h4 class="lasthead">
+                                “Very helpful excellent service always answering all my questions And the most
+                                important thing was that wat they offer me is wat it was I highly recommended thanks
+                                for all the help keep up the good work”
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="single item">
+                        <div class="person">
+                            <div class="tumb">
+                                <img src="{% static "img/reviewer3.png" %}" alt="">
                             </div>
+                            <h2 class="name">Alfredo Harrison</h2>
+                            <h5>Founder of Tesla</h5>
+                        </div>
+                        <div class="content">
+                            <h4 class="lasthead">
+                                “Very helpful excellent service always answering all my questions And the most
+                                important thing was that wat they offer me is wat it was I highly recommended thanks
+                                for all the help keep up the good work”
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="single item">
+                        <div class="person">
+                            <div class="tumb">
+                                <img src="{% static "img/reviewer4.png" %}" alt="">
+                            </div>
+                            <h2 class="name">Ellis Phillips</h2>
+                            <h5>Founder of Pinterest</h5>
+                        </div>
+                        <div class="content">
+                            <h4 class="lasthead">
+                                “Very helpful excellent service always answering all my questions And the most
+                                important thing was that wat they offer me is wat it was I highly recommended thanks
+                                for all the help keep up the good work”
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="single item">
+                        <div class="person">
+                            <div class="tumb">
+                                <img src="{% static "img/reviewer2.png" %}" alt="">
+                            </div>
+                            <h2 class="name">Andrew Owens</h2>
+                            <h5>Founder of Pinterest</h5>
+                        </div>
+                        <div class="content">
+                            <h4 class="lasthead">
+                                “Very helpful excellent service always answering all my questions And the most
+                                important thing was that wat they offer me is wat it was I highly recommended thanks
+                                for all the help keep up the good work”
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="single item">
+                        <div class="person">
+                            <div class="tumb">
+                                <img src="assets/img/reviewer-4.png" alt="">
+                            </div>
+                            <h2 class="name">Myron Castillo</h2>
+                            <h5>Founder of Gobuy</h5>
+                        </div>
+                        <div class="content">
+                            <h4 class="lasthead">
+                                “Very helpful excellent service always answering all my questions And the most
+                                important thing was that wat they offer me is wat it was I highly recommended thanks
+                                for all the help keep up the good work”
+                            </h4>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- testomonial Start -->
-    <div class="testomonial wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s"  id="testimonial" >
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="testo-box owl-carousel owl-theme">
-                        <div class="single item">
-                            <div class="person">
-                                <div class="tumb">
-                                    <img src="assets/img/reviewer1.png" alt="">
-                                </div>
-                                <h2 class="name">Martha Vargas</h2>
-                                <h5>Founder of Pinterest</h5>
-                            </div>
-                            <div class="content">
-                                <h4 class="lasthead">
-                                    “Very helpful excellent service always answering all my questions And the most
-                                    important thing was that wat they offer me is wat it was I highly recommended thanks
-                                    for all the help keep up the good work”
-                                </h4>
-                            </div>
-                        </div>
-                        <div class="single item">
-                            <div class="person">
-                                <div class="tumb">
-                                    <img src="assets/img/reviewer-2.png" alt="">
-                                </div>
-                                <h2 class="name">Chris Bates</h2>
-                                <h5>Founder of Facebook</h5>
-                            </div>
-                            <div class="content">
-                                <h4 class="lasthead">
-                                    “Very helpful excellent service always answering all my questions And the most
-                                    important thing was that wat they offer me is wat it was I highly recommended thanks
-                                    for all the help keep up the good work”
-                                </h4>
-                            </div>
-                        </div>
-                        <div class="single item">
-                            <div class="person">
-                                <div class="tumb">
-                                    <img src="assets/img/reviewer-3.png" alt="">
-                                </div>
-                                <h2 class="name">Alfredo Harrison</h2>
-                                <h5>Founder of Tesla</h5>
-                            </div>
-                            <div class="content">
-                                <h4 class="lasthead">
-                                    “Very helpful excellent service always answering all my questions And the most
-                                    important thing was that wat they offer me is wat it was I highly recommended thanks
-                                    for all the help keep up the good work”
-                                </h4>
-                            </div>
-                        </div>
-                        <div class="single item">
-                            <div class="person">
-                                <div class="tumb">
-                                    <img src="assets/img/reviewer-4.png" alt="">
-                                </div>
-                                <h2 class="name">Ellis Phillips</h2>
-                                <h5>Founder of Pinterest</h5>
-                            </div>
-                            <div class="content">
-                                <h4 class="lasthead">
-                                    “Very helpful excellent service always answering all my questions And the most
-                                    important thing was that wat they offer me is wat it was I highly recommended thanks
-                                    for all the help keep up the good work”
-                                </h4>
-                            </div>
-                        </div>
-                        <div class="single item">
-                            <div class="person">
-                                <div class="tumb">
-                                    <img src="assets/img/reviewer-2.png" alt="">
-                                </div>
-                                <h2 class="name">Andrew Owens</h2>
-                                <h5>Founder of Pinterest</h5>
-                            </div>
-                            <div class="content">
-                                <h4 class="lasthead">
-                                    “Very helpful excellent service always answering all my questions And the most
-                                    important thing was that wat they offer me is wat it was I highly recommended thanks
-                                    for all the help keep up the good work”
-                                </h4>
-                            </div>
-                        </div>
-                        <div class="single item">
-                            <div class="person">
-                                <div class="tumb">
-                                    <img src="assets/img/reviewer-4.png" alt="">
-                                </div>
-                                <h2 class="name">Myron Castillo</h2>
-                                <h5>Founder of Gobuy</h5>
-                            </div>
-                            <div class="content">
-                                <h4 class="lasthead">
-                                    “Very helpful excellent service always answering all my questions And the most
-                                    important thing was that wat they offer me is wat it was I highly recommended thanks
-                                    for all the help keep up the good work”
-                                </h4>
-                            </div>
-                        </div>
+
+
+<!-- Footer Start -->
+<div class="footer" style="background-image: url('{% static "img/footer-bg.png" %}')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-duration="0.2s" data-wow-delay="0.2s">
+                <div class="footer-box">
+                    <a href="#" class="logo">
+                        <img src="{% static "img/footer-logo.png" %}" alt="">
+                    </a>
+                    <p class="text">
+                        crypto investment platform where you can earn on the currency of the future
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
+                <div class="footer-box">
+                    <h4 class="lasthead">Company</h4>
+                    <ul class="footer-link">
+                        <li><a href="about-us.html">About Us</a></li>
+                        <li><a href="affiliate.html">Affiliate</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 wow fadeInUp" data-wow-duration="0.4s" data-wow-delay="0.4s">
+                <div class="footer-box">
+                    <h4 class="lasthead">Support</h4>
+                    <ul class="footer-link">
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="#">Knowledge Base</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.5s">
+                <div class="footer-box">
+                    <h4 class="lasthead">Policy</h4>
+                    <ul class="footer-link">
+                        <li><a href="#">Terms of use</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Refund Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 wow fadeInUp" data-wow-duration="0.6s" data-wow-delay="0.6s">
+                <div class="footer-box">
+                    <h4 class="lasthead">Contacts</h4>
+                    <ul class="footer-link">
+                        <li>support@tas.io</li>
+                        <li>+372 624 600</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 wow fadeInUp" data-wow-duration="0.2s" data-wow-delay="0.2s">
+                <div class="raka"></div>
+            </div>
+            <div class="col-lg-6 wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
+                <div class="footer-bottom">
+                    <p class="text">Copyright 2021.All Rights Reserved By <a href="#">TAS</a></p>
+                </div>
+            </div>
+            <div class="col-lg-6 wow fadeInUp" data-wow-duration="0.4s" data-wow-delay="0.4s">
+                <div class="footer-bottom">
+                    <div class="social-style">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                        <a href="#"><i class="fab fa-google-plus-g"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Footer Start -->
-    <div class="footer" style="background-image: url('assets/img/footer-bg.png')">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-duration="0.2s" data-wow-delay="0.2s">
-                    <div class="footer-box">
-                        <a href="#" class="logo">
-                            <img src="assets/img/footer-logo.png" alt="">
-                        </a>
-                        <p class="text">
-                            crypto investment platform where you can earn on the currency of the future
-                        </p>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-6 wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
-                    <div class="footer-box">
-                        <h4 class="lasthead">Company</h4>
-                        <ul class="footer-link">
-                            <li><a href="about-us.html">About Us</a></li>
-                            <li><a href="affiliate.html">Affiliate</a></li>
-                            <li><a href="blog.html">Blog</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-6 wow fadeInUp" data-wow-duration="0.4s" data-wow-delay="0.4s">
-                    <div class="footer-box">
-                        <h4 class="lasthead">Support</h4>
-                        <ul class="footer-link">
-                            <li><a href="faq.html">FAQ</a></li>
-                            <li><a href="contact.html">Contact</a></li>
-                            <li><a href="#">Knowledge Base</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-6 wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.5s">
-                    <div class="footer-box">
-                        <h4 class="lasthead">Policy</h4>
-                        <ul class="footer-link">
-                            <li><a href="#">Terms of use</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Refund Policy</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-6 wow fadeInUp" data-wow-duration="0.6s" data-wow-delay="0.6s">
-                    <div class="footer-box">
-                        <h4 class="lasthead">Contacts</h4>
-                        <ul class="footer-link">
-                            <li>support@gooland </li>
-                            <li>+372 624 6211 </li>
-                            <li>+372 624 600</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 wow fadeInUp" data-wow-duration="0.2s" data-wow-delay="0.2s">
-                    <div class="raka"></div>
-                </div>
-                <div class="col-lg-6 wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s">
-                    <div class="footer-bottom">
-                        <p class="text">Copyright 2021.All Rights Reserved By <a href="#">Gooland</a> </p>
-                    </div>
-                </div>
-                <div class="col-lg-6 wow fadeInUp" data-wow-duration="0.4s" data-wow-delay="0.4s">
-                    <div class="footer-bottom">
-                        <div class="social-style">
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-pinterest-p"></i></a>
-                            <a href="#"><i class="fab fa-google-plus-g"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<!--====== Scroll To Top Start ======-->
+<div id="scrollUp" title="Scroll To Top">
+    <i class="fas fa-arrow-up"></i>
+</div>
+<!--====== Scroll To Top End ======-->
 
-    <!--====== Scroll To Top Start ======-->
-    <div id="scrollUp" title="Scroll To Top">
-        <i class="fas fa-arrow-up"></i>
-    </div>
-    <!--====== Scroll To Top End ======-->
-
-    <!--==================================================================-->
+<!--==================================================================-->
 
 
+<script src="{% static "js/jquery.min.js" %}"></script>
+<script src="{% static "js/proper-min.js" %}"></script>
+<script src="{% static "js/bootstrap.min.js" %}"></script>
+<!--=== All Plugin ===-->
+<script src="{% static "js/plugin/waypoint.min.js" %}"></script>
+<script src="{% static "js/plugin/owl.carousel.min.js" %}"></script>
+<script src="{% static "js/plugin/jquery.rcounter.js" %}"></script>
+<script src="{% static "js/plugin/jquery.magnific-popup.min.js" %}"></script>
+<script src="{% static "js/plugin/jquery.nice-select.min.js" %}"></script>
+<script src="{% static "js/plugin/wow.min.js" %}"></script>
 
-    <script src="{% static "js/jquery.min.js" %}"></script>
-    <script src="{% static "js/proper-min.js" %}"></script>
-    <script src="{% static "js/bootstrap.min.js" %}"></script>
-    <!--=== All Plugin ===-->
-    <script src="{% static "js/plugin/waypoint.min.js" %}"></script>
-    <script src="{% static "js/plugin/owl.carousel.min.js" %}"></script>
-    <script src="{% static "js/plugin/jquery.rcounter.js" %}"></script>
-    <script src="{% static "js/plugin/jquery.magnific-popup.min.js" %}"></script>
-    <script src="{% static "js/plugin/jquery.nice-select.min.js" %}"></script>
-    <script src="{% static "js/plugin/wow.min.js" %}"></script>
-
-    <!--=== All Active ===-->
-    <script src="{% static "js/main.js" %}"></script>
+<!--=== All Active ===-->
+<script src="{% static "js/main.js" %}"></script>
 
 
 </body>
