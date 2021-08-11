@@ -88,8 +88,6 @@ class TradingBot:
             self.start()
 
         except Exception as e:
-            self.current_bot.running = False
-            self.current_bot.save()
             self.error(e)
             self.abort()
 
@@ -371,7 +369,7 @@ class TradingBot:
         self.abort()
         if sentinel:
 
-            print("Exit bot normally: " + str(self.item))
+            print("Exit bot normally set running = False : " + str(self.item))
 
             self.abort()
 
