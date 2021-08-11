@@ -38,8 +38,8 @@ class TradingBot:
         try:
 
             self.telegram = Telegram()
-            self.notify =   self.user.telegram_notifications
-            self.taapi =    Taapi(self.symbol)
+            self.notify = self.user.telegram_notifications
+            self.taapi = Taapi(self.symbol)
             self.exchange = BinanceHelper(
                 bot=self.current_bot,
                 api_key=self.userexchange.api_key,
@@ -54,7 +54,8 @@ class TradingBot:
                 self.live = False
 
         except Exception as e:
-            self.abort('init_binance' + str(e))
+            self.error(e, self.func_entry.name)
+            self.abort(str(e))
 
         self.item = {
             'candle_close': 0,
@@ -82,8 +83,14 @@ class TradingBot:
             'user': self.user.username
         }
 
-        self.current_bot.running = True
-        self.current_bot.save()
+        try:
+            self.current_bot.running = True
+            self.current_bot.save()
+            self.start()
+
+        except Exception as e:
+            self.error(e, self.func_entry.name)
+            self.abort(str(e))
 
     def error(self, e, func):
         exception = "ERROR" + str(e) + " function:" + str(func)
@@ -193,7 +200,7 @@ class TradingBot:
 
         except Exception as e:
             self.error(e, self.func_entry.name)
-            return False
+            self.abort(str(e))
 
     def exit(self) -> bool:
 
@@ -283,7 +290,7 @@ class TradingBot:
 
         except Exception as e:
             self.error(e, self.func_entry.name)
-            return False
+            self.abort(str(e))
 
     def abort(self, func) -> None:
         if not self.bot_object.objects.get(id=self.current_bot.id).running:
@@ -292,11 +299,10 @@ class TradingBot:
             self.current_bot.running = False
             self.current_bot.save()
             self.exchange.futures_cancel_order_()
+            sleep(5)
             exit(1)
 
     def run(self) -> None:
-
-        self.start()
 
         entry = False
         sentinel = False
@@ -340,13 +346,12 @@ class TradingBot:
                         break
 
             except Exception as e:
-                self.abort('exception' + str(e))
+                self.error(e, self.func_entry.name)
+                self.abort(str(e))
 
         # end-while-true
         self.abort('abort_finale_exit_1')
         if sentinel:
             self.abort('abort_finale_exit_1')
             # Imposto a false in modo che può ripartire
-            self.current_bot.running = False
-            self.current_bot.save()
             exit(1)
