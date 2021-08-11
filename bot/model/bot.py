@@ -102,6 +102,7 @@ class TradingBot:
         self.current_bot.save()
         #logger.error(exception)
         self.telegram.send(str(e))
+        exit(1)
 
     def start(self) -> None:
 
