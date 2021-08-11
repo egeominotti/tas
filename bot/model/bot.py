@@ -89,6 +89,8 @@ class TradingBot:
             self.start()
 
         except Exception as e:
+            self.current_bot.running = False
+            self.current_bot.save()
             self.error(e, self.func_entry.name)
             self.abort(str(e))
 
@@ -304,6 +306,7 @@ class TradingBot:
                 self.exchange.futures_cancel_order_()
             except Exception as e:
                 self.error(e, ' self.exchange.futures_cancel_order_()')
+            sleep(5)
             exit(1)
 
     def run(self) -> None:
