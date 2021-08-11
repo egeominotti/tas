@@ -338,9 +338,10 @@ class TradingBot:
                             """
                             FOUND ENTRY
                             """
-                            print("I have found an entry: " + str(self.item))
                             # Successfully open position
-                            logger.info("I have found an entry: " + str(self.item))
+                            print("Found Entry: " + str(self.item))
+                            logger.info("Found Entry: " + str(self.item))
+
                             entry = True
                             continue
 
@@ -353,8 +354,8 @@ class TradingBot:
                         """
                         FOUND EXIT
                         """
-                        print("I have found an stoploss or takeprofit restart bot : " + str(self.item))
-                        logger.info("I have found an stoploss or takeprofit restart bot : " + str(self.item))
+                        print("Found stoploss or takeprofit : " + str(self.item))
+                        logger.info("Found stoploss or takeprofit : " + str(self.item))
                         self.abort()
 
                         entry = False
@@ -368,12 +369,15 @@ class TradingBot:
         # end-while-true
         self.abort()
         if sentinel:
-            print(self.item)
-            print("Esco dal bot")
+
+            print("Exit bot normally: " + str(self.item))
+
             self.abort()
+
             # Set running = False for restart bot
             self.current_bot.running = False
             self.current_bot.save()
+
             # Imposto a false in modo che può ripartire
-            sleep(15)
+            sleep(30)
             exit(1)
