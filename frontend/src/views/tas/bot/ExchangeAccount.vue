@@ -227,7 +227,7 @@ const fields = [
 ]
 
 export default {
-  name: 'Account',
+  name: 'ExchangeAccount',
   data() {
     return {
       live_mode: false,

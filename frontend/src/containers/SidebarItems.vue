@@ -42,7 +42,7 @@ export default {
             items: [
               {
                 name: 'Exchange',
-                to: '/account/view',
+                to: '/account/viewExchange',
               },
             ]
           },

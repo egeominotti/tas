@@ -71,8 +71,8 @@ export default new Router({
                     },
                     children: [
                         {
-                            path: 'view',
-                            name: 'List',
+                            path: 'viewExchange',
+                            name: 'viewExchange',
                             component: ExchangeAccount
                         },
                     ]
