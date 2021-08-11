@@ -95,8 +95,18 @@
               <v-select
                   :options="strategy"
                   v-model="selected_strategy"
-              />
+              >
+                <template slot="selected-option" slot-scope="option">
+                  {{ option.name }}
+                </template>
+                <template slot="option" slot-scope="option">
+                  {{ option.name }}
+                </template>
+                <span slot="no-options">Write name of coins</span>
+
+              </v-select>
               <br>
+
 
               <label class="text">Insert your leverage</label>
               <v-select
