@@ -8,25 +8,37 @@ import logging
 from analytics.models import Importer
 from bot.models import BufferRecordData, UserExchange
 from backtest.services.computedata import compute_data
-
+import sys
 logger = logging.getLogger('main')
 
 
 def ciao():
-    print("ciao")
-
+    try:
+        s = 1/0
+    except Exception as e:
+        print('Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e)
+        exc_type, exc_value, exc_traceback = sys.exc_info()  # most recent (if any) by default
+        traceback_details = {
+            'filename': exc_traceback.tb_frame.f_code.co_filename,
+            'lineno': exc_traceback.tb_lineno,
+            'name': exc_traceback.tb_frame.f_code.co_name,
+            'type': exc_type.__name__,
+        }
+        print(traceback_details)
 
 class Command(BaseCommand):
     help = ''
 
     def handle(self, *args, **kwargs):
 
+        ciao()
+
         # for k in Bot.objects.all():
         #     k.flgEnable = False
         #     k.save()
-
-        qs = UserExchange.objects.get(user__username='egeo')
-        client = Client(qs.api_key, qs.api_secret)
+        #
+        # qs = UserExchange.objects.get(user__username='egeo')
+        # client = Client(qs.api_key, qs.api_secret)
 
         """
             time = [entry[0] / 1000 for entry in klines]
@@ -47,17 +59,17 @@ class Command(BaseCommand):
         #     klines.append(list)
         # print(klines)
         # print(compute_data(klines))
-        while True:
-            klines = []
-            for k in BufferRecordData.objects.filter(symbol__symbol='BTCUSDT', time_frame='1m'):
-                list = [int(k.unix), k.open_candle, k.high_candle, k.low_candle, k.close_candle, k.volume]
-                klines.append(list)
-            compute_klines = compute_data(klines)
-
-            computed_bars_dataframe = pandas.DataFrame.from_dict(compute_klines)
-            tf = computed_bars_dataframe.iloc[-1]
-            print(tf)
-            sleep(1)
+        # while True:
+        #     klines = []
+        #     for k in BufferRecordData.objects.filter(symbol__symbol='BTCUSDT', time_frame='1m'):
+        #         list = [int(k.unix), k.open_candle, k.high_candle, k.low_candle, k.close_candle, k.volume]
+        #         klines.append(list)
+        #     compute_klines = compute_data(klines)
+        #
+        #     computed_bars_dataframe = pandas.DataFrame.from_dict(compute_klines)
+        #     tf = computed_bars_dataframe.iloc[-1]
+        #     print(tf)
+        #     sleep(1)
 
         # klines = []
         # for k in Importer.objects.filter(symbol='BTCUSDT', tf='5m'):

@@ -1,5 +1,5 @@
 from time import sleep
-
+import sys
 from bot.services.telegram import Telegram
 from analytics.services.exchangeApi import Taapi
 from exchange.model.binance import BinanceHelper
@@ -54,7 +54,8 @@ class TradingBot:
                 self.live = False
 
         except Exception as e:
-            self.error(e, self.func_entry.name)
+            error = 'Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e
+            self.error(e)
             self.abort(str(e))
 
         self.item = {
@@ -91,12 +92,12 @@ class TradingBot:
         except Exception as e:
             self.current_bot.running = False
             self.current_bot.save()
-            self.error(e, self.func_entry.name)
+            self.error(e)
             self.abort(str(e))
 
-    def error(self, e, func):
-        exception = "ERROR" + str(e) + " function:" + str(func)
-        print("ERROR" + str(e) + " function:" + str(func))
+    def error(self, e):
+        exception =  'Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e
+        print("ERROR: " + str(e))
         self.telegram.send(exception)
 
     def start(self) -> None:
@@ -201,7 +202,7 @@ class TradingBot:
                     return True
 
         except Exception as e:
-            self.error(e, self.func_entry.name)
+            self.error(e)
             self.abort(str(e))
 
     def exit(self) -> bool:
@@ -291,7 +292,7 @@ class TradingBot:
                     return True
 
         except Exception as e:
-            self.error(e, self.func_entry.name)
+            self.error(e)
             self.abort(str(e))
 
     def abort(self, func) -> None:
@@ -305,7 +306,8 @@ class TradingBot:
             try:
                 self.exchange.futures_cancel_order_()
             except Exception as e:
-                self.error(e, ' self.exchange.futures_cancel_order_()')
+                self.error(e)
+
             sleep(5)
             exit(1)
 
@@ -353,7 +355,7 @@ class TradingBot:
                         break
 
             except Exception as e:
-                self.error(e, self.func_entry.name)
+                self.error(e)
                 self.abort(str(e))
 
         # end-while-true

@@ -31,15 +31,19 @@ logger = logging.getLogger(__name__)
 def logicentry_bot_rsi_20_bollinger(item):
 
     time_frame = item['time_frame']
-    #item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
 
+    # Default USE websocket if raise error use Taapi
     item['candle_close'] = BufferStreamWebSocket.objects \
         .filter(symbol__symbol=item.get('symbol_exchange'), time_frame=item.get('time_frame')) \
         .last().close_candle
+    print(item['candle_close'])
+
+    if item['candle_close'] is None:
+        item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
 
     rsi = item.get('taapi').rsi(time_frame).get('value')
-    valueLowerBand = item.get('taapi').bbands(time_frame).get('valueLowerBand')
 
+    valueLowerBand = item.get('taapi').bbands(time_frame).get('valueLowerBand')
     if rsi < 20 and item['candle_close'] <= valueLowerBand:
         item['type'] = 0  # type = 0 corrisponde ad una entrata long
         item['entry'] = True
