@@ -205,8 +205,8 @@ class TradingBot:
     def exit(self) -> bool:
 
         try:
-            func_exit = eval(self.func_exit.name)
 
+            func_exit = eval(self.func_exit.name)
             if self.item.get('entry') is True:
                 func_exit(item=self.item)
 
@@ -294,12 +294,16 @@ class TradingBot:
 
     def abort(self, func) -> None:
         if not self.bot_object.objects.get(id=self.current_bot.id).running:
+
             print("STOPPO IL BOT E CHIUDO GLI ORDINI ATTIVI")
             self.current_bot.abort = True
             self.current_bot.running = False
             self.current_bot.save()
-            self.exchange.futures_cancel_order_()
-            sleep(5)
+
+            try:
+                self.exchange.futures_cancel_order_()
+            except Exception as e:
+                self.error(e, ' self.exchange.futures_cancel_order_()')
             exit(1)
 
     def run(self) -> None:
