@@ -125,8 +125,6 @@ class TradingBot:
             if self.item.get('entry') is False:
                 func_entry(item=self.item)
 
-                print(self.item)
-
                 if self.item.get('entry') is True:
 
                     self.item['entry_function'] = True
@@ -293,12 +291,12 @@ class TradingBot:
 
         except Exception as e:
             self.error(e)
-            self.abort(str(e))
+            self.abort()
 
-    def abort(self, func) -> None:
+    def abort(self) -> None:
         if not self.bot_object.objects.get(id=self.current_bot.id).running:
 
-            print("STOPPO IL BOT E CHIUDO GLI ORDINI ATTIVI")
+            logger.info("Set bot not running and close position")
             self.current_bot.abort = True
             self.current_bot.running = False
             self.current_bot.save()
@@ -322,33 +320,32 @@ class TradingBot:
 
                 if entry is False:
 
-                    self.abort('entry_false')
+                    self.abort()
 
                     if datetime.datetime.now().second == 59:
 
                         # Controllo se è arrivato il segnale di abort per fermare il bot
-                        self.abort('entry_false')
+                        self.abort()
 
                         # Controllo se si è verificata una entry
                         if self.entry():
                             # Controllo se è arrivato il segnale di abort per fermare il bot
-                            self.abort('entry_true')
+                            self.abort()
 
                             # Successfully open position
-                            print("HO TROVATO UNA ENTRY")
-                            print(self.item)
+                            logger.info("I have found an entry: " + str(self.item))
                             entry = True
                             continue
 
                 if entry is True:
 
-                    self.abort('exit_false')
+                    self.abort()
 
                     if self.exit():
                         self.item['exit_function'] = True
-                        print("HO TROVATO UNO STOP LOSS O TAKE PROFIT RINIZIO DA CAPO A CERCARE")
 
-                        self.abort('exit_true')
+                        logger.info("I have found an stoploss or takeprofit restart bot : " + str(self.item))
+                        self.abort()
 
                         entry = False
                         sentinel = True
@@ -356,11 +353,11 @@ class TradingBot:
 
             except Exception as e:
                 self.error(e)
-                self.abort(str(e))
+                self.abort()
 
         # end-while-true
-        self.abort('abort_finale_exit_1')
+        self.abort()
         if sentinel:
-            self.abort('abort_finale_exit_1')
+            self.abort()
             # Imposto a false in modo che può ripartire
             exit(1)

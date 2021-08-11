@@ -5,6 +5,25 @@ from bot.models import BufferStreamWebSocket
 
 logger = logging.getLogger(__name__)
 
+
+def logicentry_test(item):
+
+    item['candle_close'] = BufferStreamWebSocket.objects \
+        .filter(symbol__symbol=item.get('symbol_exchange'), time_frame=item.get('time_frame')) \
+        .last().close_candle
+
+    item['type'] = 0  # type = 0 corrisponde ad una entrata long
+    item['entry'] = True
+    item['entry_candle'] = item['candle_close']
+    return True
+
+
+def logicexit_test(item):
+    item['takeprofit_candle'] = item['candle_close']
+    item['takeprofit'] = True
+    return True
+
+
 """
 {
     'sleep_func_entry': Funzione della stratrgia di entry che viene valuta per essere eseguita,
@@ -29,7 +48,6 @@ logger = logging.getLogger(__name__)
 
 
 def logicentry_bot_rsi_20_bollinger(item):
-
     time_frame = item['time_frame']
 
     # Default USE websocket if raise error use Taapi
@@ -61,7 +79,6 @@ def logicentry_bot_rsi_20_bollinger(item):
 
 
 def logicexit_bot_rsi_20_bollinger(item):
-
     sentinel = False
     try:
         while True:
