@@ -240,7 +240,7 @@ class TradingBot:
                     if self.notify:
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                         stop_loss = "Stoploss: " + str(self.current_bot.name) + \
-                                    "\n" + "Live Mode: " + str(self.userexchange.live) + \
+                                    "\n" + "Live Mode: " + str(self.live) + \
                                     "\n" + "Current Balance: " + str(self.exchange.get_current_balance_futures_()) + \
                                     "\n" + "Investement: " + str(self.exchange.get_current_investment_amount()) + \
                                     "\n" + "User: " + self.user.username + \
@@ -279,7 +279,7 @@ class TradingBot:
                     if self.notify:
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                         stop_loss = "Takeprofit: " + str(self.current_bot.name) + \
-                                    "\n" + "Live Mode: " + str(self.userexchange.live) + \
+                                    "\n" + "Live Mode: " + str(self.live) + \
                                     "\n" + "Current Balance: " + str(self.exchange.get_current_balance_futures_()) + \
                                     "\n" + "Investement: " + str(self.exchange.get_current_investment_amount()) + \
                                     "\n" + "User: " + self.user.username + \
