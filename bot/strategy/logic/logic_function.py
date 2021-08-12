@@ -90,7 +90,7 @@ def logicentry_bot_rsi_20_bollinger(item):
             item['entry_candle'] = item['candle_close']
             return True
 
-        redis.set(key, None)
+        redis.set(key, {'candle_is_closed': False})
         return False
 
 
