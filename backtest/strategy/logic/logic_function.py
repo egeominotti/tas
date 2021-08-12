@@ -114,15 +114,8 @@ STRATEGY 3: MACD
 def logicentry_long_backtest_macd(item):
     macd = item['macd']
     macdsignal = item['macdsignal']
-    macdhist = item['macdhist']
-
-    print("FAST MACD: " + str(macd))
-    print("SLOW MACD: " + str(macdsignal))
 
     macd_ratio = macd / macdsignal
-
-    if macd_ratio > 1:
-        print("RATIO MACD: " + str(macd_ratio))
 
     if 1 < macd_ratio < item['ratio']:
         return True
@@ -131,9 +124,10 @@ def logicentry_long_backtest_macd(item):
 
 
 def logicexit_long_backtest_macd(item):
-    rsi = item['rsi']
 
-    if rsi > 70:
+    ema13 = item['ema13']
+
+    if item['close'] < ema13:
         item['takeprofit_func'] = True
         return True
 
