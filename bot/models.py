@@ -41,16 +41,6 @@ class LogicExit(CommonTrait):
         verbose_name_plural = 'LogicExit'
 
 
-class BufferStreamWebSocket(CommonTrait):
-    symbol = models.ForeignKey(SymbolExchange, on_delete=models.SET_NULL, null=True, blank=True)
-    time_frame = models.CharField(max_length=4, blank=False, null=False)
-    open_candle = models.FloatField(default=0, blank=True)
-    close_candle = models.FloatField(default=0, blank=True)
-    high_candle = models.FloatField(default=0, blank=True)
-    low_candle = models.FloatField(default=0, blank=True)
-    is_closed = models.BooleanField(default=False)
-
-
 class BufferRecordData(CommonTrait):
     symbol = models.ForeignKey(SymbolExchange, on_delete=models.SET_NULL, null=True, blank=True)
     time_frame = models.CharField(max_length=4, blank=False, null=False)
