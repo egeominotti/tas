@@ -196,9 +196,9 @@ class BackTesting:
                 counter_takeprofit += 1
 
         initial_investment = self.instance.initial_investment
-        total = sum_takeprofit - sum_loss
 
-        sd = initial_investment + (total * initial_investment)
+        total = sum_takeprofit + sum_loss
+        value = initial_investment + (total * initial_investment)
 
         StatisticsPortfolio.objects.create(
             backtest=self.instance,
@@ -207,8 +207,8 @@ class BackTesting:
             take_profit=counter_takeprofit,
             stop_loss=counter_stoploss,
             initial_investment=self.instance.initial_investment,
-            current_wallet=sd,
-            composite_value=sd - initial_investment,
+            current_wallet=value,
+            composite_value=value - initial_investment,
             start_period=self.instance.start_period,
             end_period=self.instance.end_period,
             symbol=self.symbol,
