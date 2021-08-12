@@ -63,6 +63,7 @@ def logicentry_bot_rsi_20_bollinger(item):
 
     key = str(item.get('symbol_exchange')) + "_" + str(item.get('time_frame'))
     value = redis.get(key)
+    print(value)
     candle_from_websocket = json.loads(value)
     print(candle_from_websocket)
 
@@ -97,6 +98,7 @@ def logicexit_bot_rsi_20_bollinger(item):
 
             key = item.get('symbol_exchange') + "_" + str(item.get('time_frame'))
             value = redis.get(key)
+            print(value)
             candle_from_websocket = json.loads(value)
             print(candle_from_websocket)
 
