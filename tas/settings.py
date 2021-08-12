@@ -100,14 +100,6 @@ DBBACKUP_STORAGE_OPTIONS = {
     'bucket_name': 'tastradingsystem'
 }
 
-# DBBACKUP_CONNECTORS = {
-#     'django.db.backends.postgresql': {
-#         'USER': 'django',
-#         'PASSWORD': 'r18zq835ynhhfxtk',
-#         'HOST': 'db-postgresql-ams3-25592-do-user-3323991-0.b.db.ondigitalocean.com'
-#     }
-# }
-
 # LOGGING = {
 #     'version': 1,
 #     'disable_existing_loggers': True,
