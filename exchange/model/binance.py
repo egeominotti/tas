@@ -33,22 +33,22 @@ class BinanceHelper:
         """
         :return: Entrata al 100% del capitale divisa per bot attivi per utente
         """
-        # balance_wallet = (self.get_current_balance_futures_() - 0.5) / self.counter_bot
         balance_wallet = self.bot.amount - 0.5
         symbol_precision = self.get_symbol_precision()
         price_coin = self.current_price_coin()
         qty = round(balance_wallet / price_coin, symbol_precision)
+
         return qty
 
     def get_quantity(self):
         """
         :return: Entrata al 100% del capitale
         """
-        # balance_wallet = self.get_current_balance_futures_() - 0.5
         balance_wallet = self.bot.amount - 0.5
         symbol_precision = self.get_symbol_precision()
         price_coin = self.current_price_coin()
         qty = round(balance_wallet / price_coin, symbol_precision)
+
         return qty
 
     def get_symbol_precision(self):
@@ -56,6 +56,7 @@ class BinanceHelper:
         info = self.client.futures_exchange_info()
         for item in info['symbols']:
             symbols_n_precision[item['symbol']] = item['quantityPrecision']
+
         return symbols_n_precision[self.symbol]
 
     def current_price_coin(self) -> float:
@@ -94,7 +95,7 @@ class BinanceHelper:
         own_usd = sum_btc * float(current_btc_price_USD)
         return own_usd
 
-    def sell_market(self):
+    def sell_market_open_position(self):
         self.orderId = self.client.futures_create_order(
             symbol=self.symbol,
             side=SIDE_SELL,
@@ -102,12 +103,28 @@ class BinanceHelper:
             quantity=self.get_quantity(),
         )
 
-    def buy_market(self):
+    def buy_market_open_position(self):
         self.orderId = self.client.futures_create_order(
             symbol=self.symbol,
             side=SIDE_BUY,
             type=ORDER_TYPE_MARKET,
             quantity=self.get_quantity(),
+        )
+
+    def sell_market_close_position(self):
+        self.orderId = self.client.futures_create_order(
+            symbol=self.symbol,
+            side=SIDE_SELL,
+            type=ORDER_TYPE_MARKET,
+            closePosition=True
+        )
+
+    def buy_market_close_position(self):
+        self.orderId = self.client.futures_create_order(
+            symbol=self.symbol,
+            side=SIDE_BUY,
+            type=ORDER_TYPE_MARKET,
+            closePosition=True
         )
 
     def buy_limit(self):

@@ -177,11 +177,11 @@ class TradingBot:
                     if self.live:
                         if self.item.get('type') == 0:
                             # LONG
-                            self.exchange.buy_market()
+                            self.exchange.buy_market_open_position()
 
                         if self.item.get('type') == 1:
                             # SHORT
-                            self.exchange.sell_market()
+                            self.exchange.sell_market_open_position()
 
                     if self.item.get('type') == 0:
                         self.logger.objects.filter(id=self.logger_instance.id) \
@@ -231,11 +231,11 @@ class TradingBot:
                     if self.live:
                         if self.item.get('type') == 0:
                             # LONG
-                            self.exchange.sell_market()
+                            self.exchange.sell_market_close_position()
 
                         if self.item.get('type') == 1:
                             # SHORT
-                            self.exchange.buy_market()
+                            self.exchange.buy_market_close_position()
 
                     now = datetime.datetime.now()
                     self.logger.objects.filter(id=self.logger_instance.id) \
@@ -267,14 +267,17 @@ class TradingBot:
                 """
                 if self.item.get('takeprofit') is True:
 
+                    """
+                    Close position in 
+                    """
                     if self.live:
                         if self.item.get('type') == 0:
                             # LONG
-                            self.exchange.sell_market()
+                            self.exchange.sell_market_close_position()
 
                         if self.item.get('type') == 1:
                             # SHORT
-                            self.exchange.buy_market()
+                            self.exchange.buy_market_close_position()
 
                     now = datetime.datetime.now()
                     self.logger.objects.filter(id=self.logger_instance.id) \
