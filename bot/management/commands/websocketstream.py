@@ -43,7 +43,7 @@ class Command(BaseCommand):
                                 'candle_open': float(v.get('open_price')),
                                 'candle_high': float(v.get('high_price')),
                                 'candle_low': float(v.get('low_price')),
-                                'candle_is_close': v.get('is_closed')
+                                'candle_is_closed': v.get('is_closed')
                             }
                             r.set(key, json.dumps(values))
 

@@ -344,32 +344,21 @@ class TradingBot:
                 if entry is False:
 
                     self.abort()
+                    if self.entry():
 
-                    if datetime.datetime.now().second == 59:
-
-                        # Controllo se è arrivato il segnale di abort per fermare il bot
                         self.abort()
 
-                        # Controllo se si è verificata una entry
-                        if self.entry():
-                            # Controllo se è arrivato il segnale di abort per fermare il bot
-                            self.abort()
-
-                            """
-                            FOUND ENTRY
-                            """
-                            # Successfully open position
-                            print("Found Entry: " + str(self.item))
-                            logger.info("Found Entry: " + str(self.item))
-
-                            entry = True
-                            continue
+                        print("Found Entry: " + str(self.item))
+                        logger.info("Found Entry: " + str(self.item))
+                        entry = True
+                        continue
 
                 if entry is True:
 
                     self.abort()
 
                     if self.exit():
+
                         self.item['exit_function'] = True
                         """
                         FOUND EXIT
