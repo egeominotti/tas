@@ -1,4 +1,3 @@
-from bot.models import BufferStreamWebSocket
 import logging
 import datetime
 from time import sleep
@@ -9,8 +8,7 @@ import redis
 
 logger = logging.getLogger(__name__)
 
-redis_host = decouple.config('REDIS_HOST')
-redis = redis.Redis(host=redis_host, port=6379, db=0)
+redis = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 
 def logicentry_test(item):
 

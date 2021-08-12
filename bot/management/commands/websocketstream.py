@@ -1,3 +1,4 @@
+import decouple
 from django.core.management import BaseCommand
 import logging
 from strategy.models import SymbolExchange
@@ -14,7 +15,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        r = redis.Redis(host='tas_redis', port=6379, db=0)
+        r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 
         symbolList = []
         for symbol in SymbolExchange.objects.all():
@@ -34,6 +35,18 @@ class Command(BaseCommand):
                     for k, v in binance_stream.items():
                         if isinstance(v, dict):
 
+
+
+                            key = str(SymbolExchange.objects.get(symbol=v.get('symbol'))) + "_" + str(v.get('interval'))
+                            values = {
+                                'candle_close': float(v.get('close_price')),
+                                'candle_open': float(v.get('open_price')),
+                                'candle_high': float(v.get('high_price')),
+                                'candle_low': float(v.get('low_price')),
+                                'candle_is_close': v.get('is_closed')
+                            }
+                            r.set(key, json.dumps(values))
+
                             # TODO: capire come registrare i dati ed elabolarli
                             # dt = datetime.fromtimestamp(v.get('kline_start_time') / 1000)
                             # BufferRecordData.objects.create(
@@ -48,18 +61,6 @@ class Command(BaseCommand):
                             #     volume=float(v.get('base_volume')),
                             #     is_closed=v.get('is_closed')
                             # )
-
-                            key = str(SymbolExchange.objects.get(symbol=v.get('symbol'))) + "_" + str(v.get('interval'))
-                            values = {
-                                    'candle_close': float(v.get('close_price')),
-                                    'candle_open': float(v.get('open_price')),
-                                    'candle_high': float(v.get('high_price')),
-                                    'candle_low': float(v.get('low_price')),
-                                    'candle_is_close': v.get('is_closed')
-                                }
-                            r.set(key, json.dumps(values))
-
-
 
             except Exception as e:
                 print(e)
