@@ -69,25 +69,25 @@ def logicentry_bot_rsi_20_bollinger(item):
     print(item.get('time_frame'))
     print(candle_from_websocket.get('candle_close'))
 
+    if candle_from_websocket.get('is_closed'):
+        item['candle_close'] = candle_from_websocket.get('candle_close')
 
-    item['candle_close'] = candle_from_websocket.get('candle_close')
-    rsi = item.get('taapi').rsi(time_frame).get('value')
+        rsi = item.get('taapi').rsi(time_frame).get('value')
+        bbands = item.get('taapi').bbands(time_frame)
 
-    valueLowerBand = item.get('taapi').bbands(time_frame).get('valueLowerBand')
-    if rsi < 20 and item['candle_close'] <= valueLowerBand:
-        item['type'] = 0  # type = 0 corrisponde ad una entrata long
-        item['entry'] = True
-        item['entry_candle'] = item['candle_close']
-        return True
+        if rsi < 20 and item['candle_close'] <= bbands.get('valueLowerBand'):
+            item['type'] = 0  # type = 0 corrisponde ad una entrata long
+            item['entry'] = True
+            item['entry_candle'] = item['candle_close']
+            return True
 
-    valueUpperBand = item.get('taapi').bbands(time_frame).get('valueUpperBand')
-    if rsi > 80 and item['candle_close'] >= valueUpperBand:
-        item['type'] = 1  # type = 1 corrisponde ad una entrata short
-        item['entry'] = True
-        item['entry_candle'] = item['candle_close']
-        return True
+        if rsi > 80 and item['candle_close'] >= bbands.get('valueUpperBand'):
+            item['type'] = 1  # type = 1 corrisponde ad una entrata short
+            item['entry'] = True
+            item['entry_candle'] = item['candle_close']
+            return True
 
-    return False
+        return False
 
 
 def logicexit_bot_rsi_20_bollinger(item):
