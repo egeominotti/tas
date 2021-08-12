@@ -121,7 +121,7 @@ class BackTesting:
                             candle_stop_loss=current_candle,
                             candle_stop_loss_date=currente_candle_timestamp,
                             stop_loss=True,
-                            profit_loss=percentage,
+                            profit_loss=round(percentage, 2),
                         )
                         break
 
@@ -135,13 +135,13 @@ class BackTesting:
                             candle_take_profit=current_candle,
                             candle_take_profit_date=currente_candle_timestamp,
                             take_profit=True,
-                            profit_loss=percentage,
+                            profit_loss=round(percentage, 2),
                         )
                         break
 
     def postprocessing(self):
 
-        qs = BackTestLog.objects.filter(time_frame=self.time_frame, symbol=self.symbol)
+        qs = BackTestLog.objects.filter(backtest=self.instance)
 
         sum_loss = 0
         sum_takeprofit = 0
@@ -208,8 +208,8 @@ class BackTesting:
             take_profit=counter_takeprofit,
             stop_loss=counter_stoploss,
             initial_investment=self.instance.initial_investment,
-            current_wallet=value,
-            composite_value=value - initial_investment,
+            current_wallet=round(value, 3),
+            composite_value=round(value - initial_investment, 3),
             start_period=self.instance.start_period,
             end_period=self.instance.end_period,
             symbol=self.symbol,
