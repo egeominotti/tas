@@ -150,6 +150,7 @@ class BackTesting:
             if k.candle_stop_loss_date is not None:
                 loss_percentage = (k.candle_stop_loss - k.entry_candle) / k.entry_candle
                 sum_loss += loss_percentage
+
                 BackTestLog.objects.filter(id=k.id).update(
                     loss_percentage=loss_percentage * 100
                 )
@@ -157,6 +158,7 @@ class BackTesting:
             if k.candle_take_profit_date is not None:
                 profit_percentage = (k.candle_take_profit - k.entry_candle) / k.entry_candle
                 sum_takeprofit += profit_percentage
+
                 BackTestLog.objects.filter(id=k.id).update(
                     profit_percentage=profit_percentage * 100
                 )
@@ -183,7 +185,6 @@ class BackTesting:
 
         qs = BackTestLog.objects.filter(time_frame=self.time_frame, symbol=self.symbol)
 
-        sum_loss = 0
         counter_stoploss = 0
         counter_takeprofit = 0
 
