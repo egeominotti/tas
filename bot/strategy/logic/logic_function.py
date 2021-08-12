@@ -63,15 +63,14 @@ def logicentry_bot_rsi_20_bollinger(item):
 
     key = str(item.get('symbol_exchange')) + "_" + str(item.get('time_frame'))
     value = redis.get(key)
-    print(value)
     candle_from_websocket = json.loads(value)
-    print(candle_from_websocket)
+
+    print(item.get('symbol_exchange'))
+    print(item.get('time_frame'))
+    print(candle_from_websocket.get('candle_close'))
+
 
     item['candle_close'] = candle_from_websocket.get('candle_close')
-
-    if item['candle_close'] is None:
-        item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
-
     rsi = item.get('taapi').rsi(time_frame).get('value')
 
     valueLowerBand = item.get('taapi').bbands(time_frame).get('valueLowerBand')
@@ -98,9 +97,11 @@ def logicexit_bot_rsi_20_bollinger(item):
 
             key = item.get('symbol_exchange') + "_" + str(item.get('time_frame'))
             value = redis.get(key)
-            print(value)
             candle_from_websocket = json.loads(value)
-            print(candle_from_websocket)
+
+            print(item.get('symbol_exchange'))
+            print(item.get('time_frame'))
+            print(candle_from_websocket.get('candle_close'))
 
             item['candle_close'] = candle_from_websocket.get('candle_close')
 
