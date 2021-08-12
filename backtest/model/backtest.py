@@ -183,7 +183,7 @@ class BackTesting:
                                                    symbol=self.symbol,
                                                    entry_candle_date__exact=next_obj.entry_candle_date).delete()
 
-        qs = BackTestLog.objects.filter(time_frame=self.time_frame, symbol=self.symbol)
+        qs = BackTestLog.objects.filter(backtest=self.instance)
 
         counter_stoploss = 0
         counter_takeprofit = 0
