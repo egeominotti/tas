@@ -106,6 +106,43 @@ def logicexit_short_backtest_rsi_20_bollinger(item):
 
     return False
 
+"""
+STRATEGY 3: MACD
+"""
+
+
+def logicentry_long_backtest_macd(item):
+    macd = item['macd']
+    macdsignal = item['macdsignal']
+    macdhist = item['macdhist']
+
+    print("FAST MACD: " + str(macd))
+    print("SLOW MACD: " + str(macdsignal))
+
+    macd_ratio = macd / macdsignal
+
+    if macd_ratio > 1:
+        print("RATIO MACD: " + str(macd_ratio))
+
+    if 1 < macd_ratio < item['ratio']:
+        return True
+
+    return False
+
+
+def logicexit_long_backtest_macd(item):
+    rsi = item['rsi']
+
+    if rsi > 70:
+        item['takeprofit_func'] = True
+        return True
+
+    if item['close'] <= item['entry'] * item['stoploss']:
+        item['stoploss_func'] = True
+        return True
+
+    return False
+
 
 """
 STRATEGIA CA CAPIRE
