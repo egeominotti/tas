@@ -1,16 +1,23 @@
+from bot.models import BufferStreamWebSocket
 import logging
 import datetime
 from time import sleep
-from bot.models import BufferStreamWebSocket
+import decouple
+import json
+
+import redis
 
 logger = logging.getLogger(__name__)
 
+redis_host = decouple.config('REDIS_HOST')
+redis = redis.Redis(host=redis_host, port=6379, db=0)
 
 def logicentry_test(item):
 
-    item['candle_close'] = BufferStreamWebSocket.objects \
-        .filter(symbol__symbol=item.get('symbol_exchange'), time_frame=item.get('time_frame')) \
-        .last().close_candle
+    key = str(item.get('symbol_exchange')) + "_" + str(item.get('time_frame'))
+    value = redis.get(key)
+    candle_from_websocket = json.loads(value)
+    print(candle_from_websocket)
 
     item['type'] = 0  # type = 0 corrisponde ad una entrata long
     item['entry'] = True
@@ -20,9 +27,10 @@ def logicentry_test(item):
 
 def logicexit_test(item):
 
-    item['candle_close'] = BufferStreamWebSocket.objects \
-        .filter(symbol__symbol=item.get('symbol_exchange'), time_frame=item.get('time_frame')) \
-        .last().close_candle
+    key = str(item.get('symbol_exchange')) + "_" + str(item.get('time_frame'))
+    value = redis.get(key)
+    candle_from_websocket = json.loads(value)
+    print(candle_from_websocket)
 
     item['takeprofit_candle'] = item['candle_close']
     item['takeprofit'] = True
@@ -55,11 +63,12 @@ def logicexit_test(item):
 def logicentry_bot_rsi_20_bollinger(item):
     time_frame = item['time_frame']
 
-    # Default USE websocket if raise error use Taapi
-    item['candle_close'] = BufferStreamWebSocket.objects \
-        .filter(symbol__symbol=item.get('symbol_exchange'), time_frame=item.get('time_frame')) \
-        .last().close_candle
-    print(item['candle_close'])
+    key = str(item.get('symbol_exchange')) + "_" + str(item.get('time_frame'))
+    value = redis.get(key)
+    candle_from_websocket = json.loads(value)
+    print(candle_from_websocket)
+
+    item['candle_close'] = candle_from_websocket.get('candle_close')
 
     if item['candle_close'] is None:
         item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
@@ -88,9 +97,12 @@ def logicexit_bot_rsi_20_bollinger(item):
     try:
         while True:
 
-            item['candle_close'] = BufferStreamWebSocket.objects \
-                .filter(symbol__symbol=item.get('symbol_exchange'), time_frame=item.get('time_frame')) \
-                .last().close_candle
+            key = item.get('symbol_exchange') + "_" + str(item.get('time_frame'))
+            value = redis.get(key)
+            candle_from_websocket = json.loads(value)
+            print(candle_from_websocket)
+
+            item['candle_close'] = candle_from_websocket.get('candle_close')
 
             if item['type'] == 0:
 
@@ -145,9 +157,13 @@ def logicexit_bot_rsi_20_bollinger(item):
 
 
 def logicentry_bot_first(item):
-    item['candle_close'] = BufferStreamWebSocket.objects \
-        .filter(symbol__symbol=item.get('symbol_exchange'), time_frame=item.get('time_frame')) \
-        .last().close_candle
+
+    key = item.get('symbol_exchange') + "_" + str(item.get('time_frame'))
+    value = redis.get(key)
+    candle_from_websocket = json.loads(value)
+    print(candle_from_websocket)
+
+    item['candle_close'] = candle_from_websocket.get('candle_close')
 
     # item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
     # item['candle_close'] = BufferStreamWebSocket.objects.filter(symbol__symbol=item.get('symbol_exchange'),time_frame='1m').last().close_candle
@@ -213,14 +229,12 @@ def logicexit_bot_first(item):
     try:
         while True:
 
-            print("SONO DENTRO logicexit_first")
-            print(BufferStreamWebSocket.objects \
-                  .filter(symbol__symbol=item.get('symbol_exchange'), time_frame=item.get('time_frame')) \
-                  .last().close_candle)
-            print(BufferStreamWebSocket)
-            item['candle_close'] = BufferStreamWebSocket.objects \
-                .filter(symbol__symbol=item.get('symbol_exchange'), time_frame=item.get('time_frame')) \
-                .last().close_candle
+            key = item.get('symbol_exchange') + "_" + str(item.get('time_frame'))
+            value = redis.get(key)
+            candle_from_websocket = json.loads(value)
+            print(candle_from_websocket)
+
+            item['candle_close'] = candle_from_websocket.get('candle_close')
 
             print("Candle close from binance: " + item['candle_close'])
             if item['type'] == 0:

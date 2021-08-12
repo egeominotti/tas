@@ -14,14 +14,7 @@ if 'production' in ENV:
 
     DEBUG = False
     ALLOWED_HOSTS = ['*']
-    CHANNEL_LAYERS = {
-        "default": {
-            "BACKEND": "channels_redis.core.RedisChannelLayer",
-            "CONFIG": {
-                "hosts": [("127.0.0.1", 6379)],
-            },
-        },
-    }
+
 
     sentry_sdk.init(
         dsn="https://ce5d2c2138fc4cd4b8d1c04c5fa91982@o936455.ingest.sentry.io/5886823",
@@ -33,14 +26,6 @@ if 'production' in ENV:
 else:
 
     DEBUG = True
-    CHANNEL_LAYERS = {
-        "default": {
-            'BACKEND': 'channels_redis.core.RedisChannelLayer',
-            "CONFIG": {
-                "hosts": [("tas_redis", 6379)],
-            },
-        },
-    }
 
     ALLOWED_HOSTS = ['*', 'http://164.90.198.149/',
                      '127.0.0.1',
@@ -52,6 +37,14 @@ else:
                      ]
 
 
+CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [(config('REDIS_HOST'), 6379)],
+            },
+        },
+    }
 
 INSTALLED_APPS = [
     'django.contrib.admin',
