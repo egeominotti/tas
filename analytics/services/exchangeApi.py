@@ -2,8 +2,8 @@ import requests
 import json
 import secrets
 
-class Taapi:
 
+class Taapi:
     symbol = None
     BASE = None
     EXCHANGE = 'binance'
@@ -15,7 +15,8 @@ class Taapi:
 
     def __init__(self, symbol):
         self.symbol = symbol
-        self.base = 'secret=' + secrets.choice(self.API_KEY_LIST) + "&exchange=" + self.EXCHANGE + "&symbol=" + self.symbol
+        self.base = 'secret=' + secrets.choice(
+            self.API_KEY_LIST) + "&exchange=" + self.EXCHANGE + "&symbol=" + self.symbol
 
     # https://taapi.io/indicators/exponential-moving-average/
     def ema(self, ema, interval, backtrack=None, backtracks=None):
@@ -47,10 +48,17 @@ class Taapi:
                         ema)).content).get('value')
 
     # https://taapi.io/indicators/relative-strength-index-rsi/
-    def rsi(self, interval):
-        return json.loads(
-            requests.get(
-                self.BASE_URL + 'rsi?' + self.base + "&interval=" + str(interval)).content)
+    def rsi(self, interval, backtrack=None):
+        if backtrack is not None:
+            return json.loads(
+                requests.get(
+                    self.BASE_URL + 'rsi?' + self.base + "&interval=" + str(interval) + "&backtrack=" + str(
+                        backtrack)).content)
+        else:
+            return json.loads(
+                requests.get(
+                    self.BASE_URL + 'rsi?' + self.base + "&interval=" + str(interval)
+                ).content)
 
     # https://taapi.io/indicators/macd/
     def macd(self, interval):
@@ -59,10 +67,17 @@ class Taapi:
                 self.BASE_URL + 'macd?' + self.base + "&interval=" + str(interval)).content)
 
     # https://taapi.io/indicators/bollinger-bands/
-    def bbands(self, interval):
-        return json.loads(
-            requests.get(
-                self.BASE_URL + 'bbands?' + self.base + "&interval=" + str(interval)).content)
+    def bbands(self, interval, backtrack=None):
+        if backtrack is not None:
+            return json.loads(
+                requests.get(
+                    self.BASE_URL + 'bbands?' + self.base + "&interval=" + str(interval) + "&backtrack=" + str(
+                        backtrack)
+                ).content)
+        else:
+            return json.loads(
+                requests.get(
+                    self.BASE_URL + 'bbands?' + self.base + "&interval=" + str(interval)).content)
 
     # https://taapi.io/indicators/stochastic-relative-strength-index/
     def stochrsi(self, interval):

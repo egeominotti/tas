@@ -72,8 +72,12 @@ def logicentry_bot_rsi_20_bollinger(item):
 
         item['candle_close'] = candle_from_websocket.get('candle_close')
 
-        rsi = item.get('taapi').rsi(time_frame).get('value')
-        bbands = item.get('taapi').bbands(time_frame)
+        rsi = item.get('taapi').rsi(time_frame, 1).get('value')
+        bbands = item.get('taapi').bbands(time_frame, 1)
+
+        print("rsi:" + str(rsi))
+        print("valueLowerBand:" + str(bbands.get('valueLowerBand')))
+        print("valueUpperBand:" + str(bbands.get('valueUpperBand')))
 
         valueLowerBand = bbands.get('valueLowerBand')
         valueUpperBand = bbands.get('valueUpperBand')
