@@ -71,13 +71,13 @@ class Taapi:
         if backtrack is not None:
             return json.loads(
                 requests.get(
-                    self.BASE_URL + 'bbands?' + self.base + "&interval=" + str(interval) + "&backtrack=" + str(
+                    self.BASE_URL + 'bbands2?' + self.base + "&interval=" + str(interval) + "&backtrack=" + str(
                         backtrack)
                 ).content)
         else:
             return json.loads(
                 requests.get(
-                    self.BASE_URL + 'bbands?' + self.base + "&interval=" + str(interval)).content)
+                    self.BASE_URL + 'bbands2?' + self.base + "&interval=" + str(interval)).content)
 
     # https://taapi.io/indicators/stochastic-relative-strength-index/
     def stochrsi(self, interval):
