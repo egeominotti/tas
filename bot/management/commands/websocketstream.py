@@ -5,9 +5,17 @@ from strategy.models import SymbolExchange
 from unicorn_binance_websocket_api.unicorn_binance_websocket_api_manager import BinanceWebSocketApiManager
 from unicorn_fy.unicorn_fy import UnicornFy
 import redis
+import talib
+import numpy
 
 logger = logging.getLogger('main')
 import json
+
+closes = []
+BBANDS = 20
+RSI = 14
+EMA5 = 5
+EMA13 = 13
 
 
 class Command(BaseCommand):
@@ -25,7 +33,7 @@ class Command(BaseCommand):
                   'kline_8h', 'kline_12h', 'kline_1d', 'kline_3d', 'kline_1w', 'kline_1M']
 
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com")
-        binance_websocket_api_manager.create_stream(klines, symbolList, output="UnicornFy")
+        binance_websocket_api_manager.create_stream(klines,symbolList, output="UnicornFy")
 
         while True:
             try:
@@ -35,32 +43,33 @@ class Command(BaseCommand):
                     for k, v in binance_stream.items():
                         if isinstance(v, dict):
 
-
-
                             key = str(SymbolExchange.objects.get(symbol=v.get('symbol'))) + "_" + str(v.get('interval'))
                             values = {
                                 'candle_close': float(v.get('close_price')),
                                 'candle_open': float(v.get('open_price')),
                                 'candle_high': float(v.get('high_price')),
                                 'candle_low': float(v.get('low_price')),
-                                'candle_is_closed': v.get('is_closed')
+                                'candle_is_closed': v.get('is_closed'),
                             }
                             r.set(key, json.dumps(values))
 
-                            # TODO: capire come registrare i dati ed elabolarli
-                            # dt = datetime.fromtimestamp(v.get('kline_start_time') / 1000)
-                            # BufferRecordData.objects.create(
-                            #     timestamp=dt,
-                            #     unix=v.get('kline_start_time'),
-                            #     symbol=SymbolExchange.objects.get(symbol=v.get('symbol')),
-                            #     time_frame=v.get('interval'),
-                            #     close_candle=float(v.get('close_price')),
-                            #     open_candle=float(v.get('open_price')),
-                            #     high_candle=float(v.get('high_price')),
-                            #     low_candle=float(v.get('low_price')),
-                            #     volume=float(v.get('base_volume')),
-                            #     is_closed=v.get('is_closed')
-                            # )
+                            # rsi_dict[key] = 0
+                            # upperbandValue = None
+                            # middlebandValue = None
+                            # lowerbandValue = None
+                            # if v.get('is_closed'):
+                            #     closes.append(float(v.get('close_price')))
+                            #     np_closes = numpy.array(closes)
+                            #     if len(closes) > RSI:
+                            #         rsi = talib.RSI(np_closes, RSI)
+                            #         rsi_dict[key] = rsi[-1]
+                            #     if len(closes) > BBANDS:
+                            #         upperband, middleband, lowerband = talib.BBANDS(closes, timeperiod=20, nbdevup=2,nbdevdn=2, matype=0)
+                            #         upperbandValue = upperband
+                            #         bbands = upperband
+                            #         bbands = upperband
+
+
 
             except Exception as e:
                 print(e)

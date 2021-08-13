@@ -115,16 +115,16 @@ class BinanceHelper:
         self.orderId = self.client.futures_create_order(
             symbol=self.symbol,
             side=SIDE_SELL,
-            type=ORDER_TYPE_MARKET,
-            closePosition=True
+            type=ORDER_TYPE_MARKET
+            #closePosition=True
         )
 
     def buy_market_close_position(self):
         self.orderId = self.client.futures_create_order(
             symbol=self.symbol,
             side=SIDE_BUY,
-            type=ORDER_TYPE_MARKET,
-            closePosition=True
+            type=ORDER_TYPE_MARKET
+            #closePosition=True
         )
 
     def buy_limit(self):
