@@ -35,6 +35,7 @@ class TradingBot:
         self.func_exit = instance.strategy.logic_exit
         self.logger_instance = None
         self.live = False
+        self.quantity = 0
 
         try:
 
@@ -79,8 +80,7 @@ class TradingBot:
             'stoploss_value_short': self.func_exit.stoploss_short,
             'entry_function': False,
             'exit_function': False,
-            'user': self.user.username,
-            'quantity': 0
+            'user': self.user.username
         }
 
         try:
@@ -178,15 +178,15 @@ class TradingBot:
                     if self.live:
 
                         # Calculate quantity
-                        self.item['quantity'] = self.exchange.get_quantity()
+                        self.quantity = self.exchange.get_quantity()
 
                         if self.item.get('type') == 0:
                             # LONG
-                            self.exchange.buy_market(self.item.get('quantity'))
+                            self.exchange.buy_market(self.quantity)
 
                         if self.item.get('type') == 1:
                             # SHORT
-                            self.exchange.sell_market(self.item.get('quantity'))
+                            self.exchange.sell_market(self.quantity)
 
                     if self.item.get('type') == 0:
                         self.logger.objects.filter(id=self.logger_instance.id) \
@@ -236,11 +236,11 @@ class TradingBot:
                     if self.live:
                         if self.item.get('type') == 0:
                             # LONG
-                            self.exchange.sell_market(self.item.get('quantity'))
+                            self.exchange.sell_market(self.quantity)
 
                         if self.item.get('type') == 1:
                             # SHORT
-                            self.exchange.buy_market(self.item.get('quantity'))
+                            self.exchange.buy_market(self.quantity)
 
                     now = datetime.datetime.now()
                     self.logger.objects.filter(id=self.logger_instance.id) \
@@ -272,18 +272,15 @@ class TradingBot:
                 """
                 if self.item.get('takeprofit') is True:
 
-                    """
-                    Close position in 
-                    """
                     if self.live:
 
                         if self.item.get('type') == 0:
                             # LONG
-                            self.exchange.sell_market(self.item.get('quantity'))
+                            self.exchange.sell_market(self.quantity)
 
                         if self.item.get('type') == 1:
                             # SHORT
-                            self.exchange.buy_market(self.item.get('quantity'))
+                            self.exchange.buy_market(self.quantity)
 
                     now = datetime.datetime.now()
                     self.logger.objects.filter(id=self.logger_instance.id) \
