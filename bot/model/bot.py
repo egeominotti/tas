@@ -122,7 +122,7 @@ class TradingBot:
                     "\n" + "Balance: " + str(self.exchange.get_current_balance_futures_()) + \
                     "\n" + "Live Mode: " + str(self.live) + \
                     "\n" + "Investment amount: " + str(self.exchange.get_current_investment_amount()) + \
-                    "\n" + "Quantity of investement: " + str(self.exchange.get_quantity_from_number_of_bot()) + \
+                    "\n" + "Quantity of investement: " + str(self.exchange.get_quantity()) + \
                     "\n" + "Leverage: " + str(self.exchange.leverage) + \
                     "\n" + "Symbol: " + str(self.symbol) + \
                     "\nTime frame: " + str(self.time_frame) + \
@@ -169,7 +169,7 @@ class TradingBot:
                         stop_loss_ratio=self.item.get('stoploss_ratio'),
                         take_profit_ratio=self.item.get('takeprofit_ratio'),
                         start_balance=self.exchange.get_current_balance_futures_(),
-                        coin_quantity=self.exchange.get_quantity_from_number_of_bot(),
+                        coin_quantity=self.exchange.get_quantity(),
                         leverage=self.exchange.leverage,
                         short=False,
                         long=False

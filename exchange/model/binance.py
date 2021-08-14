@@ -29,17 +29,6 @@ class BinanceHelper:
             self.client.get_my_trades()
             self.client.futures_change_leverage(symbol=symbol, marginType='ISOLATED', leverage=1)
 
-    def get_quantity_from_number_of_bot(self):
-        """
-        :return: Entrata al 100% del capitale divisa per bot attivi per utente
-        """
-        balance_wallet = self.bot.amount - 0.5
-        symbol_precision = self.get_symbol_precision()
-        price_coin = self.current_price_coin()
-        qty = round(balance_wallet / price_coin, symbol_precision)
-
-        return qty
-
     def get_quantity(self):
         """
         :return: Entrata al 100% del capitale
