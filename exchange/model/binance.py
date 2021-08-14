@@ -95,36 +95,20 @@ class BinanceHelper:
         own_usd = sum_btc * float(current_btc_price_USD)
         return own_usd
 
-    def sell_market_open_position(self):
+    def sell_market(self, quantity):
         self.orderId = self.client.futures_create_order(
             symbol=self.symbol,
             side=SIDE_SELL,
             type=ORDER_TYPE_MARKET,
-            quantity=self.get_quantity(),
+            quantity=quantity,
         )
 
-    def buy_market_open_position(self):
+    def buy_market(self, quantity):
         self.orderId = self.client.futures_create_order(
             symbol=self.symbol,
             side=SIDE_BUY,
             type=ORDER_TYPE_MARKET,
-            quantity=self.get_quantity(),
-        )
-
-    def sell_market_close_position(self):
-        self.orderId = self.client.futures_create_order(
-            symbol=self.symbol,
-            side=SIDE_SELL,
-            type=ORDER_TYPE_MARKET
-            #closePosition=True
-        )
-
-    def buy_market_close_position(self):
-        self.orderId = self.client.futures_create_order(
-            symbol=self.symbol,
-            side=SIDE_BUY,
-            type=ORDER_TYPE_MARKET
-            #closePosition=True
+            quantity=quantity,
         )
 
     def buy_limit(self):

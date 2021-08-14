@@ -175,13 +175,17 @@ class TradingBot:
                     )
 
                     if self.live:
+
+                        # Calculate quantity
+                        self.item['quantity'] = self.exchange.get_quantity()
+
                         if self.item.get('type') == 0:
                             # LONG
-                            self.exchange.buy_market_open_position()
+                            self.exchange.buy_market(self.item.get('quantity'))
 
                         if self.item.get('type') == 1:
                             # SHORT
-                            self.exchange.sell_market_open_position()
+                            self.exchange.sell_market(self.item.get('quantity'))
 
                     if self.item.get('type') == 0:
                         self.logger.objects.filter(id=self.logger_instance.id) \
@@ -231,11 +235,11 @@ class TradingBot:
                     if self.live:
                         if self.item.get('type') == 0:
                             # LONG
-                            self.exchange.sell_market_close_position()
+                            self.exchange.sell_market(self.item.get('quantity'))
 
                         if self.item.get('type') == 1:
                             # SHORT
-                            self.exchange.buy_market_close_position()
+                            self.exchange.buy_market(self.item.get('quantity'))
 
                     now = datetime.datetime.now()
                     self.logger.objects.filter(id=self.logger_instance.id) \
@@ -271,13 +275,14 @@ class TradingBot:
                     Close position in 
                     """
                     if self.live:
+
                         if self.item.get('type') == 0:
                             # LONG
-                            self.exchange.sell_market_close_position()
+                            self.exchange.sell_market(self.item.get('quantity'))
 
                         if self.item.get('type') == 1:
                             # SHORT
-                            self.exchange.buy_market_close_position()
+                            self.exchange.buy_market(self.item.get('quantity'))
 
                     now = datetime.datetime.now()
                     self.logger.objects.filter(id=self.logger_instance.id) \
@@ -345,7 +350,6 @@ class TradingBot:
 
                     self.abort()
                     if self.entry():
-
                         self.abort()
 
                         print("Found Entry: " + str(self.item))
@@ -358,7 +362,6 @@ class TradingBot:
                     self.abort()
 
                     if self.exit():
-
                         self.item['exit_function'] = True
                         """
                         FOUND EXIT
@@ -378,7 +381,6 @@ class TradingBot:
         # end-while-true
         self.abort()
         if sentinel:
-
             print("Exit bot normally set running = False : " + str(self.item))
 
             self.abort()
