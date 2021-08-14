@@ -79,7 +79,8 @@ class TradingBot:
             'stoploss_value_short': self.func_exit.stoploss_short,
             'entry_function': False,
             'exit_function': False,
-            'user': self.user.username
+            'user': self.user.username,
+            'quantity': 0
         }
 
         try:
