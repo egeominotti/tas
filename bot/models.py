@@ -41,15 +41,16 @@ class LogicExit(CommonTrait):
         verbose_name_plural = 'LogicExit'
 
 
-class BufferRecordData(CommonTrait):
-    symbol = models.ForeignKey(SymbolExchange, on_delete=models.SET_NULL, null=True, blank=True)
-    time_frame = models.CharField(max_length=4, blank=False, null=False)
+class BufferRecordData(models.Model):
+    key = models.CharField(db_index=True,max_length=20, blank=False, null=False)
+    symbol = models.CharField(db_index=True,max_length=10, blank=False, null=False)
+    time_frame = models.CharField(db_index=True,max_length=4, blank=False, null=False)
     open_candle = models.FloatField(default=0, blank=True)
     close_candle = models.FloatField(default=0, blank=True)
     high_candle = models.FloatField(default=0, blank=True)
     low_candle = models.FloatField(default=0, blank=True)
     is_closed = models.BooleanField(default=False)
-    timestamp = models.DateTimeField(null=True, blank=True)
+    #timestamp = models.DateTimeField(db_index=True,null=True, blank=True)
     unix = models.CharField(max_length=100, null=True, blank=True)
     volume = models.FloatField(blank=True)
 

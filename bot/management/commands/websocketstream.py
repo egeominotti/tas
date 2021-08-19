@@ -4,18 +4,13 @@ import logging
 from strategy.models import SymbolExchange
 from unicorn_binance_websocket_api.unicorn_binance_websocket_api_manager import BinanceWebSocketApiManager
 from unicorn_fy.unicorn_fy import UnicornFy
+from bot.models import BufferRecordData
 import redis
-import talib
-import numpy
 
 logger = logging.getLogger('main')
 import json
 
-closes = []
-BBANDS = 20
-RSI = 14
-EMA5 = 5
-EMA13 = 13
+
 
 
 class Command(BaseCommand):
@@ -33,7 +28,7 @@ class Command(BaseCommand):
                   'kline_8h', 'kline_12h', 'kline_1d', 'kline_3d', 'kline_1w', 'kline_1M']
 
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com")
-        binance_websocket_api_manager.create_stream(klines,symbolList, output="UnicornFy")
+        binance_websocket_api_manager.create_stream(klines, symbolList, output="UnicornFy")
 
         while True:
             try:
@@ -44,6 +39,7 @@ class Command(BaseCommand):
                         if isinstance(v, dict):
 
                             key = str(SymbolExchange.objects.get(symbol=v.get('symbol'))) + "_" + str(v.get('interval'))
+
                             values = {
                                 'candle_close': float(v.get('close_price')),
                                 'candle_open': float(v.get('open_price')),
@@ -51,7 +47,23 @@ class Command(BaseCommand):
                                 'candle_low': float(v.get('low_price')),
                                 'candle_is_closed': v.get('is_closed'),
                             }
+
                             r.set(key, json.dumps(values))
+
+                            if v.get('is_closed'):
+                                BufferRecordData.objects.create(
+                                    key=SymbolExchange.objects.get(symbol=v.get('symbol')).symbol + "_" + v.get(
+                                        'interval'),
+                                    symbol=SymbolExchange.objects.get(symbol=v.get('symbol')).symbol,
+                                    time_frame=v.get('interval'),
+                                    open_candle=float(v.get('open_price')),
+                                    close_candle=float(v.get('close_price')),
+                                    high_candle=float(v.get('high_price')),
+                                    low_candle=float(v.get('low_price')),
+                                    is_closed=v.get('is_closed'),
+                                    unix=v.get('kline_start_time'),
+                                    volume=v.get('base_volume')
+                                )
 
                             # rsi_dict[key] = 0
                             # upperbandValue = None
