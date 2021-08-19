@@ -11,8 +11,6 @@ logger = logging.getLogger('main')
 import json
 
 
-
-
 class Command(BaseCommand):
     help = 'DispatcherBot'
 
@@ -50,20 +48,43 @@ class Command(BaseCommand):
 
                             r.set(key, json.dumps(values))
 
-                            if v.get('is_closed'):
-                                BufferRecordData.objects.create(
-                                    key=SymbolExchange.objects.get(symbol=v.get('symbol')).symbol + "_" + v.get(
-                                        'interval'),
-                                    symbol=SymbolExchange.objects.get(symbol=v.get('symbol')).symbol,
-                                    time_frame=v.get('interval'),
-                                    open_candle=float(v.get('open_price')),
-                                    close_candle=float(v.get('close_price')),
-                                    high_candle=float(v.get('high_price')),
-                                    low_candle=float(v.get('low_price')),
-                                    is_closed=v.get('is_closed'),
-                                    unix=v.get('kline_start_time'),
-                                    volume=v.get('base_volume')
-                                )
+                            qs = BufferRecordData.objects.filter(
+                                SymbolExchange.objects.get(symbol=v.get('symbol')).symbol + "_" + v.get('interval'))
+
+                            if qs.count() == 366:
+
+                                qs.first().delete()
+
+                                if v.get('is_closed'):
+                                    BufferRecordData.objects.create(
+                                        key=SymbolExchange.objects.get(symbol=v.get('symbol')).symbol + "_" + v.get(
+                                            'interval'),
+                                        symbol=SymbolExchange.objects.get(symbol=v.get('symbol')).symbol,
+                                        time_frame=v.get('interval'),
+                                        open_candle=float(v.get('open_price')),
+                                        close_candle=float(v.get('close_price')),
+                                        high_candle=float(v.get('high_price')),
+                                        low_candle=float(v.get('low_price')),
+                                        is_closed=v.get('is_closed'),
+                                        unix=v.get('kline_start_time'),
+                                        volume=v.get('base_volume')
+                                    )
+                            else:
+
+                                if v.get('is_closed'):
+                                    BufferRecordData.objects.create(
+                                        key=SymbolExchange.objects.get(symbol=v.get('symbol')).symbol + "_" + v.get(
+                                            'interval'),
+                                        symbol=SymbolExchange.objects.get(symbol=v.get('symbol')).symbol,
+                                        time_frame=v.get('interval'),
+                                        open_candle=float(v.get('open_price')),
+                                        close_candle=float(v.get('close_price')),
+                                        high_candle=float(v.get('high_price')),
+                                        low_candle=float(v.get('low_price')),
+                                        is_closed=v.get('is_closed'),
+                                        unix=v.get('kline_start_time'),
+                                        volume=v.get('base_volume')
+                                    )
 
                             # rsi_dict[key] = 0
                             # upperbandValue = None
