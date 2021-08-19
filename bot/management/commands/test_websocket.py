@@ -18,7 +18,7 @@ class Command(BaseCommand):
         low = []
         high = []
 
-        for k in BufferRecordData.objects.filter(key='BTCUSDT_5m'):
+        for k in BufferRecordData.objects.filter(key='BTCUSDT_1m'):
             close.append(k.close_candle)
             open.append(k.open_candle)
             low.append(k.low_candle)
@@ -70,7 +70,7 @@ class Command(BaseCommand):
         print(upperband[-1])
         print(middleband[-1])
         print(lowerband[-1])
-        print(round(rsi[-2],2))
+        print(round(rsi[-1],2))
         print(ema7[-1])
         print(ema5[-1])
         print(ema9[-1])
