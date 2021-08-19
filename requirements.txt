@@ -53,3 +53,4 @@ djangochannelsrestframework
 channels
 channels_redis
 hypercorn
+pymongo

@@ -132,7 +132,7 @@ def logicexit_bot_rsi_20_bollinger(item):
                     sentinel = True
                     break
 
-                sleep(2)
+                sleep(1)
 
 
             else:
@@ -148,13 +148,13 @@ def logicexit_bot_rsi_20_bollinger(item):
                     sentinel = True
                     break
 
-                if item['candle_close'] <= item['entry_candle'] * item['stoploss_value_short']:
+                if item['candle_close'] >= item['entry_candle'] * item['stoploss_value_short']:
                     item['stoploss_candle'] = item['candle_close']
                     item['stoploss'] = True
                     sentinel = True
                     break
 
-                sleep(2)
+                sleep(1)
 
     except Exception as e:
         return e
