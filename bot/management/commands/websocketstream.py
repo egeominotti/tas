@@ -47,7 +47,6 @@ class Command(BaseCommand):
                             }
 
                             r.set(key, json.dumps(values))
-
                             qs = BufferRecordData.objects.filter(key=key)
 
                             if qs.count() == 366:
