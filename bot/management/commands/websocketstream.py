@@ -12,7 +12,7 @@ import json
 
 
 class Command(BaseCommand):
-    help = 'DispatcherBot'
+    help = 'WebSocketStream Binance'
 
     def handle(self, *args, **kwargs):
 
@@ -48,16 +48,14 @@ class Command(BaseCommand):
 
                             r.set(key, json.dumps(values))
 
-                            qs = BufferRecordData.objects.filter(
-                                SymbolExchange.objects.get(symbol=v.get('symbol')).symbol + "_" + v.get('interval'))
+                            qs = BufferRecordData.objects.filter(key=key)
 
                             if qs.count() == 366:
                                 qs.first().delete()
 
                             if v.get('is_closed'):
                                 BufferRecordData.objects.create(
-                                    key=SymbolExchange.objects.get(symbol=v.get('symbol')).symbol + "_" + v.get(
-                                        'interval'),
+                                    key=key,
                                     symbol=SymbolExchange.objects.get(symbol=v.get('symbol')).symbol,
                                     time_frame=v.get('interval'),
                                     open_candle=float(v.get('open_price')),
@@ -68,23 +66,6 @@ class Command(BaseCommand):
                                     unix=v.get('kline_start_time'),
                                     volume=v.get('base_volume')
                                 )
-
-                            # rsi_dict[key] = 0
-                            # upperbandValue = None
-                            # middlebandValue = None
-                            # lowerbandValue = None
-                            # if v.get('is_closed'):
-                            #     closes.append(float(v.get('close_price')))
-                            #     np_closes = numpy.array(closes)
-                            #     if len(closes) > RSI:
-                            #         rsi = talib.RSI(np_closes, RSI)
-                            #         rsi_dict[key] = rsi[-1]
-                            #     if len(closes) > BBANDS:
-                            #         upperband, middleband, lowerband = talib.BBANDS(closes, timeperiod=20, nbdevup=2,nbdevdn=2, matype=0)
-                            #         upperbandValue = upperband
-                            #         bbands = upperband
-                            #         bbands = upperband
-
 
 
             except Exception as e:
