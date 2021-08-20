@@ -58,7 +58,7 @@ def logicexit_test(item):
 
 
 def logicentry_bot_rsi_20_bollinger(item):
-    
+
     time_frame = item['time_frame']
 
     key = str(item.get('symbol_exchange')) + "_" + str(time_frame)
@@ -77,7 +77,7 @@ def logicentry_bot_rsi_20_bollinger(item):
         print("symbol: " + str(item.get('symbol_exchange'))
               + " time_frame:" + str(item.get('time_frame'))
               + " candle_close:" + str(candle_from_websocket.get('candle_close'))
-              + " ris:" + str(rsi)
+              + " RSI:" + str(rsi)
               + " valueLowerBand:" + str(bbands.get('valueLowerBand'))
               + " valueUpperBand:" + str(bbands.get('valueUpperBand')))
 
@@ -110,7 +110,7 @@ def logicentry_bot_rsi_20_bollinger(item):
             return True
 
         redis.set(key, json.dumps({'candle_is_closed': False}))
-        
+
         return False
 
 

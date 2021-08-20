@@ -9,7 +9,7 @@ class Command(BaseCommand):
     help = 'Test'
 
     def handle(self, *args, **kwargs):
-        indicator = Indicator('BTCUSDT','1m')
+        indicator = Indicator('RVNUSDT','5m')
         print(indicator.ema(5))
         print(indicator.rsi(14))
         print(indicator.bbands(20))
