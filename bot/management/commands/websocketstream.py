@@ -65,7 +65,7 @@ class Command(BaseCommand):
                                 )
 
                                 qs = BufferRecordData.objects.filter(key=key)
-                                if qs.count() >= 365:
+                                if qs.count() == 365:
                                     qs.first().delete()
 
 
