@@ -36,19 +36,29 @@ class Command(BaseCommand):
                     for k, v in binance_stream.items():
                         if isinstance(v, dict):
 
-                            key = str(SymbolExchange.objects.get(symbol=v.get('symbol'))) + "_" + str(v.get('interval'))
+
+
+                            close_candle = float(v.get('close_price'))
+                            open_candle = float(v.get('open_price'))
+                            high_candle = float(v.get('high_price'))
+                            low_candle = float(v.get('low_price'))
+                            candle_is_close = v.get('is_closed')
+                            symbol = v.get('symbol')
+                            interval = v.get('interval')
+
+                            key = str(SymbolExchange.objects.get(symbol=symbol)) + "_" + str(interval)
 
                             values = {
-                                'candle_close': float(v.get('close_price')),
-                                'candle_open': float(v.get('open_price')),
-                                'candle_high': float(v.get('high_price')),
-                                'candle_low': float(v.get('low_price')),
-                                'candle_is_closed': v.get('is_closed'),
+                                'candle_close': close_candle,
+                                'candle_open': open_candle,
+                                'candle_high': high_candle,
+                                'candle_low': low_candle,
+                                'candle_is_closed': candle_is_close,
                             }
 
                             r.set(key, json.dumps(values))
 
-                            if v.get('is_closed'):
+                            if candle_is_close:
 
                                 qs = BufferRecordData.objects.filter(key=key).order_by('created_at')
 
@@ -58,13 +68,13 @@ class Command(BaseCommand):
                                 if qs.count() <= 365:
                                     BufferRecordData.objects.create(
                                             key=key,
-                                            symbol=v.get('symbol'),
-                                            time_frame=v.get('interval'),
-                                            open_candle=float(v.get('open_price')),
-                                            close_candle=float(v.get('close_price')),
-                                            high_candle=float(v.get('high_price')),
-                                            low_candle=float(v.get('low_price')),
-                                            is_closed=v.get('is_closed'),
+                                            symbol=symbol,
+                                            time_frame=interval,
+                                            open_candle=open_candle,
+                                            close_candle=close_candle,
+                                            high_candle=high_candle,
+                                            low_candle=low_candle,
+                                            is_closed=candle_is_close,
                                             unix=v.get('kline_start_time'),
                                             volume=v.get('base_volume')
                                         )
