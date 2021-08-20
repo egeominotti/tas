@@ -53,13 +53,13 @@ class Command(BaseCommand):
 
                                 qs = BufferRecordData.objects.filter(key=key).order_by('-created_at')
 
-                                if qs.count() >= 364:
+                                if qs.count() >= 5:
                                     qs.first().delete()
 
-                                if qs.count() <= 364:
+                                if qs.count() <= 5:
                                     BufferRecordData.objects.create(
                                             key=key,
-                                            symbol=SymbolExchange.objects.get(symbol=v.get('symbol')).symbol,
+                                            symbol=v.get('symbol'),
                                             time_frame=v.get('interval'),
                                             open_candle=float(v.get('open_price')),
                                             close_candle=float(v.get('close_price')),
