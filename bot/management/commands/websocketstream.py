@@ -47,12 +47,10 @@ class Command(BaseCommand):
                             }
 
                             r.set(key, json.dumps(values))
-                            qs = BufferRecordData.objects.filter(key=key)
 
-                            if qs.count() == 366:
-                                qs.first().delete()
 
                             if v.get('is_closed'):
+
                                 BufferRecordData.objects.create(
                                     key=key,
                                     symbol=SymbolExchange.objects.get(symbol=v.get('symbol')).symbol,
@@ -65,6 +63,12 @@ class Command(BaseCommand):
                                     unix=v.get('kline_start_time'),
                                     volume=v.get('base_volume')
                                 )
+
+                                qs = BufferRecordData.objects.filter(key=key)
+                                if qs.count() >= 365:
+                                    qs.first().delete()
+
+
 
 
             except Exception as e:
