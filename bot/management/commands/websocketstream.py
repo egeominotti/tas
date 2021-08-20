@@ -36,8 +36,6 @@ class Command(BaseCommand):
                     for k, v in binance_stream.items():
                         if isinstance(v, dict):
 
-
-
                             close_candle = float(v.get('close_price'))
                             open_candle = float(v.get('open_price'))
                             high_candle = float(v.get('high_price'))
