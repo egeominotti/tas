@@ -5,7 +5,7 @@ from bot.models import BufferRecordData
 
 class Indicator:
 
-    def __init__(self,symbol, time_frame):
+    def __init__(self, symbol, time_frame):
         self.symbol = symbol
         self.time_frame = time_frame
 
@@ -43,17 +43,24 @@ class Indicator:
         ema = talib.EMA(self.get_np_close_array('close'), timeperiod=period)
         return ema[backtrack]
 
-    def rsi(self, period, backtrack = -1):
+    def rsi(self, period, backtrack=-1):
 
         rsi = talib.RSI(self.get_np_close_array('close'), timeperiod=period)
-        return rsi[backtrack]
+        return round(rsi[backtrack], 4)
 
-    def bbands(self, period = 20, backtrack = -1):
+    def bbands(self, period=20, backtrack=-1):
 
-        upperband, middleband, lowerband = talib.BBANDS(self.get_np_close_array('close'), timeperiod=period, nbdevup=2, nbdevdn=2, matype=0)
+        upperband, middleband, lowerband = talib.BBANDS(
+            self.get_np_close_array('close'),
+            timeperiod=period,
+            nbdevup=2,
+            nbdevdn=2,
+            matype=0)
+
         val = {
             'upperband': upperband[backtrack],
             'middleband': middleband[backtrack],
             'lowerband': lowerband[backtrack]
         }
+
         return val
