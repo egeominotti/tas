@@ -48,15 +48,14 @@ class Command(BaseCommand):
 
                             r.set(key, json.dumps(values))
 
-
                             if v.get('is_closed'):
 
-                                qs = BufferRecordData.objects.filter(key=key).order_by('-created_at')
+                                qs = BufferRecordData.objects.filter(key=key).order_by('created_at')
 
-                                if qs.count() >= 5:
+                                if qs.count() >= 365:
                                     qs.first().delete()
 
-                                if qs.count() <= 5:
+                                if qs.count() <= 365:
                                     BufferRecordData.objects.create(
                                             key=key,
                                             symbol=v.get('symbol'),
