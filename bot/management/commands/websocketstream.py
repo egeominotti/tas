@@ -70,12 +70,6 @@ class Command(BaseCommand):
                                             volume=v.get('base_volume')
                                         )
 
-
-
-
-
-
-
             except Exception as e:
                 print(e)
                 continue
