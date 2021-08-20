@@ -51,7 +51,7 @@ class Command(BaseCommand):
 
                             if v.get('is_closed'):
 
-                                qs = BufferRecordData.objects.filter(key=key)
+                                qs = BufferRecordData.objects.filter(key=key).order_by('-created_at')
 
                                 if qs.count() >= 364:
                                     qs.first().delete()
