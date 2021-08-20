@@ -58,9 +58,9 @@ class Indicator:
             matype=0)
 
         val = {
-            'upperband': upperband[backtrack],
-            'middleband': middleband[backtrack],
-            'lowerband': lowerband[backtrack]
+            'valueUpperBand': upperband[backtrack],
+            'valueMiddleBand': middleband[backtrack],
+            'valueLowerBand': lowerband[backtrack]
         }
 
         return val
