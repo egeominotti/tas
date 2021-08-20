@@ -13,4 +13,5 @@ class Command(BaseCommand):
         print(indicator.ema(5))
         print(indicator.rsi(14))
         print(indicator.bbands(20))
+        print(indicator.candle())
 

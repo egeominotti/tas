@@ -1,5 +1,6 @@
 import talib
 import numpy as np
+
 from bot.models import BufferRecordData
 
 
@@ -37,6 +38,22 @@ class Indicator:
             return np.asarray(low)
         if type == 'high':
             return np.asarray(high)
+
+    def candle(self, backtrack=-1):
+
+        close_candle = self.get_np_close_array('close')
+        open_candle = self.get_np_close_array('open')
+        low_candle = self.get_np_close_array('low')
+        high_candle = self.get_np_close_array('high')
+
+        value = {
+            'close': close_candle[backtrack],
+            'open': open_candle[backtrack],
+            'low': low_candle[backtrack],
+            'high': high_candle[backtrack]
+        }
+
+        return value
 
     def ema(self, period, backtrack=-1):
 
