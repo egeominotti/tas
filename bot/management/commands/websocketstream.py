@@ -51,21 +51,24 @@ class Command(BaseCommand):
 
                             if v.get('is_closed'):
 
-                                BufferRecordData.objects.create(
-                                    key=key,
-                                    symbol=SymbolExchange.objects.get(symbol=v.get('symbol')).symbol,
-                                    time_frame=v.get('interval'),
-                                    open_candle=float(v.get('open_price')),
-                                    close_candle=float(v.get('close_price')),
-                                    high_candle=float(v.get('high_price')),
-                                    low_candle=float(v.get('low_price')),
-                                    is_closed=v.get('is_closed'),
-                                    unix=v.get('kline_start_time'),
-                                    volume=v.get('base_volume')
-                                )
-
                                 qs = BufferRecordData.objects.filter(key=key)
-                                if qs.count() == 365:
+
+                                if qs.count() <= 364:
+
+                                    BufferRecordData.objects.create(
+                                        key=key,
+                                        symbol=SymbolExchange.objects.get(symbol=v.get('symbol')).symbol,
+                                        time_frame=v.get('interval'),
+                                        open_candle=float(v.get('open_price')),
+                                        close_candle=float(v.get('close_price')),
+                                        high_candle=float(v.get('high_price')),
+                                        low_candle=float(v.get('low_price')),
+                                        is_closed=v.get('is_closed'),
+                                        unix=v.get('kline_start_time'),
+                                        volume=v.get('base_volume')
+                                    )
+
+                                else:
                                     qs.first().delete()
 
 
