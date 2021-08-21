@@ -25,11 +25,13 @@ class RealTimeIndicator:
         self.high_array = None
 
         try:
-            klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=250)
+            klines = self.client.get_historical_klines(self.symbol, self.time_frame, '1 day ago UTC')
+            #klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=250)
         except Exception as e:
             print("Binance Error:" + str(e))
             sleep(5)
-            klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=250)
+            #klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=250)
+            klines = self.client.get_historical_klines(self.symbol, self.time_frame, '1 day ago UTC')
 
         open = [float(entry[1]) for entry in klines]
         high = [float(entry[2]) for entry in klines]
