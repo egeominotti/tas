@@ -25,7 +25,7 @@ class RealTimeIndicator:
             #klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=250)
         except Exception as e:
             print("Binance Error:" + str(e))
-            sleep(5)
+            sleep(30)
             #klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=250)
             klines = self.client.get_historical_klines(self.symbol, self.time_frame, '1 day ago UTC')
 
