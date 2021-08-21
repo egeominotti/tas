@@ -19,11 +19,6 @@ class RealTimeIndicator:
 
     def compute(self):
 
-        self.close_array = None
-        self.open_array = None
-        self.low_array = None
-        self.high_array = None
-
         try:
             klines = self.client.get_historical_klines(self.symbol, self.time_frame, '1 day ago UTC')
             #klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=250)
@@ -57,8 +52,6 @@ class RealTimeIndicator:
 
     def ema(self, period, backtrack=-1):
 
-        self.compute()
-
         if len(self.close_array) >= period:
             ema = talib.EMA(self.close_array, timeperiod=period)
             return round(ema[backtrack],5)
@@ -67,8 +60,6 @@ class RealTimeIndicator:
 
     def rsi(self, period, backtrack=-1):
 
-        self.compute()
-
         if len(self.close_array) >= period:
             rsi = talib.RSI(self.close_array, timeperiod=period)
             return round(rsi[backtrack],3)
@@ -76,8 +67,6 @@ class RealTimeIndicator:
         return None
 
     def bbands(self, period=20, backtrack=-1):
-
-        self.compute()
 
         if len(self.close_array) >= period:
             upperband, middleband, lowerband = talib.BBANDS(
