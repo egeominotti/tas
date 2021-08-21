@@ -109,6 +109,7 @@ def logicexit_bot_rsi_20_bollinger(item):
         while True:
 
             indicators = item['indicators']
+            indicators.compute()
 
             key = item.get('symbol_exchange') + "_" + str(item.get('time_frame'))
             value = redis.get(key)

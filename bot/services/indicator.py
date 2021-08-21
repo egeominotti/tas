@@ -20,6 +20,7 @@ class RealTimeIndicator:
     def compute(self):
 
         try:
+            sleep(5)
             klines = self.client.get_historical_klines(self.symbol, self.time_frame, '1 day ago UTC')
             #klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=250)
         except Exception as e:
