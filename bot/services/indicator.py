@@ -17,16 +17,23 @@ class RealTimeIndicator:
         self.time_frame = time_frame
         self.client = Client(api_key, api_secret)
 
-    def compute(self, start_time):
+    def compute(self, start_time=None):
+
+        klines = None
 
         try:
-            klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, endTime=start_time)
-            print(len(klines))
+            if start_time is not None:
+                klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, endTime=start_time)
+            if start_time is None:
+                klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame)
+
         except Exception as e:
             print("Binance Error:" + str(e))
             sleep(30)
-            klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, endTime=start_time)
-            print(len(klines))
+            if start_time is not None:
+                klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, endTime=start_time)
+            if start_time is None:
+                klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame)
 
         open = [float(entry[1]) for entry in klines]
         high = [float(entry[2]) for entry in klines]
