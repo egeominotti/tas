@@ -19,7 +19,7 @@ class RealTimeIndicator:
         self.time_frame = time_frame
         self.client = Client(api_key, api_secret)
 
-    def compute(self, timestamp):
+    def compute(self):
 
         try:
             now = datetime.datetime.utcnow()
