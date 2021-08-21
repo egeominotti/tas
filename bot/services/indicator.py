@@ -19,6 +19,11 @@ class RealTimeIndicator:
 
     def compute(self):
 
+        self.close_array = None
+        self.open_array = None
+        self.low_array = None
+        self.high_array = None
+
         try:
             klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=365)
         except Exception as e:
