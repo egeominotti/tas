@@ -71,6 +71,7 @@ class Indicator:
         print(close_array)
         if len(close_array) >= period:
             rsi = talib.RSI(close_array, timeperiod=period)
+            print(rsi)
             return rsi[backtrack]
 
         return None
