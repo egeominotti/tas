@@ -1,12 +1,14 @@
+import datetime
 from time import sleep
 import talib
 import numpy as np
+from dateutil.relativedelta import relativedelta
+
 from bot.models import BufferRecordData
 from binance import Client
 
 
 class RealTimeIndicator:
-
     close_array = None
     open_array = None
     low_array = None
@@ -19,15 +21,25 @@ class RealTimeIndicator:
 
     def compute(self):
 
+        now = datetime.datetime.utcnow()
+        prev = datetime.datetime.utcnow() - relativedelta(days=1)
+
         try:
-            sleep(30)
-            klines = self.client.get_historical_klines(self.symbol, self.time_frame, '1 day ago UTC')
-            #klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=250)
+            # klines = self.client.get_historical_klines(self.symbol, self.time_frame, '1 day ago UTC')
+            klines = self.client.get_klines(symbol=self.symbol,
+                                            interval=self.time_frame,
+                                            startTime=prev.timestamp(),
+                                            endTime=now.timestamp())
         except Exception as e:
             print("Binance Error:" + str(e))
             sleep(30)
-            #klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=250)
-            klines = self.client.get_historical_klines(self.symbol, self.time_frame, '1 day ago UTC')
+            # klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=250)
+            #klines = self.client.get_historical_klines(self.symbol, self.time_frame, '1 day ago UTC')
+            klines = self.client.get_klines(symbol=self.symbol,
+                                            interval=self.time_frame,
+                                            startTime=prev.timestamp(),
+                                            endTime=now.timestamp())
+
 
         open = [float(entry[1]) for entry in klines]
         high = [float(entry[2]) for entry in klines]
@@ -38,7 +50,6 @@ class RealTimeIndicator:
         self.open_array = np.asarray(open)
         self.low_array = np.asarray(low)
         self.high_array = np.asarray(high)
-
 
     def candle(self, backtrack=-1):
 
@@ -55,7 +66,7 @@ class RealTimeIndicator:
 
         if len(self.close_array) >= period:
             ema = talib.EMA(self.close_array, timeperiod=period)
-            return round(ema[backtrack],5)
+            return round(ema[backtrack], 5)
 
         return None
 
@@ -63,7 +74,7 @@ class RealTimeIndicator:
 
         if len(self.close_array) >= period:
             rsi = talib.RSI(self.close_array, timeperiod=period)
-            return round(rsi[backtrack],3)
+            return round(rsi[backtrack], 3)
 
         return None
 
@@ -78,9 +89,9 @@ class RealTimeIndicator:
                 matype=0)
 
             bbands = {
-                'valueUpperBand': round(upperband[backtrack],5),
-                'valueMiddleBand': round(middleband[backtrack],5),
-                'valueLowerBand': round(lowerband[backtrack],5)
+                'valueUpperBand': round(upperband[backtrack], 5),
+                'valueMiddleBand': round(middleband[backtrack], 5),
+                'valueLowerBand': round(lowerband[backtrack], 5)
             }
 
             return bbands
