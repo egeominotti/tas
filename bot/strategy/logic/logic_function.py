@@ -3,7 +3,6 @@ import datetime
 from time import sleep
 import decouple
 import json
-from bot.services.indicator import Indicator, RealTimeIndicator
 import redis
 
 logger = logging.getLogger(__name__)
@@ -72,6 +71,9 @@ def logicentry_bot_rsi_20_bollinger(item):
 
         item['candle_close'] = candle_from_websocket.get('candle_close')
 
+        # Call binance get klines
+        indicators.compute()
+
         rsi = indicators.rsi(14)
         bbands = indicators.bbands(20)
 
@@ -108,6 +110,8 @@ def logicexit_bot_rsi_20_bollinger(item):
         while True:
 
             indicators = item['indicators']
+            indicators.compute()
+
             key = item.get('symbol_exchange') + "_" + str(item.get('time_frame'))
             value = redis.get(key)
             real_time_data = json.loads(value)
