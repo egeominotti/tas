@@ -5,10 +5,9 @@ from bot.models import BufferRecordData
 
 class Indicator:
 
-    def __init__(self, symbol, time_frame, is_closed=True):
+    def __init__(self, symbol, time_frame):
         self.symbol = symbol
         self.time_frame = time_frame
-        self.is_closed = is_closed
 
     def get_np_close_array(self, type):
         """
@@ -20,7 +19,7 @@ class Indicator:
         low = []
         high = []
 
-        for k in BufferRecordData.objects.filter(key=self.symbol + "_" + self.time_frame,is_closed=self.is_closed):
+        for k in BufferRecordData.objects.filter(key=self.symbol + "_" + self.time_frame):
             if type == 'close':
                 close.append(k.close_candle)
             if type == 'open':
@@ -60,7 +59,7 @@ class Indicator:
         close_array = self.get_np_close_array('close')
 
         if len(close_array) >= period:
-            ema = talib.EMA(self.get_np_close_array('close'), timeperiod=period)
+            ema = talib.EMA(close_array, timeperiod=period)
             return ema[backtrack]
 
         return 0
@@ -70,7 +69,7 @@ class Indicator:
         close_array = self.get_np_close_array('close')
 
         if len(close_array) >= period:
-            rsi = talib.RSI(self.get_np_close_array('close'), timeperiod=period)
+            rsi = talib.RSI(close_array, timeperiod=period)
             return round(rsi[backtrack], 4)
 
         return 0
@@ -81,7 +80,7 @@ class Indicator:
 
         if len(close_array) >= period:
             upperband, middleband, lowerband = talib.BBANDS(
-                self.get_np_close_array('close'),
+                close_array,
                 timeperiod=period,
                 nbdevup=2,
                 nbdevdn=2,
