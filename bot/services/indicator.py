@@ -4,7 +4,6 @@ import numpy as np
 from bot.models import BufferRecordData
 from binance import Client
 
-from bot.models import UserExchange
 
 class RealTimeIndicator:
 
@@ -13,22 +12,20 @@ class RealTimeIndicator:
     low_array = None
     high_array = None
 
-    def __init__(self, symbol, time_frame):
+    def __init__(self, symbol, time_frame, api_key, api_secret):
         self.symbol = symbol
         self.time_frame = time_frame
-        qs = UserExchange.objects.get(user__username='egeo')
-        self.client = Client(qs.api_key, qs.api_secret)
-        self.compute()
+        self.client = Client(api_key, api_secret)
 
     def compute(self):
 
         try:
             sleep(1)
-            klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=300)
+            klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=400)
         except Exception as e:
             print("Binance Error:" + str(e))
             sleep(5)
-            klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=300)
+            klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=400)
 
         open = [float(entry[1]) for entry in klines]
         high = [float(entry[2]) for entry in klines]
@@ -54,6 +51,8 @@ class RealTimeIndicator:
 
     def ema(self, period, backtrack=-1):
 
+        self.compute()
+
         if len(self.close_array) >= period:
             ema = talib.EMA(self.close_array, timeperiod=period)
             return round(ema[backtrack],4)
@@ -62,6 +61,8 @@ class RealTimeIndicator:
 
     def rsi(self, period, backtrack=-1):
 
+        self.compute()
+
         if len(self.close_array) >= period:
             rsi = talib.RSI(self.close_array, timeperiod=period)
             return round(rsi[backtrack],3)
@@ -69,6 +70,8 @@ class RealTimeIndicator:
         return None
 
     def bbands(self, period=20, backtrack=-1):
+
+        self.compute()
 
         if len(self.close_array) >= period:
             upperband, middleband, lowerband = talib.BBANDS(

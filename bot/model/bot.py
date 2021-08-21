@@ -42,6 +42,7 @@ class TradingBot:
             self.telegram = Telegram()
             self.notify = self.user.telegram_notifications
             self.taapi = Taapi(self.symbol)
+            self.indicators = RealTimeIndicator(self.symbol, self.time_frame, self.userexchange.api_key, self.userexchange.api_secret)
             self.exchange = BinanceHelper(
                 bot=self.current_bot,
                 api_key=self.userexchange.api_key,
@@ -78,6 +79,7 @@ class TradingBot:
             'takeprofit_value_short': self.func_exit.takeprofit_short,
             'stoploss_value_long': self.func_exit.stoploss_long,
             'stoploss_value_short': self.func_exit.stoploss_short,
+            'indicators':  self.indicators,
             'entry_function': False,
             'exit_function': False,
             'user': self.user.username
