@@ -286,8 +286,8 @@ class TradingBot:
                     self.logger.objects.filter(id=self.logger_instance.id) \
                         .update(
                         end_balance=self.exchange.get_current_balance_futures_(),
-                        candle_stop_loss=self.item.get('takeprofit_candle'),
-                        candle_stop_loss_date=now,
+                        candle_take_profit=self.item.get('takeprofit_candle'),
+                        candle_take_profit_date=now,
                         take_profit=True
                     )
 
