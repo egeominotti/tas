@@ -20,11 +20,11 @@ class RealTimeIndicator:
     def compute(self):
 
         try:
-            klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=500)
+            klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=365)
         except Exception as e:
             print("Binance Error:" + str(e))
             sleep(5)
-            klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=500)
+            klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=365)
 
         open = [float(entry[1]) for entry in klines]
         high = [float(entry[2]) for entry in klines]
