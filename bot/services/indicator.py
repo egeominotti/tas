@@ -41,9 +41,9 @@ class RealTimeIndicator:
                                             endTime=now.timestamp())
 
 
-        open = [float(entry[1]) for entry in klines]
-        high = [float(entry[2]) for entry in klines]
-        low = [float(entry[3]) for entry in klines]
+        open =  [float(entry[1]) for entry in klines]
+        high =  [float(entry[2]) for entry in klines]
+        low =   [float(entry[3]) for entry in klines]
         close = [float(entry[4]) for entry in klines]
 
         self.close_array = np.asarray(close)
