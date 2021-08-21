@@ -35,7 +35,7 @@ class Command(BaseCommand):
                     binance_stream = UnicornFy.binance_com_websocket(oldest_stream_data_from_stream_buffer)
                     for k, v in binance_stream.items():
                         if isinstance(v, dict):
-                            print(v.get('kline_close_time'))
+
                             candle_is_closed =   v.get('is_closed')
                             symbol =            v.get('symbol')
                             interval =          v.get('interval')

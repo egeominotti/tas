@@ -17,7 +17,7 @@ class RealTimeIndicator:
         self.time_frame = time_frame
         self.client = Client(api_key, api_secret)
 
-    def compute(self, time):
+    def compute(self, time=None):
 
         try:
             # klines = self.client.get_historical_klines(self.symbol, self.time_frame, 'now UTC', '1 day ago UTC')
