@@ -118,6 +118,7 @@ def logicexit_bot_rsi_20_bollinger(item):
     sentinel = False
     try:
         while True:
+
             indicator = RealTimeIndicator(item.get('symbol_exchange'), str(item.get('time_frame')))
             key = item.get('symbol_exchange') + "_" + str(item.get('time_frame'))
             value = redis.get(key)
