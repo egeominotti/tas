@@ -22,7 +22,7 @@ class RealTimeIndicator:
     def compute(self):
 
         now = datetime.datetime.utcnow()
-        prev = datetime.datetime.utcnow() - relativedelta(days=1)
+        prev = now - relativedelta(days=1)
 
         try:
             # klines = self.client.get_historical_klines(self.symbol, self.time_frame, '1 day ago UTC')
