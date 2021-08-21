@@ -51,7 +51,7 @@ class Command(BaseCommand):
                             }
                             r.set(key, json.dumps(values))
 
-                            qs = BufferRecordData.objects.filter(key=key).order_by('created_at')
+                            qs = BufferRecordData.objects.filter(key=key, is_closed=False).order_by('created_at')
                             if qs.count() >= 365:
                                 qs.first().delete()
 
@@ -80,7 +80,7 @@ class Command(BaseCommand):
                                 symbol = v.get('symbol')
                                 interval = v.get('interval')
 
-                                qs = BufferRecordData.objects.filter(key=key).order_by('created_at')
+                                qs = BufferRecordData.objects.filter(key=key, is_closed=True).order_by('created_at')
 
                                 if qs.count() >= 365:
                                     qs.first().delete()
