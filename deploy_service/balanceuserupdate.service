@@ -5,7 +5,7 @@ Description=dispatcher bot demon
 After=network.target
 
 [Service]
-ExecStart=/home/tas/venv/bin/python3 /home/tas/manage.py balanceuserupdate
+ExecStart=/home/tas/venv/bin/python3.9 /home/tas/manage.py balanceuserupdate
 WorkingDirectory=/home/tas
 Restart=always
 

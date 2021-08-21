@@ -5,7 +5,7 @@ Description=AsyncRunnerBacktesting
 After=network.target
 
 [Service]
-ExecStart=/home/tas/venv/bin/python3 /home/tas/manage.py runnerbacktesting
+ExecStart=/home/tas/venv/bin/python3.9 /home/tas/manage.py runnerbacktesting
 WorkingDirectory=/home/tas
 Restart=always
 

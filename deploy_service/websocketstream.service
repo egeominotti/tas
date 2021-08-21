@@ -6,7 +6,7 @@ Requires=qcluster.service
 After=network.target
 
 [Service]
-ExecStart=/home/tas/venv/bin/python3 /home/tas/manage.py websocketstream
+ExecStart=/home/tas/venv/bin/python3.9 /home/tas/manage.py websocketstream
 WorkingDirectory=/home/tas
 Restart=always
 
