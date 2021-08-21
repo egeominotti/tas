@@ -62,17 +62,17 @@ class Indicator:
             ema = talib.EMA(close_array, timeperiod=period)
             return ema[backtrack]
 
-        return 0
+        return None
 
     def rsi(self, period, backtrack=-1):
 
         close_array = self.get_np_close_array('close')
-
+        print(close_array)
         if len(close_array) >= period:
             rsi = talib.RSI(close_array, timeperiod=period)
-            return round(rsi[backtrack], 4)
+            return rsi[backtrack]
 
-        return 0
+        return None
 
     def bbands(self, period=20, backtrack=-1):
 
@@ -86,12 +86,12 @@ class Indicator:
                 nbdevdn=2,
                 matype=0)
 
-            val = {
+            bbands = {
                 'valueUpperBand': upperband[backtrack],
                 'valueMiddleBand': middleband[backtrack],
                 'valueLowerBand': lowerband[backtrack]
             }
 
-            return val
+            return bbands
 
-        return 0
+        return None
