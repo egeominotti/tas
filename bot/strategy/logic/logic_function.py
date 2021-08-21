@@ -67,13 +67,12 @@ def logicentry_bot_rsi_20_bollinger(item):
     value = redis.get(key)
     candle_from_websocket = json.loads(value)
 
+    indicators.compute()
     if candle_from_websocket.get('candle_is_closed'):
 
         item['candle_close'] = candle_from_websocket.get('candle_close')
 
         # Call binance get klines
-        indicators.compute()
-
         rsi = indicators.rsi(14)
         bbands = indicators.bbands(20)
 
