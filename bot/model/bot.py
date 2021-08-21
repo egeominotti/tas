@@ -4,6 +4,7 @@ from bot.services.telegram import Telegram
 from analytics.services.exchangeApi import Taapi
 from exchange.model.binance import BinanceHelper
 from bot.strategy.logic.logic_function import *
+from bot.services.indicator import RealTimeIndicator
 
 
 class TradingBot:
