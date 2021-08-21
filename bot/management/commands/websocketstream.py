@@ -36,7 +36,7 @@ class Command(BaseCommand):
                     for k, v in binance_stream.items():
                         if isinstance(v, dict):
 
-                            candle_is_closed =   v.get('is_closed')
+                            candle_is_closed =  v.get('is_closed')
                             symbol =            v.get('symbol')
                             interval =          v.get('interval')
 
