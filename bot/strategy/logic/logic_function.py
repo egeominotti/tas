@@ -120,15 +120,14 @@ def logicexit_bot_rsi_20_bollinger(item):
         while True:
 
             key = item.get('symbol_exchange') + "_" + str(item.get('time_frame'))
-            indicator = Indicator(item.get('symbol_exchange'), item.get('time_frame'))
             value = redis.get(key)
-            candle_from_websocket = json.loads(value)
+            real_time_data = json.loads(value)
 
             print(item.get('symbol_exchange'))
             print(item.get('time_frame'))
-            print(candle_from_websocket.get('candle_close'))
+            print(real_time_data.get('candle_close'))
 
-            item['candle_close'] = candle_from_websocket.get('candle_close')
+            item['candle_close'] = real_time_data.get('candle_close')
 
             if item['type'] == 0:
 
