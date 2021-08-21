@@ -40,34 +40,16 @@ class Command(BaseCommand):
                             symbol =            v.get('symbol')
                             interval =          v.get('interval')
 
-                            # Candle not closed - save to redis
+                            # Candle not closed - save to redis real time data
                             key = str(SymbolExchange.objects.get(symbol=symbol)) + "_" + str(interval)
-                            values = {
+                            candle_realtime = {
                                 'candle_close': float(v.get('close_price')),
                                 'candle_open': float(v.get('open_price')),
                                 'candle_high': float(v.get('high_price')),
                                 'candle_low': float(v.get('low_price')),
                                 'candle_is_closed': v.get('is_closed'),
                             }
-                            r.set(key, json.dumps(values))
-
-                            # qs = BufferRecordData.objects.filter(key=key, is_closed=False).order_by('created_at')
-                            # if qs.count() >= 365:
-                            #     qs.first().delete()
-                            #
-                            # if qs.count() <= 365:
-                            #     BufferRecordData.objects.create(
-                            #         key=key,
-                            #         symbol=symbol,
-                            #         time_frame=interval,
-                            #         open_candle=float(v.get('open_price')),
-                            #         close_candle=float(v.get('close_price')),
-                            #         high_candle=float(v.get('high_price')),
-                            #         low_candle=float(v.get('low_price')),
-                            #         is_closed=candle_is_close,
-                            #         unix=v.get('kline_start_time'),
-                            #         volume=v.get('base_volume')
-                            #     )
+                            r.set(key, json.dumps(candle_realtime))
 
                             # Candle closed - save to db
                             if candle_is_close:
