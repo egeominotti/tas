@@ -24,11 +24,11 @@ class RealTimeIndicator:
 
         try:
             sleep(1)
-            klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=150)
+            klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=300)
         except Exception as e:
             print("Binance Error:" + str(e))
             sleep(5)
-            klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=150)
+            klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=300)
 
         open = [float(entry[1]) for entry in klines]
         high = [float(entry[2]) for entry in klines]

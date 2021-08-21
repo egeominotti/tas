@@ -10,7 +10,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        indicator = RealTimeIndicator('RVNUSDT', '1m')
+        indicator = RealTimeIndicator('RVNUSDT', '30m')
         print(indicator.ema(5))
         print(indicator.rsi(14))
         print(indicator.bbands(20))
