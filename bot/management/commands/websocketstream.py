@@ -51,23 +51,23 @@ class Command(BaseCommand):
                             }
                             r.set(key, json.dumps(values))
 
-                            qs = BufferRecordData.objects.filter(key=key, is_closed=False).order_by('created_at')
-                            if qs.count() >= 365:
-                                qs.first().delete()
-
-                            if qs.count() <= 365:
-                                BufferRecordData.objects.create(
-                                    key=key,
-                                    symbol=symbol,
-                                    time_frame=interval,
-                                    open_candle=float(v.get('open_price')),
-                                    close_candle=float(v.get('close_price')),
-                                    high_candle=float(v.get('high_price')),
-                                    low_candle=float(v.get('low_price')),
-                                    is_closed=candle_is_close,
-                                    unix=v.get('kline_start_time'),
-                                    volume=v.get('base_volume')
-                                )
+                            # qs = BufferRecordData.objects.filter(key=key, is_closed=False).order_by('created_at')
+                            # if qs.count() >= 365:
+                            #     qs.first().delete()
+                            #
+                            # if qs.count() <= 365:
+                            #     BufferRecordData.objects.create(
+                            #         key=key,
+                            #         symbol=symbol,
+                            #         time_frame=interval,
+                            #         open_candle=float(v.get('open_price')),
+                            #         close_candle=float(v.get('close_price')),
+                            #         high_candle=float(v.get('high_price')),
+                            #         low_candle=float(v.get('low_price')),
+                            #         is_closed=candle_is_close,
+                            #         unix=v.get('kline_start_time'),
+                            #         volume=v.get('base_volume')
+                            #     )
 
                             # Candle closed - save to db
                             if candle_is_close:
