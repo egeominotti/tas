@@ -2,8 +2,6 @@ import datetime
 from time import sleep
 import talib
 import numpy as np
-from dateutil.relativedelta import relativedelta
-
 from bot.models import BufferRecordData
 from binance import Client
 
@@ -21,14 +19,15 @@ class RealTimeIndicator:
 
     def compute(self):
 
+        now = datetime.datetime.utcnow()
         try:
-            now = datetime.datetime.utcnow()
-            #klines = self.client.get_historical_klines(self.symbol, self.time_frame, 'now UTC', '1 day ago UTC')
-            klines = self.client.get_historical_klines(self.symbol, self.time_frame, str(now.timestamp()))
+            # klines = self.client.get_historical_klines(self.symbol, self.time_frame, 'now UTC', '1 day ago UTC')
+            klines = self.client.get_historical_klines(self.symbol, self.time_frame, str(now.timestamp() * 1000))
+            print(str(now.timestamp() * 1000))
         except Exception as e:
             print("Binance Error:" + str(e))
             sleep(30)
-            klines = self.client.get_historical_klines(self.symbol, self.time_frame, 'now UTC', '1 day ago UTC')
+            klines = self.client.get_historical_klines(self.symbol, self.time_frame, str(now.timestamp() * 1000))
 
         open = [float(entry[1]) for entry in klines]
         high = [float(entry[2]) for entry in klines]
