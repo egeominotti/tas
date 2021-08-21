@@ -54,7 +54,7 @@ class RealTimeIndicator:
 
         if len(self.close_array) >= period:
             ema = talib.EMA(self.close_array, timeperiod=period)
-            return round(ema[backtrack],4)
+            return round(ema[backtrack],5)
 
         return None
 
@@ -81,9 +81,9 @@ class RealTimeIndicator:
                 matype=0)
 
             bbands = {
-                'valueUpperBand': round(upperband[backtrack],4),
-                'valueMiddleBand': round(middleband[backtrack],4),
-                'valueLowerBand': round(lowerband[backtrack],4)
+                'valueUpperBand': round(upperband[backtrack],5),
+                'valueMiddleBand': round(middleband[backtrack],5),
+                'valueLowerBand': round(lowerband[backtrack],5)
             }
 
             return bbands
