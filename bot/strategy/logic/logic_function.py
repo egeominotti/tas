@@ -70,7 +70,7 @@ def logicentry_bot_rsi_20_bollinger(item):
     if candle_from_websocket.get('candle_is_closed'):
 
         item['candle_close'] = candle_from_websocket.get('candle_close')
-
+        print(start_time)
         # Call binance get klines
         indicators.compute(start_time)
 
