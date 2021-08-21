@@ -1,3 +1,4 @@
+from time import sleep
 import talib
 import numpy as np
 from bot.models import BufferRecordData
@@ -21,7 +22,13 @@ class RealTimeIndicator:
 
     def compute(self):
 
-        klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=150)
+        try:
+            sleep(1)
+            klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=150)
+        except Exception as e:
+            print("Binance Error:" + str(e))
+            sleep(5)
+            klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=150)
 
         open = [float(entry[1]) for entry in klines]
         high = [float(entry[2]) for entry in klines]
