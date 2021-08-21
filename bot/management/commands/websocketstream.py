@@ -36,7 +36,7 @@ class Command(BaseCommand):
                     for k, v in binance_stream.items():
                         if isinstance(v, dict):
 
-                            candle_is_close =   v.get('is_closed')
+                            candle_is_closed =   v.get('is_closed')
                             symbol =            v.get('symbol')
                             interval =          v.get('interval')
 
@@ -52,15 +52,7 @@ class Command(BaseCommand):
                             r.set(key, json.dumps(candle_realtime))
 
                             # Candle closed - save to db
-                            if candle_is_close:
-
-                                close_candle = float(v.get('close_price'))
-                                open_candle = float(v.get('open_price'))
-                                high_candle = float(v.get('high_price'))
-                                low_candle = float(v.get('low_price'))
-                                candle_is_close = v.get('is_closed')
-                                symbol = v.get('symbol')
-                                interval = v.get('interval')
+                            if candle_is_closed:
 
                                 qs = BufferRecordData.objects.filter(key=key, is_closed=True).order_by('created_at')
 
@@ -72,11 +64,11 @@ class Command(BaseCommand):
                                             key=key,
                                             symbol=symbol,
                                             time_frame=interval,
-                                            open_candle=open_candle,
-                                            close_candle=close_candle,
-                                            high_candle=high_candle,
-                                            low_candle=low_candle,
-                                            is_closed=candle_is_close,
+                                            open_candle=float(v.get('open_price')),
+                                            close_candle=float(v.get('close_price')),
+                                            high_candle=float(v.get('high_price')),
+                                            low_candle=float(v.get('low_price')),
+                                            is_closed=v.get('is_closed'),
                                             unix=v.get('kline_start_time'),
                                             volume=v.get('base_volume')
                                         )
