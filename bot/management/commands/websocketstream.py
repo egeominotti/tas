@@ -40,8 +40,8 @@ class Command(BaseCommand):
                             symbol =            v.get('symbol')
                             interval =          v.get('interval')
 
+                            # Candle not closed - save to redis
                             key = str(SymbolExchange.objects.get(symbol=symbol)) + "_" + str(interval)
-
                             values = {
                                 'candle_close': float(v.get('close_price')),
                                 'candle_open': float(v.get('open_price')),
@@ -49,9 +49,27 @@ class Command(BaseCommand):
                                 'candle_low': float(v.get('low_price')),
                                 'candle_is_closed': v.get('is_closed'),
                             }
-
                             r.set(key, json.dumps(values))
 
+                            qs = BufferRecordData.objects.filter(key=key).order_by('created_at')
+                            if qs.count() >= 365:
+                                qs.first().delete()
+
+                            if qs.count() <= 365:
+                                BufferRecordData.objects.create(
+                                    key=key,
+                                    symbol=symbol,
+                                    time_frame=interval,
+                                    open_candle=float(v.get('open_price')),
+                                    close_candle=float(v.get('close_price')),
+                                    high_candle=float(v.get('high_price')),
+                                    low_candle=float(v.get('low_price')),
+                                    is_closed=candle_is_close,
+                                    unix=v.get('kline_start_time'),
+                                    volume=v.get('base_volume')
+                                )
+
+                            # Candle closed - save to db
                             if candle_is_close:
 
                                 close_candle = float(v.get('close_price'))

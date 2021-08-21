@@ -5,9 +5,10 @@ from bot.models import BufferRecordData
 
 class Indicator:
 
-    def __init__(self, symbol, time_frame):
+    def __init__(self, symbol, time_frame, is_closed=True):
         self.symbol = symbol
         self.time_frame = time_frame
+        self.is_closed = is_closed
 
     def get_np_close_array(self, type):
         """
@@ -19,7 +20,7 @@ class Indicator:
         low = []
         high = []
 
-        for k in BufferRecordData.objects.filter(key=self.symbol + "_" + self.time_frame):
+        for k in BufferRecordData.objects.filter(key=self.symbol + "_" + self.time_frame,is_closed=self.is_closed):
             if type == 'close':
                 close.append(k.close_candle)
             if type == 'open':
