@@ -66,7 +66,6 @@ def logicentry_bot_rsi_20_bollinger(item):
     value = redis.get(key)
     candle_from_websocket = json.loads(value)
 
-
     if candle_from_websocket.get('candle_is_closed'):
 
         item['candle_close'] = candle_from_websocket.get('candle_close')
