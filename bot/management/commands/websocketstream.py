@@ -48,7 +48,7 @@ class Command(BaseCommand):
                                 'candle_high': float(v.get('high_price')),
                                 'candle_low': float(v.get('low_price')),
                                 'candle_is_closed': v.get('is_closed'),
-                                'candle_start_time': v.get('kline_start_time')
+                                'time': v.get('kline_start_time')
                             }
                             r.set(key, json.dumps(candle_realtime))
 
