@@ -56,10 +56,10 @@ class Command(BaseCommand):
 
                                 qs = BufferRecordData.objects.filter(key=key, is_closed=True).order_by('created_at')
 
-                                if qs.count() >= 365:
+                                if qs.count() >= 1000:
                                     qs.first().delete()
 
-                                if qs.count() <= 365:
+                                if qs.count() <= 1000:
                                     BufferRecordData.objects.create(
                                             key=key,
                                             symbol=symbol,
