@@ -1,6 +1,5 @@
 import talib
 import numpy as np
-
 from bot.models import BufferRecordData
 
 
@@ -57,27 +56,42 @@ class Indicator:
 
     def ema(self, period, backtrack=-1):
 
-        ema = talib.EMA(self.get_np_close_array('close'), timeperiod=period)
-        return ema[backtrack]
+        close_array = self.get_np_close_array('close')
+
+        if len(close_array) >= period:
+            ema = talib.EMA(self.get_np_close_array('close'), timeperiod=period)
+            return ema[backtrack]
+
+        return 0
 
     def rsi(self, period, backtrack=-1):
 
-        rsi = talib.RSI(self.get_np_close_array('close'), timeperiod=period)
-        return round(rsi[backtrack], 4)
+        close_array = self.get_np_close_array('close')
+
+        if len(close_array) >= period:
+            rsi = talib.RSI(self.get_np_close_array('close'), timeperiod=period)
+            return round(rsi[backtrack], 4)
+
+        return 0
 
     def bbands(self, period=20, backtrack=-1):
 
-        upperband, middleband, lowerband = talib.BBANDS(
-            self.get_np_close_array('close'),
-            timeperiod=period,
-            nbdevup=2,
-            nbdevdn=2,
-            matype=0)
+        close_array = self.get_np_close_array('close')
 
-        val = {
-            'valueUpperBand': upperband[backtrack],
-            'valueMiddleBand': middleband[backtrack],
-            'valueLowerBand': lowerband[backtrack]
-        }
+        if len(close_array) >= period:
+            upperband, middleband, lowerband = talib.BBANDS(
+                self.get_np_close_array('close'),
+                timeperiod=period,
+                nbdevup=2,
+                nbdevdn=2,
+                matype=0)
 
-        return val
+            val = {
+                'valueUpperBand': upperband[backtrack],
+                'valueMiddleBand': middleband[backtrack],
+                'valueLowerBand': lowerband[backtrack]
+            }
+
+            return val
+
+        return 0

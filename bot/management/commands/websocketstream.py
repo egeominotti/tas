@@ -36,27 +36,31 @@ class Command(BaseCommand):
                     for k, v in binance_stream.items():
                         if isinstance(v, dict):
 
-                            close_candle = float(v.get('close_price'))
-                            open_candle = float(v.get('open_price'))
-                            high_candle = float(v.get('high_price'))
-                            low_candle = float(v.get('low_price'))
-                            candle_is_close = v.get('is_closed')
-                            symbol = v.get('symbol')
-                            interval = v.get('interval')
+                            candle_is_close =   v.get('is_closed')
+                            symbol =            v.get('symbol')
+                            interval =          v.get('interval')
 
                             key = str(SymbolExchange.objects.get(symbol=symbol)) + "_" + str(interval)
 
                             values = {
-                                'candle_close': close_candle,
-                                'candle_open': open_candle,
-                                'candle_high': high_candle,
-                                'candle_low': low_candle,
-                                'candle_is_closed': candle_is_close,
+                                'candle_close': float(v.get('close_price')),
+                                'candle_open': float(v.get('open_price')),
+                                'candle_high': float(v.get('high_price')),
+                                'candle_low': float(v.get('low_price')),
+                                'candle_is_closed': v.get('is_closed'),
                             }
 
                             r.set(key, json.dumps(values))
 
                             if candle_is_close:
+
+                                close_candle = float(v.get('close_price'))
+                                open_candle = float(v.get('open_price'))
+                                high_candle = float(v.get('high_price'))
+                                low_candle = float(v.get('low_price'))
+                                candle_is_close = v.get('is_closed')
+                                symbol = v.get('symbol')
+                                interval = v.get('interval')
 
                                 qs = BufferRecordData.objects.filter(key=key).order_by('created_at')
 
