@@ -1,6 +1,88 @@
 import talib
 import numpy as np
 from bot.models import BufferRecordData
+from binance import Client
+
+from bot.models import UserExchange
+
+class RealTimeIndicator:
+
+    close_array = None
+    open_array = None
+    low_array = None
+    high_array = None
+
+    def __init__(self, symbol, time_frame):
+        self.symbol = symbol
+        self.time_frame = time_frame
+        qs = UserExchange.objects.get(user__username='egeo')
+        self.client = Client(qs.api_key, qs.api_secret)
+        self.compute()
+
+    def compute(self):
+
+        klines = None
+        if self.time_frame == '1m' or self.time_frame == '5m' or self.time_frame == '30m' or self.time_frame == '1h':
+            klines = self.client.get_historical_klines(self.symbol, self.time_frame, '1 day ago UTC')
+
+        open = [float(entry[1]) for entry in klines]
+        high = [float(entry[2]) for entry in klines]
+        low = [float(entry[3]) for entry in klines]
+        close = [float(entry[4]) for entry in klines]
+
+        self.close_array = np.asarray(close)
+        self.open_array = np.asarray(open)
+        self.low_array = np.asarray(low)
+        self.high_array = np.asarray(high)
+
+
+    def candle(self, backtrack=-1):
+
+        value = {
+            'close': self.close_array[backtrack],
+            'open': self.open_array[backtrack],
+            'low': self.low_array[backtrack],
+            'high': self.high_array[backtrack]
+        }
+
+        return value
+
+    def ema(self, period, backtrack=-1):
+
+        if len(self.close_array) >= period:
+            ema = talib.EMA(self.close_array, timeperiod=period)
+            return ema[backtrack]
+
+        return None
+
+    def rsi(self, period, backtrack=-1):
+
+        if len(self.close_array) >= period:
+            rsi = talib.RSI(self.close_array, timeperiod=period)
+            return rsi[backtrack]
+
+        return None
+
+    def bbands(self, period=20, backtrack=-1):
+
+
+        if len(self.close_array) >= period:
+            upperband, middleband, lowerband = talib.BBANDS(
+                self.close_array,
+                timeperiod=period,
+                nbdevup=2,
+                nbdevdn=2,
+                matype=0)
+
+            bbands = {
+                'valueUpperBand': upperband[backtrack],
+                'valueMiddleBand': middleband[backtrack],
+                'valueLowerBand': lowerband[backtrack]
+            }
+
+            return bbands
+
+        return None
 
 
 class Indicator:
