@@ -19,10 +19,12 @@ class RealTimeIndicator:
         self.time_frame = time_frame
         self.client = Client(api_key, api_secret)
 
-    def compute(self):
+    def compute(self, timestamp):
 
         try:
-            klines = self.client.get_historical_klines(self.symbol, self.time_frame, 'now UTC', '1 day ago UTC')
+            now = datetime.datetime.utcnow()
+            #klines = self.client.get_historical_klines(self.symbol, self.time_frame, 'now UTC', '1 day ago UTC')
+            klines = self.client.get_historical_klines(self.symbol, self.time_frame, str(now.timestamp()))
         except Exception as e:
             print("Binance Error:" + str(e))
             sleep(30)
