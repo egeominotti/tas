@@ -15,10 +15,10 @@ class Command(BaseCommand):
         print(indicator.bbands(20))
         print(indicator.candle())
 
-        print("REAL TIME indicator")
-        indicator = Indicator('RVNUSDT','5m', False)
-        print(indicator.ema(5))
-        print(indicator.rsi(14))
-        print(indicator.bbands(20))
-        print(indicator.candle())
+        # print("REAL TIME indicator")
+        # indicator = Indicator('RVNUSDT','5m', False)
+        # print(indicator.ema(5))
+        # print(indicator.rsi(14))
+        # print(indicator.bbands(20))
+        # print(indicator.candle())
 
