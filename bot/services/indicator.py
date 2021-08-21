@@ -21,7 +21,6 @@ class RealTimeIndicator:
 
     def compute(self):
 
-
         klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=150)
 
         open = [float(entry[1]) for entry in klines]
@@ -63,7 +62,6 @@ class RealTimeIndicator:
         return None
 
     def bbands(self, period=20, backtrack=-1):
-
 
         if len(self.close_array) >= period:
             upperband, middleband, lowerband = talib.BBANDS(

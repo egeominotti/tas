@@ -3,7 +3,7 @@ import datetime
 from time import sleep
 import decouple
 import json
-from bot.services.indicator import Indicator
+from bot.services.indicator import Indicator, RealTimeIndicator
 import redis
 
 logger = logging.getLogger(__name__)
@@ -118,7 +118,7 @@ def logicexit_bot_rsi_20_bollinger(item):
     sentinel = False
     try:
         while True:
-
+            indicator = RealTimeIndicator(item.get('symbol_exchange'), str(item.get('time_frame')))
             key = item.get('symbol_exchange') + "_" + str(item.get('time_frame'))
             value = redis.get(key)
             real_time_data = json.loads(value)
@@ -135,8 +135,8 @@ def logicexit_bot_rsi_20_bollinger(item):
                 LONG
                 """
 
-                #valueUpperBand = indicator.bbands(20).get('valueUpperBand')
-                valueUpperBand = item.get('taapi').bbands(item.get('time_frame')).get('valueUpperBand')
+                valueUpperBand = indicator.bbands(20).get('valueUpperBand')
+                #valueUpperBand = item.get('taapi').bbands(item.get('time_frame')).get('valueUpperBand')
 
                 if item['candle_close'] >= valueUpperBand:
                     item['takeprofit_candle'] = item['candle_close']
@@ -158,8 +158,8 @@ def logicexit_bot_rsi_20_bollinger(item):
                 """
                 SHORT
                 """
-                #valueLowerBand = indicator.bbands(20).get('valueLowerBand')
-                valueLowerBand = item.get('taapi').bbands(item.get('time_frame')).get('valueLowerBand')
+                valueLowerBand = indicator.bbands(20).get('valueLowerBand')
+                #valueLowerBand = item.get('taapi').bbands(item.get('time_frame')).get('valueLowerBand')
 
                 if item['candle_close'] <= valueLowerBand:
                     item['takeprofit_candle'] = item['candle_close']
