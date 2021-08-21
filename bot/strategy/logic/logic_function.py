@@ -59,10 +59,11 @@ def logicexit_test(item):
 
 def logicentry_bot_rsi_20_bollinger(item):
 
+    indicators = item['indicators']
     time_frame = item['time_frame']
 
     key = str(item.get('symbol_exchange')) + "_" + str(time_frame)
-    indicators = item['indicators']
+
 
     value = redis.get(key)
     candle_from_websocket = json.loads(value)
