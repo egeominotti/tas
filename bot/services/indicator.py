@@ -21,9 +21,8 @@ class RealTimeIndicator:
 
     def compute(self):
 
-        klines = None
-        if self.time_frame == '1m' or self.time_frame == '5m' or self.time_frame == '30m' or self.time_frame == '1h':
-            klines = self.client.get_historical_klines(self.symbol, self.time_frame, '1 day ago UTC')
+
+        klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, limit=150)
 
         open = [float(entry[1]) for entry in klines]
         high = [float(entry[2]) for entry in klines]

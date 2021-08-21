@@ -6,11 +6,11 @@ logger = logging.getLogger('main')
 
 
 class Command(BaseCommand):
-    help = 'Bot che scarica il bilancio di ogni utente e lo salva nel sistema ogni 15 secondi'
+    help = 'Valori real time delle candele'
 
     def handle(self, *args, **kwargs):
 
-        indicator = RealTimeIndicator('RVNUSDT', '5m')
+        indicator = RealTimeIndicator('RVNUSDT', '1m')
         print(indicator.ema(5))
         print(indicator.rsi(14))
         print(indicator.bbands(20))
