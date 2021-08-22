@@ -43,7 +43,8 @@ class TradingBot:
             self.telegram = Telegram()
             self.notify = self.user.telegram_notifications
             self.taapi = Taapi(self.symbol)
-            self.indicators = RealTimeIndicator(self.symbol_exchange, self.time_frame, self.userexchange.api_key, self.userexchange.api_secret)
+            self.indicators = RealTimeIndicator(self.symbol_exchange, self.time_frame, self.userexchange.api_key,
+                                                self.userexchange.api_secret)
             self.exchange = BinanceHelper(
                 bot=self.current_bot,
                 api_key=self.userexchange.api_key,
@@ -80,7 +81,7 @@ class TradingBot:
             'takeprofit_value_short': self.func_exit.takeprofit_short,
             'stoploss_value_long': self.func_exit.stoploss_long,
             'stoploss_value_short': self.func_exit.stoploss_short,
-            'indicators':  self.indicators,
+            'indicators': self.indicators,
             'entry_function': False,
             'exit_function': False,
             'user': self.user.username
@@ -184,12 +185,22 @@ class TradingBot:
                         self.quantity = self.exchange.get_quantity()
 
                         if self.item.get('type') == 0:
+
                             # LONG
-                            self.exchange.buy_market(self.quantity)
+                            if self.current_bot.market_futures:
+                                self.exchange.buy_market_futures(self.quantity)
+
+                            if self.current_bot.market_spot:
+                                self.exchange.buy_market_spot(self.quantity)
 
                         if self.item.get('type') == 1:
+
                             # SHORT
-                            self.exchange.sell_market(self.quantity)
+                            if self.current_bot.market_futures:
+                                self.exchange.sell_market_futures(self.quantity)
+
+                            if self.current_bot.market_spot:
+                                self.exchange.sell_market_spot(self.quantity)
 
                     if self.item.get('type') == 0:
                         self.logger.objects.filter(id=self.logger_instance.id) \
@@ -237,13 +248,22 @@ class TradingBot:
                 if self.item.get('stoploss') is True:
 
                     if self.live:
+
                         if self.item.get('type') == 0:
                             # LONG
-                            self.exchange.sell_market(self.quantity)
+                            if self.current_bot.market_futures:
+                                self.exchange.sell_market_futures(self.quantity)
+
+                            if self.current_bot.market_spot:
+                                self.exchange.sell_market_spot(self.quantity)
 
                         if self.item.get('type') == 1:
                             # SHORT
-                            self.exchange.buy_market(self.quantity)
+                            if self.current_bot.market_futures:
+                                self.exchange.buy_market_futures(self.quantity)
+
+                            if self.current_bot.market_spot:
+                                self.exchange.buy_market_spot(self.quantity)
 
                     now = datetime.datetime.now()
                     self.logger.objects.filter(id=self.logger_instance.id) \
@@ -279,11 +299,19 @@ class TradingBot:
 
                         if self.item.get('type') == 0:
                             # LONG
-                            self.exchange.sell_market(self.quantity)
+                            if self.current_bot.market_futures:
+                                self.exchange.sell_market_futures(self.quantity)
+
+                            if self.current_bot.market_spot:
+                                self.exchange.sell_market_spot(self.quantity)
 
                         if self.item.get('type') == 1:
                             # SHORT
-                            self.exchange.buy_market(self.quantity)
+                            if self.current_bot.market_futures:
+                                self.exchange.buy_market_futures(self.quantity)
+
+                            if self.current_bot.market_spot:
+                                self.exchange.buy_market_spot(self.quantity)
 
                     now = datetime.datetime.now()
                     self.logger.objects.filter(id=self.logger_instance.id) \
