@@ -70,14 +70,13 @@ def logicentry_bot_rsi_20_bollinger(item):
     if candle_from_websocket.get('candle_is_closed'):
 
         item['candle_close'] = candle_from_websocket.get('candle_close')
-        print(start_time)
+
         # Call binance get klines
         indicators.compute(start_time)
 
         rsi = indicators.rsi(14)
         bbands = indicators.bbands(20)
         candle = indicators.candle()
-        print(candle)
 
         print("symbol: " + str(item.get('symbol_exchange'))
               + " time_frame:" + str(item.get('time_frame'))
@@ -113,16 +112,18 @@ def logicexit_bot_rsi_20_bollinger(item):
 
             indicators = item['indicators']
             indicators.compute()
+            item['candle_close'] = indicators.candle().get('close')
 
-            key = item.get('symbol_exchange') + "_" + str(item.get('time_frame'))
-            value = redis.get(key)
-            real_time_data = json.loads(value)
+            print("symbol: " + str(item.get('symbol_exchange'))
+                  + " time_frame:" + str(item.get('time_frame'))
+                  + " candle_close:" + str(indicators.candle().get('close'))
+                  + " valueLowerBand:" + str(indicators.bbands(20).get('valueLowerBand'))
+                  + " valueUpperBand:" + str(indicators.bbands(20).get('valueUpperBand')))
 
-            print(item.get('symbol_exchange'))
-            print(item.get('time_frame'))
-            print(real_time_data.get('candle_close'))
-
-            item['candle_close'] = real_time_data.get('candle_close')
+            # key = item.get('symbol_exchange') + "_" + str(item.get('time_frame'))
+            # value = redis.get(key)
+            # real_time_data = json.loads(value)
+            #item['candle_close'] = real_time_data.get('candle_close')
 
             if item['type'] == 0:
 
