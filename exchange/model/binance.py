@@ -100,6 +100,38 @@ class BinanceHelper:
             quantity=quantity,
         )
 
+    def sell_market_futures(self, quantity):
+        self.orderId = self.client.futures_create_order(
+            symbol=self.symbol,
+            side=SIDE_SELL,
+            type=ORDER_TYPE_MARKET,
+            quantity=quantity,
+        )
+
+    def buy_market_futures(self, quantity):
+        self.orderId = self.client.futures_create_order(
+            symbol=self.symbol,
+            side=SIDE_BUY,
+            type=ORDER_TYPE_MARKET,
+            quantity=quantity,
+        )
+
+    def sell_market_spot(self, quantity):
+        self.orderId = self.client.create_order(
+            symbol=self.symbol,
+            side=SIDE_SELL,
+            type=ORDER_TYPE_MARKET,
+            quantity=quantity,
+        )
+
+    def buy_market_spot(self, quantity):
+        self.orderId = self.client.create_order(
+            symbol=self.symbol,
+            side=SIDE_BUY,
+            type=ORDER_TYPE_MARKET,
+            quantity=quantity,
+        )
+
     def buy_limit(self):
         self.orderId = self.client.futures_create_order(
             symbol=self.symbol,
