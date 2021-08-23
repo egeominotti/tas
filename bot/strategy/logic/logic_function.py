@@ -94,7 +94,7 @@ def logicentry_bot_rsi_20_bollinger(item):
             item['entry_candle'] = item['candle_close']
             return True
 
-        if rsi > 80 and item['candle_close'] >= valueUpperBand:
+        if rsi > 85 and item['candle_close'] >= valueUpperBand:
             item['type'] = 1  # type = 1 corrisponde ad una entrata short
             item['entry'] = True
             item['entry_candle'] = item['candle_close']
@@ -106,9 +106,9 @@ def logicentry_bot_rsi_20_bollinger(item):
 
 
 def logicexit_bot_rsi_20_bollinger(item):
-    
+
     sentinel = False
-    
+
     try:
         while True:
 
