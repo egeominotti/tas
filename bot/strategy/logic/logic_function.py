@@ -67,7 +67,7 @@ def logicentry_bot_rsi_20_bollinger(item):
     candle_from_websocket = json.loads(value)
 
     start_time = candle_from_websocket.get('time')
-    if candle_from_websocket.get('candle_is_closed'):
+    if candle_from_websocket.get('is_closed'):
 
         item['candle_close'] = candle_from_websocket.get('candle_close')
 

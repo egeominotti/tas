@@ -8,14 +8,6 @@ from unicorn_binance_websocket_api.unicorn_binance_websocket_api_manager import 
 from unicorn_fy.unicorn_fy import UnicornFy
 from bot.models import BufferRecordData
 import redis
-import unicorn_binance_websocket_api
-import logging
-import math
-import os
-import requests
-import sys
-import time
-import threading
 from unicorn_binance_websocket_api.unicorn_binance_websocket_api_manager import BinanceWebSocketApiManager
 import logging
 import os
@@ -31,6 +23,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
+
         logging.basicConfig(level=logging.ERROR,
                             filename=os.path.basename(__file__) + '.log',
                             format="{asctime} [{levelname:8}] {process} {thread} {module}: {message}",
@@ -39,6 +32,15 @@ class Command(BaseCommand):
         symbolList = []
         for symbol in SymbolExchange.objects.all():
             symbolList.append(symbol.symbol.lower())
+
+        # times = ['1m', '5m', '15m', '30m', '1h', '2h', '4h', '6h', '8h', '12h', '1d', '3d', '1w', '1M']
+        #
+        # for symbol in symbolList:
+        #     for interval in times:
+        #         key = str(SymbolExchange.objects.get(symbol=symbol.upper())) + "_" + str(interval)
+        #         data[key] = {'data': [] }
+        #
+        # print(data)
 
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com", output_default="UnicornFy")
 
@@ -70,9 +72,57 @@ class Command(BaseCommand):
                 if oldest_stream_data_from_stream_buffer is not None:
                     try:
                         # if candle is closed save record
-                        if oldest_stream_data_from_stream_buffer['event_time'] >=\
+                        if oldest_stream_data_from_stream_buffer['event_time'] >= \
                                 oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
                             if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
+
+                                try:
+
+                                    kline =                     oldest_stream_data_from_stream_buffer['kline']
+                                    symbol =                    kline['symbol']
+                                    interval =                  kline['interval']
+                                    open_price =                kline['open_price']
+                                    close_price =               kline['close_price']
+                                    high_price =                kline['high_price']
+                                    low_price =                 kline['low_price']
+                                    is_closed =                 kline['is_closed']
+                                    kline_start_time =          kline['kline_start_time']
+
+                                    key = str(SymbolExchange.objects.get(symbol=symbol)) + "_" + str(interval) + "_CLOSED"
+
+                                    candle_realtime = {
+
+                                        'candle_close': close_price,
+                                        'candle_open': open_price,
+                                        'candle_high': high_price,
+                                        'candle_low': low_price,
+                                        'is_closed': is_closed,
+                                        'time_milliseconds': kline_start_time,
+                                        #'time_datetime': datetime.datetime.fromtimestamp(kline['kline_start_time'] / 1000.0,tz=datetime.timezone.utc),
+                                    }
+
+                                    if r.exists(key):
+                                        old_value = r.get(key)
+                                        old_value = json.loads(old_value)
+
+                                        print("CLOSED")
+                                        print(len(old_value))
+
+                                        if len(old_value) >= 500:
+                                            del old_value[0]
+
+                                        old_value.append(candle_realtime)
+                                        r.set(key, json.dumps(old_value))
+
+                                    else:
+                                        list = []
+                                        list.append(candle_realtime)
+                                        r.set(key, json.dumps(list))
+
+                                except Exception as e:
+                                    print(str(e))
+                        else:
+                            try:
 
                                 kline = oldest_stream_data_from_stream_buffer['kline']
                                 symbol = kline['symbol']
@@ -84,8 +134,8 @@ class Command(BaseCommand):
                                 is_closed = kline['is_closed']
                                 kline_start_time = kline['kline_start_time']
 
-                                key = str(SymbolExchange.objects.get(symbol=symbol)) + "_" + str(interval)
-                                print(key)
+                                key = str(SymbolExchange.objects.get(symbol=symbol)) + "_" + str(interval) + "_REALTIME"
+
                                 candle_realtime = {
 
                                     'candle_close': close_price,
@@ -94,16 +144,38 @@ class Command(BaseCommand):
                                     'candle_low': low_price,
                                     'is_closed': is_closed,
                                     'time_milliseconds': kline_start_time,
-                                    'time_datetime': datetime.datetime.fromtimestamp(kline['kline_start_time'] / 1000.0,
-                                                                                     tz=datetime.timezone.utc),
+                                    # 'time_datetime': datetime.datetime.fromtimestamp(kline['kline_start_time'] / 1000.0,tz=datetime.timezone.utc),
                                 }
-                                print(candle_realtime)
-                                r.set(key, json.dumps(candle_realtime))
 
-                    except KeyError:
+                                if r.exists(key):
+                                    old_value = r.get(key)
+                                    old_value = json.loads(old_value)
+
+                                    print("REALTIME")
+                                    print(len(old_value))
+
+                                    if len(old_value) >= 500:
+                                        del old_value[0]
+
+                                    old_value.append(candle_realtime)
+                                    r.set(key, json.dumps(old_value))
+
+                                else:
+                                    list = []
+                                    list.append(candle_realtime)
+                                    r.set(key, json.dumps(list))
+
+                            except Exception as e:
+                                print(str(e))
+
+                    except KeyError as e:
                         pass
-                    except TypeError:
+                        # print(str(e))
+                    except TypeError as e:
                         pass
+                        # print(str(e))
+                    except Exception as e:
+                        print(str(e))
 
         #     # Candle closed - save to db
         #     # if candle_is_closed:
