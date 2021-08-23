@@ -62,8 +62,6 @@ class Command(BaseCommand):
                     try:
                         if not oldest_stream_data_from_stream_buffer['kline']['is_closed']:
                             pass
-                            #print("NON CHIUSE")
-                            # print(f"UnicornFy: {oldest_stream_data_from_stream_buffer}")
 
                         if oldest_stream_data_from_stream_buffer['event_time'] >= \
                                 oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
@@ -88,27 +86,30 @@ class Command(BaseCommand):
                                     'candle_high': high_price,
                                     'candle_low': low_price,
                                     'is_closed': is_closed,
-                                    'time_milliseconds': kline_start_time,
+                                    'time': kline_start_time,
                                 }
 
-                                if r.exists(key):
+                                r.set(key, json.dumps(candle_closed))
 
-                                    old_value = r.get(key)
-                                    old_value = json.loads(old_value)
-
-                                    print(len(old_value))
-
-                                    if len(old_value) == 15:
-                                        del old_value[0]
-
-                                    old_value.append(candle_closed)
-                                    r.set(key, json.dumps(old_value))
-
-                                else:
-
-                                    list = []
-                                    list.append(candle_closed)
-                                    r.set(key, json.dumps(list))
+                                # if r.exists(key):
+                                #
+                                #     old_value = r.get(key)
+                                #     old_value = json.loads(old_value)
+                                #
+                                #
+                                #
+                                #     if len(old_value) == 300:
+                                #         del old_value[0]
+                                #
+                                #     old_value.append(candle_closed)
+                                #     print(len(old_value))
+                                #     r.set(key, json.dumps(old_value))
+                                #
+                                # else:
+                                #
+                                #     list = []
+                                #     list.append(candle_closed)
+                                #     r.set(key, json.dumps(list))
 
                     except KeyError:
                         pass
