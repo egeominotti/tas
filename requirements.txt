@@ -54,3 +54,4 @@ channels
 channels_redis
 hypercorn
 pymongo
+unicorn-binance-rest-api
