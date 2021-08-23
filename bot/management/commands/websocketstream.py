@@ -105,12 +105,10 @@ class Command(BaseCommand):
                                     r.set(key, json.dumps(old_value))
 
                                 else:
+
                                     list = []
                                     list.append(candle_closed)
                                     r.set(key, json.dumps(list))
-
-                                # print("CHIUSE")
-                                # print(f"UnicornFy: {oldest_stream_data_from_stream_buffer}")
 
                     except KeyError:
                         pass
