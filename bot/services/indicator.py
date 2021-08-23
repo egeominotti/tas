@@ -16,11 +16,11 @@ class RealTimeIndicator:
     low_array = None
     high_array = None
 
-    def __init__(self, symbol, time_frame, api_key, api_secret):
+    def __init__(self, symbol, time_frame):
         self.symbol = symbol
         self.time_frame = time_frame
         self.redis = False
-        self.client = Client(api_key, api_secret)
+        self.client = Client()
         self.redis_client = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 
     def compute(self, start_time=None):
@@ -46,7 +46,7 @@ class RealTimeIndicator:
         ]
         """
 
-        if self.redis:
+        if self.redis is False:
             try:
                 if start_time is not None:
                     klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, endTime=start_time)
@@ -75,7 +75,7 @@ class RealTimeIndicator:
 
         else:
 
-            key = str(SymbolExchange.objects.get(symbol=self.symbol.upper())) + "_" + str(self.time_frame) + "_REALTIME"
+            key = str(SymbolExchange.objects.get(symbol=self.symbol)) + "_" + str(self.time_frame) + "_REALTIME"
             if self.redis_client.exists(key):
 
                 """
