@@ -106,7 +106,9 @@ def logicentry_bot_rsi_20_bollinger(item):
 
 
 def logicexit_bot_rsi_20_bollinger(item):
+    
     sentinel = False
+    
     try:
         while True:
 
