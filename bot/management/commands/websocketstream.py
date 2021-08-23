@@ -27,65 +27,61 @@ class Command(BaseCommand):
     help = 'WebSocketStream Binance'
 
     def handle(self, *args, **kwargs):
-        logging.basicConfig(level=logging.DEBUG,
+
+        r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
+        # https://docs.python.org/3/library/logging.html#logging-levels
+        logging.basicConfig(level=logging.ERROR,
                             filename=os.path.basename(__file__) + '.log',
                             format="{asctime} [{levelname:8}] {process} {thread} {module}: {message}",
                             style="{")
 
-        def print_stream_data_from_stream_buffer(binance_websocket_api_manager):
-            while True:
-                if binance_websocket_api_manager.is_manager_stopping():
-                    exit(0)
-                oldest_stream_data_from_stream_buffer = binance_websocket_api_manager.pop_stream_data_from_stream_buffer()
-                if oldest_stream_data_from_stream_buffer is False:
-                    time.sleep(0.01)
+        symbolList = []
+        for symbol in SymbolExchange.objects.all():
+            symbolList.append(symbol.symbol.lower())
 
-        # create instance of BinanceWebSocketApiManager for Binance.com Futures
-        binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures")
+        # create instance of BinanceWebSocketApiManager
+        binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com", output_default="UnicornFy")
 
-        # set api key and secret for userData stream
-        binance_je_api_key = ""
-        binance_je_api_secret = ""
-        userdata_stream_id = binance_websocket_api_manager.create_stream(["arr"],
-                                                                         ["!userData"],
-                                                                         api_key=binance_je_api_key,
-                                                                         api_secret=binance_je_api_secret)
+        binance_websocket_api_manager.create_stream('kline_1m', symbolList, stream_label="kline_1m", output="UnicornFy")
+        binance_websocket_api_manager.create_stream('kline_5m', symbolList, stream_label="kline_5m", output="UnicornFy")
+        binance_websocket_api_manager.create_stream('kline_15m', symbolList, stream_label="kline_5m", output="UnicornFy")
+        binance_websocket_api_manager.create_stream('kline_30m', symbolList, stream_label="kline_30m", output="UnicornFy")
+        binance_websocket_api_manager.create_stream('kline_1h', symbolList, stream_label="kline_1h", output="UnicornFy")
+        binance_websocket_api_manager.create_stream('kline_2h', symbolList, stream_label="kline_2h", output="UnicornFy")
+        binance_websocket_api_manager.create_stream('kline_4h', symbolList, stream_label="kline_4h", output="UnicornFy")
+        binance_websocket_api_manager.create_stream('kline_6h', symbolList, stream_label="kline_6h", output="UnicornFy")
+        binance_websocket_api_manager.create_stream('kline_8h', symbolList, stream_label="kline_8h", output="UnicornFy")
+        binance_websocket_api_manager.create_stream('kline_12h', symbolList, stream_label="kline_12h", output="UnicornFy")
+        binance_websocket_api_manager.create_stream('kline_1d', symbolList, stream_label="kline_1d", output="UnicornFy")
+        binance_websocket_api_manager.create_stream('kline_3d', symbolList, stream_label="kline_3d", output="UnicornFy")
+        binance_websocket_api_manager.create_stream('kline_1w', symbolList, stream_label="kline_1w", output="UnicornFy")
+        binance_websocket_api_manager.create_stream('kline_1M', symbolList, stream_label="kline_1M", output="UnicornFy")
 
-        bookticker_all_stream_id = binance_websocket_api_manager.create_stream(["arr"], ["!bookTicker"])
-
-        # https://binance-docs.github.io/apidocs/futures/en/#mark-price-stream-for-all-market
-        binance_websocket_api_manager.create_stream(["!markPrice"], "arr@1s", stream_label="!markPrice@arr@1s")
-
-        markets = {'btcusdt', 'bchusdt', 'ethusdt'}
-        #binance_websocket_api_manager.create_stream(["aggTrade"], markets)
-        #binance_websocket_api_manager.create_stream(["markPrice"], markets)
-        binance_websocket_api_manager.create_stream(["kline_1m"], markets)
-        binance_websocket_api_manager.create_stream(["kline_5m"], markets)
-        binance_websocket_api_manager.create_stream(["kline_15m"], markets)
-        binance_websocket_api_manager.create_stream(["kline_1h"], markets)
-        binance_websocket_api_manager.create_stream(["kline_12h"], markets)
-        # binance_websocket_api_manager.create_stream(["miniTicker"], markets)
-        # binance_websocket_api_manager.create_stream(["bookTicker"], markets)
-        # binance_websocket_api_manager.create_stream(["depth"], markets)
-        # binance_websocket_api_manager.create_stream(["depth@2500ms"], markets)
-        # binance_websocket_api_manager.create_stream(["depth5"], markets)
-        # binance_websocket_api_manager.create_stream(["depth5@100ms"], markets)
-        # binance_websocket_api_manager.create_stream(["depth10"], markets)
-        # binance_websocket_api_manager.create_stream(["depth20"], markets)
-        binance_websocket_api_manager.create_stream(["compositeIndex"], markets, stream_label="compositeIndex")
-
-        channels = {'kline_1m', 'kline_5m', 'kline_15m', 'kline_30m', 'kline_1h', 'kline_12h'}
-        binance_websocket_api_manager.create_stream(channels, markets)
-
-        # start a worker process to move the received stream_data from the stream_buffer to a print function
-        worker_thread = threading.Thread(target=print_stream_data_from_stream_buffer,
-                                         args=(binance_websocket_api_manager,))
-        worker_thread.start()
-
-        # show an overview
         while True:
-            binance_websocket_api_manager.print_summary()
-            time.sleep(1)
+            if binance_websocket_api_manager.is_manager_stopping():
+                exit(0)
+            oldest_stream_data_from_stream_buffer = binance_websocket_api_manager.pop_stream_data_from_stream_buffer()
+            if oldest_stream_data_from_stream_buffer is False:
+                time.sleep(0.01)
+            else:
+                if oldest_stream_data_from_stream_buffer is not None:
+                    try:
+                        if oldest_stream_data_from_stream_buffer['event_time'] >= oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
+                            print(oldest_stream_data_from_stream_buffer['kline']['symbol'])
+                            print(oldest_stream_data_from_stream_buffer['kline']['interval'])
+                            print(oldest_stream_data_from_stream_buffer['kline']['open_price'])
+                            print(oldest_stream_data_from_stream_buffer['kline']['close_price'])
+                            print(oldest_stream_data_from_stream_buffer['kline']['high_price'])
+                            print(oldest_stream_data_from_stream_buffer['kline']['low_price'])
+                            print(oldest_stream_data_from_stream_buffer['kline']['is_closed'])
+                            # print only the last kline
+                            #print(f"UnicornFy: {oldest_stream_data_from_stream_buffer}")
+                    except KeyError:
+                        pass
+                        #print(f"dict: {oldest_stream_data_from_stream_buffer}")
+                    except TypeError:
+                        pass
+                        #print(f"raw_data: {oldest_stream_data_from_stream_buffer}")
         # r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
         #
         # symbolList = []
