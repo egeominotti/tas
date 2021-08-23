@@ -39,7 +39,9 @@ class Command(BaseCommand):
         binance_websocket_api_manager.create_stream(klines, symbolList, output="UnicornFy")
 
         while True:
+
             try:
+
                 oldest_stream_data_from_stream_buffer = binance_websocket_api_manager.pop_stream_data_from_stream_buffer()
                 if oldest_stream_data_from_stream_buffer:
                     binance_stream = UnicornFy.binance_com_websocket(oldest_stream_data_from_stream_buffer)
@@ -63,26 +65,26 @@ class Command(BaseCommand):
                             r.set(key, json.dumps(candle_realtime))
 
                             # Candle closed - save to db
-                            if candle_is_closed:
-
-                                qs = BufferRecordData.objects.filter(key=key, is_closed=True).order_by('created_at')
-
-                                if qs.count() >= 365:
-                                    qs.first().delete()
-
-                                if qs.count() <= 365:
-                                    BufferRecordData.objects.create(
-                                        key=key,
-                                        symbol=symbol,
-                                        time_frame=interval,
-                                        open_candle=float(v.get('open_price')),
-                                        close_candle=float(v.get('close_price')),
-                                        high_candle=float(v.get('high_price')),
-                                        low_candle=float(v.get('low_price')),
-                                        is_closed=v.get('is_closed'),
-                                        unix=v.get('kline_start_time'),
-                                        volume=v.get('base_volume')
-                                    )
+                            # if candle_is_closed:
+                            #
+                            #     qs = BufferRecordData.objects.filter(key=key, is_closed=True).order_by('created_at')
+                            #
+                            #     if qs.count() >= 365:
+                            #         qs.first().delete()
+                            #
+                            #     if qs.count() <= 365:
+                            #         BufferRecordData.objects.create(
+                            #             key=key,
+                            #             symbol=symbol,
+                            #             time_frame=interval,
+                            #             open_candle=float(v.get('open_price')),
+                            #             close_candle=float(v.get('close_price')),
+                            #             high_candle=float(v.get('high_price')),
+                            #             low_candle=float(v.get('low_price')),
+                            #             is_closed=v.get('is_closed'),
+                            #             unix=v.get('kline_start_time'),
+                            #             volume=v.get('base_volume')
+                            #         )
 
             except Exception as e:
                 print(e)
