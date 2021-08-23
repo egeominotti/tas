@@ -1,10 +1,6 @@
-import decouple
-import json
-import redis
-from django.core.management import BaseCommand
 import logging
+from django.core.management import BaseCommand
 from bot.services.indicator import RealTimeIndicator
-from strategy.models import SymbolExchange
 
 logger = logging.getLogger('main')
 
@@ -14,10 +10,16 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-
-        indicator = RealTimeIndicator('RVNUSDT', '5m')
+        indicator = RealTimeIndicator('RVNUSDT', '1m', False)
         indicator.compute()
         print(indicator.ema(5))
         print(indicator.rsi(14))
         print(indicator.bbands(20))
         print(indicator.candle())
+
+        # indicator = RealTimeIndicator('RVNUSDT', '5m', False)
+        # indicator.compute()
+        # print(indicator.ema(5))
+        # print(indicator.rsi(14))
+        # print(indicator.bbands(20))
+        # print(indicator.candle())

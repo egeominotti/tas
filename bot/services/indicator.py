@@ -16,10 +16,11 @@ class RealTimeIndicator:
     low_array = None
     high_array = None
 
-    def __init__(self, symbol, time_frame):
+    def __init__(self, symbol, time_frame, realtime):
         self.symbol = symbol
         self.time_frame = time_frame
-        self.redis = False
+        self.redis = True
+        self.realtime = realtime
         self.client = Client()
         self.redis_client = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 
@@ -61,12 +62,12 @@ class RealTimeIndicator:
                 if start_time is None:
                     klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame)
 
-            open_time =     [entry[0] for entry in klines]
-            open =          [float(entry[1]) for entry in klines]
-            high =          [float(entry[2]) for entry in klines]
-            low =           [float(entry[3]) for entry in klines]
-            close =         [float(entry[4]) for entry in klines]
-            close_time =    [entry[6] for entry in klines]
+            open_time = [entry[0] for entry in klines]
+            open = [float(entry[1]) for entry in klines]
+            high = [float(entry[2]) for entry in klines]
+            low = [float(entry[3]) for entry in klines]
+            close = [float(entry[4]) for entry in klines]
+            close_time = [entry[6] for entry in klines]
 
             self.close_array = np.asarray(close)
             self.open_array = np.asarray(open)
@@ -74,34 +75,60 @@ class RealTimeIndicator:
             self.high_array = np.asarray(high)
 
         else:
+            if self.realtime:
+                key = str(SymbolExchange.objects.get(symbol=self.symbol)) + "_" + str(self.time_frame) + "_REALTIME"
+                if self.redis_client.exists(key):
+                    """
+                     candle_realtime = {
+    
+                                        'candle_close': close_price,
+                                        'candle_open': open_price,
+                                        'candle_high': high_price,
+                                        'candle_low': low_price,
+                                        'is_closed': is_closed,
+                                        'time_milliseconds': kline_start_time,
+                                        # 'time_datetime': datetime.datetime.fromtimestamp(kline['kline_start_time'] / 1000.0,tz=datetime.timezone.utc),
+                                    }
+                    """
 
-            key = str(SymbolExchange.objects.get(symbol=self.symbol)) + "_" + str(self.time_frame) + "_REALTIME"
-            if self.redis_client.exists(key):
+                    klines = json.loads(self.redis_client.get(key))
+                    open = [float(entry['candle_open']) for entry in klines]
+                    high = [float(entry['candle_high']) for entry in klines]
+                    low = [float(entry['candle_low']) for entry in klines]
+                    close = [float(entry['candle_close']) for entry in klines if entry['is_closed']]
 
-                """
-                 candle_realtime = {
+                    self.close_array = np.asarray(close)
+                    self.open_array = np.asarray(open)
+                    self.low_array = np.asarray(low)
+                    self.high_array = np.asarray(high)
+            else:
 
-                                    'candle_close': close_price,
-                                    'candle_open': open_price,
-                                    'candle_high': high_price,
-                                    'candle_low': low_price,
-                                    'is_closed': is_closed,
-                                    'time_milliseconds': kline_start_time,
-                                    # 'time_datetime': datetime.datetime.fromtimestamp(kline['kline_start_time'] / 1000.0,tz=datetime.timezone.utc),
-                                }
-                """
+                key = str(SymbolExchange.objects.get(symbol=self.symbol)) + "_" + str(self.time_frame) + "_CLOSED"
+                if self.redis_client.exists(key):
+                    """
+                     candle_realtime = {
 
-                klines = json.loads(self.redis_client.get(key))
+                                        'candle_close': close_price,
+                                        'candle_open': open_price,
+                                        'candle_high': high_price,
+                                        'candle_low': low_price,
+                                        'is_closed': is_closed,
+                                        'time_milliseconds': kline_start_time,
+                                        # 'time_datetime': datetime.datetime.fromtimestamp(kline['kline_start_time'] / 1000.0,tz=datetime.timezone.utc),
+                                    }
+                    """
 
-                open = [float(entry['candle_open']) for entry in klines]
-                high = [float(entry['candle_high']) for entry in klines]
-                low = [float(entry['candle_low']) for entry in klines]
-                close = [float(entry['candle_low']) for entry in klines]
+                    klines = json.loads(self.redis_client.get(key))
+                    print(len(klines))
+                    open = [float(entry['candle_open']) for entry in klines]
+                    high = [float(entry['candle_high']) for entry in klines]
+                    low = [float(entry['candle_low']) for entry in klines]
+                    close = [float(entry['candle_close']) for entry in klines]
 
-                self.close_array = np.asarray(close)
-                self.open_array = np.asarray(open)
-                self.low_array = np.asarray(low)
-                self.high_array = np.asarray(high)
+                    self.close_array = np.asarray(close)
+                    self.open_array = np.asarray(open)
+                    self.low_array = np.asarray(low)
+                    self.high_array = np.asarray(high)
 
     def candle(self, backtrack=-1):
 
