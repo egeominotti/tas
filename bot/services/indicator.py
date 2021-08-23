@@ -4,7 +4,6 @@ import talib
 import numpy as np
 
 
-
 class RealTimeIndicator:
     close_array = None
     open_array = None
@@ -20,6 +19,25 @@ class RealTimeIndicator:
 
         klines = None
 
+        """
+        [
+          [
+            1499040000000,      // Open time
+            "0.01634790",       // Open
+            "0.80000000",       // High
+            "0.01575800",       // Low
+            "0.01577100",       // Close
+            "148976.11427815",  // Volume
+            1499644799999,      // Close time
+            "2434.19055334",    // Quote asset volume
+            308,                // Number of trades
+            "1756.87402397",    // Taker buy base asset volume
+            "28.46694368",      // Taker buy quote asset volume
+            "17928899.62484339" // Ignore.
+          ]
+        ]
+        """
+
         try:
             if start_time is not None:
                 klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, endTime=start_time)
@@ -34,10 +52,12 @@ class RealTimeIndicator:
             if start_time is None:
                 klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame)
 
-        open = [float(entry[1]) for entry in klines]
-        high = [float(entry[2]) for entry in klines]
-        low = [float(entry[3]) for entry in klines]
-        close = [float(entry[4]) for entry in klines]
+        open_time =     [entry[0] for entry in klines]
+        open =          [float(entry[1]) for entry in klines]
+        high =          [float(entry[2]) for entry in klines]
+        low =           [float(entry[3]) for entry in klines]
+        close =         [float(entry[4]) for entry in klines]
+        close_time =    [entry[6] for entry in klines]
 
         self.close_array = np.asarray(close)
         self.open_array = np.asarray(open)
