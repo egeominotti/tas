@@ -22,8 +22,18 @@ class Command(BaseCommand):
         for symbol in SymbolExchange.objects.all():
             symbolList.append(symbol.symbol.lower())
 
-        klines = ['kline_1m', 'kline_5m', 'kline_15m', 'kline_30m', 'kline_1h', 'kline_2h', 'kline_4h', 'kline_6h',
-                  'kline_8h', 'kline_12h', 'kline_1d', 'kline_3d', 'kline_1w', 'kline_1M']
+        # klines = ['kline_1m', 'kline_5m', 'kline_15m', 'kline_30m', 'kline_1h', 'kline_2h', 'kline_4h', 'kline_6h',
+        #           'kline_8h', 'kline_12h', 'kline_1d', 'kline_3d', 'kline_1w', 'kline_1M']
+
+        klines = ['kline_1m',
+                  'kline_5m',
+                  'kline_15m',
+                  'kline_30m',
+                  'kline_1h',
+                  'kline_4h',
+                  'kline_1d',
+                  'kline_1w',
+                  'kline_1M']
 
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com")
         binance_websocket_api_manager.create_stream(klines, symbolList, output="UnicornFy")
@@ -36,9 +46,9 @@ class Command(BaseCommand):
                     for k, v in binance_stream.items():
                         if isinstance(v, dict):
 
-                            candle_is_closed =  v.get('is_closed')
-                            symbol =            v.get('symbol')
-                            interval =          v.get('interval')
+                            candle_is_closed = v.get('is_closed')
+                            symbol = v.get('symbol')
+                            interval = v.get('interval')
 
                             # Candle not closed - save to redis real time data
                             key = str(SymbolExchange.objects.get(symbol=symbol)) + "_" + str(interval)
@@ -62,17 +72,17 @@ class Command(BaseCommand):
 
                                 if qs.count() <= 365:
                                     BufferRecordData.objects.create(
-                                            key=key,
-                                            symbol=symbol,
-                                            time_frame=interval,
-                                            open_candle=float(v.get('open_price')),
-                                            close_candle=float(v.get('close_price')),
-                                            high_candle=float(v.get('high_price')),
-                                            low_candle=float(v.get('low_price')),
-                                            is_closed=v.get('is_closed'),
-                                            unix=v.get('kline_start_time'),
-                                            volume=v.get('base_volume')
-                                        )
+                                        key=key,
+                                        symbol=symbol,
+                                        time_frame=interval,
+                                        open_candle=float(v.get('open_price')),
+                                        close_candle=float(v.get('close_price')),
+                                        high_candle=float(v.get('high_price')),
+                                        low_candle=float(v.get('low_price')),
+                                        is_closed=v.get('is_closed'),
+                                        unix=v.get('kline_start_time'),
+                                        volume=v.get('base_volume')
+                                    )
 
             except Exception as e:
                 print(e)

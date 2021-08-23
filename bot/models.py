@@ -4,7 +4,7 @@ from django_quill.fields import QuillField
 
 from exchange.models import ExchangeList
 from analytics.models import CommonTrait
-from strategy.models import TimeFrame, Coins, SymbolExchange
+from strategy.models import TimeFrame, Coins
 from exchange.models import User
 import uuid
 

@@ -76,7 +76,6 @@ def logicentry_bot_rsi_20_bollinger(item):
 
         rsi = indicators.rsi(14)
         bbands = indicators.bbands(20)
-        candle = indicators.candle()
 
         print("symbol: " + str(item.get('symbol_exchange'))
               + " time_frame:" + str(item.get('time_frame'))
