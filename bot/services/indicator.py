@@ -77,6 +77,7 @@ class RealTimeIndicator:
                     sleep(1)
 
             if real_time is True:
+                sleep(1)
                 klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame)
 
             if klines is not None:
