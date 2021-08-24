@@ -72,6 +72,7 @@ class RealTimeIndicator:
                 klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame)
 
             if klines is not None:
+
                 if len(klines) > 0:
 
                     open = [double(entry[1]) for entry in klines]
