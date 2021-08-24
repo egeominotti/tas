@@ -55,11 +55,11 @@ class RealTimeIndicator:
         try:
 
             if real_time is False:
-                if self.redis_client.exists(key):
+                while not self.redis_client.exists(key):
                     value = self.redis_client.get(key)
                     candle_from_websocket = json.loads(value)
                     start_time = candle_from_websocket.get('time')
-                    while not candle_from_websocket.get('is_closed'):
+                    if candle_from_websocket.get('is_closed'):
                         print("ATTENDO CHE SI CHIUDE LA CANDELA")
                         if candle_from_websocket.get('is_closed'):
                             print(start_time)
