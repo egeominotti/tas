@@ -45,10 +45,10 @@ class RealTimeIndicator:
         ]
         """
 
-        # self.close_array = None
-        # self.open_array = None
-        # self.low_array = None
-        # self.high_array = None
+        self.close_array = None
+        self.open_array = None
+        self.low_array = None
+        self.high_array = None
 
         key = str(self.symbol) + "_" + str(self.time_frame)
 
