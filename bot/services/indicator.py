@@ -62,19 +62,16 @@ class RealTimeIndicator:
                     start_time = candle_from_websocket.get('time')
 
                     if candle_from_websocket.get('is_closed') is True:
-                        #print("CANDELA CHIUSA")
-                        #print(start_time)
+
                         klines = self.client \
                             .get_klines(symbol=self.symbol,
                                         interval=self.time_frame,
                                         endTime=start_time)
-                        #print(len(klines))
 
                         if len(klines) > 300:
                             self.redis_client.set(key, json.dumps({'is_closed': False}))
                             break
 
-                    #print("ATTENDO CHE SI CHIUDE LA CANDELA")
                     sleep(1)
 
             if real_time is True:
