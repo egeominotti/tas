@@ -72,9 +72,6 @@ class RealTimeIndicator:
                     klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, endTime=start_time)
                     self.redis_client.set(key, json.dumps({'candle_is_closed': False}))
             else:
-
-
-
                 klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame)
 
         except Exception as e:
