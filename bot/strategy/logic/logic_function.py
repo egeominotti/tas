@@ -59,6 +59,7 @@ def logicexit_test(item):
 def logicentry_bot_rsi_20_bollinger(item):
 
     indicators = item['indicators']
+    # Real time indicator disabled check only prev closed candle
     indicators.compute(False)
 
     candles =   indicators.candle()
@@ -100,6 +101,7 @@ def logicexit_bot_rsi_20_bollinger(item):
         while True:
 
             indicators = item['indicators']
+            # Real time indicator enabled
             indicators.compute(True)
             item['candle_close'] = indicators.candle().get('close')
 
