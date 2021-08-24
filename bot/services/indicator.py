@@ -1,11 +1,10 @@
-from time import sleep
-
 import decouple
 import json
 import redis
-from binance import Client
 import talib
 import numpy as np
+from time import sleep
+from binance import Client
 from numpy import double
 
 
