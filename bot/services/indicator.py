@@ -9,7 +9,6 @@ from numpy import double
 
 
 class RealTimeIndicator:
-
     close_array = None
     open_array = None
     low_array = None
@@ -55,20 +54,20 @@ class RealTimeIndicator:
         try:
 
             if real_time is False:
-                if self.redis_client.exists(key):
-                    value = self.redis_client.get(key)
-                    candle_from_websocket = json.loads(value)
-                    start_time = candle_from_websocket.get('time')
+                value = self.redis_client.get(key)
+                print(value)
+                candle_from_websocket = json.loads(value)
+                start_time = candle_from_websocket.get('time')
+                if candle_from_websocket.get('is_closed'):
+                    print("ATTENDO CHE SI CHIUDE LA CANDELA")
                     if candle_from_websocket.get('is_closed'):
-                        print("ATTENDO CHE SI CHIUDE LA CANDELA")
-                        if candle_from_websocket.get('is_closed'):
-                            print(start_time)
-                            klines = self.client \
-                                .get_klines(symbol=self.symbol,
-                                            interval=self.time_frame,
-                                            endTime=start_time)
-                            # delete key
-                            self.redis_client.delete(key)
+                        print(start_time)
+                        klines = self.client \
+                            .get_klines(symbol=self.symbol,
+                                        interval=self.time_frame,
+                                        endTime=start_time)
+                        # delete key
+                        self.redis_client.delete(key)
 
             if real_time is True:
                 klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame)
@@ -76,7 +75,6 @@ class RealTimeIndicator:
             if klines is not None:
 
                 if len(klines) > 0:
-
                     open = [double(entry[1]) for entry in klines]
                     high = [double(entry[2]) for entry in klines]
                     low = [double(entry[3]) for entry in klines]
@@ -103,7 +101,6 @@ class RealTimeIndicator:
                     len(self.high_array) > 0 and \
                     len(self.low_array) > 0 and \
                     len(self.close_array):
-
                 value = {
                     'open': self.open_array[backtrack],
                     'high': self.high_array[backtrack],
