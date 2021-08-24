@@ -43,8 +43,7 @@ class TradingBot:
             self.telegram = Telegram()
             self.notify = self.user.telegram_notifications
             self.taapi = Taapi(self.symbol)
-            self.indicators = RealTimeIndicator(self.symbol_exchange, self.time_frame, self.userexchange.api_key,
-                                                self.userexchange.api_secret)
+            self.indicators = RealTimeIndicator(self.symbol_exchange, self.time_frame)
             self.exchange = BinanceHelper(
                 bot=self.current_bot,
                 api_key=self.userexchange.api_key,
