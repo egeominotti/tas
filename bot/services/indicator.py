@@ -61,23 +61,26 @@ class RealTimeIndicator:
                         if candle_from_websocket.get('is_closed'):
                             start_time = candle_from_websocket.get('time')
                             print(start_time)
-                            klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame,
-                                                            endTime=start_time)
+                            klines = self.client\
+                                .get_klines(symbol=self.symbol,
+                                            interval=self.time_frame,
+                                            endTime=start_time)
                             # delete key
                             self.redis_client.delete(key)
 
             if real_time is True:
                 klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame)
 
-            open = [double(entry[1]) for entry in klines]
-            high = [double(entry[2]) for entry in klines]
-            low = [double(entry[3]) for entry in klines]
-            close = [double(entry[4]) for entry in klines]
+            if len(klines) > 0:
+                open = [double(entry[1]) for entry in klines]
+                high = [double(entry[2]) for entry in klines]
+                low = [double(entry[3]) for entry in klines]
+                close = [double(entry[4]) for entry in klines]
 
-            self.close_array = np.asarray(close)
-            self.open_array = np.asarray(open)
-            self.low_array = np.asarray(low)
-            self.high_array = np.asarray(high)
+                self.close_array = np.asarray(close)
+                self.open_array = np.asarray(open)
+                self.low_array = np.asarray(low)
+                self.high_array = np.asarray(high)
 
         except Exception as e:
             # retry connection
