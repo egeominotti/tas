@@ -19,8 +19,6 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
-        # Clear all db
-        r.flushall()
 
         logging.basicConfig(level=logging.ERROR,
                             filename=os.path.basename(__file__) + '.log',
