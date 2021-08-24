@@ -134,6 +134,7 @@ class TradingBot:
             self.telegram.send(start)
 
     def sleep_bot(self):
+
         if self.time_frame == '1m':
             sleep(60)
         if self.time_frame == '5m':
