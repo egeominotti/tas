@@ -55,7 +55,7 @@ class RealTimeIndicator:
         try:
 
             if real_time is False:
-                while self.redis_client.exists(key):
+                while not self.redis_client.exists(key):
                     value = self.redis_client.get(key)
                     candle_from_websocket = json.loads(value)
                     start_time = candle_from_websocket.get('time')
