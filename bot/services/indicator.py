@@ -55,11 +55,11 @@ class RealTimeIndicator:
         try:
 
             if real_time is False:
-                if self.redis_client.exists(key):
+                while self.redis_client.exists(key):
                     value = self.redis_client.get(key)
                     candle_from_websocket = json.loads(value)
+                    start_time = candle_from_websocket.get('time')
                     if candle_from_websocket.get('is_closed'):
-                        start_time = candle_from_websocket.get('time')
                         print(start_time)
                         klines = self.client \
                             .get_klines(symbol=self.symbol,
