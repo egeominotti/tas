@@ -68,7 +68,7 @@ class RealTimeIndicator:
                                 print(start_time)
                                 #sleep(1.1)
                                 klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, endTime=start_time)
-                                self.redis_client.set(key, json.dumps({'is_closed': False}))
+                                self.redis_client.set(key, None)
 
             if real_time is True:
                 klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame)
