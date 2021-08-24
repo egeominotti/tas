@@ -26,7 +26,7 @@ def spawnbot(instance) -> None:
 def init() -> None:
     while True:
 
-        if datetime.datetime.now().second == 30:
+        if datetime.datetime.now().second == 15:
             qs = Bot.objects.filter(running=False, abort=False)
             if qs.count() > 0:
                 for instance in qs:
@@ -36,9 +36,6 @@ def init() -> None:
                     instance.save()
                     thread.start()
                     print("Sart thread: " + str(thread))
-
-                    # For taapi
-                    sleep(15)
 
 
 class Command(BaseCommand):
