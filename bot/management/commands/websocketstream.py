@@ -60,7 +60,29 @@ class Command(BaseCommand):
                 if oldest_stream_data_from_stream_buffer is not None:
                     try:
                         if not oldest_stream_data_from_stream_buffer['kline']['is_closed']:
-                            pass
+
+                            kline = oldest_stream_data_from_stream_buffer['kline']
+                            symbol = kline['symbol']
+                            interval = kline['interval']
+                            open_price = kline['open_price']
+                            close_price = kline['close_price']
+                            high_price = kline['high_price']
+                            low_price = kline['low_price']
+                            is_closed = kline['is_closed']
+                            kline_start_time = kline['kline_start_time']
+
+                            key = str(SymbolExchange.objects.get(symbol=symbol)) + "_" + str(interval)
+
+                            candle_closed = {
+                                'candle_close': close_price,
+                                'candle_open': open_price,
+                                'candle_high': high_price,
+                                'candle_low': low_price,
+                                'is_closed': is_closed,
+                                'time': kline_start_time,
+                            }
+
+                            r.set(key, json.dumps(candle_closed))
 
                         if oldest_stream_data_from_stream_buffer['event_time'] >= \
                                 oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
