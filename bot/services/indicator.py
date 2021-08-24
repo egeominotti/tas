@@ -50,20 +50,22 @@ class RealTimeIndicator:
         self.high_array = None
 
         key = str(self.symbol) + "_" + str(self.time_frame)
-        value = self.redis_client.get(key)
-        candle_from_websocket = json.loads(value)
-        print(candle_from_websocket)
+
 
         try:
 
             if real_time is False:
-                if candle_from_websocket is not None:
-                    if candle_from_websocket.get('is_closed'):
-                        start_time = candle_from_websocket.get('time')
-                        print(start_time)
-                        #sleep(1.1)
-                        klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, endTime=start_time)
-                        self.redis_client.set(key, json.dumps({'is_closed': False}))
+                value = self.redis_client.get(key)
+                if value is not None:
+                    candle_from_websocket = json.loads(value)
+                    print(candle_from_websocket)
+                    if candle_from_websocket is not None:
+                        if candle_from_websocket.get('is_closed'):
+                            start_time = candle_from_websocket.get('time')
+                            print(start_time)
+                            #sleep(1.1)
+                            klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, endTime=start_time)
+                            self.redis_client.set(key, json.dumps({'is_closed': False}))
 
             if real_time is True:
                 klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame)
@@ -79,24 +81,9 @@ class RealTimeIndicator:
             self.high_array = np.asarray(high)
 
         except Exception as e:
+            # retry connection
             print("Compute Error:" + str(e))
             sleep(30)
-            start_time = candle_from_websocket.get('time')
-            if real_time is False:
-                if candle_from_websocket.get('is_closed'):
-                    klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, endTime=start_time)
-            else:
-                klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame)
-
-            open = [double(entry[1]) for entry in klines]
-            high = [double(entry[2]) for entry in klines]
-            low = [double(entry[3]) for entry in klines]
-            close = [double(entry[4]) for entry in klines]
-
-            self.close_array = np.asarray(close)
-            self.open_array = np.asarray(open)
-            self.low_array = np.asarray(low)
-            self.high_array = np.asarray(high)
 
     def candle(self, backtrack=-1):
         value = {
