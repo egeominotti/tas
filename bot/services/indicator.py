@@ -59,17 +59,21 @@ class RealTimeIndicator:
             start_time = candle_from_websocket.get('time')
             if real_time is False:
                 if candle_from_websocket.get('is_closed'):
+
+                    # if self.time_frame == '1m':
+                    #     sleep(60)
+                    # if self.time_frame == '5m':
+                    #     sleep(300)
+                    # if self.time_frame == '30m':
+                    #     sleep(1800)
+                    # if self.time_frame == '1h':
+                    #     sleep(3600)
+
                     klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, endTime=start_time)
+                    self.redis_client.set(key, json.dumps({'candle_is_closed': False}))
             else:
 
-                if self.time_frame == '1m':
-                    sleep(60)
-                if self.time_frame == '5m':
-                    sleep(300)
-                if self.time_frame == '30m':
-                    sleep(1800)
-                if self.time_frame == '1h':
-                    sleep(3600)
+
 
                 klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame)
 
