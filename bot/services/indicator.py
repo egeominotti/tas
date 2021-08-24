@@ -55,25 +55,20 @@ class RealTimeIndicator:
         candle_from_websocket = json.loads(value)
 
         try:
-            sleep(1)
+            sleep(1.1)
             start_time = candle_from_websocket.get('time')
             if real_time is False:
-                print(real_time)
                 if candle_from_websocket.get('is_closed'):
-                    print(candle_from_websocket)
-                    print("candle closed")
                     klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, endTime=start_time)
             else:
                 klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame)
 
         except Exception as e:
             print("Binance Error:" + str(e))
-
+            sleep(30)
             start_time = candle_from_websocket.get('time')
             if real_time is False:
-                print(real_time)
                 if candle_from_websocket.get('is_closed'):
-                    print("candle closed")
                     klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame, endTime=start_time)
             else:
                 klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame)

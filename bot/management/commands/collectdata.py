@@ -1,6 +1,4 @@
 import logging
-from time import sleep
-
 from django.core.management import BaseCommand
 from bot.services.indicator import RealTimeIndicator
 
@@ -13,10 +11,9 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         while True:
-            indicator = RealTimeIndicator('RVNUSDT', '1m')
-            indicator.compute(False)
+            indicator = RealTimeIndicator('RVNUSDT', '5m')
+            indicator.compute(True)
             print(indicator.ema(5))
             print(indicator.rsi(14))
             print(indicator.bbands(20))
             print(indicator.candle())
-            sleep(1)

@@ -133,7 +133,6 @@ def logicexit_bot_rsi_20_bollinger(item):
                     sentinel = True
                     break
 
-
             else:
 
                 """
