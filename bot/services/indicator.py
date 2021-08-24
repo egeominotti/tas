@@ -63,7 +63,8 @@ class RealTimeIndicator:
                             print(start_time)
                             klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame,
                                                             endTime=start_time)
-                self.redis_client.set(key, None)
+                            # delete key
+                            self.redis_client.delete(key)
 
             if real_time is True:
                 klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame)
