@@ -72,6 +72,7 @@ class RealTimeIndicator:
 
             if klines is not None:
                 if len(klines) > 0:
+
                     open = [double(entry[1]) for entry in klines]
                     high = [double(entry[2]) for entry in klines]
                     low = [double(entry[3]) for entry in klines]
