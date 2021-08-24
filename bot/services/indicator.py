@@ -56,17 +56,16 @@ class RealTimeIndicator:
             if real_time is False:
                 if self.redis_client.exists(key):
                     value = self.redis_client.get(key)
-                    if value is not None:
-                        candle_from_websocket = json.loads(value)
-                        if candle_from_websocket.get('is_closed'):
-                            start_time = candle_from_websocket.get('time')
-                            print(start_time)
-                            klines = self.client\
-                                .get_klines(symbol=self.symbol,
-                                            interval=self.time_frame,
-                                            endTime=start_time)
-                            # delete key
-                            self.redis_client.delete(key)
+                    candle_from_websocket = json.loads(value)
+                    if candle_from_websocket.get('is_closed'):
+                        start_time = candle_from_websocket.get('time')
+                        print(start_time)
+                        klines = self.client \
+                            .get_klines(symbol=self.symbol,
+                                        interval=self.time_frame,
+                                        endTime=start_time)
+                        # delete key
+                        self.redis_client.delete(key)
 
             if real_time is True:
                 klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame)
@@ -87,6 +86,7 @@ class RealTimeIndicator:
             print("Compute Error:" + str(e))
             sleep(30)
 
+
     def candle(self, backtrack=-1):
         value = {
             'open': self.open_array[backtrack],
@@ -97,6 +97,7 @@ class RealTimeIndicator:
 
         return value
 
+
     def ema(self, period, backtrack=-1):
         if len(self.close_array) >= period:
             ema = talib.EMA(self.close_array, timeperiod=period)
@@ -104,12 +105,14 @@ class RealTimeIndicator:
 
         return None
 
+
     def rsi(self, period, backtrack=-1):
         if len(self.close_array) >= period:
             rsi = talib.RSI(self.close_array, timeperiod=period)
             return round(rsi[backtrack], 3)
 
         return None
+
 
     def bbands(self, period=20, backtrack=-1):
         if len(self.close_array) >= period:
