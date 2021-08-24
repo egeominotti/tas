@@ -44,10 +44,10 @@ class RealTimeIndicator:
         ]
         """
 
-        # self.close_array = None
-        # self.open_array = None
-        # self.low_array = None
-        # self.high_array = None
+        self.close_array = None
+        self.open_array = None
+        self.low_array = None
+        self.high_array = None
 
         key = str(self.symbol) + "_" + str(self.time_frame)
 
@@ -55,7 +55,7 @@ class RealTimeIndicator:
 
             if real_time is False:
                 while True:
-                    print("ATTENDO CHE SI CHIUDE LA CANDELA")
+
                     value = self.redis_client.get(key)
                     candle_from_websocket = json.loads(value)
                     start_time = candle_from_websocket.get('time')
@@ -64,13 +64,17 @@ class RealTimeIndicator:
                         print("CANDELA CHIUSA")
                         print(start_time)
                         klines = self.client \
-                                .get_klines(symbol=self.symbol,
-                                            interval=self.time_frame,
-                                            endTime=start_time)
+                            .get_klines(symbol=self.symbol,
+                                        interval=self.time_frame,
+                                        endTime=start_time)
                         sleep(5)
                         print(len(klines))
                         if len(klines) > 300:
+                            self.redis_client.set(key, json.dumps({'is_closed': False}))
                             break
+
+                    print("ATTENDO CHE SI CHIUDE LA CANDELA")
+                    sleep(1)
 
             if real_time is True:
                 klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame)
