@@ -1,5 +1,4 @@
 import datetime
-
 import decouple
 from django.core.management import BaseCommand
 import logging
