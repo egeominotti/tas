@@ -89,14 +89,23 @@ class RealTimeIndicator:
 
     def candle(self, backtrack=-1):
 
-        if len(self.open_array) > 0 and len(self.high_array) > 0 and len(self.low_array) > 0 and len(self.close_array):
-            value = {
-                'open': self.open_array[backtrack],
-                'high': self.high_array[backtrack],
-                'low': self.low_array[backtrack],
-                'close': self.close_array[backtrack],
-            }
-            return value
+        if self.open_array is not None and \
+                self.high_array is not None and \
+                self.low_array is not None and \
+                self.close_array is not None:
+
+            if len(self.open_array) > 0 and \
+                    len(self.high_array) > 0 and \
+                    len(self.low_array) > 0 and \
+                    len(self.close_array):
+
+                value = {
+                    'open': self.open_array[backtrack],
+                    'high': self.high_array[backtrack],
+                    'low': self.low_array[backtrack],
+                    'close': self.close_array[backtrack],
+                }
+                return value
 
         value = {
             'open': 0,
@@ -107,21 +116,23 @@ class RealTimeIndicator:
         return value
 
     def ema(self, period, backtrack=-1):
-        if len(self.close_array) >= period:
+
+        if len(self.close_array) >= period and self.close_array is not None:
             ema = talib.EMA(self.close_array, timeperiod=period)
             return round(ema[backtrack], 5)
 
         return 0
 
     def rsi(self, period, backtrack=-1):
-        if len(self.close_array) >= period:
+        if len(self.close_array) >= period and self.close_array is not None:
             rsi = talib.RSI(self.close_array, timeperiod=period)
             return round(rsi[backtrack], 3)
 
         return 0
 
     def bbands(self, period=20, backtrack=-1):
-        if len(self.close_array) >= period:
+
+        if len(self.close_array) >= period and self.close_array is not None:
             upperband, middleband, lowerband = talib.BBANDS(
                 self.close_array,
                 timeperiod=period,
