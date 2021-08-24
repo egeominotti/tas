@@ -133,6 +133,22 @@ class TradingBot:
                     "\nLet's go to the moon 🚀️"
             self.telegram.send(start)
 
+    def sleep_bot(self):
+        if self.time_frame == '1m':
+            sleep(60)
+        if self.time_frame == '5m':
+            sleep(300)
+        if self.time_frame == '15m':
+            sleep(900)
+        if self.time_frame == '30m':
+            sleep(1800)
+        if self.time_frame == '1h':
+            sleep(3600)
+        if self.time_frame == '2h':
+            sleep(7200)
+        if self.time_frame == '4h':
+            sleep(14400)
+
     def entry(self) -> bool:
 
         try:
@@ -140,12 +156,8 @@ class TradingBot:
             func_entry = eval(self.func_entry.name)
             if self.item.get('entry') is False:
 
+                self.sleep_bot()
                 # Real time indicator disabled check only prev closed candle
-                if self.time_frame == '1m':
-                    sleep(60)
-                if self.time_frame == '5m':
-                    sleep(300)
-
                 self.indicators.compute(False)
                 func_entry(item=self.item)
 
