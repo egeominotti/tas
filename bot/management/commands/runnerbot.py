@@ -24,6 +24,7 @@ def spawnbot(instance) -> None:
 
 
 def init() -> None:
+
     while True:
 
         if datetime.datetime.now().second == 15:
