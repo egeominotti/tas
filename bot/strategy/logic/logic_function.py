@@ -59,49 +59,39 @@ def logicexit_test(item):
 def logicentry_bot_rsi_20_bollinger(item):
 
     indicators = item['indicators']
-    time_frame = item['time_frame']
+    indicators.compute(False)
 
-    key = str(item.get('symbol_exchange')) + "_" + str(time_frame)
+    candles =   indicators.candle()
+    rsi =       indicators.rsi(14)
+    bbands =    indicators.bbands(20)
 
-    value = redis.get(key)
-    candle_from_websocket = json.loads(value)
+    item['candle_close'] = candles.get('close')
 
-    start_time = candle_from_websocket.get('time')
-    if candle_from_websocket.get('is_closed'):
+    print("symbol: " + str(item.get('symbol_exchange'))
+          + " time_frame:" + str(item.get('time_frame'))
+          + " candle_close:" + str(candles.get('close'))
+          + " RSI:" + str(rsi)
+          + " valueLowerBand:" + str(bbands.get('valueLowerBand'))
+          + " valueUpperBand:" + str(bbands.get('valueUpperBand')))
 
-        item['candle_close'] = candle_from_websocket.get('candle_close')
+    valueLowerBand = bbands.get('valueLowerBand')
+    valueUpperBand = bbands.get('valueUpperBand')
 
-        # Call binance get klines
-        indicators.compute(start_time)
+    if rsi < 20 and item['candle_close'] <= valueLowerBand:
+        item['type'] = 0  # type = 0 corrisponde ad una entrata long
+        item['entry'] = True
+        item['entry_candle'] = item['candle_close']
+        return True
 
-        rsi = indicators.rsi(14)
-        bbands = indicators.bbands(20)
+    if rsi > 85 and item['candle_close'] >= valueUpperBand:
+        item['type'] = 1  # type = 1 corrisponde ad una entrata short
+        item['entry'] = True
+        item['entry_candle'] = item['candle_close']
+        return True
 
-        print("symbol: " + str(item.get('symbol_exchange'))
-              + " time_frame:" + str(item.get('time_frame'))
-              + " candle_close:" + str(candle_from_websocket.get('candle_close'))
-              + " RSI:" + str(rsi)
-              + " valueLowerBand:" + str(bbands.get('valueLowerBand'))
-              + " valueUpperBand:" + str(bbands.get('valueUpperBand')))
+    # redis.set(key, json.dumps({'candle_is_closed': False}))
 
-        valueLowerBand = bbands.get('valueLowerBand')
-        valueUpperBand = bbands.get('valueUpperBand')
-
-        if rsi < 20 and item['candle_close'] <= valueLowerBand:
-            item['type'] = 0  # type = 0 corrisponde ad una entrata long
-            item['entry'] = True
-            item['entry_candle'] = item['candle_close']
-            return True
-
-        if rsi > 85 and item['candle_close'] >= valueUpperBand:
-            item['type'] = 1  # type = 1 corrisponde ad una entrata short
-            item['entry'] = True
-            item['entry_candle'] = item['candle_close']
-            return True
-
-        redis.set(key, json.dumps({'candle_is_closed': False}))
-
-        return False
+    return False
 
 
 def logicexit_bot_rsi_20_bollinger(item):
@@ -112,7 +102,7 @@ def logicexit_bot_rsi_20_bollinger(item):
         while True:
 
             indicators = item['indicators']
-            indicators.compute()
+            indicators.compute(True)
             item['candle_close'] = indicators.candle().get('close')
 
             print("symbol: " + str(item.get('symbol_exchange'))
@@ -121,10 +111,6 @@ def logicexit_bot_rsi_20_bollinger(item):
                   + " valueLowerBand:" + str(indicators.bbands(20).get('valueLowerBand'))
                   + " valueUpperBand:" + str(indicators.bbands(20).get('valueUpperBand')))
 
-            # key = item.get('symbol_exchange') + "_" + str(item.get('time_frame'))
-            # value = redis.get(key)
-            # real_time_data = json.loads(value)
-            #item['candle_close'] = real_time_data.get('candle_close')
 
             if item['type'] == 0:
 
@@ -133,7 +119,7 @@ def logicexit_bot_rsi_20_bollinger(item):
                 """
 
                 valueUpperBand = indicators.bbands(20).get('valueUpperBand')
-                #valueUpperBand = item.get('taapi').bbands(item.get('time_frame')).get('valueUpperBand')
+                # valueUpperBand = item.get('taapi').bbands(item.get('time_frame')).get('valueUpperBand')
 
                 if item['candle_close'] >= valueUpperBand:
                     item['takeprofit_candle'] = item['candle_close']
@@ -154,7 +140,7 @@ def logicexit_bot_rsi_20_bollinger(item):
                 SHORT
                 """
                 valueLowerBand = indicators.bbands(20).get('valueLowerBand')
-                #valueLowerBand = item.get('taapi').bbands(item.get('time_frame')).get('valueLowerBand')
+                # valueLowerBand = item.get('taapi').bbands(item.get('time_frame')).get('valueLowerBand')
 
                 if item['candle_close'] <= valueLowerBand:
                     item['takeprofit_candle'] = item['candle_close']

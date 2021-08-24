@@ -55,7 +55,7 @@ class RealTimeIndicator:
         candle_from_websocket = json.loads(value)
 
         try:
-
+            sleep(1)
             start_time = candle_from_websocket.get('time')
             if real_time is False:
                 print(real_time)
