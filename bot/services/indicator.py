@@ -87,33 +87,38 @@ class RealTimeIndicator:
             print("Compute Error:" + str(e))
             sleep(30)
 
-
     def candle(self, backtrack=-1):
+
+        if len(self.open_array) > 0 and len(self.high_array) > 0 and len(self.low_array) > 0 and len(self.close_array):
+            value = {
+                'open': self.open_array[backtrack],
+                'high': self.high_array[backtrack],
+                'low': self.low_array[backtrack],
+                'close': self.close_array[backtrack],
+            }
+            return value
+
         value = {
-            'open': self.open_array[backtrack],
-            'high': self.high_array[backtrack],
-            'low': self.low_array[backtrack],
-            'close': self.close_array[backtrack],
+            'open': 0,
+            'high': 0,
+            'low': 0,
+            'close': 0,
         }
-
         return value
-
 
     def ema(self, period, backtrack=-1):
         if len(self.close_array) >= period:
             ema = talib.EMA(self.close_array, timeperiod=period)
             return round(ema[backtrack], 5)
 
-        return None
-
+        return 0
 
     def rsi(self, period, backtrack=-1):
         if len(self.close_array) >= period:
             rsi = talib.RSI(self.close_array, timeperiod=period)
             return round(rsi[backtrack], 3)
 
-        return None
-
+        return 0
 
     def bbands(self, period=20, backtrack=-1):
         if len(self.close_array) >= period:
@@ -132,4 +137,4 @@ class RealTimeIndicator:
 
             return bbands
 
-        return None
+        return 0
