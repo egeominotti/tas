@@ -57,6 +57,7 @@ def logicexit_test(item):
 
 
 def logicentry_bot_rsi_20_bollinger(item):
+
     indicators = item['indicators']
 
     candles = indicators.candle()
@@ -75,19 +76,15 @@ def logicentry_bot_rsi_20_bollinger(item):
     valueLowerBand = bbands.get('valueLowerBand')
     valueUpperBand = bbands.get('valueUpperBand')
 
-    if rsi < 20 and item['candle_close'] <= valueLowerBand:
+    if rsi < 25 and item['candle_close'] <= valueLowerBand:
         item['type'] = 0  # type = 0 corrisponde ad una entrata long
         item['entry'] = True
         item['entry_candle'] = item['candle_close']
-        return True
 
     if rsi > 85 and item['candle_close'] >= valueUpperBand:
         item['type'] = 1  # type = 1 corrisponde ad una entrata short
         item['entry'] = True
         item['entry_candle'] = item['candle_close']
-        return True
-
-    return False
 
 
 def logicexit_bot_rsi_20_bollinger(item):
