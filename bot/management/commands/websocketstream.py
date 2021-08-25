@@ -50,9 +50,11 @@ class Command(BaseCommand):
         binance_websocket_api_manager.create_stream('kline_1M', symbolList, stream_label="kline_1M", output="UnicornFy")
 
         while True:
+
             if binance_websocket_api_manager.is_manager_stopping():
                 exit(0)
             oldest_stream_data_from_stream_buffer = binance_websocket_api_manager.pop_stream_data_from_stream_buffer()
+
             if oldest_stream_data_from_stream_buffer is False:
                 time.sleep(0.01)
             else:
