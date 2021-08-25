@@ -29,7 +29,7 @@ class Command(BaseCommand):
         for symbol in SymbolExchange.objects.all():
             symbolList.append(symbol.symbol.lower())
 
-        binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com", output_default="UnicornFy")
+        binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures", output_default="UnicornFy")
 
         binance_websocket_api_manager.create_stream('kline_1m', symbolList, stream_label="kline_1m", output="UnicornFy")
         binance_websocket_api_manager.create_stream('kline_5m', symbolList, stream_label="kline_5m", output="UnicornFy")

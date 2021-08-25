@@ -64,7 +64,7 @@ class RealTimeIndicator:
                     if candle_from_websocket.get('is_closed') is True:
 
                         klines = self.client \
-                            .get_klines(symbol=self.symbol,
+                            .futures_klines(symbol=self.symbol,
                                         interval=self.time_frame,
                                         endTime=start_time)
 
@@ -76,7 +76,7 @@ class RealTimeIndicator:
 
             if real_time is True:
                 sleep(1)
-                klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame)
+                klines = self.client.futures_klines(symbol=self.symbol, interval=self.time_frame)
 
             if klines is not None:
 
