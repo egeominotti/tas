@@ -132,9 +132,10 @@ class RealTimeIndicator:
         return 0
 
     def rsi(self, period, backtrack=-1):
+
         if len(self.close_array) >= period and self.close_array is not None:
             rsi = talib.RSI(self.close_array, timeperiod=period)
-            return round(rsi[backtrack], 3)
+            return round(rsi[backtrack], 4)
 
         return 0
 
