@@ -57,12 +57,11 @@ def logicexit_test(item):
 
 
 def logicentry_bot_rsi_20_bollinger(item):
-
     indicators = item['indicators']
 
-    candles =   indicators.candle()
-    rsi =       indicators.rsi(14)
-    bbands =    indicators.bbands(20)
+    candles = indicators.candle()
+    rsi = indicators.rsi(14)
+    bbands = indicators.bbands(20)
 
     item['candle_close'] = candles.get('close')
 
@@ -93,67 +92,46 @@ def logicentry_bot_rsi_20_bollinger(item):
 
 def logicexit_bot_rsi_20_bollinger(item):
 
-    sentinel = False
+    indicators = item['indicators']
+    item['candle_close'] = indicators.candle().get('close')
 
-    try:
-        while True:
+    print("symbol: " + str(item.get('symbol_exchange'))
+          + " time_frame:" + str(item.get('time_frame'))
+          + " candle_close:" + str(indicators.candle().get('close'))
+          + " valueLowerBand:" + str(indicators.bbands(20).get('valueLowerBand'))
+          + " valueUpperBand:" + str(indicators.bbands(20).get('valueUpperBand')))
 
-            indicators = item['indicators']
-            item['candle_close'] = indicators.candle().get('close')
+    bbands = indicators.bbands(20)
+    valueUpperBand = bbands.get('valueUpperBand')
+    valueLowerBand = bbands.get('valueLowerBand')
 
-            print("symbol: " + str(item.get('symbol_exchange'))
-                  + " time_frame:" + str(item.get('time_frame'))
-                  + " candle_close:" + str(indicators.candle().get('close'))
-                  + " valueLowerBand:" + str(indicators.bbands(20).get('valueLowerBand'))
-                  + " valueUpperBand:" + str(indicators.bbands(20).get('valueUpperBand')))
+    if item['type'] == 0:
 
-            bbands = indicators.bbands(20)
+        """
+        LONG
+        """
 
-            valueUpperBand = bbands.get('valueUpperBand')
-            valueLowerBand = bbands.get('valueLowerBand')
+        if item['candle_close'] >= valueUpperBand:
+            item['takeprofit_candle'] = item['candle_close']
+            item['takeprofit'] = True
 
-            if item['type'] == 0:
+        if item['candle_close'] <= item['entry_candle'] * item['stoploss_value_long']:
+            item['stoploss_candle'] = item['candle_close']
+            item['stoploss'] = True
 
-                """
-                LONG
-                """
+    else:
 
-                if item['candle_close'] >= valueUpperBand:
-                    item['takeprofit_candle'] = item['candle_close']
-                    item['takeprofit'] = True
-                    sentinel = True
-                    break
+        """
+        SHORT
+        """
 
-                if item['candle_close'] <= item['entry_candle'] * item['stoploss_value_long']:
-                    item['stoploss_candle'] = item['candle_close']
-                    item['stoploss'] = True
-                    sentinel = True
-                    break
+        if item['candle_close'] <= valueLowerBand:
+            item['takeprofit_candle'] = item['candle_close']
+            item['takeprofit'] = True
 
-            else:
-
-                """
-                SHORT
-                """
-
-                if item['candle_close'] <= valueLowerBand:
-                    item['takeprofit_candle'] = item['candle_close']
-                    item['takeprofit'] = True
-                    sentinel = True
-                    break
-
-                if item['candle_close'] >= item['entry_candle'] * item['stoploss_value_short']:
-                    item['stoploss_candle'] = item['candle_close']
-                    item['stoploss'] = True
-                    sentinel = True
-                    break
-
-    except Exception as e:
-        return e
-
-    if sentinel is True:
-        return sentinel
-    return False
+        if item['candle_close'] >= item['entry_candle'] * item['stoploss_value_short']:
+            item['stoploss_candle'] = item['candle_close']
+            item['stoploss'] = True
 
 
 def logicentry_bot_first(item):

@@ -157,7 +157,6 @@ class TradingBot:
             func_entry = eval(self.func_entry.name)
             if self.item.get('entry') is False:
 
-                #self.sleep_bot()
                 # Real time indicator disabled check only prev closed candle
                 self.indicators.compute(False)
                 func_entry(item=self.item)
@@ -260,6 +259,7 @@ class TradingBot:
 
             func_exit = eval(self.func_exit.name)
             if self.item.get('entry') is True:
+
                 # Real time indicator enabled
                 self.indicators.compute(True)
                 func_exit(item=self.item)
