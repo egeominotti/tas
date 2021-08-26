@@ -82,6 +82,7 @@ class RealTimeIndicator:
                         interval=self.time_frame,
                         limit=self.LIMIT_KLINE
                     )
+
                 if self.bot.market_spot:
 
                     klines = self.client.get_klines(
