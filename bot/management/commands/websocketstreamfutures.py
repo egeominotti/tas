@@ -5,7 +5,7 @@ import decouple
 from binance import Client
 from django.core.management import BaseCommand
 import logging
-from strategy.models import SymbolExchange
+from strategy.models import SymbolExchange, Coins
 import redis
 from unicorn_binance_websocket_api.unicorn_binance_websocket_api_manager import BinanceWebSocketApiManager
 import logging
@@ -19,8 +19,8 @@ LIMIT_KLINE = 300
 client = Client()
 r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 
-def update_keys(kline):
 
+def update_keys(kline):
     symbol = kline['symbol']
     interval = kline['interval']
     kline_start_time = kline['kline_start_time']
@@ -34,11 +34,11 @@ def update_keys(kline):
 
     r.set(key, json.dumps(klines))
 
+
 class Command(BaseCommand):
     help = 'WebSocketStream Market Futures Binance'
 
     def handle(self, *args, **kwargs):
-
 
         # logging.basicConfig(level=logging.ERROR,
         #                     filename=os.path.basename(__file__) + '.log',
@@ -46,10 +46,11 @@ class Command(BaseCommand):
         #                     style="{")
 
         symbolList = []
-        for symbol in SymbolExchange.objects.all():
-            symbolList.append(symbol.symbol.lower())
+        for k in Coins.objects.all():
+            symbolList.append(k.coins_exchange.symbol.lower())
 
-        binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures", output_default="UnicornFy")
+        binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures",
+                                                                   output_default="UnicornFy")
 
         binance_websocket_api_manager.create_stream('kline_1m', symbolList, stream_label="kline_1m", output="UnicornFy")
         binance_websocket_api_manager.create_stream('kline_5m', symbolList, stream_label="kline_5m", output="UnicornFy")
@@ -87,7 +88,6 @@ class Command(BaseCommand):
                         if oldest_stream_data_from_stream_buffer['event_time'] >= \
                                 oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
                             if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
-
                                 kline = oldest_stream_data_from_stream_buffer['kline']
                                 p = Process(target=update_keys, args=(kline,))
                                 p.start()

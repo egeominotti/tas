@@ -5,7 +5,7 @@ import decouple
 from binance import Client
 from django.core.management import BaseCommand
 import logging
-from strategy.models import SymbolExchange
+from strategy.models import SymbolExchange, Coins
 import redis
 from unicorn_binance_websocket_api.unicorn_binance_websocket_api_manager import BinanceWebSocketApiManager
 import logging
@@ -40,8 +40,8 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         symbolList = []
-        for symbol in SymbolExchange.objects.all():
-            symbolList.append(symbol.symbol.lower())
+        for k in Coins.objects.all():
+            symbolList.append(k.coins_exchange.symbol.lower())
 
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com", output_default="UnicornFy")
 
