@@ -77,7 +77,7 @@ class Command(BaseCommand):
                                 interval = kline['interval']
 
                                 kline_start_time = kline['kline_start_time']
-                                key = str(SymbolExchange.objects.get(symbol=symbol)) + "_" + str(interval) + "_FUTURES"
+                                key = str(SymbolExchange.objects.get(symbol=symbol)) + "_" + str(interval) + "_SPOT"
                                 klines = client \
                                     .futures_klines(symbol=symbol,
                                                     interval=interval,
