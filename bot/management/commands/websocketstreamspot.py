@@ -26,7 +26,7 @@ def update_keys(kline):
     key = str(SymbolExchange.objects.get(symbol=symbol)) + "_" + str(interval) + "_SPOT"
 
     klines = client \
-        .futures_klines(symbol=symbol,
+        .get_klines(symbol=symbol,
                         interval=interval,
                         endTime=kline_start_time,
                         limit=LIMIT_KLINE)
@@ -87,6 +87,7 @@ class Command(BaseCommand):
                                 thread = Thread(target=update_keys, args=(kline,))
                                 thread.daemon = True
                                 thread.start()
+                                thread.join()
 
                     except KeyError:
                         pass
