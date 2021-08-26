@@ -112,23 +112,6 @@ class Command(BaseCommand):
 
                                 r.set(key, json.dumps(candle_closed))
 
-                                # if r.exists(key):
-                                #
-                                #     old_value = r.get(key)
-                                #     old_value = json.loads(old_value)
-                                #
-                                #     if len(old_value) == 100:
-                                #         del old_value[0]
-                                #
-                                #     old_value.append(candle_closed)
-                                #     print(len(old_value))
-                                #     r.set(key, json.dumps(old_value))
-                                #
-                                # else:
-                                #     list = []
-                                #     list.append(candle_closed)
-                                #     r.set(key, json.dumps(list))
-
                     except KeyError:
                         pass
                     except TypeError:
