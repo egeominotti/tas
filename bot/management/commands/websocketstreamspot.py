@@ -79,9 +79,7 @@ class Command(BaseCommand):
 
                         if oldest_stream_data_from_stream_buffer['event_time'] >= \
                                 oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
-                            # print only the last kline
                             if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
-
                                 kline = oldest_stream_data_from_stream_buffer['kline']
                                 update_keys(kline)
 
