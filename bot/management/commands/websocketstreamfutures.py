@@ -20,19 +20,19 @@ client = Client()
 r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 
 
-def update_keys(kline):
-    symbol = kline['symbol']
-    interval = kline['interval']
-    kline_start_time = kline['kline_start_time']
-    key = str(SymbolExchange.objects.get(symbol=symbol)) + "_" + str(interval) + "_FUTURES"
-
-    klines = client \
-        .futures_klines(symbol=symbol,
-                        interval=interval,
-                        endTime=kline_start_time,
-                        limit=LIMIT_KLINE)
-
-    r.set(key, json.dumps(klines))
+# def update_keys(kline):
+#     symbol = kline['symbol']
+#     interval = kline['interval']
+#     kline_start_time = kline['kline_start_time']
+#     key = str(SymbolExchange.objects.get(symbol=symbol)) + "_" + str(interval) + "_FUTURES"
+#
+#     klines = client \
+#         .futures_klines(symbol=symbol,
+#                         interval=interval,
+#                         endTime=kline_start_time,
+#                         limit=500)
+#
+#     r.set(key, json.dumps(klines))
 
 
 class Command(BaseCommand):
@@ -90,10 +90,42 @@ class Command(BaseCommand):
                             if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
 
                                 kline = oldest_stream_data_from_stream_buffer['kline']
-                                thread = Thread(target=update_keys, args=(kline,))
-                                thread.daemon = True
-                                thread.start()
-                                thread.join()
+                                symbol = kline['symbol']
+                                interval = kline['interval']
+                                open_price = kline['open_price']
+                                close_price = kline['close_price']
+                                high_price = kline['high_price']
+                                low_price = kline['low_price']
+                                is_closed = kline['is_closed']
+                                kline_start_time = kline['kline_start_time']
+
+                                key = str(SymbolExchange.objects.get(symbol=symbol)) + "_" + str(interval) + "_FUTURES"
+
+                                candle_closed = {
+                                    'candle_close': close_price,
+                                    'candle_open': open_price,
+                                    'candle_high': high_price,
+                                    'candle_low': low_price,
+                                    'is_closed': is_closed,
+                                    'time': kline_start_time,
+                                }
+
+                                if r.exists(key):
+
+                                    old_value = r.get(key)
+                                    old_value = json.loads(old_value)
+
+                                    if len(old_value) == 100:
+                                        del old_value[0]
+
+                                    old_value.append(candle_closed)
+                                    print(len(old_value))
+                                    r.set(key, json.dumps(old_value))
+
+                                else:
+                                    list = []
+                                    list.append(candle_closed)
+                                    r.set(key, json.dumps(list))
 
                     except KeyError:
                         pass
