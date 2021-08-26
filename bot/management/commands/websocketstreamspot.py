@@ -84,7 +84,6 @@ class Command(BaseCommand):
 
                                 kline = oldest_stream_data_from_stream_buffer['kline']
                                 thread = Thread(target=update_keys, args=(kline,))
-                                thread.daemon = True
                                 thread.start()
 
                     except KeyError:
