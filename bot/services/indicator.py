@@ -62,8 +62,6 @@ class RealTimeIndicator:
         self.low_array = None
         self.high_array = None
 
-
-
         try:
 
             if real_time is False:
