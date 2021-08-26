@@ -1,6 +1,5 @@
 import datetime
 from threading import Thread
-
 import decouple
 from binance import Client
 from django.core.management import BaseCommand
