@@ -91,7 +91,8 @@ class Command(BaseCommand):
                                     'time': kline_start_time,
                                 }
 
-                                r.set(key, json.dumps(candle_closed))
+                                # key clear each 59 seconds
+                                r.set(key, json.dumps(candle_closed),ex=59)
 
                                 # if r.exists(key):
                                 #

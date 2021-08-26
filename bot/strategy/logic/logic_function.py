@@ -57,7 +57,6 @@ def logicexit_test(item):
 
 
 def logicentry_bot_rsi_20_bollinger(item):
-
     indicators = item['indicators']
 
     rsi = indicators.rsi(14)
@@ -90,7 +89,6 @@ def logicentry_bot_rsi_20_bollinger(item):
 
 
 def logicexit_bot_rsi_20_bollinger(item):
-
     indicators = item['indicators']
     item['candle_close'] = indicators.candle().get('close')
 
@@ -140,7 +138,6 @@ def logicexit_bot_rsi_20_bollinger(item):
             if item['candle_close'] >= item['entry_candle'] * item['stoploss_value_short']:
                 item['stoploss_candle'] = item['candle_close']
                 item['stoploss'] = True
-
 
 # def logicentry_bot_first(item):
 #     key = item.get('symbol_exchange') + "_" + str(item.get('time_frame'))
