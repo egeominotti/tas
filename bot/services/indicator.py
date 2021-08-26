@@ -91,6 +91,7 @@ class RealTimeIndicator:
                             if len(klines) == self.LIMIT_KLINE:
                                 self.redis_client.set(self.key, json.dumps({'is_closed': False}))
                                 break
+                    sleep(1)
 
                     # experimental
                     # if self.redis_client.exists(self.key):
