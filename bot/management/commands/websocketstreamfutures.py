@@ -1,4 +1,5 @@
 import datetime
+from multiprocessing import Process
 from threading import Thread
 import decouple
 from binance import Client
@@ -83,12 +84,13 @@ class Command(BaseCommand):
                         if not oldest_stream_data_from_stream_buffer['kline']['is_closed']:
                             pass
 
-
                         if oldest_stream_data_from_stream_buffer['event_time'] >= \
                                 oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
                             if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
+
                                 kline = oldest_stream_data_from_stream_buffer['kline']
-                                update_keys(kline)
+                                p = Process(target=update_keys, args=(kline,))
+                                p.start()
 
                     except KeyError:
                         pass
