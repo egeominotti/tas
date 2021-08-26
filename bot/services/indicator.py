@@ -10,7 +10,7 @@ from numpy import double
 
 class RealTimeIndicator:
 
-    LIMIT_KLINE = 300
+    LIMIT_KLINE = 150
     close_array = None
     open_array = None
     low_array = None
