@@ -14,7 +14,7 @@ import json
 
 
 class Command(BaseCommand):
-    help = 'WebSocketStream Binance'
+    help = 'WebSocketStream Market Futures Binance'
 
     def handle(self, *args, **kwargs):
 
