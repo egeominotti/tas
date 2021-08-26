@@ -74,6 +74,7 @@
             systemctl enable websocketstreamfutures
             systemctl stop websocketstreamfutures
             systemctl status websocketstreamfutures
+            systemctl restart websocketstreamfutures
     
             # Check log
                 journalctl -u websocketstreamfutures.service -f
@@ -85,6 +86,7 @@
             systemctl enable websocketstreamspot
             systemctl stop websocketstreamspot
             systemctl status websocketstreamspot
+            systemctl restart websocketstreamspot
     
             # Check log
                 journalctl -u websocketstreamspot.service -f    
