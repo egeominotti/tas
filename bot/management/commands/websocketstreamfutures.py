@@ -15,7 +15,7 @@ import time
 logger = logging.getLogger('main')
 import json
 
-LIMIT_KLINE = 300
+LIMIT_KLINE = 100
 client = Client()
 r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 
