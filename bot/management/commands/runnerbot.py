@@ -41,10 +41,4 @@ class Command(BaseCommand):
     help = 'AsyncRunnerBot'
 
     def handle(self, *args, **kwargs):
-
-        logging.basicConfig(level=logging.ERROR,
-                            filename=os.path.basename(__file__) + '.log',
-                            format="{asctime} [{levelname:8}] {process} {thread} {module}: {message}",
-                            style="{")
-
         init()
