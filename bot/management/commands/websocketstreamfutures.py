@@ -1,5 +1,6 @@
 import datetime
 import decouple
+from binance import Client
 from django.core.management import BaseCommand
 import logging
 from strategy.models import SymbolExchange
@@ -18,6 +19,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
+        LIMIT_KLINE = 300
+        client = Client()
         r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 
         logging.basicConfig(level=logging.ERROR,
@@ -73,25 +76,31 @@ class Command(BaseCommand):
                                 kline = oldest_stream_data_from_stream_buffer['kline']
                                 symbol = kline['symbol']
                                 interval = kline['interval']
-                                open_price = kline['open_price']
-                                close_price = kline['close_price']
-                                high_price = kline['high_price']
-                                low_price = kline['low_price']
-                                is_closed = kline['is_closed']
+
                                 kline_start_time = kline['kline_start_time']
-
                                 key = str(SymbolExchange.objects.get(symbol=symbol)) + "_" + str(interval) + "_FUTURES"
+                                klines = client \
+                                    .futures_klines(symbol=symbol,
+                                                    interval=interval,
+                                                    endTime=kline_start_time,
+                                                    limit=LIMIT_KLINE)
 
-                                candle_closed = {
-                                    'candle_close': close_price,
-                                    'candle_open': open_price,
-                                    'candle_high': high_price,
-                                    'candle_low': low_price,
-                                    'is_closed': is_closed,
-                                    'time': kline_start_time,
-                                }
+                                r.set(key, json.dumps(klines))
 
-                                r.set(key, json.dumps(candle_closed),ex=1)
+                                # open_price = kline['open_price']
+                                # close_price = kline['close_price']
+                                # high_price = kline['high_price']
+                                # low_price = kline['low_price']
+                                # is_closed = kline['is_closed']
+
+                                # candle_closed = {
+                                #     'candle_close': close_price,
+                                #     'candle_open': open_price,
+                                #     'candle_high': high_price,
+                                #     'candle_low': low_price,
+                                #     'is_closed': is_closed,
+                                #     'time': kline_start_time,
+                                # }
 
                                 # if r.exists(key):
                                 #

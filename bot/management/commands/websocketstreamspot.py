@@ -1,5 +1,6 @@
 import datetime
 import decouple
+from binance import Client
 from django.core.management import BaseCommand
 import logging
 from strategy.models import SymbolExchange
@@ -17,6 +18,9 @@ class Command(BaseCommand):
     help = 'WebSocketStream Market Spot Binance'
 
     def handle(self, *args, **kwargs):
+
+        LIMIT_KLINE = 300
+        client = Client()
 
         r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 
@@ -64,35 +68,47 @@ class Command(BaseCommand):
                         if not oldest_stream_data_from_stream_buffer['kline']['is_closed']:
                             pass
 
-
                         if oldest_stream_data_from_stream_buffer['event_time'] >= \
                                 oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
-                            # print only the last kline
                             if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
 
                                 kline = oldest_stream_data_from_stream_buffer['kline']
                                 symbol = kline['symbol']
                                 interval = kline['interval']
-                                open_price = kline['open_price']
-                                close_price = kline['close_price']
-                                high_price = kline['high_price']
-                                low_price = kline['low_price']
-                                is_closed = kline['is_closed']
+
                                 kline_start_time = kline['kline_start_time']
+                                key = str(SymbolExchange.objects.get(symbol=symbol)) + "_" + str(interval) + "_FUTURES"
+                                klines = client \
+                                    .futures_klines(symbol=symbol,
+                                                    interval=interval,
+                                                    endTime=kline_start_time,
+                                                    limit=LIMIT_KLINE)
 
-                                key = str(SymbolExchange.objects.get(symbol=symbol)) + "_" + str(interval) + "_SPOT"
+                                r.set(key, json.dumps(klines))
 
-                                candle_closed = {
-                                    'candle_close': close_price,
-                                    'candle_open': open_price,
-                                    'candle_high': high_price,
-                                    'candle_low': low_price,
-                                    'is_closed': is_closed,
-                                    'time': kline_start_time,
-                                }
-
-                                # key clear each 59 seconds
-                                r.set(key, json.dumps(candle_closed),ex=1)
+                                # kline = oldest_stream_data_from_stream_buffer['kline']
+                                # symbol = kline['symbol']
+                                # interval = kline['interval']
+                                # open_price = kline['open_price']
+                                # close_price = kline['close_price']
+                                # high_price = kline['high_price']
+                                # low_price = kline['low_price']
+                                # is_closed = kline['is_closed']
+                                # kline_start_time = kline['kline_start_time']
+                                #
+                                # key = str(SymbolExchange.objects.get(symbol=symbol)) + "_" + str(interval) + "_SPOT"
+                                #
+                                # candle_closed = {
+                                #     'candle_close': close_price,
+                                #     'candle_open': open_price,
+                                #     'candle_high': high_price,
+                                #     'candle_low': low_price,
+                                #     'is_closed': is_closed,
+                                #     'time': kline_start_time,
+                                # }
+                                #
+                                # # key clear each 59 seconds
+                                # r.set(key, json.dumps(candle_closed),ex=1)
 
                                 # if r.exists(key):
                                 #

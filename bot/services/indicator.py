@@ -10,7 +10,7 @@ from numpy import double
 
 class RealTimeIndicator:
 
-    LIMIT_KLINE = 250
+    LIMIT_KLINE = 300
     close_array = None
     open_array = None
     low_array = None
@@ -21,7 +21,6 @@ class RealTimeIndicator:
         self.symbol = symbol
         self.time_frame = time_frame
         self.redis = True
-        self.is_candle_closed = False
         self.client = Client()
         self.redis_client = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 
@@ -33,9 +32,7 @@ class RealTimeIndicator:
 
     def compute(self, real_time):
 
-        self.is_candle_closed = False
         klines = None
-
 
 
         """
@@ -70,42 +67,23 @@ class RealTimeIndicator:
 
                     if self.redis_client.exists(self.key):
 
-                        self.is_candle_closed = True
-
-                        value = self.redis_client.get(self.key)
-                        candle_from_websocket = json.loads(value)
-                        start_time = candle_from_websocket.get('time')
-
-                        if candle_from_websocket.get('is_closed') is True:
-
-                            if self.bot.market_spot:
-                                klines = self.client \
-                                    .get_klines(symbol=self.symbol,
-                                                interval=self.time_frame,
-                                                endTime=start_time,
-                                                limit=self.LIMIT_KLINE)
-
-                            if self.bot.market_futures:
-                                klines = self.client \
-                                    .futures_klines(symbol=self.symbol,
-                                                    interval=self.time_frame,
-                                                    endTime=start_time,
-                                                    limit=self.LIMIT_KLINE)
-
-                            if len(klines) == self.LIMIT_KLINE:
-                                break
+                        klines = json.loads(self.redis_client.get(self.key))
+                        if len(klines) == self.LIMIT_KLINE:
+                            break
 
             if real_time is True:
 
                 sleep(0.5)
 
                 if self.bot.market_futures:
+
                     klines = self.client.futures_klines(
                         symbol=self.symbol,
                         interval=self.time_frame,
                         limit=self.LIMIT_KLINE
                     )
                 if self.bot.market_spot:
+
                     klines = self.client.get_klines(
                         symbol=self.symbol,
                         interval=self.time_frame,
@@ -124,11 +102,6 @@ class RealTimeIndicator:
                     self.open_array = np.asarray(open)
                     self.low_array = np.asarray(low)
                     self.high_array = np.asarray(high)
-
-                    if self.is_candle_closed:
-                        return True
-
-            return False
 
         except Exception as e:
             # retry connection
