@@ -93,7 +93,6 @@ class Command(BaseCommand):
                                 thread = Thread(target=update_keys, args=(kline,))
                                 thread.daemon = True
                                 thread.start()
-                                thread.join()
 
                     except KeyError:
                         pass

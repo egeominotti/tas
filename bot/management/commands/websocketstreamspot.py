@@ -77,7 +77,6 @@ class Command(BaseCommand):
                         if not oldest_stream_data_from_stream_buffer['kline']['is_closed']:
                             pass
 
-
                         if oldest_stream_data_from_stream_buffer['event_time'] >= \
                                 oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
                             # print only the last kline
@@ -87,7 +86,6 @@ class Command(BaseCommand):
                                 thread = Thread(target=update_keys, args=(kline,))
                                 thread.daemon = True
                                 thread.start()
-                                thread.join()
 
                     except KeyError:
                         pass
