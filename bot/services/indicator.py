@@ -94,7 +94,6 @@ class RealTimeIndicator:
 
                             if len(klines) == self.LIMIT_KLINE:
                                 break
-                    #sleep(1)
 
             if real_time is True:
 
