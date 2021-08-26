@@ -59,15 +59,15 @@ def logicexit_test(item):
 def logicentry_bot_rsi_20_bollinger(item):
     indicators = item['indicators']
 
-    candles = indicators.candle()
     rsi = indicators.rsi(14)
     bbands = indicators.bbands(20)
 
-    item['candle_close'] = candles.get('close')
+    item['candle_close'] = indicators.candle().get('close')
 
     print("symbol: " + str(item.get('symbol_exchange'))
+          + " market:" + str(item.get('market'))
           + " time_frame:" + str(item.get('time_frame'))
-          + " candle_close:" + str(candles.get('close'))
+          + " candle_close:" + str(item['candle_close'])
           + " RSI:" + str(rsi)
           + " valueLowerBand:" + str(bbands.get('valueLowerBand'))
           + " valueUpperBand:" + str(bbands.get('valueUpperBand')))
@@ -80,19 +80,23 @@ def logicentry_bot_rsi_20_bollinger(item):
         item['entry'] = True
         item['entry_candle'] = item['candle_close']
 
-    if rsi > 85 and item['candle_close'] >= valueUpperBand:
-        item['type'] = 1  # type = 1 corrisponde ad una entrata short
-        item['entry'] = True
-        item['entry_candle'] = item['candle_close']
+    # Short only in futures market
+    if item.get('market') == 'FUTURES':
+        if rsi > 85 and item['candle_close'] >= valueUpperBand:
+            item['type'] = 1  # type = 1 corrisponde ad una entrata short
+            item['entry'] = True
+            item['entry_candle'] = item['candle_close']
 
 
 def logicexit_bot_rsi_20_bollinger(item):
+
     indicators = item['indicators']
     item['candle_close'] = indicators.candle().get('close')
 
     print("symbol: " + str(item.get('symbol_exchange'))
+          + " Market:" + str(item.get('market'))
           + " time_frame:" + str(item.get('time_frame'))
-          + " candle_close:" + str(indicators.candle().get('close'))
+          + " candle_close:" + str(item['candle_close'])
           + " valueLowerBand:" + str(indicators.bbands(20).get('valueLowerBand'))
           + " valueUpperBand:" + str(indicators.bbands(20).get('valueUpperBand')))
 
@@ -100,149 +104,105 @@ def logicexit_bot_rsi_20_bollinger(item):
     valueUpperBand = bbands.get('valueUpperBand')
     valueLowerBand = bbands.get('valueLowerBand')
 
-    # Long
-    if item['type'] == 0:
+    if item.get('market') == 'SPOT':
 
-        if item['candle_close'] >= valueUpperBand:
-            item['takeprofit_candle'] = item['candle_close']
-            item['takeprofit'] = True
+        if item['type'] == 0:
 
-        if item['candle_close'] <= item['entry_candle'] * item['stoploss_value_long']:
-            item['stoploss_candle'] = item['candle_close']
-            item['stoploss'] = True
+            if item['candle_close'] >= valueUpperBand:
+                item['takeprofit_candle'] = item['candle_close']
+                item['takeprofit'] = True
 
-    # Short
-    else:
+            if item['candle_close'] <= item['entry_candle'] * item['stoploss_value_long']:
+                item['stoploss_candle'] = item['candle_close']
+                item['stoploss'] = True
 
-        if item['candle_close'] <= valueLowerBand:
-            item['takeprofit_candle'] = item['candle_close']
-            item['takeprofit'] = True
+    if item.get('market') == 'FUTURES':
 
-        if item['candle_close'] >= item['entry_candle'] * item['stoploss_value_short']:
-            item['stoploss_candle'] = item['candle_close']
-            item['stoploss'] = True
+        # Long
+        if item['type'] == 0:
 
+            if item['candle_close'] >= valueUpperBand:
+                item['takeprofit_candle'] = item['candle_close']
+                item['takeprofit'] = True
 
-def logicentry_bot_first(item):
-    key = item.get('symbol_exchange') + "_" + str(item.get('time_frame'))
-    value = redis.get(key)
-    candle_from_websocket = json.loads(value)
-    print(candle_from_websocket)
+            if item['candle_close'] <= item['entry_candle'] * item['stoploss_value_long']:
+                item['stoploss_candle'] = item['candle_close']
+                item['stoploss'] = True
 
-    item['candle_close'] = candle_from_websocket.get('candle_close')
+        # Short
+        else:
 
-    # item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
-    # item['candle_close'] = BufferStreamWebSocket.objects.filter(symbol__symbol=item.get('symbol_exchange'),time_frame='1m').last().close_candle
+            if item['candle_close'] <= valueLowerBand:
+                item['takeprofit_candle'] = item['candle_close']
+                item['takeprofit'] = True
 
-    # item['long_short_ratio'] = btby_momentum(item.get('symbol_exchange').replace('USDT', ''))
-    # longShortRatio = item['long_short_ratio']
-    time_frame = item['time_frame']
-    taapi = item['taapi']
-    canlde_close = item['candle_close']
-
-    ema8_prev = taapi.ema(8, time_frame, 1).get('value')
-    candle_low_prev = taapi.candle(time_frame, 1).get('low')
-    candle_high_prev = taapi.candle(time_frame, 1).get('high')
-    candle_open_prev = taapi.candle(time_frame, 1).get('open')
-
-    ema8 = taapi.ema(8, time_frame)
-    ema13 = taapi.ema(13, time_frame)
-    ema21 = taapi.ema(21, time_frame)
-    ema34 = taapi.ema(34, time_frame)
-
-    print("\n")
-    print(datetime.datetime.now())
-    print("CANDLE CLOSE: " + str(canlde_close))
-    print("CANDLE OPEN PREV:" + str(candle_open_prev))
-    print("CANDLE HIGH PREV:" + str(candle_high_prev))
-    print("CANDLE LOW PREV:" + str(candle_low_prev))
-
-    """
-    LONG entry
-    """
-
-    if ema8 > ema13:
-        if ema13 > ema21:
-            if ema21 > ema34:
-                if candle_low_prev <= ema8_prev:
-                    if ema8 / ema13 < 1.00165 and ema21 / ema34 < 1.00095:
-                        if canlde_close > candle_open_prev:
-                            print("ENTRO LONG")
-                            item['type'] = 0  # type = 0 corrisponde ad una entrata long
-                            item['entry'] = True
-                            item['entry_candle'] = item['candle_close']
-                            return True
-
-    """
-    SHORT entry
-    """
-
-    if ema8 < ema13:
-        if ema13 < ema21:
-            if ema21 < ema34:
-                if candle_high_prev >= ema8_prev:
-                    if ema34 / ema21 < 1.0006 and ema13 / ema8 < 1.0009:
-                        if canlde_close < candle_open_prev:
-                            print("ENTRO SHORT")
-                            item['type'] = 1  # type = 1 corrisponde ad una entrata short
-                            item['entry'] = True
-                            item['entry_candle'] = item['candle_close']
-                            return True
+            if item['candle_close'] >= item['entry_candle'] * item['stoploss_value_short']:
+                item['stoploss_candle'] = item['candle_close']
+                item['stoploss'] = True
 
 
-def logicexit_bot_first(item):
-    sentinel = False
-    try:
-        while True:
-
-            key = item.get('symbol_exchange') + "_" + str(item.get('time_frame'))
-            value = redis.get(key)
-            candle_from_websocket = json.loads(value)
-            print(candle_from_websocket)
-
-            item['candle_close'] = candle_from_websocket.get('candle_close')
-
-            print("Candle close from binance: " + item['candle_close'])
-            if item['type'] == 0:
-
-                """
-                LONG
-                """
-
-                if item['candle_close'] >= item['entry_candle'] * item['takeprofit_value_long']:
-                    item['takeprofit_candle'] = item['candle_close']
-                    item['takeprofit'] = True
-                    sentinel = True
-                    break
-
-                if item['candle_close'] <= item['entry_candle'] * item['stoploss_value_long']:
-                    item['stoploss_candle'] = item['candle_close']
-                    item['stoploss'] = True
-                    sentinel = True
-                    break
-
-            else:
-
-                """
-                SHORT
-                """
-
-                if item['candle_close'] <= item['entry_candle'] * item['takeprofit_value_short']:
-                    item['takeprofit_candle'] = item['candle_close']
-                    item['takeprofit'] = True
-                    sentinel = True
-                    break
-
-                if item['candle_close'] >= item['entry_candle'] * item['stoploss_value_short']:
-                    item['stoploss_candle'] = item['candle_close']
-                    item['stoploss'] = True
-                    sentinel = True
-                    break
-
-
-    except Exception as e:
-        return e
-
-    if sentinel is True:
-        return sentinel
-    return False
+# def logicentry_bot_first(item):
+#     key = item.get('symbol_exchange') + "_" + str(item.get('time_frame'))
+#     value = redis.get(key)
+#     candle_from_websocket = json.loads(value)
+#     print(candle_from_websocket)
+#
+#     item['candle_close'] = candle_from_websocket.get('candle_close')
+#
+#     # item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
+#     # item['candle_close'] = BufferStreamWebSocket.objects.filter(symbol__symbol=item.get('symbol_exchange'),time_frame='1m').last().close_candle
+#
+#     # item['long_short_ratio'] = btby_momentum(item.get('symbol_exchange').replace('USDT', ''))
+#     # longShortRatio = item['long_short_ratio']
+#     time_frame = item['time_frame']
+#     taapi = item['taapi']
+#     canlde_close = item['candle_close']
+#
+#     ema8_prev = taapi.ema(8, time_frame, 1).get('value')
+#     candle_low_prev = taapi.candle(time_frame, 1).get('low')
+#     candle_high_prev = taapi.candle(time_frame, 1).get('high')
+#     candle_open_prev = taapi.candle(time_frame, 1).get('open')
+#
+#     ema8 = taapi.ema(8, time_frame)
+#     ema13 = taapi.ema(13, time_frame)
+#     ema21 = taapi.ema(21, time_frame)
+#     ema34 = taapi.ema(34, time_frame)
+#
+#     print("\n")
+#     print(datetime.datetime.now())
+#     print("CANDLE CLOSE: " + str(canlde_close))
+#     print("CANDLE OPEN PREV:" + str(candle_open_prev))
+#     print("CANDLE HIGH PREV:" + str(candle_high_prev))
+#     print("CANDLE LOW PREV:" + str(candle_low_prev))
+#
+#     """
+#     LONG entry
+#     """
+#
+#     if ema8 > ema13:
+#         if ema13 > ema21:
+#             if ema21 > ema34:
+#                 if candle_low_prev <= ema8_prev:
+#                     if ema8 / ema13 < 1.00165 and ema21 / ema34 < 1.00095:
+#                         if canlde_close > candle_open_prev:
+#                             print("ENTRO LONG")
+#                             item['type'] = 0  # type = 0 corrisponde ad una entrata long
+#                             item['entry'] = True
+#                             item['entry_candle'] = item['candle_close']
+#                             return True
+#
+#     """
+#     SHORT entry
+#     """
+#
+#     if ema8 < ema13:
+#         if ema13 < ema21:
+#             if ema21 < ema34:
+#                 if candle_high_prev >= ema8_prev:
+#                     if ema34 / ema21 < 1.0006 and ema13 / ema8 < 1.0009:
+#                         if canlde_close < candle_open_prev:
+#                             print("ENTRO SHORT")
+#                             item['type'] = 1  # type = 1 corrisponde ad una entrata short
+#                             item['entry'] = True
+#                             item['entry_candle'] = item['candle_close']
+#                             return True

@@ -1,0 +1,14 @@
+#sudo nano /etc/systemd/system/websocketstreamfutures.service
+
+[Unit]
+Description=Websocket Stream Buffering Futures Binance
+After=network.target
+
+[Service]
+ExecStart=/home/tas/venv/bin/python3.9 /home/tas/manage.py websocketstreamfutures
+WorkingDirectory=/home/tas
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

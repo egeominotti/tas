@@ -1,11 +1,11 @@
-#sudo nano /etc/systemd/system/websocketstream.service
+#sudo nano /etc/systemd/system/websocketstreamspot.service
 
 [Unit]
 Description=Websocket Stream Buffering
 After=network.target
 
 [Service]
-ExecStart=/home/tas/venv/bin/python3.9 /home/tas/manage.py websocketstream
+ExecStart=/home/tas/venv/bin/python3.9 /home/tas/manage.py websocketstreamspot
 WorkingDirectory=/home/tas
 Restart=always
 

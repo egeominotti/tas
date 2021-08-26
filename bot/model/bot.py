@@ -43,7 +43,7 @@ class TradingBot:
             self.telegram = Telegram()
             self.notify = self.user.telegram_notifications
             self.taapi = Taapi(self.symbol)
-            self.indicators = RealTimeIndicator(self.symbol_exchange, self.time_frame)
+            self.indicators = RealTimeIndicator(self.current_bot, self.symbol_exchange, self.time_frame)
             self.exchange = BinanceHelper(
                 bot=self.current_bot,
                 api_key=self.userexchange.api_key,
@@ -51,6 +51,12 @@ class TradingBot:
                 symbol=self.symbol_exchange,
                 user=self.user,
             )
+
+            self.market = ''
+            if self.current_bot.market_spot:
+                self.market = 'SPOT'
+            if self.current_bot.market_futures:
+                self.market = 'FUTURES'
 
             if self.current_bot.live:
                 self.live = True
@@ -83,6 +89,7 @@ class TradingBot:
             'indicators': self.indicators,
             'entry_function': False,
             'exit_function': False,
+            'market': self.market,
             'user': self.user.username
         }
 
@@ -112,7 +119,6 @@ class TradingBot:
         self.current_bot.abort = True
         self.current_bot.running = False
         self.current_bot.save()
-        # logger.error(exception)
         self.telegram.send(str(e))
         exit(1)
 
@@ -122,6 +128,7 @@ class TradingBot:
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
             start = "Started: " + str(self.current_bot.name) + \
                     "\n" + "User: " + self.user.username + \
+                    "\n" + "Trading Market: " + self.market + \
                     "\n" + "Balance: " + str(self.exchange.get_current_balance_futures_()) + \
                     "\n" + "Live Mode: " + str(self.live) + \
                     "\n" + "Investment amount: " + str(self.exchange.get_current_investment_amount()) + \
@@ -132,23 +139,6 @@ class TradingBot:
                     "\nStarted at: " + str(now) + \
                     "\nLet's go to the moon 🚀️"
             self.telegram.send(start)
-
-    def sleep_bot(self):
-
-        if self.time_frame == '1m':
-            sleep(60)
-        if self.time_frame == '5m':
-            sleep(300)
-        if self.time_frame == '15m':
-            sleep(900)
-        if self.time_frame == '30m':
-            sleep(1800)
-        if self.time_frame == '1h':
-            sleep(3600)
-        if self.time_frame == '2h':
-            sleep(7200)
-        if self.time_frame == '4h':
-            sleep(14400)
 
     def entry(self) -> bool:
 
@@ -237,6 +227,7 @@ class TradingBot:
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                         entry_text = "Entry: " + str(self.current_bot.name) + \
                                      "\n" + "User: " + self.user.username + \
+                                     "\n" + "Trading Market: " + self.market + \
                                      "\nType Entry: " + self.item.get('type_text') + \
                                      "\n" + "Live Mode: " + str(self.live) + \
                                      "\nEntry Candle value: " + str(self.item.get('entry_candle')) + \
@@ -300,6 +291,7 @@ class TradingBot:
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                         stop_loss = "Stoploss: " + str(self.current_bot.name) + \
                                     "\n" + "Live Mode: " + str(self.live) + \
+                                    "\n" + "Trading Market: " + self.market + \
                                     "\n" + "Current Balance: " + str(self.exchange.get_current_balance_futures_()) + \
                                     "\n" + "Investement: " + str(self.exchange.get_current_investment_amount()) + \
                                     "\n" + "User: " + self.user.username + \
@@ -348,6 +340,7 @@ class TradingBot:
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                         stop_loss = "Takeprofit: " + str(self.current_bot.name) + \
                                     "\n" + "Live Mode: " + str(self.live) + \
+                                    "\n" + "Trading Market: " + self.market + \
                                     "\n" + "Current Balance: " + str(self.exchange.get_current_balance_futures_()) + \
                                     "\n" + "Investement: " + str(self.exchange.get_current_investment_amount()) + \
                                     "\n" + "User: " + self.user.username + \
@@ -431,6 +424,7 @@ class TradingBot:
 
         # end-while-true
         self.abort()
+
         if sentinel:
             print("Exit bot normally set running = False : " + str(self.item))
 

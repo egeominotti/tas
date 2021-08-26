@@ -14,7 +14,8 @@ class RealTimeIndicator:
     low_array = None
     high_array = None
 
-    def __init__(self, symbol, time_frame):
+    def __init__(self, bot, symbol, time_frame):
+        self.bot = bot
         self.symbol = symbol
         self.time_frame = time_frame
         self.redis = True
@@ -49,7 +50,11 @@ class RealTimeIndicator:
         self.low_array = None
         self.high_array = None
 
-        key = str(self.symbol) + "_" + str(self.time_frame)
+        key = None
+        if self.bot.market_spot:
+            key = str(self.symbol) + "_" + str(self.time_frame) + "_SPOT"
+        if self.bot.market_futures:
+            key = str(self.symbol) + "_" + str(self.time_frame) + "_FUTURES"
 
         try:
 
@@ -63,10 +68,17 @@ class RealTimeIndicator:
 
                     if candle_from_websocket.get('is_closed') is True:
 
-                        klines = self.client \
-                            .futures_klines(symbol=self.symbol,
-                                        interval=self.time_frame,
-                                        endTime=start_time)
+                        if self.bot.market_spot:
+                            klines = self.client \
+                                .get_klines(symbol=self.symbol,
+                                            interval=self.time_frame,
+                                            endTime=start_time)
+
+                        if self.bot.market_futures:
+                            klines = self.client \
+                                .futures_klines(symbol=self.symbol,
+                                                interval=self.time_frame,
+                                                endTime=start_time)
 
                         if len(klines) > 300:
                             self.redis_client.set(key, json.dumps({'is_closed': False}))
@@ -75,8 +87,11 @@ class RealTimeIndicator:
                     sleep(1)
 
             if real_time is True:
-                sleep(1)
-                klines = self.client.futures_klines(symbol=self.symbol, interval=self.time_frame)
+                sleep(0.5)
+                if self.bot.market_futures:
+                    klines = self.client.futures_klines(symbol=self.symbol, interval=self.time_frame)
+                if self.bot.market_spot:
+                    klines = self.client.get_klines(symbol=self.symbol, interval=self.time_frame)
 
             if klines is not None:
 
