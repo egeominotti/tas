@@ -2,7 +2,6 @@
 
 [Unit]
 Description=Websocket Stream Buffering
-Requires=qcluster.service
 After=network.target
 
 [Service]

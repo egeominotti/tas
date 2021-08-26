@@ -1,12 +1,11 @@
-import datetime
 from threading import Thread
-from time import sleep
-from django.core.management import BaseCommand
-import logging
 from bot.model.bot import TradingBot
 from bot.models import Bot, UserExchange, BotLogger
-from queue import Queue
-from collections import deque
+from django.core.management import BaseCommand
+from time import sleep
+import logging
+import os
+
 
 logger = logging.getLogger('main')
 
@@ -35,10 +34,17 @@ def init() -> None:
                 instance.save()
                 thread.start()
                 print("Sart thread: " + str(thread))
+
         sleep(1)
 
 class Command(BaseCommand):
     help = 'AsyncRunnerBot'
 
     def handle(self, *args, **kwargs):
+
+        logging.basicConfig(level=logging.ERROR,
+                            filename=os.path.basename(__file__) + '.log',
+                            format="{asctime} [{levelname:8}] {process} {thread} {module}: {message}",
+                            style="{")
+
         init()
