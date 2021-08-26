@@ -92,7 +92,7 @@ class Command(BaseCommand):
                                 }
 
                                 # key clear each 59 seconds
-                                r.set(key, json.dumps(candle_closed),ex=30)
+                                r.set(key, json.dumps(candle_closed),ex=1)
 
                                 # if r.exists(key):
                                 #

@@ -91,7 +91,7 @@ class Command(BaseCommand):
                                     'time': kline_start_time,
                                 }
 
-                                r.set(key, json.dumps(candle_closed),ex=30)
+                                r.set(key, json.dumps(candle_closed),ex=1)
 
                                 # if r.exists(key):
                                 #
