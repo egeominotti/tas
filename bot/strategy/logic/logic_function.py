@@ -27,6 +27,7 @@ logger = logging.getLogger(__name__)
 
 
 def logicentry_bot_rsi_20_bollinger(item):
+
     indicators = item['indicators']
 
     rsi = indicators.rsi(14)
@@ -60,6 +61,7 @@ def logicentry_bot_rsi_20_bollinger(item):
 
 
 def logicexit_bot_rsi_20_bollinger(item):
+
     indicators = item['indicators']
     item['candle_close'] = indicators.candle().get('close')
 
