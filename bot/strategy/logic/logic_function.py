@@ -1,9 +1,4 @@
 import logging
-import datetime
-from time import sleep
-import decouple
-import json
-import redis
 
 logger = logging.getLogger(__name__)
 
