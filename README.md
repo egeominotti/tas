@@ -96,3 +96,27 @@
     Tuning postgres 13 link
 
         https://pgtune.leopard.in.ua/#/
+
+## Documentazione dizionario Bot
+    
+    """
+    {
+        'sleep_func_entry': Funzione della stratrgia di entry che viene valuta per essere eseguita,
+        'sleep_func_exit': Funzione della strategia di exit che viene valutata per essere eseguita,
+        'taapi': Instanza di taapi per prelevare i dati,
+        'symbol': Simbolo da tradare preso dalla strategia,
+        'type': Tipologia di strategia long or short,
+        'time_frame': Valore timeframe preso dalla strategia,
+        'ratio': Valore del ratio presto dalla funzione della strategia,
+        'stoploss_value': Valore stoploss preso dalla funzione della strategia,
+        'takeprofit_value': Valore dello stop loss preso dalla funzione della strategia,
+        'takeprofit': Determina se c'e stato un takeprofit,
+        'takeprofit_candle': Valore della candela di takeprofit,
+        'stoploss': Determina se c'e stato uno stop loss,
+        'stoploss_candle': Valore della candela di stop loss,
+        'entry': Determina se è stata trovata un'entry,
+        'entry_candle': Candela che viene salvata quando avviene un'entry,
+        'entry_function': Determina se è passato in quella determinata funzione,
+        'exit_function': Determina se è passato in quella determinata funzione
+    }
+    """
