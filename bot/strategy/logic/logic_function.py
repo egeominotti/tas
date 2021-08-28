@@ -3,8 +3,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-
-def logicentry_bot_rsi_20_bollinger(item):
+def logicentry_bot_rsi_20_bollinger(item: dict) -> None:
 
     indicators = item['indicators']
 
@@ -38,7 +37,7 @@ def logicentry_bot_rsi_20_bollinger(item):
             item['entry_candle'] = item['candle_close']
 
 
-def logicexit_bot_rsi_20_bollinger(item):
+def logicexit_bot_rsi_20_bollinger(item: dict) -> None:
 
     indicators = item['indicators']
     item['candle_close'] = indicators.candle().get('close')

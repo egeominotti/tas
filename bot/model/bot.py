@@ -4,9 +4,12 @@ import sys
 from bot.services.telegram import Telegram
 from analytics.services.exchangeApi import Taapi
 from exchange.model.binance import BinanceHelper
-from bot.strategy.logic.logic_function import *
 from bot.services.indicator import RealTimeIndicator
 
+# Logic of bot
+from bot.strategy.logic.logic_function import \
+    logicexit_bot_rsi_20_bollinger, \
+    logicentry_bot_rsi_20_bollinger
 
 class TradingBot:
 
@@ -67,6 +70,7 @@ class TradingBot:
             self.abort()
 
         self.item = {
+            'indicators': self.indicators,
             'candle_close': 0,
             'entry_candle': 0,
             'takeprofit_ratio': 0,
@@ -87,7 +91,6 @@ class TradingBot:
             'takeprofit_value_short': self.func_exit.takeprofit_short,
             'stoploss_value_long': self.func_exit.stoploss_long,
             'stoploss_value_short': self.func_exit.stoploss_short,
-            'indicators': self.indicators,
             'entry_function': False,
             'exit_function': False,
             'market': self.market,
