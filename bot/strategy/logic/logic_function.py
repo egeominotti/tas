@@ -7,31 +7,6 @@ import redis
 
 logger = logging.getLogger(__name__)
 
-redis = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
-
-
-def logicentry_test(item):
-    key = str(item.get('symbol_exchange')) + "_" + str(item.get('time_frame'))
-    value = redis.get(key)
-    candle_from_websocket = json.loads(value)
-    print(candle_from_websocket)
-
-    item['type'] = 0  # type = 0 corrisponde ad una entrata long
-    item['entry'] = True
-    item['entry_candle'] = item['candle_close']
-    return True
-
-
-def logicexit_test(item):
-    key = str(item.get('symbol_exchange')) + "_" + str(item.get('time_frame'))
-    value = redis.get(key)
-    candle_from_websocket = json.loads(value)
-    print(candle_from_websocket)
-
-    item['takeprofit_candle'] = item['candle_close']
-    item['takeprofit'] = True
-    return True
-
 
 """
 {
@@ -139,69 +114,3 @@ def logicexit_bot_rsi_20_bollinger(item):
             if item['candle_close'] >= item['entry_candle'] * item['stoploss_value_short']:
                 item['stoploss_candle'] = item['candle_close']
                 item['stoploss'] = True
-
-# def logicentry_bot_first(item):
-#     key = item.get('symbol_exchange') + "_" + str(item.get('time_frame'))
-#     value = redis.get(key)
-#     candle_from_websocket = json.loads(value)
-#     print(candle_from_websocket)
-#
-#     item['candle_close'] = candle_from_websocket.get('candle_close')
-#
-#     # item['candle_close'] = item.get('taapi').candle(item.get('time_frame')).get('close')
-#     # item['candle_close'] = BufferStreamWebSocket.objects.filter(symbol__symbol=item.get('symbol_exchange'),time_frame='1m').last().close_candle
-#
-#     # item['long_short_ratio'] = btby_momentum(item.get('symbol_exchange').replace('USDT', ''))
-#     # longShortRatio = item['long_short_ratio']
-#     time_frame = item['time_frame']
-#     taapi = item['taapi']
-#     canlde_close = item['candle_close']
-#
-#     ema8_prev = taapi.ema(8, time_frame, 1).get('value')
-#     candle_low_prev = taapi.candle(time_frame, 1).get('low')
-#     candle_high_prev = taapi.candle(time_frame, 1).get('high')
-#     candle_open_prev = taapi.candle(time_frame, 1).get('open')
-#
-#     ema8 = taapi.ema(8, time_frame)
-#     ema13 = taapi.ema(13, time_frame)
-#     ema21 = taapi.ema(21, time_frame)
-#     ema34 = taapi.ema(34, time_frame)
-#
-#     print("\n")
-#     print(datetime.datetime.now())
-#     print("CANDLE CLOSE: " + str(canlde_close))
-#     print("CANDLE OPEN PREV:" + str(candle_open_prev))
-#     print("CANDLE HIGH PREV:" + str(candle_high_prev))
-#     print("CANDLE LOW PREV:" + str(candle_low_prev))
-#
-#     """
-#     LONG entry
-#     """
-#
-#     if ema8 > ema13:
-#         if ema13 > ema21:
-#             if ema21 > ema34:
-#                 if candle_low_prev <= ema8_prev:
-#                     if ema8 / ema13 < 1.00165 and ema21 / ema34 < 1.00095:
-#                         if canlde_close > candle_open_prev:
-#                             print("ENTRO LONG")
-#                             item['type'] = 0  # type = 0 corrisponde ad una entrata long
-#                             item['entry'] = True
-#                             item['entry_candle'] = item['candle_close']
-#                             return True
-#
-#     """
-#     SHORT entry
-#     """
-#
-#     if ema8 < ema13:
-#         if ema13 < ema21:
-#             if ema21 < ema34:
-#                 if candle_high_prev >= ema8_prev:
-#                     if ema34 / ema21 < 1.0006 and ema13 / ema8 < 1.0009:
-#                         if canlde_close < candle_open_prev:
-#                             print("ENTRO SHORT")
-#                             item['type'] = 1  # type = 1 corrisponde ad una entrata short
-#                             item['entry'] = True
-#                             item['entry_candle'] = item['candle_close']
-#                             return True
