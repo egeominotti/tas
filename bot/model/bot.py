@@ -1,3 +1,4 @@
+import datetime
 from time import sleep
 import sys
 from bot.services.telegram import Telegram
@@ -427,8 +428,8 @@ class TradingBot:
         self.abort()
 
         if sentinel:
-            print("Exit bot normally set running = False : " + str(self.item))
 
+            print("Exit bot normally set running = False : " + str(self.item))
             self.abort()
 
             # Set running = False for restart bot
