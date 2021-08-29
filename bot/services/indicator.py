@@ -54,31 +54,6 @@ class RealTimeIndicator:
                         if len(klines) > 300:
                             break
                     sleep(0.1)
-                    # if self.redis_client.exists(self.key):
-                    #
-                    #     value = self.redis_client.get(self.key)
-                    #     candle_from_websocket = json.loads(value)
-                    #     start_time = candle_from_websocket.get('time')
-                    #
-                    #     if candle_from_websocket.get('is_closed') is True:
-                    #
-                    #         if self.bot.market_spot:
-                    #             klines = self.client \
-                    #                 .get_klines(symbol=self.symbol,
-                    #                             interval=self.time_frame,
-                    #                             endTime=start_time,
-                    #                             limit=self.LIMIT_KLINE)
-                    #
-                    #         if self.bot.market_futures:
-                    #             klines = self.client \
-                    #                 .futures_klines(symbol=self.symbol,
-                    #                                 interval=self.time_frame,
-                    #                                 endTime=start_time,
-                    #                                 limit=self.LIMIT_KLINE)
-                    #
-                    #         if len(klines) == self.LIMIT_KLINE:
-                    #             self.redis_client.set(self.key, json.dumps({'is_closed': False}))
-                    #             break
 
 
             if real_time is True:
