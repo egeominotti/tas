@@ -365,7 +365,6 @@ class TradingBot:
     def abort(self) -> None:
         if not self.bot_object.objects.get(id=self.current_bot.id).running:
 
-            logger.info("Set bot not running and close position")
             self.current_bot.abort = True
             self.current_bot.running = False
             self.current_bot.save()
@@ -402,7 +401,6 @@ class TradingBot:
                         self.abort()
 
                         print("Found Entry: " + str(self.item))
-                        logger.info("Found Entry: " + str(self.item))
                         entry = True
                         continue
 
@@ -416,7 +414,6 @@ class TradingBot:
                         FOUND EXIT
                         """
                         print("Found stoploss or takeprofit : " + str(self.item))
-                        logger.info("Found stoploss or takeprofit : " + str(self.item))
                         self.abort()
 
                         entry = False
