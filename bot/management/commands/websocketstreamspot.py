@@ -31,7 +31,7 @@ def publish_kline(kline):
     kline_start_time = kline['kline_start_time']
 
     key = symbol + "_" + interval + "_SPOT"
-    print(key)
+
     klines = client \
         .futures_klines(symbol=symbol,
                         interval=interval,
