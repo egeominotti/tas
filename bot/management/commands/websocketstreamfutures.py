@@ -35,6 +35,24 @@ def publish_kline(kline):
     r.set(key, json.dumps(klines))
     r.publish(key, json.dumps({}))
 
+    # if r.exists(key):
+    #
+    #     old_value = r.get(key)
+    #     old_value = json.loads(old_value)
+    #
+    #     if len(old_value) == 100:
+    #         del old_value[0]
+    #
+    #     old_value.append(candle_closed)
+    #     print(len(old_value))
+    #     r.set(key, json.dumps(old_value))
+    #
+    # else:
+    #
+    #     list = []
+    #     list.append(candle_closed)
+    #     r.set(key, json.dumps(list))
+
     # Close thread
     sys.exit()
 
@@ -51,7 +69,7 @@ class Command(BaseCommand):
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures",
                                                                    output_default="UnicornFy")
 
-        binance_websocket_api_manager.create_stream('kline_1m', symbolList, stream_label="kline_1m", output="UnicornFy")
+        #binance_websocket_api_manager.create_stream('kline_1m', symbolList, stream_label="kline_1m", output="UnicornFy")
         binance_websocket_api_manager.create_stream('kline_5m', symbolList, stream_label="kline_5m", output="UnicornFy")
         binance_websocket_api_manager.create_stream('kline_15m', symbolList, stream_label="kline_5m",
                                                     output="UnicornFy")
