@@ -40,15 +40,11 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        # logging.basicConfig(level=logging.ERROR,
-        #                     filename=os.path.basename(__file__) + '.log',
-        #                     format="{asctime} [{levelname:8}] {process} {thread} {module}: {message}",
-        #                     style="{")
-
         symbolList = []
         for k in Coins.objects.all():
             symbolList.append(k.coins_exchange.symbol.lower())
 
+        symbolList = ['rvnusdt']
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures",
                                                                    output_default="UnicornFy")
 
@@ -72,6 +68,8 @@ class Command(BaseCommand):
 
         while True:
 
+            time.sleep(0.2)
+
             if binance_websocket_api_manager.is_manager_stopping():
                 exit(0)
             oldest_stream_data_from_stream_buffer = binance_websocket_api_manager.pop_stream_data_from_stream_buffer()
@@ -82,8 +80,6 @@ class Command(BaseCommand):
 
                 if oldest_stream_data_from_stream_buffer is not None:
                     try:
-                        if not oldest_stream_data_from_stream_buffer['kline']['is_closed']:
-                            pass
 
                         if oldest_stream_data_from_stream_buffer['event_time'] >= \
                                 oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
@@ -99,6 +95,7 @@ class Command(BaseCommand):
                                 is_closed = kline['is_closed']
                                 kline_start_time = kline['kline_start_time']
 
+                                print(close_price)
                                 key = str(SymbolExchange.objects.get(symbol=symbol)) + "_" + str(interval) + "_FUTURES"
 
                                 candle_closed = {
