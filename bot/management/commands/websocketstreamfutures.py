@@ -1,13 +1,11 @@
-import datetime
+from unicorn_binance_websocket_api.unicorn_binance_websocket_api_manager import BinanceWebSocketApiManager
 import sys
 from threading import Thread
 import decouple
 from binance import Client
 from django.core.management import BaseCommand
-import logging
-from strategy.models import SymbolExchange, Coins
+from strategy.models import Coins
 import redis
-from unicorn_binance_websocket_api.unicorn_binance_websocket_api_manager import BinanceWebSocketApiManager
 import logging
 import time
 import requests
@@ -15,11 +13,10 @@ import requests
 logger = logging.getLogger('main')
 import json
 
-LIMIT_KLINE = 100
 client = Client()
 r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 
-client.session.mount('https://', requests.adapters.HTTPAdapter(pool_maxsize=256))
+client.session.mount('https://', requests.adapters.HTTPAdapter(pool_maxsize=512))
 
 
 def publish_kline(kline):
@@ -88,7 +85,6 @@ class Command(BaseCommand):
                         if oldest_stream_data_from_stream_buffer['event_time'] >= \
                                 oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
                             if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
-
                                 thread = Thread(target=publish_kline,
                                                 args=(oldest_stream_data_from_stream_buffer['kline'],))
                                 thread.daemon = True

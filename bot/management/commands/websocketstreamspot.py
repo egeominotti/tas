@@ -1,31 +1,25 @@
-import datetime
+from unicorn_binance_websocket_api.unicorn_binance_websocket_api_manager import BinanceWebSocketApiManager
 import sys
-from multiprocessing import Process
 from threading import Thread
 import decouple
-import requests
 from binance import Client
 from django.core.management import BaseCommand
-import logging
-from strategy.models import SymbolExchange, Coins
+from strategy.models import Coins
 import redis
-from unicorn_binance_websocket_api.unicorn_binance_websocket_api_manager import BinanceWebSocketApiManager
 import logging
-import os
 import time
+import requests
 
 logger = logging.getLogger('main')
 import json
 
-LIMIT_KLINE = 100
 client = Client()
 r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 
-client.session.mount('https://', requests.adapters.HTTPAdapter(pool_maxsize=256))
+client.session.mount('https://', requests.adapters.HTTPAdapter(pool_maxsize=512))
 
 
 def publish_kline(kline):
-
     symbol = kline['symbol']
     interval = kline['interval']
     kline_start_time = kline['kline_start_time']
@@ -45,7 +39,6 @@ def publish_kline(kline):
     sys.exit()
 
 
-
 class Command(BaseCommand):
     help = 'WebSocketStream Market Spot Binance'
 
@@ -55,7 +48,8 @@ class Command(BaseCommand):
         for k in Coins.objects.all():
             symbolList.append(k.coins_exchange.symbol.lower())
 
-        binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com", output_default="UnicornFy")
+        binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com",
+                                                                   output_default="UnicornFy")
 
         binance_websocket_api_manager.create_stream('kline_1m', symbolList, stream_label="kline_1m", output="UnicornFy")
         binance_websocket_api_manager.create_stream('kline_5m', symbolList, stream_label="kline_5m", output="UnicornFy")
@@ -87,6 +81,7 @@ class Command(BaseCommand):
 
                 if oldest_stream_data_from_stream_buffer is not None:
                     try:
+
                         if oldest_stream_data_from_stream_buffer['event_time'] >= \
                                 oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
                             if oldest_stream_data_from_stream_buffer['kline']['is_closed']:

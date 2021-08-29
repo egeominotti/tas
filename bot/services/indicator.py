@@ -103,15 +103,10 @@ class RealTimeIndicator:
 
                 if len(klines) > 0:
 
-                    # open = [double(entry[1]) for entry in klines]
-                    # high = [double(entry[2]) for entry in klines]
-                    # low = [double(entry[3]) for entry in klines]
-                    # close = [double(entry[4]) for entry in klines]
-
-                    open = [double(entry['candle_open']) for entry in klines]
-                    high = [double(entry['candle_high']) for entry in klines]
-                    low = [double(entry['candle_low']) for entry in klines]
-                    close = [double(entry['candle_close']) for entry in klines]
+                    open = [double(entry[1]) for entry in klines]
+                    high = [double(entry[2]) for entry in klines]
+                    low = [double(entry[3]) for entry in klines]
+                    close = [double(entry[4]) for entry in klines]
 
                     self.close_array = np.asarray(close)
                     self.open_array = np.asarray(open)
