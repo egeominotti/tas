@@ -1,5 +1,5 @@
 import datetime
-from multiprocessing import Process
+import sys
 from threading import Thread
 import decouple
 from binance import Client
@@ -9,8 +9,8 @@ from strategy.models import SymbolExchange, Coins
 import redis
 from unicorn_binance_websocket_api.unicorn_binance_websocket_api_manager import BinanceWebSocketApiManager
 import logging
-import os
 import time
+import requests
 
 logger = logging.getLogger('main')
 import json
@@ -19,20 +19,27 @@ LIMIT_KLINE = 100
 client = Client()
 r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 
+client.session.mount('https://', requests.adapters.HTTPAdapter(pool_maxsize=256))
 
-# def update_keys(kline):
-#     symbol = kline['symbol']
-#     interval = kline['interval']
-#     kline_start_time = kline['kline_start_time']
-#     key = str(SymbolExchange.objects.get(symbol=symbol)) + "_" + str(interval) + "_FUTURES"
-#
-#     klines = client \
-#         .futures_klines(symbol=symbol,
-#                         interval=interval,
-#                         endTime=kline_start_time,
-#                         limit=500)
-#
-#     r.set(key, json.dumps(klines))
+
+def publish_kline(kline):
+    symbol = kline['symbol']
+    interval = kline['interval']
+    kline_start_time = kline['kline_start_time']
+
+    key = symbol + "_" + interval + "_FUTURES"
+    print(key)
+    klines = client \
+        .futures_klines(symbol=symbol,
+                        interval=interval,
+                        endTime=kline_start_time,
+                        limit=350)
+
+    r.set(key, json.dumps(klines))
+    r.publish(key, json.dumps({}))
+
+    # Close thread
+    sys.exit()
 
 
 class Command(BaseCommand):
@@ -44,7 +51,6 @@ class Command(BaseCommand):
         for k in Coins.objects.all():
             symbolList.append(k.coins_exchange.symbol.lower())
 
-        symbolList = ['rvnusdt']
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures",
                                                                    output_default="UnicornFy")
 
@@ -68,8 +74,6 @@ class Command(BaseCommand):
 
         while True:
 
-            time.sleep(0.2)
-
             if binance_websocket_api_manager.is_manager_stopping():
                 exit(0)
             oldest_stream_data_from_stream_buffer = binance_websocket_api_manager.pop_stream_data_from_stream_buffer()
@@ -85,29 +89,10 @@ class Command(BaseCommand):
                                 oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
                             if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
 
-                                kline = oldest_stream_data_from_stream_buffer['kline']
-                                symbol = kline['symbol']
-                                interval = kline['interval']
-                                open_price = kline['open_price']
-                                close_price = kline['close_price']
-                                high_price = kline['high_price']
-                                low_price = kline['low_price']
-                                is_closed = kline['is_closed']
-                                kline_start_time = kline['kline_start_time']
-
-                                print(close_price)
-                                key = str(SymbolExchange.objects.get(symbol=symbol)) + "_" + str(interval) + "_FUTURES"
-
-                                candle_closed = {
-                                    'candle_close': close_price,
-                                    'candle_open': open_price,
-                                    'candle_high': high_price,
-                                    'candle_low': low_price,
-                                    'is_closed': is_closed,
-                                    'time': kline_start_time,
-                                }
-
-                                r.set(key, json.dumps(candle_closed))
+                                thread = Thread(target=publish_kline,
+                                                args=(oldest_stream_data_from_stream_buffer['kline'],))
+                                thread.daemon = True
+                                thread.start()
 
                     except KeyError:
                         pass

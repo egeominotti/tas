@@ -1,7 +1,9 @@
 import datetime
+import sys
 from multiprocessing import Process
 from threading import Thread
 import decouple
+import requests
 from binance import Client
 from django.core.management import BaseCommand
 import logging
@@ -19,20 +21,30 @@ LIMIT_KLINE = 100
 client = Client()
 r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 
-def update_keys(kline):
+client.session.mount('https://', requests.adapters.HTTPAdapter(pool_maxsize=256))
+
+
+def publish_kline(kline):
 
     symbol = kline['symbol']
     interval = kline['interval']
     kline_start_time = kline['kline_start_time']
-    key = str(SymbolExchange.objects.get(symbol=symbol)) + "_" + str(interval) + "_SPOT"
 
+    key = symbol + "_" + interval + "_SPOT"
+    print(key)
     klines = client \
-        .get_klines(symbol=symbol,
+        .futures_klines(symbol=symbol,
                         interval=interval,
                         endTime=kline_start_time,
-                        limit=LIMIT_KLINE)
+                        limit=350)
 
     r.set(key, json.dumps(klines))
+    r.publish(key, json.dumps({}))
+
+    # Close thread
+    sys.exit()
+
+
 
 class Command(BaseCommand):
     help = 'WebSocketStream Market Spot Binance'
@@ -75,35 +87,14 @@ class Command(BaseCommand):
 
                 if oldest_stream_data_from_stream_buffer is not None:
                     try:
-                        if not oldest_stream_data_from_stream_buffer['kline']['is_closed']:
-                            pass
-
                         if oldest_stream_data_from_stream_buffer['event_time'] >= \
                                 oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
                             if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
 
-                                kline = oldest_stream_data_from_stream_buffer['kline']
-                                symbol = kline['symbol']
-                                interval = kline['interval']
-                                open_price = kline['open_price']
-                                close_price = kline['close_price']
-                                high_price = kline['high_price']
-                                low_price = kline['low_price']
-                                is_closed = kline['is_closed']
-                                kline_start_time = kline['kline_start_time']
-
-                                key = str(SymbolExchange.objects.get(symbol=symbol)) + "_" + str(interval) + "_SPOT"
-
-                                candle_closed = {
-                                    'candle_close': close_price,
-                                    'candle_open': open_price,
-                                    'candle_high': high_price,
-                                    'candle_low': low_price,
-                                    'is_closed': is_closed,
-                                    'time': kline_start_time,
-                                }
-
-                                r.set(key, json.dumps(candle_closed))
+                                thread = Thread(target=publish_kline,
+                                                args=(oldest_stream_data_from_stream_buffer['kline'],))
+                                thread.daemon = True
+                                thread.start()
 
                     except KeyError:
                         pass
