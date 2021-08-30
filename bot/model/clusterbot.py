@@ -1,6 +1,10 @@
 import datetime
 from time import sleep
 import sys
+
+import decouple
+import redis
+
 from bot.services.telegram import Telegram
 from exchange.model.binance import BinanceHelper
 from bot.services.indicator import RealTimeIndicator
@@ -34,7 +38,7 @@ class ClusteringBot:
         self.user = instance.user
         self.exchange = None
         self.userexchange = userexchange
-        self.symbol = ''
+        self.symbol = None
         self.time_frame = instance.strategy.time_frame.time_frame
         self.func_entry = instance.strategy.logic_entry
         self.func_exit = instance.strategy.logic_exit
@@ -132,10 +136,8 @@ class ClusteringBot:
     def entry(self) -> bool:
 
         try:
-
             for symbol in Coins.objects.all().order_by('-created_at'):
-                print(symbol.coins_exchange.symbol)
-                print(symbol.coins_exchange.symbol)
+                #print(symbol.coins_exchange.symbol)
 
                 self.exchange = BinanceHelper(
                     bot=self.current_bot,
@@ -144,10 +146,13 @@ class ClusteringBot:
                     symbol=symbol.coins_exchange.symbol,
                     user=self.user,
                 )
+                #print(self.exchange.get_current_balance_futures_())
+                #print(self.exchange.get_cluster_quantity())
 
                 self.indicators = RealTimeIndicator(self.current_bot, symbol.coins_exchange.symbol, self.time_frame)
                 self.symbol = symbol.coins_exchange.symbol
                 self.item['indicators'] = self.indicators
+                self.item['symbol_exchange'] = self.symbol
 
                 func_entry = eval(self.func_entry.name)
                 if self.item.get('entry') is False:
@@ -196,7 +201,7 @@ class ClusteringBot:
                         if self.live:
 
                             # Calculate quantity
-                            self.quantity = self.exchange.get_quantity()
+                            self.quantity = self.exchange.get_cluster_quantity()
 
                             if self.item.get('type') == 0:
 

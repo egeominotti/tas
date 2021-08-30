@@ -204,6 +204,17 @@ class BinanceHelper:
 
         return qty
 
+    def get_cluster_quantity(self):
+        """
+        :return: Entrata al 100% del capitale
+        """
+        balance_wallet = self.get_current_balance_futures_() - 0.5
+        symbol_precision = self.get_symbol_precision()
+        price_coin = self.current_price_coin()
+        qty = round(balance_wallet / price_coin, symbol_precision)
+
+        return qty
+
     def get_symbol_precision(self):
         symbols_n_precision = {}
         info = self.client.futures_exchange_info()
