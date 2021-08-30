@@ -79,7 +79,7 @@ class ClusterRealTimeIndicator:
 
             if real_time is True:
 
-                sleep(0.5)
+                sleep(1)
 
                 if self.bot.market_futures:
                     klines = self.client.futures_klines(
