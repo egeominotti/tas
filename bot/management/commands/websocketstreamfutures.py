@@ -72,20 +72,18 @@ class Command(BaseCommand):
 
         #binance_websocket_api_manager.create_stream('kline_1m', symbolList, stream_label="kline_1m", output="UnicornFy")
         binance_websocket_api_manager.create_stream('kline_5m', symbolList, stream_label="kline_5m", output="UnicornFy")
-        binance_websocket_api_manager.create_stream('kline_15m', symbolList, stream_label="kline_5m",
-                                                    output="UnicornFy")
-        binance_websocket_api_manager.create_stream('kline_30m', symbolList, stream_label="kline_30m",
-                                                    output="UnicornFy")
-        binance_websocket_api_manager.create_stream('kline_1h', symbolList, stream_label="kline_1h", output="UnicornFy")
+        #binance_websocket_api_manager.create_stream('kline_15m', symbolList, stream_label="kline_5m",output="UnicornFy")
+        #binance_websocket_api_manager.create_stream('kline_30m', symbolList, stream_label="kline_30m",output="UnicornFy")
+        #binance_websocket_api_manager.create_stream('kline_1h', symbolList, stream_label="kline_1h", output="UnicornFy")
         #binance_websocket_api_manager.create_stream('kline_2h', symbolList, stream_label="kline_2h", output="UnicornFy")
         #binance_websocket_api_manager.create_stream('kline_4h', symbolList, stream_label="kline_4h", output="UnicornFy")
         #binance_websocket_api_manager.create_stream('kline_6h', symbolList, stream_label="kline_6h", output="UnicornFy")
         #binance_websocket_api_manager.create_stream('kline_8h', symbolList, stream_label="kline_8h", output="UnicornFy")
         #binance_websocket_api_manager.create_stream('kline_12h', symbolList, stream_label="kline_12h",output="UnicornFy")
-        binance_websocket_api_manager.create_stream('kline_1d', symbolList, stream_label="kline_1d", output="UnicornFy")
+        #binance_websocket_api_manager.create_stream('kline_1d', symbolList, stream_label="kline_1d", output="UnicornFy")
         #binance_websocket_api_manager.create_stream('kline_3d', symbolList, stream_label="kline_3d", output="UnicornFy")
         #binance_websocket_api_manager.create_stream('kline_1w', symbolList, stream_label="kline_1w", output="UnicornFy")
-        binance_websocket_api_manager.create_stream('kline_1M', symbolList, stream_label="kline_1M", output="UnicornFy")
+        #binance_websocket_api_manager.create_stream('kline_1M', symbolList, stream_label="kline_1M", output="UnicornFy")
 
         while True:
 
