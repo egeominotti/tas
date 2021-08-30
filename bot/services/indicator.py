@@ -72,7 +72,7 @@ class ClusterRealTimeIndicator:
                         #             break
 
                         klines = json.loads(self.redis_client.get(self.key))
-                        if len(klines) > 300:
+                        if len(klines) > 0:
                             break
                     sleep(0.1)
 

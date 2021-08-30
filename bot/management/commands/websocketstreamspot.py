@@ -16,8 +16,9 @@ import json
 client = Client()
 r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 
-client.session.mount('https://', requests.adapters.HTTPAdapter(pool_maxsize=512))
+client.session.mount('https://', requests.adapters.HTTPAdapter(pool_maxsize=128))
 
+LIMIT_KLINE = 250
 
 def publish_kline(kline):
 
@@ -31,7 +32,7 @@ def publish_kline(kline):
         .futures_klines(symbol=symbol,
                         interval=interval,
                         endTime=kline_start_time,
-                        limit=350)
+                        limit=LIMIT_KLINE)
 
     r.set(key, json.dumps(klines))
     r.publish(key, json.dumps({}))
