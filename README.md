@@ -65,6 +65,17 @@
         # Check log
             journalctl -u runnerbot.service -f
 
+    runnerclusterbot
+        
+        sudo nano /etc/systemd/system/runnerclusterbot.service
+
+        systemctl enable runnerclusterbot
+        systemctl stop runnerclusterbot
+        systemctl status runnerclusterbot
+
+        # Check log
+            journalctl -u runnerclusterbot.service -f    
+
 ### Websocket Stream kline
 
         WebsSocketStreamFutures
