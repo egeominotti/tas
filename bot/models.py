@@ -42,15 +42,15 @@ class LogicExit(CommonTrait):
 
 
 class BufferRecordData(CommonTrait):
-    key = models.CharField(db_index=True,max_length=20, blank=False, null=False)
-    symbol = models.CharField(db_index=True,max_length=10, blank=False, null=False)
-    time_frame = models.CharField(db_index=True,max_length=4, blank=False, null=False)
+    key = models.CharField(db_index=True, max_length=20, blank=False, null=False)
+    symbol = models.CharField(db_index=True, max_length=10, blank=False, null=False)
+    time_frame = models.CharField(db_index=True, max_length=4, blank=False, null=False)
     open_candle = models.FloatField(default=0, blank=True)
     close_candle = models.FloatField(default=0, blank=True)
     high_candle = models.FloatField(default=0, blank=True)
     low_candle = models.FloatField(default=0, blank=True)
     is_closed = models.BooleanField(default=False)
-    #timestamp = models.DateTimeField(db_index=True,null=True, blank=True)
+    # timestamp = models.DateTimeField(db_index=True,null=True, blank=True)
     unix = models.CharField(max_length=100, null=True, blank=True)
     volume = models.FloatField(blank=True)
 
@@ -135,6 +135,33 @@ class Bot(CommonTrait):
     class Meta:
         verbose_name = 'Bot'
         verbose_name_plural = 'Bot'
+
+    def __str__(self):
+        if self.name is not None:
+            return str(self.name)
+
+    def save(self, *args, **kwargs):
+        if len(self.name) == 0:
+            self.name = 'bot' + str(uuid.uuid4().hex)
+        super().save(*args, **kwargs)
+
+
+class ClusterBot(CommonTrait):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+    name = models.CharField(max_length=100, blank=False, null=False)
+    #coins = models.ManyToManyField(Coins, null=False, blank=False)
+    strategy = models.ForeignKey(StrategyBot, on_delete=models.CASCADE, null=False, blank=False)
+    running = models.BooleanField(default=False)
+    abort = models.BooleanField(default=False)
+    market_spot = models.BooleanField(default=False)
+    market_futures = models.BooleanField(default=False)
+    leverage = models.IntegerField(default=1, blank=False)
+    amount = models.FloatField(default=0, blank=False)
+    live = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = 'ClusterBot'
+        verbose_name_plural = 'ClusterBot'
 
     def __str__(self):
         if self.name is not None:

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from bot.models import Bot, BotLogger, StrategyBot, LogicExit, LogicEntry
+from bot.models import Bot, ClusterBot, BotLogger, StrategyBot, LogicExit, LogicEntry
 from bot.models import UserExchange
 
 
@@ -33,6 +33,34 @@ class BotAdmin(admin.ModelAdmin):
     def has_add_permission(self, request, obj=None):
         return True
 
+class ClusterBotAdmin(admin.ModelAdmin):
+    search_fields = ['name']
+    list_per_page = 50
+    ordering = ('id',)
+    list_display = \
+        ('name',
+         'user',
+         'market_spot',
+         'market_futures',
+         'leverage',
+         'amount',
+         'running',
+         'abort',
+         'strategy',
+         'created_at',
+         )
+
+    readonly_fields = ('name', 'running', 'abort')
+    exclude = ['flgEnable', ]
+
+    def has_delete_permission(self, request, obj=None):
+        return True
+
+    def has_change_permission(self, request, obj=None):
+        return True
+
+    def has_add_permission(self, request, obj=None):
+        return True
 
 class BotLoggerAdmin(admin.ModelAdmin):
     search_fields = ['bot__name']
@@ -90,6 +118,7 @@ admin.site.register(UserExchange, ExchangeAdmin)
 admin.site.register(StrategyBot, StrategyBotAdmin)
 admin.site.register(BotLogger, BotLoggerAdmin)
 admin.site.register(Bot, BotAdmin)
+admin.site.register(ClusterBot, ClusterBotAdmin)
 admin.site.register(LogicEntry, LogicEntryAdmin)
 admin.site.register(LogicExit, LogicExitAdmin)
-admin.site.site_header = 'Amministrazione TAS'
+admin.site.site_header = 'Amministrazione Crypto Engine'

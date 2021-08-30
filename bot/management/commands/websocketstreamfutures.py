@@ -20,6 +20,7 @@ client.session.mount('https://', requests.adapters.HTTPAdapter(pool_maxsize=512)
 
 
 def publish_kline(kline):
+
     symbol = kline['symbol']
     interval = kline['interval']
     kline_start_time = kline['kline_start_time']
@@ -103,6 +104,7 @@ class Command(BaseCommand):
                         if oldest_stream_data_from_stream_buffer['event_time'] >= \
                                 oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
                             if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
+
                                 thread = Thread(target=publish_kline,
                                                 args=(oldest_stream_data_from_stream_buffer['kline'],))
                                 thread.daemon = True

@@ -20,6 +20,7 @@ client.session.mount('https://', requests.adapters.HTTPAdapter(pool_maxsize=512)
 
 
 def publish_kline(kline):
+
     symbol = kline['symbol']
     interval = kline['interval']
     kline_start_time = kline['kline_start_time']
