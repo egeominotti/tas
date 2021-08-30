@@ -1,14 +1,11 @@
 import datetime
 from time import sleep
 import sys
-
-import decouple
-import redis
-
 from bot.services.telegram import Telegram
 from exchange.model.binance import BinanceHelper
 from bot.services.indicator import RealTimeIndicator
 from strategy.models import Coins
+
 # Logic of bot
 from bot.strategy.logic.logic_function import \
     logicexit_bot_rsi_20_bollinger, \
