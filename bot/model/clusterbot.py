@@ -243,7 +243,6 @@ class ClusteringBot:
                             self.telegram.send(entry_text)
 
                         return True
-            sleep(200)
 
         except Exception as e:
             self.error(e)
