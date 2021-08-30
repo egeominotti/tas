@@ -87,7 +87,7 @@ class ClusteringBot:
         try:
             self.current_bot.running = True
             self.current_bot.save()
-            #self.start()
+            # self.start()
 
         except Exception as e:
             self.error(e)
@@ -147,7 +147,6 @@ class ClusteringBot:
 
                 self.indicators = RealTimeIndicator(self.current_bot, symbol.coins_exchange.symbol, self.time_frame)
                 self.symbol = symbol.coins_exchange.symbol
-                #self.item['symbol'] = self.symbol.coins_exchange.symbol
                 self.item['indicators'] = self.indicators
 
                 func_entry = eval(self.func_entry.name)

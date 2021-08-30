@@ -33,7 +33,6 @@ class TradingBot:
         self.bot_object = bot_object
         self.user = instance.user
         self.userexchange = userexchange
-        self.symbol = instance.coins.coins_taapi.symbol
         self.symbol_exchange = instance.coins.coins_exchange.symbol
         self.time_frame = instance.strategy.time_frame.time_frame
         self.func_entry = instance.strategy.logic_entry
@@ -46,7 +45,6 @@ class TradingBot:
 
             self.telegram = Telegram()
             self.notify = self.user.telegram_notifications
-            self.taapi = Taapi(self.symbol)
             self.indicators = RealTimeIndicator(self.current_bot, self.symbol_exchange, self.time_frame)
             self.exchange = BinanceHelper(
                 bot=self.current_bot,
@@ -81,8 +79,6 @@ class TradingBot:
             'stoploss': False,
             'entry': False,
             'sleep_func_entry': self.func_entry.sleep,
-            'taapi': self.taapi,
-            'symbol': self.symbol,
             'symbol_exchange': self.symbol_exchange,
             'type': -1,
             'time_frame': self.time_frame,
@@ -115,7 +111,7 @@ class TradingBot:
         start = "Warning Stopped Bot: " + str(self.current_bot.name) + \
                 "\n" + "Fatal error: " + str(exception) + \
                 "\n" + "User: " + self.user.username + \
-                "\n" + "Symbol: " + str(self.symbol) + \
+                "\n" + "Symbol: " + str(self.symbol_exchange) + \
                 "\nTime frame: " + str(self.time_frame) + \
                 "\nStopped at: " + str(now)
         self.telegram.send(start)
@@ -138,7 +134,7 @@ class TradingBot:
                     "\n" + "Investment amount: " + str(self.exchange.get_current_investment_amount()) + \
                     "\n" + "Quantity of investement: " + str(self.exchange.get_quantity()) + \
                     "\n" + "Leverage: " + str(self.exchange.leverage) + \
-                    "\n" + "Symbol: " + str(self.symbol) + \
+                    "\n" + "Symbol: " + str(self.symbol_exchange) + \
                     "\nTime frame: " + str(self.time_frame) + \
                     "\nStarted at: " + str(now) + \
                     "\nLet's go to the moon 🚀️"
@@ -302,7 +298,7 @@ class TradingBot:
                                     "\nType Entry: " + self.item.get('type_text') + \
                                     "\nStoploss candle value: " + str(self.item.get('stoploss_candle')) + \
                                     "\nStoploss candle date: " + str(now) + \
-                                    "\n" + "Symbol: " + str(self.symbol) + \
+                                    "\n" + "Symbol: " + str(self.symbol_exchange) + \
                                     "\nTime frame: " + str(self.time_frame)
                         self.telegram.send(stop_loss)
 
@@ -351,7 +347,7 @@ class TradingBot:
                                     "\nType Entry: " + self.item.get('type_text') + \
                                     "\nTakeprofit candle value: " + str(self.item.get('takeprofit_candle')) + \
                                     "\nTakeprofit candle date: " + str(now) + \
-                                    "\n" + "Symbol: " + str(self.symbol) + \
+                                    "\n" + "Symbol: " + str(self.symbol_exchange) + \
                                     "\nTime frame: " + str(self.time_frame)
                         self.telegram.send(stop_loss)
 
@@ -377,7 +373,7 @@ class TradingBot:
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
             start = "Aborted bot: " + str(self.current_bot.name) + \
                     "\n" + "User: " + self.user.username + \
-                    "\n" + "Symbol: " + str(self.symbol) + \
+                    "\n" + "Symbol: " + str(self.symbol_exchange) + \
                     "\nTime frame: " + str(self.time_frame) + \
                     "\nAborted at: " + str(now)
             self.telegram.send(start)
