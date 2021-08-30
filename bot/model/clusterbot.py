@@ -133,7 +133,7 @@ class ClusteringBot:
     def entry(self) -> bool:
 
         try:
-            for symbol in Coins.objects.all().order_by('-created_at'):
+            for symbol in Coins.objects.all().order_by('created_at'):
 
                 self.exchange = BinanceHelper(
                     bot=self.current_bot,
