@@ -50,27 +50,6 @@ class ClusterRealTimeIndicator:
 
                     message = self.pubsub.get_message()
                     if message:
-                        #     start_time = candle_from_websocket.get('time')
-                        #     if candle_from_websocket.get('is_closed') is True:
-                        #
-                        #         if self.bot.market_spot:
-                        #             klines = self.client \
-                        #                 .get_klines(symbol=self.symbol,
-                        #                             interval=self.time_frame,
-                        #                             endTime=start_time,
-                        #                             limit=self.LIMIT_KLINE)
-                        #
-                        #         if self.bot.market_futures:
-                        #             klines = self.client \
-                        #                 .futures_klines(symbol=self.symbol,
-                        #                                 interval=self.time_frame,
-                        #                                 endTime=start_time,
-                        #                                 limit=self.LIMIT_KLINE)
-                        #
-                        #         if len(klines) == self.LIMIT_KLINE:
-                        #             self.redis_client.set(self.key, json.dumps({'is_closed': False}))
-                        #             break
-
                         klines = json.loads(self.redis_client.get(self.key))
                         if len(klines) > 0:
                             break
