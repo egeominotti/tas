@@ -149,7 +149,6 @@ class Bot(CommonTrait):
 class ClusterBot(CommonTrait):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
     name = models.CharField(max_length=100, blank=False, null=False)
-    #coins = models.ManyToManyField(Coins, null=False, blank=False)
     strategy = models.ForeignKey(StrategyBot, on_delete=models.CASCADE, null=False, blank=False)
     running = models.BooleanField(default=False)
     abort = models.BooleanField(default=False)

@@ -31,8 +31,7 @@ class CoinsAdmin(admin.ModelAdmin):
     search_fields = ['tf']
     list_per_page = 50
     ordering = ('id',)
-    list_display = (
-        'coins_taapi', 'coins_exchange')
+    list_display = ('coins_exchange',)
     exclude = ['flgEnable', ]
 
 

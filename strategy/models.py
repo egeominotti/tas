@@ -40,12 +40,11 @@ class SymbolExchange(CommonTrait):
 
 
 class Coins(CommonTrait):
-    coins_taapi = models.ForeignKey(SymbolTaapiApi, on_delete=models.CASCADE, null=False, blank=False)
     coins_exchange = models.ForeignKey(SymbolExchange, on_delete=models.CASCADE, null=False, blank=False)
 
     def __str__(self):
-        if self.coins_taapi is not None:
-            return str(self.coins_taapi)
+        if self.coins_exchange is not None:
+            return str(self.coins_exchange)
 
     class Meta:
         verbose_name = 'Coins'
