@@ -137,7 +137,6 @@ class ClusteringBot:
 
         try:
             for symbol in Coins.objects.all().order_by('-created_at'):
-                #print(symbol.coins_exchange.symbol)
 
                 self.exchange = BinanceHelper(
                     bot=self.current_bot,
@@ -146,8 +145,6 @@ class ClusteringBot:
                     symbol=symbol.coins_exchange.symbol,
                     user=self.user,
                 )
-                #print(self.exchange.get_current_balance_futures_())
-                #print(self.exchange.get_cluster_quantity())
 
                 self.indicators = RealTimeIndicator(self.current_bot, symbol.coins_exchange.symbol, self.time_frame)
                 self.symbol = symbol.coins_exchange.symbol
@@ -249,6 +246,7 @@ class ClusteringBot:
                             self.telegram.send(entry_text)
 
                         return True
+            sleep(50)
 
         except Exception as e:
             self.error(e)
