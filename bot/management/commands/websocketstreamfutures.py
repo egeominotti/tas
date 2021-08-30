@@ -20,7 +20,6 @@ client.session.mount('https://', requests.adapters.HTTPAdapter(pool_maxsize=512)
 
 
 def publish_kline(kline):
-
     symbol = kline['symbol']
     interval = kline['interval']
     kline_start_time = kline['kline_start_time']
@@ -70,20 +69,7 @@ class Command(BaseCommand):
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures",
                                                                    output_default="UnicornFy")
 
-        #binance_websocket_api_manager.create_stream('kline_1m', symbolList, stream_label="kline_1m", output="UnicornFy")
         binance_websocket_api_manager.create_stream('kline_5m', symbolList, stream_label="kline_5m", output="UnicornFy")
-        #binance_websocket_api_manager.create_stream('kline_15m', symbolList, stream_label="kline_5m",output="UnicornFy")
-        #binance_websocket_api_manager.create_stream('kline_30m', symbolList, stream_label="kline_30m",output="UnicornFy")
-        #binance_websocket_api_manager.create_stream('kline_1h', symbolList, stream_label="kline_1h", output="UnicornFy")
-        #binance_websocket_api_manager.create_stream('kline_2h', symbolList, stream_label="kline_2h", output="UnicornFy")
-        #binance_websocket_api_manager.create_stream('kline_4h', symbolList, stream_label="kline_4h", output="UnicornFy")
-        #binance_websocket_api_manager.create_stream('kline_6h', symbolList, stream_label="kline_6h", output="UnicornFy")
-        #binance_websocket_api_manager.create_stream('kline_8h', symbolList, stream_label="kline_8h", output="UnicornFy")
-        #binance_websocket_api_manager.create_stream('kline_12h', symbolList, stream_label="kline_12h",output="UnicornFy")
-        #binance_websocket_api_manager.create_stream('kline_1d', symbolList, stream_label="kline_1d", output="UnicornFy")
-        #binance_websocket_api_manager.create_stream('kline_3d', symbolList, stream_label="kline_3d", output="UnicornFy")
-        #binance_websocket_api_manager.create_stream('kline_1w', symbolList, stream_label="kline_1w", output="UnicornFy")
-        #binance_websocket_api_manager.create_stream('kline_1M', symbolList, stream_label="kline_1M", output="UnicornFy")
 
         while True:
 
@@ -101,7 +87,6 @@ class Command(BaseCommand):
                         if oldest_stream_data_from_stream_buffer['event_time'] >= \
                                 oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
                             if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
-
                                 thread = Thread(target=publish_kline,
                                                 args=(oldest_stream_data_from_stream_buffer['kline'],))
                                 thread.daemon = True
