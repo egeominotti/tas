@@ -1,6 +1,4 @@
-
 def logicentry_bot_rsi_20_bollinger(item: dict) -> None:
-
     indicators = item['indicators']
 
     rsi = indicators.rsi(14)
@@ -34,7 +32,6 @@ def logicentry_bot_rsi_20_bollinger(item: dict) -> None:
 
 
 def logicexit_bot_rsi_20_bollinger(item: dict) -> None:
-
     indicators = item['indicators']
     item['candle_close'] = indicators.candle().get('close')
 
@@ -54,7 +51,7 @@ def logicexit_bot_rsi_20_bollinger(item: dict) -> None:
 
         if item['type'] == 0:
 
-            if item['candle_close'] >= valueUpperBand:
+            if item['candle_close'] >= valueUpperBand * 1.03:
                 item['takeprofit_candle'] = item['candle_close']
                 item['takeprofit'] = True
 
@@ -68,7 +65,7 @@ def logicexit_bot_rsi_20_bollinger(item: dict) -> None:
         # Long
         if item['type'] == 0:
 
-            if item['candle_close'] >= valueUpperBand:
+            if item['candle_close'] >= valueUpperBand * 1.03:
                 item['takeprofit_candle'] = item['candle_close']
                 item['takeprofit'] = True
 
