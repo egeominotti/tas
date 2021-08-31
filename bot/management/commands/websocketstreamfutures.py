@@ -22,10 +22,9 @@ LIMIT_KLINE = 348
 
 
 def save_klines(kline):
-
-    symbol =            kline['symbol']
-    interval =          kline['interval']
-    kline_start_time =  kline['kline_start_time']
+    symbol = kline['symbol']
+    interval = kline['interval']
+    kline_start_time = kline['kline_start_time']
 
     key = symbol + "_" + interval + "_FUTURES"
 
@@ -36,13 +35,13 @@ def save_klines(kline):
         pre_kline = json.loads(old_value)
 
         if len(pre_kline) == 350:
-             pre_kline.pop(0)
+            pre_kline.pop(0)
 
         kline_from_websocket = [kline['kline_start_time'],
-                kline['open_price'],
-                kline['high_price'],
-                kline['low_price'],
-                kline['close_price'], ]
+                                kline['open_price'],
+                                kline['high_price'],
+                                kline['low_price'],
+                                kline['close_price'], ]
 
         pre_kline.append(kline_from_websocket)
         r.set(key, json.dumps(pre_kline))
@@ -97,7 +96,6 @@ class Command(BaseCommand):
                 if oldest_stream_data_from_stream_buffer is not None:
                     try:
                         if not oldest_stream_data_from_stream_buffer['kline']['is_closed']:
-
                             kline = oldest_stream_data_from_stream_buffer['kline']
                             symbol = kline['symbol']
                             interval = kline['interval']
@@ -110,6 +108,9 @@ class Command(BaseCommand):
                                 oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
                             if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
 
+                                interval = oldest_stream_data_from_stream_buffer['kline']['interval']
+
+                                r.publish(interval, json.dumps({}))
                                 thread = Thread(target=save_klines,
                                                 args=(oldest_stream_data_from_stream_buffer['kline'],))
                                 thread.daemon = True
