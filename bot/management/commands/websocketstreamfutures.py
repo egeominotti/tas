@@ -4,7 +4,7 @@ from threading import Thread
 import decouple
 from binance import Client
 from django.core.management import BaseCommand
-from strategy.models import Coins
+from strategy.models import SymbolExchange
 import redis
 import logging
 import time
@@ -13,15 +13,16 @@ import requests
 logger = logging.getLogger('main')
 import json
 
-client = Client()
+
 r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 r.flushall()
-client.session.mount('https://', requests.adapters.HTTPAdapter(pool_maxsize=256))
+#client.session.mount('https://', requests.adapters.HTTPAdapter(pool_maxsize=256))
 
 LIMIT_KLINE = 348
 
 
 def save_klines(kline):
+
     symbol = kline['symbol']
     interval = kline['interval']
     kline_start_time = kline['kline_start_time']
@@ -52,6 +53,8 @@ def save_klines(kline):
     # La prima volta scarico i dati dato che non esiste la chiave
     else:
 
+        client = Client()
+
         klines = client \
             .futures_klines(symbol=symbol,
                             interval=interval,
@@ -63,7 +66,6 @@ def save_klines(kline):
         # Publish message to bot
         r.publish(key, json.dumps({}))
 
-    time.sleep(0.1)
     # Close thread
     sys.exit()
 
@@ -74,8 +76,8 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         symbolList = []
-        for k in Coins.objects.all():
-            symbolList.append(k.coins_exchange.symbol.lower())
+        for k in SymbolExchange.objects.all():
+            symbolList.append(k.symbol.lower())
 
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures",
                                                                    output_default="UnicornFy")
