@@ -405,6 +405,7 @@ class ClusteringBot:
                                 self.symbol = coin.symbol
                                 if self.entry(self.symbol):
                                     found = True
+                                    break
 
                             if found:
                                 self.abort()
