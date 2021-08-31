@@ -396,7 +396,7 @@ class ClusteringBot:
 
                     self.abort()
 
-                    sleep(3)
+                    sleep(1.5)
 
                     if self.redis_client.exists(self.time_frame):
                         val = json.loads(self.redis_client.get(self.time_frame))
