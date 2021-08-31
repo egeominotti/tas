@@ -422,7 +422,7 @@ class ClusteringBot:
                             thread.daemon = True
                             thread.start()
 
-                            if self.item.get('entry'):
+                            if self.item.get('entry') is True:
                                 self.abort()
                                 print("Found Entry: " + str(self.item))
                                 entry = True
