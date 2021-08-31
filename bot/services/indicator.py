@@ -20,7 +20,6 @@ class ClusterRealTimeIndicator:
         self.symbol = symbol
         self.time_frame = time_frame
         self.redis = True
-        self.client = Client()
         self.redis_client = redis
         self.pubsub = self.redis_client.pubsub()
 
@@ -50,16 +49,16 @@ class ClusterRealTimeIndicator:
             if real_time is True:
 
                 sleep(1)
-
+                client = Client()
                 if self.bot.market_futures:
-                    klines = self.client.futures_klines(
+                    klines = client.futures_klines(
                         symbol=self.symbol,
                         interval=self.time_frame,
                         limit=self.LIMIT_KLINE
                     )
 
                 if self.bot.market_spot:
-                    klines = self.client.get_klines(
+                    klines = client.get_klines(
                         symbol=self.symbol,
                         interval=self.time_frame,
                         limit=self.LIMIT_KLINE,
