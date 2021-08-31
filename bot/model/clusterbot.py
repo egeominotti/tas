@@ -399,10 +399,9 @@ class ClusteringBot:
                         if val.get('closed') is True:
 
                             self.redis_client.set(self.time_frame, json.dumps({'closed': False}))
-
                             for coin in self.coins:
-                                self.item['symbol_exchange'] = self.symbol
                                 self.symbol = coin.symbol
+                                self.item['symbol_exchange'] = self.symbol
                                 if self.entry(self.symbol):
                                     found = True
                                     break
