@@ -398,10 +398,6 @@ class ClusteringBot:
 
                     current_time = datetime.datetime.now()
                     if current_time.minute % 5 == 0 and current_time.second % 60 == 0:
-                        # if self.redis_client.exists(self.time_frame):
-                        # val = json.loads(self.redis_client.get(self.time_frame))
-                        # if val.get('closed') is True:
-                        #self.redis_client.set(self.time_frame, json.dumps({'closed': False}))
 
                         for coin in self.coins:
                             self.symbol = coin.symbol

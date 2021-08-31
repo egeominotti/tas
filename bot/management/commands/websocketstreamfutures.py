@@ -111,6 +111,7 @@ class Command(BaseCommand):
                 if oldest_stream_data_from_stream_buffer is not None:
                     try:
                         if not oldest_stream_data_from_stream_buffer['kline']['is_closed']:
+
                             thread = Thread(target=send_realtime_candle_close,
                                             args=(oldest_stream_data_from_stream_buffer['kline'],))
                             thread.daemon = True
@@ -119,8 +120,6 @@ class Command(BaseCommand):
                         if oldest_stream_data_from_stream_buffer['event_time'] >= \
                                 oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
                             if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
-                                interval = oldest_stream_data_from_stream_buffer['kline']['interval']
-                                r.set(interval, json.dumps({'closed': True}))
 
                                 thread = Thread(target=save_klines,
                                                 args=(oldest_stream_data_from_stream_buffer['kline'],))
