@@ -158,8 +158,13 @@ class ClusteringBot:
                         user=self.user,
                     )
 
-                    self.indicators = ClusterRealTimeIndicator(self.current_bot, self.symbol, self.time_frame,
-                                                               self.redis_client)
+                    self.indicators = ClusterRealTimeIndicator(
+                        self.current_bot,
+                        self.symbol,
+                        self.time_frame,
+                        self.redis_client
+                    )
+
                     self.item['indicators'] = self.indicators
                     self.item['symbol_exchange'] = self.symbol
 
