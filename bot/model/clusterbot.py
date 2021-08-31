@@ -3,6 +3,7 @@ from time import sleep
 import sys
 
 import decouple
+import json
 import redis
 
 from bot.services.telegram import Telegram
@@ -258,7 +259,8 @@ class ClusteringBot:
         try:
 
             key = self.symbol + "_" + self.time_frame + "_FUTURES_CANDLE"
-            self.item['candle_close'] = redis_client.get(key).get('close')
+            value = json.loads(redis_client.get(key))
+            self.item['candle_close'] = value.get('close')
 
             func_exit = eval(self.func_exit.name)
             if self.item.get('entry') is True:

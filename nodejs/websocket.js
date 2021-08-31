@@ -1,5 +1,7 @@
 const Binance = require('node-binance-api');
-const fs = require('fs');
+const redis = require("redis");
+const client = redis.createClient();
+
 
 const binance = new Binance().options({
     APIKEY: 'vyghMLzH2Pvr0TCoV11Equ9kIK2jxL6ZpDh8pyUBz4hvAWXSLWO6rBHbogQmX9lH',
