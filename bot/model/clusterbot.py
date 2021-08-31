@@ -410,17 +410,6 @@ class ClusteringBot:
         entry = False
         sentinel = False
 
-        # threads = []
-        # for coin in self.coins:
-        #     thread = Thread(target=self.entry, args=(coin.symbol,))
-        #     threads.append(thread)
-
-        # for thread in threads:
-        #     thread.daemon = True
-        #     thread.start()
-        # for thread in threads:
-        #     thread.join()
-
         while True:
 
             try:
