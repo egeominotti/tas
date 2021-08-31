@@ -400,6 +400,7 @@ class ClusteringBot:
 
                     found = False
                     self.abort()
+
                     if self.redis_client.exists(self.time_frame):
                         val = json.loads(self.redis_client.get(self.time_frame))
                         if val.get('closed') is True:
@@ -416,11 +417,6 @@ class ClusteringBot:
                                 entry = True
                                 continue
                     sleep(0.1)
-                    # if self.item.get('entry') is True:
-                    #     self.abort()
-                    #     print("Found Entry: " + str(self.item))
-                    #     entry = True
-                    #     continue
 
                 if entry is True:
 
