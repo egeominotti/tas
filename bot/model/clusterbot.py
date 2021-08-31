@@ -253,6 +253,7 @@ class ClusteringBot:
             key = self.symbol + "_" + self.time_frame + "_FUTURES_CANDLE"
             value = json.loads(self.redis_client.get(key))
             self.item['candle_close'] = value.get('close')
+            print(self.item['candle_close'])
 
             func_exit = eval(self.func_exit.name)
             if self.item.get('entry') is True:
@@ -397,17 +398,22 @@ class ClusteringBot:
 
                 if entry is False:
 
+                    found = False
                     self.abort()
                     if self.redis_client.exists(self.time_frame):
                         val = json.loads(self.redis_client.get(self.time_frame))
                         if val.get('closed') is True:
                             self.redis_client.set(self.time_frame, json.dumps({'closed': False}))
+
                             for coin in self.coins:
                                 if self.entry(coin.symbol):
-                                    self.abort()
-                                    print("Found Entry: " + str(self.item))
-                                    entry = True
-                                    continue
+                                    found = True
+
+                            if found:
+                                self.abort()
+                                print("Found Entry: " + str(self.item))
+                                entry = True
+                                continue
                     sleep(0.1)
                     # if self.item.get('entry') is True:
                     #     self.abort()
