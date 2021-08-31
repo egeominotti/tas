@@ -46,7 +46,6 @@ class ClusteringBot:
         self.func_exit = instance.strategy.logic_exit
         self.coins = SymbolExchange.objects.all().order_by('created_at')
         self.logger_instance = None
-        self.exchange = None
         self.indicators = None
         self.live = False
         self.quantity = 0
@@ -54,6 +53,11 @@ class ClusteringBot:
         self.pubsub = self.redis_client.pubsub()
         self.pubsub.subscribe(self.time_frame)
         self.binance_client = Client(api_key=self.userexchange.api_key, api_secret=self.userexchange.api_secret)
+        self.exchange = BinanceHelper(
+            client=self.binance_client,
+            bot=self.current_bot,
+            user=self.user,
+        )
 
         try:
             self.telegram = Telegram()
@@ -124,28 +128,18 @@ class ClusteringBot:
         self.telegram.send(str(e))
         exit(1)
 
-
     def entry(self, symbol):
 
         try:
 
-            self.symbol = symbol
-            self.exchange = BinanceHelper(
-                client=self.binance_client,
-                bot=self.current_bot,
-                symbol=self.symbol,
-                user=self.user,
-            )
-
             self.indicators = ClusterRealTimeIndicator(
                 self.current_bot,
-                self.symbol,
+                symbol,
                 self.time_frame,
                 self.redis_client
             )
 
             self.item['indicators'] = self.indicators
-            self.item['symbol_exchange'] = self.symbol
 
             func_entry = eval(self.func_entry.name)
             if self.item.get('entry') is False:
@@ -185,7 +179,7 @@ class ClusteringBot:
                         stop_loss_ratio=self.item.get('stoploss_ratio'),
                         take_profit_ratio=self.item.get('takeprofit_ratio'),
                         start_balance=self.exchange.get_current_balance_futures_(),
-                        coin_quantity=self.exchange.get_quantity(),
+                        coin_quantity=self.exchange.get_cluster_quantity(self.symbol),
                         leverage=self.exchange.leverage,
                         short=False,
                         long=False
@@ -194,25 +188,25 @@ class ClusteringBot:
                     if self.live:
 
                         # Calculate quantity
-                        self.quantity = self.exchange.get_cluster_quantity()
+                        self.quantity = self.exchange.get_cluster_quantity(self.symbol)
 
                         if self.item.get('type') == 0:
 
                             # LONG
                             if self.current_bot.market_futures:
-                                self.exchange.buy_market_futures(self.quantity)
+                                self.exchange.buy_market_futures(self.quantity, self.symbol)
 
                             if self.current_bot.market_spot:
-                                self.exchange.buy_market_spot(self.quantity)
+                                self.exchange.buy_market_spot(self.quantity, self.symbol)
 
                         if self.item.get('type') == 1:
 
                             # SHORT
                             if self.current_bot.market_futures:
-                                self.exchange.sell_market_futures(self.quantity)
+                                self.exchange.sell_market_futures(self.quantity, self.symbol)
 
                             if self.current_bot.market_spot:
-                                self.exchange.sell_market_spot(self.quantity)
+                                self.exchange.sell_market_spot(self.quantity, self.symbol)
 
                     if self.item.get('type') == 0:
                         self.logger.objects.filter(id=self.logger_instance.id) \
@@ -253,7 +247,6 @@ class ClusteringBot:
             key = self.symbol + "_" + self.time_frame + "_FUTURES_CANDLE"
             value = json.loads(self.redis_client.get(key))
             self.item['candle_close'] = value.get('close')
-            print(self.item['candle_close'])
 
             func_exit = eval(self.func_exit.name)
             if self.item.get('entry') is True:
@@ -272,18 +265,18 @@ class ClusteringBot:
                         if self.item.get('type') == 0:
                             # LONG
                             if self.current_bot.market_futures:
-                                self.exchange.sell_market_futures(self.quantity)
+                                self.exchange.sell_market_futures(self.quantity, self.symbol)
 
                             if self.current_bot.market_spot:
-                                self.exchange.sell_market_spot(self.quantity)
+                                self.exchange.sell_market_spot(self.quantity, self.symbol)
 
                         if self.item.get('type') == 1:
                             # SHORT
                             if self.current_bot.market_futures:
-                                self.exchange.buy_market_futures(self.quantity)
+                                self.exchange.buy_market_futures(self.quantity, self.symbol)
 
                             if self.current_bot.market_spot:
-                                self.exchange.buy_market_spot(self.quantity)
+                                self.exchange.buy_market_spot(self.quantity, self.symbol)
 
                     now = datetime.datetime.now()
                     self.logger.objects.filter(id=self.logger_instance.id) \
@@ -321,18 +314,18 @@ class ClusteringBot:
                         if self.item.get('type') == 0:
                             # LONG
                             if self.current_bot.market_futures:
-                                self.exchange.sell_market_futures(self.quantity)
+                                self.exchange.sell_market_futures(self.quantity, self.symbol)
 
                             if self.current_bot.market_spot:
-                                self.exchange.sell_market_spot(self.quantity)
+                                self.exchange.sell_market_spot(self.quantity, self.symbol)
 
                         if self.item.get('type') == 1:
                             # SHORT
                             if self.current_bot.market_futures:
-                                self.exchange.buy_market_futures(self.quantity)
+                                self.exchange.buy_market_futures(self.quantity, self.symbol)
 
                             if self.current_bot.market_spot:
-                                self.exchange.buy_market_spot(self.quantity)
+                                self.exchange.buy_market_spot(self.quantity, self.symbol)
 
                     now = datetime.datetime.now()
                     self.logger.objects.filter(id=self.logger_instance.id) \
@@ -409,6 +402,8 @@ class ClusteringBot:
 
                             for coin in self.coins:
                                 if self.entry(coin.symbol):
+                                    self.item['symbol_exchange'] = self.symbol
+                                    self.symbol = coin.symbol
                                     found = True
 
                             if found:
