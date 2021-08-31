@@ -68,6 +68,16 @@ def save_klines(kline):
     sys.exit()
 
 
+def send_realtime_candle_close(kline):
+
+    symbol = kline['symbol']
+    interval = kline['interval']
+    key = symbol + "_" + interval + "_FUTURES_CANDLE"
+    close_price = kline['close_price']
+    candle = {'close': float(close_price)}
+    r.set(key, json.dumps(candle))
+
+
 class Command(BaseCommand):
     help = 'WebSocketStream Market Futures Binance'
 
@@ -81,8 +91,8 @@ class Command(BaseCommand):
                                                                    output_default="UnicornFy")
 
         binance_websocket_api_manager.create_stream('kline_5m', symbolList, output="UnicornFy")
-        binance_websocket_api_manager.create_stream('kline_4h', symbolList, output="UnicornFy")
-        binance_websocket_api_manager.create_stream('kline_1d', symbolList, output="UnicornFy")
+        # binance_websocket_api_manager.create_stream('kline_4h', symbolList, output="UnicornFy")
+        # binance_websocket_api_manager.create_stream('kline_1d', symbolList, output="UnicornFy")
 
         while True:
 
@@ -98,13 +108,11 @@ class Command(BaseCommand):
                 if oldest_stream_data_from_stream_buffer is not None:
                     try:
                         if not oldest_stream_data_from_stream_buffer['kline']['is_closed']:
-                            kline = oldest_stream_data_from_stream_buffer['kline']
-                            symbol = kline['symbol']
-                            interval = kline['interval']
-                            key = symbol + "_" + interval + "_FUTURES_CANDLE"
-                            close_price = kline['close_price']
-                            candle = {'close': float(close_price)}
-                            r.set(key, json.dumps(candle))
+
+                            thread = Thread(target=send_realtime_candle_close,
+                                            args=(oldest_stream_data_from_stream_buffer['kline'],))
+                            thread.daemon = True
+                            thread.start()
 
                         if oldest_stream_data_from_stream_buffer['event_time'] >= \
                                 oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
