@@ -112,7 +112,6 @@ class Command(BaseCommand):
 
                                 interval = oldest_stream_data_from_stream_buffer['kline']['interval']
                                 r.set(interval, json.dumps({'closed': True}))
-                                # r.publish(interval, json.dumps({}))
 
                                 thread = Thread(target=save_klines,
                                                 args=(oldest_stream_data_from_stream_buffer['kline'],))
