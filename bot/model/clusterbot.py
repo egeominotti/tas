@@ -427,7 +427,7 @@ class ClusteringBot:
                                     print("Found Entry: " + str(self.item))
                                     entry = True
                                     continue
-                    sleep(0.01)
+                    sleep(0.1)
                     # if self.item.get('entry') is True:
                     #     self.abort()
                     #     print("Found Entry: " + str(self.item))
