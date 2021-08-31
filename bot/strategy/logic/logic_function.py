@@ -36,7 +36,7 @@ def logicentry_bot_rsi_20_bollinger(item: dict) -> None:
 def logicexit_bot_rsi_20_bollinger(item: dict) -> None:
 
     indicators = item['indicators']
-    item['candle_close'] = indicators.candle().get('close')
+    #item['candle_close'] = indicators.candle().get('close')
 
     print("symbol: " + str(item.get('symbol_exchange'))
           + " Market: " + str(item.get('market'))
@@ -45,9 +45,9 @@ def logicexit_bot_rsi_20_bollinger(item: dict) -> None:
           + " valueLowerBand:" + str(indicators.bbands(20).get('valueLowerBand'))
           + " valueUpperBand:" + str(indicators.bbands(20).get('valueUpperBand')))
 
-    bbands = indicators.bbands(20)
-    valueUpperBand = bbands.get('valueUpperBand')
-    valueLowerBand = bbands.get('valueLowerBand')
+    # bbands = indicators.bbands(20)
+    # valueUpperBand = bbands.get('valueUpperBand')
+    # valueLowerBand = bbands.get('valueLowerBand')
 
     # Market Spot
     if item.get('market') == 'SPOT':

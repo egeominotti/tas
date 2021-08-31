@@ -20,6 +20,7 @@ client.session.mount('https://', requests.adapters.HTTPAdapter(pool_maxsize=32))
 
 LIMIT_KLINE = 350
 
+
 def publish_kline(kline):
     symbol = kline['symbol']
     interval = kline['interval']
@@ -66,6 +67,15 @@ class Command(BaseCommand):
 
                 if oldest_stream_data_from_stream_buffer is not None:
                     try:
+                        if not oldest_stream_data_from_stream_buffer['kline']['is_closed']:
+                            kline = oldest_stream_data_from_stream_buffer['kline']
+                            symbol = kline['symbol']
+                            interval = kline['interval']
+                            key = symbol + "_" + interval + "_FUTURES_CANDLE"
+                            close_price = kline['close_price']
+
+                            candle = {'close': float(close_price)}
+                            r.set(key, json.dumps(candle))
 
                         if oldest_stream_data_from_stream_buffer['event_time'] >= \
                                 oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:

@@ -1,6 +1,10 @@
 import datetime
 from time import sleep
 import sys
+
+import decouple
+import redis
+
 from bot.services.telegram import Telegram
 from exchange.model.binance import BinanceHelper
 from bot.services.indicator import RealTimeIndicator
@@ -11,6 +15,7 @@ from bot.strategy.logic.logic_function import \
     logicexit_bot_rsi_20_bollinger, \
     logicentry_bot_rsi_20_bollinger
 
+redis_client = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 
 class ClusteringBot:
 
@@ -148,6 +153,7 @@ class ClusteringBot:
                 self.item['indicators'] = self.indicators
                 self.item['symbol_exchange'] = self.symbol
 
+
                 func_entry = eval(self.func_entry.name)
                 if self.item.get('entry') is False:
 
@@ -250,6 +256,9 @@ class ClusteringBot:
 
     def exit(self) -> bool:
         try:
+
+            key = self.symbol + "_" + self.time_frame + "_FUTURES_CANDLE"
+            self.item['candle_close'] = redis_client.get(key).get('close')
 
             func_exit = eval(self.func_exit.name)
             if self.item.get('entry') is True:
