@@ -9,6 +9,9 @@ const binance = new Binance().options({
 });
 
 
+binance.futuresChart( 'RVNUSDT', '5m', console.log );
+
+
 binance.websockets.candlesticks(['RVNUSDT'], "5m", (candlesticks) => {
     let {e: eventType, E: eventTime, s: symbol, k: ticks} = candlesticks;
     let {
