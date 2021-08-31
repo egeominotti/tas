@@ -274,7 +274,7 @@ class ClusteringBot:
         try:
 
             key = self.symbol + "_" + self.time_frame + "_FUTURES_CANDLE"
-            value = json.loads(redis_client.get(key))
+            value = json.loads(self.redis_client.get(key))
             self.item['candle_close'] = value.get('close')
 
             func_exit = eval(self.func_exit.name)
