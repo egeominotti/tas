@@ -46,14 +46,15 @@ class ClusterRealTimeIndicator:
 
             if real_time is False:
 
-                while True:
-
-                    message = self.pubsub.get_message()
-                    if message and not message['data'] == 1:
-                        klines = json.loads(self.redis_client.get(self.key))
-                        if len(klines) > 0:
-                            break
-                    sleep(0.1)
+                klines = json.loads(self.redis_client.get(self.key))
+                # while True:
+                #
+                #     message = self.pubsub.get_message()
+                #     if message and not message['data'] == 1:
+                #         klines = json.loads(self.redis_client.get(self.key))
+                #         if len(klines) > 0:
+                #             break
+                #     sleep(0.1)
 
 
             if real_time is True:
