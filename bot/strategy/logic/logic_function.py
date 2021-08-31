@@ -32,7 +32,6 @@ def logicentry_bot_rsi_20_bollinger(item: dict) -> None:
 
 
 def logicexit_bot_rsi_20_bollinger(item: dict) -> None:
-
     # indicators = item['indicators']
     # item['candle_close'] = indicators.candle().get('close')
 
@@ -53,12 +52,11 @@ def logicexit_bot_rsi_20_bollinger(item: dict) -> None:
 
         if item['type'] == 0:
 
-
-            if item['candle_close'] >= item['entry_candle'] * 1.02:
+            if item['candle_close'] >= item['entry_candle'] * item['takeprofit_value_long']:
                 item['takeprofit_candle'] = item['candle_close']
                 item['takeprofit'] = True
 
-            if item['candle_close'] <= item['entry_candle'] * 0.985:
+            if item['candle_close'] <= item['entry_candle'] * item['stoploss_value_long']:
                 item['stoploss_candle'] = item['candle_close']
                 item['stoploss'] = True
 
@@ -68,21 +66,21 @@ def logicexit_bot_rsi_20_bollinger(item: dict) -> None:
         # Long
         if item['type'] == 0:
 
-            if item['candle_close'] >= item['entry_candle'] * 1.02:
+            if item['candle_close'] >= item['entry_candle'] * item['takeprofit_value_long']:
                 item['takeprofit_candle'] = item['candle_close']
                 item['takeprofit'] = True
 
-            if item['candle_close'] <= item['entry_candle'] * 0.985:
+            if item['candle_close'] <= item['entry_candle'] * item['stoploss_value_long']:
                 item['stoploss_candle'] = item['candle_close']
                 item['stoploss'] = True
 
         # Short
         else:
 
-            if item['candle_close'] <= item['entry_candle'] * 0.98:
+            if item['candle_close'] <= item['entry_candle'] * item['takeprofit_value_short']:
                 item['takeprofit_candle'] = item['candle_close']
                 item['takeprofit'] = True
 
-            if item['candle_close'] >= item['entry_candle'] * 1.015:
+            if item['candle_close'] >= item['entry_candle'] * item['stoploss_value_short']:
                 item['stoploss_candle'] = item['candle_close']
                 item['stoploss'] = True

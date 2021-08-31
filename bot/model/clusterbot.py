@@ -244,8 +244,6 @@ class ClusteringBot:
     def exit(self) -> bool:
         try:
 
-            sleep(0.5)
-
             key = self.symbol + "_" + self.time_frame + "_FUTURES_CANDLE"
             value = json.loads(self.redis_client.get(key))
             self.item['candle_close'] = value.get('close')
@@ -354,6 +352,7 @@ class ClusteringBot:
                         self.telegram.send(stop_loss)
 
                     return True
+            sleep(0.5)
 
         except Exception as e:
             self.error(e)
