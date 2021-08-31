@@ -145,6 +145,7 @@ class ClusteringBot:
         try:
 
             message = self.pubsub.get_message()
+            print(message)
             if message:
 
                 for symbol in self.coins:
