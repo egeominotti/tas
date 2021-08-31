@@ -4,7 +4,7 @@ from threading import Thread
 import decouple
 from binance import Client
 from django.core.management import BaseCommand
-from strategy.models import Coins
+from strategy.models import Coins, SymbolExchange
 import redis
 import logging
 import time
@@ -75,8 +75,8 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         symbolList = []
-        for k in Coins.objects.all():
-            symbolList.append(k.coins_exchange.symbol.lower())
+        for k in SymbolExchange.objects.all():
+            symbolList.append(k.symbol.lower())
 
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures",
                                                                    output_default="UnicornFy")

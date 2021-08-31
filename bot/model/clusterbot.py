@@ -9,7 +9,7 @@ import redis
 from bot.services.telegram import Telegram
 from exchange.model.binance import BinanceHelper
 from bot.services.indicator import RealTimeIndicator
-from strategy.models import Coins
+from strategy.models import Coins, SymbolExchange
 
 # Logic of bot
 from bot.strategy.logic.logic_function import \
@@ -46,7 +46,7 @@ class ClusteringBot:
         self.time_frame = instance.strategy.time_frame.time_frame
         self.func_entry = instance.strategy.logic_entry
         self.func_exit = instance.strategy.logic_exit
-        self.coins = Coins.objects.all().order_by('created_at')
+        self.coins = SymbolExchange.objects.all().order_by('created_at')
         self.logger_instance = None
         self.indicators = None
         self.live = False
@@ -148,12 +148,12 @@ class ClusteringBot:
                     bot=self.current_bot,
                     api_key=self.userexchange.api_key,
                     api_secret=self.userexchange.api_secret,
-                    symbol=symbol.coins_exchange.symbol,
+                    symbol=symbol.symbol,
                     user=self.user,
                 )
 
-                self.indicators = RealTimeIndicator(self.current_bot, symbol.coins_exchange.symbol, self.time_frame)
-                self.symbol = symbol.coins_exchange.symbol
+                self.indicators = RealTimeIndicator(self.current_bot, symbol.symbol, self.time_frame)
+                self.symbol = symbol.symbol
                 self.item['indicators'] = self.indicators
                 self.item['symbol_exchange'] = self.symbol
 
