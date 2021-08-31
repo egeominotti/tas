@@ -1,5 +1,4 @@
 import requests
-from binance import Client
 from binance.enums import *
 
 
