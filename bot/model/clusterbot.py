@@ -147,17 +147,17 @@ class ClusteringBot:
             if message:
 
                 for symbol in self.coins:
+                    self.symbol = symbol.symbol
 
                     self.exchange = BinanceHelper(
                         bot=self.current_bot,
                         api_key=self.userexchange.api_key,
                         api_secret=self.userexchange.api_secret,
-                        symbol=symbol.symbol,
+                        symbol=self.symbol,
                         user=self.user,
                     )
 
-                    self.indicators = RealTimeIndicator(self.current_bot, symbol.symbol, self.time_frame)
-                    self.symbol = symbol.symbol
+                    self.indicators = RealTimeIndicator(self.current_bot, self.symbol, self.time_frame)
                     self.item['indicators'] = self.indicators
                     self.item['symbol_exchange'] = self.symbol
 
