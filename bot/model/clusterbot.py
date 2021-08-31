@@ -401,9 +401,9 @@ class ClusteringBot:
                             self.redis_client.set(self.time_frame, json.dumps({'closed': False}))
 
                             for coin in self.coins:
-                                if self.entry(coin.symbol):
-                                    self.item['symbol_exchange'] = self.symbol
-                                    self.symbol = coin.symbol
+                                self.item['symbol_exchange'] = self.symbol
+                                self.symbol = coin.symbol
+                                if self.entry(self.symbol):
                                     found = True
 
                             if found:
