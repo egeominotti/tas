@@ -46,6 +46,8 @@ def save_klines(kline):
 
         pre_kline.append(kline_from_websocket)
         r.set(key, json.dumps(pre_kline))
+
+        # Publish message to bot
         r.publish(key, json.dumps({}))
 
     # La prima volta scarico i dati dato che non esiste la chiave
@@ -56,7 +58,10 @@ def save_klines(kline):
                             interval=interval,
                             endTime=kline_start_time,
                             limit=LIMIT_KLINE)
+
         r.set(key, json.dumps(klines))
+
+        # Publish message to bot
         r.publish(key, json.dumps({}))
 
     time.sleep(0.1)
@@ -75,7 +80,8 @@ class Command(BaseCommand):
 
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures",
                                                                    output_default="UnicornFy")
-        binance_websocket_api_manager.create_stream('kline_1m', symbolList, output="UnicornFy")
+
+        binance_websocket_api_manager.create_stream('kline_5m', symbolList, output="UnicornFy")
 
         while True:
 
