@@ -16,8 +16,6 @@ from bot.strategy.logic.logic_function import \
     logicexit_bot_rsi_20_bollinger, \
     logicentry_bot_rsi_20_bollinger
 
-redis_client = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
-
 
 class ClusteringBot:
 
@@ -51,7 +49,8 @@ class ClusteringBot:
         self.indicators = None
         self.live = False
         self.quantity = 0
-        self.pubsub = redis_client.pubsub()
+        self.redis_client = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
+        self.pubsub = self.redis_client.pubsub()
         self.pubsub.subscribe(self.time_frame)
 
         try:
@@ -159,7 +158,8 @@ class ClusteringBot:
                         user=self.user,
                     )
 
-                    self.indicators = ClusterRealTimeIndicator(self.current_bot, self.symbol, self.time_frame, redis_client)
+                    self.indicators = ClusterRealTimeIndicator(self.current_bot, self.symbol, self.time_frame,
+                                                               self.redis_client)
                     self.item['indicators'] = self.indicators
                     self.item['symbol_exchange'] = self.symbol
 
