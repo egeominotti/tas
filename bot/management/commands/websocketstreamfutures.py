@@ -98,6 +98,7 @@ class Command(BaseCommand):
                 if oldest_stream_data_from_stream_buffer is not None:
                     try:
                         if not oldest_stream_data_from_stream_buffer['kline']['is_closed']:
+
                             kline = oldest_stream_data_from_stream_buffer['kline']
                             symbol = kline['symbol']
                             interval = kline['interval']
@@ -111,8 +112,8 @@ class Command(BaseCommand):
                             if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
 
                                 interval = oldest_stream_data_from_stream_buffer['kline']['interval']
-
                                 r.publish(interval, json.dumps({}))
+
                                 thread = Thread(target=save_klines,
                                                 args=(oldest_stream_data_from_stream_buffer['kline'],))
                                 thread.daemon = True
