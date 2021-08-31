@@ -352,6 +352,7 @@ class ClusteringBot:
                         self.telegram.send(stop_loss)
 
                     return True
+
             sleep(0.1)
 
         except Exception as e:
