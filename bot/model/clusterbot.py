@@ -9,7 +9,7 @@ import redis
 from bot.services.telegram import Telegram
 from exchange.model.binance import BinanceHelper
 from bot.services.indicator import RealTimeIndicator
-from strategy.models import Coins, SymbolExchange
+from strategy.models import SymbolExchange
 
 # Logic of bot
 from bot.strategy.logic.logic_function import \
@@ -17,7 +17,6 @@ from bot.strategy.logic.logic_function import \
     logicentry_bot_rsi_20_bollinger
 
 redis_client = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
-
 
 class ClusteringBot:
 
@@ -51,6 +50,8 @@ class ClusteringBot:
         self.indicators = None
         self.live = False
         self.quantity = 0
+        self.pubsub = redis_client.pubsub()
+        self.pubsub.subscribe(self.time_frame)
 
         try:
             self.telegram = Telegram()
@@ -140,12 +141,9 @@ class ClusteringBot:
 
     def entry(self) -> bool:
 
-        pubsub = redis_client.pubsub()
-        pubsub.subscribe(self.time_frame)
-
         try:
 
-            message = pubsub.get_message()
+            message = self.pubsub.get_message()
             if message:
 
                 for symbol in self.coins:
