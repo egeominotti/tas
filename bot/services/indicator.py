@@ -21,7 +21,6 @@ class ClusterRealTimeIndicator:
         self.time_frame = time_frame
         self.redis = True
         self.redis_client = redis
-        # self.pubsub = self.redis_client.pubsub()
 
     def compute(self, real_time):
 

@@ -1,9 +1,7 @@
 import datetime
 import time
-from threading import Thread
 from time import sleep
 import sys
-
 import decouple
 import json
 import redis
@@ -21,6 +19,8 @@ from bot.strategy.logic.logic_function import \
 
 
 class ClusteringBot:
+
+    exchange = None
 
     def __init__(
             self,
@@ -41,7 +41,6 @@ class ClusteringBot:
         self.logger = logger
         self.bot_object = bot_object
         self.user = instance.user
-        self.exchange = None
         self.userexchange = userexchange
         self.symbol = None
         self.time_frame = instance.strategy.time_frame.time_frame
@@ -126,29 +125,12 @@ class ClusteringBot:
         self.telegram.send(str(e))
         exit(1)
 
-    def start(self) -> None:
-
-        if self.notify:
-            now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-            start = "Started: " + str(self.current_bot.name) + \
-                    "\n" + "User: " + self.user.username + \
-                    "\n" + "Trading Market: " + self.market + \
-                    "\n" + "Balance: " + str(self.exchange.get_current_balance_futures_()) + \
-                    "\n" + "Live Mode: " + str(self.live) + \
-                    "\n" + "Investment amount: " + str(self.exchange.get_current_investment_amount()) + \
-                    "\n" + "Quantity of investement: " + str(self.exchange.get_quantity()) + \
-                    "\n" + "Leverage: " + str(self.exchange.leverage) + \
-                    "\nTime frame: " + str(self.time_frame) + \
-                    "\nStarted at: " + str(now) + \
-                    "\nLet's go to the moon 🚀️"
-            self.telegram.send(start)
 
     def entry(self, symbol):
 
         try:
 
             self.symbol = symbol
-
             self.exchange = BinanceHelper(
                 client=self.binance_client,
                 bot=self.current_bot,
