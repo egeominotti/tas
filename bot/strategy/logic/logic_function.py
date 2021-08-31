@@ -25,7 +25,8 @@ def logicentry_bot_rsi_20_bollinger(item: dict) -> None:
     # Short only in futures market
     if item.get('market') == 'FUTURES':
 
-        if rsi > 40 and item['candle_close'] >= valueUpperBand:
+        #if rsi > 85 and item['candle_close'] >= valueUpperBand:
+        if rsi > 40:
             item['type'] = 1  # type = 1 corrisponde ad una entrata short
             item['entry'] = True
             item['entry_candle'] = item['candle_close']
