@@ -258,10 +258,6 @@ class ClusteringBot:
                                      "\nTime frame: " + str(self.time_frame)
                         self.telegram.send(entry_text)
 
-                    sys.exit()
-
-            sys.exit()
-
         except Exception as e:
             self.error(e)
             self.abort()
