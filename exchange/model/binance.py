@@ -121,7 +121,8 @@ class BinanceHelper:
             side=SIDE_SELL,
             type=ORDER_TYPE_TAKE_PROFIT_LIMIT,
             quantity=quantity,
-            price=price
+            price=price,
+            timeInForce=TIME_IN_FORCE_GTC
         )
 
     def takeprofit_limit_short(self, quantity, symbol, price):
@@ -130,7 +131,8 @@ class BinanceHelper:
             side=SIDE_BUY,
             type=ORDER_TYPE_TAKE_PROFIT_LIMIT,
             quantity=quantity,
-            price=price
+            price=price,
+            timeInForce=TIME_IN_FORCE_GTC
         )
 
     def stoploss_limit_short(self, quantity, symbol, price):
@@ -139,7 +141,8 @@ class BinanceHelper:
             side=SIDE_BUY,
             type=ORDER_TYPE_STOP_LOSS_LIMIT,
             quantity=quantity,
-            price=price
+            price=price,
+            timeInForce=TIME_IN_FORCE_GTC
         )
 
     def stoploss_limit_long(self, quantity, symbol, price):
@@ -148,7 +151,8 @@ class BinanceHelper:
             side=SIDE_SELL,
             type=ORDER_TYPE_STOP_LOSS_LIMIT,
             quantity=quantity,
-            price=price
+            price=price,
+            timeInForce=TIME_IN_FORCE_GTC
         )
 
     def get_order(self, symbol, orderId):
