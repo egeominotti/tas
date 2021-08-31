@@ -258,6 +258,8 @@ class ClusteringBot:
                                      "\nTime frame: " + str(self.time_frame)
                         self.telegram.send(entry_text)
 
+                    return True
+
         except Exception as e:
             self.error(e)
             self.abort()
@@ -405,7 +407,6 @@ class ClusteringBot:
 
         entry = False
         sentinel = False
-        closed = False
 
         # threads = []
         # for coin in self.coins:
