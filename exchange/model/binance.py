@@ -1,5 +1,6 @@
 import requests
 from binance.enums import *
+from binance.enums import SIDE_BUY
 
 
 class BinanceHelper:
@@ -14,7 +15,6 @@ class BinanceHelper:
         self.user = user
         self.bot = bot
         self.leverage = self.bot.leverage
-
 
     def get_cluster_quantity(self, symbol):
         """
@@ -115,7 +115,16 @@ class BinanceHelper:
             quantity=quantity,
         )
 
-    def takeprofit_limit(self, quantity, symbol, price):
+    def takeprofit_limit_long(self, quantity, symbol, price):
+        self.client.create_order(
+            symbol=symbol,
+            side=SIDE_SELL,
+            type=ORDER_TYPE_TAKE_PROFIT_LIMIT,
+            quantity=quantity,
+            price=price
+        )
+
+    def takeprofit_limit_short(self, quantity, symbol, price):
         self.client.create_order(
             symbol=symbol,
             side=SIDE_BUY,
@@ -124,7 +133,7 @@ class BinanceHelper:
             price=price
         )
 
-    def stoploss_limit(self, quantity, symbol, price):
+    def stoploss_limit_short(self, quantity, symbol, price):
         self.client.create_order(
             symbol=symbol,
             side=SIDE_BUY,
@@ -132,6 +141,19 @@ class BinanceHelper:
             quantity=quantity,
             price=price
         )
+
+    def stoploss_limit_long(self, quantity, symbol, price):
+        self.client.create_order(
+            symbol=symbol,
+            side=SIDE_SELL,
+            type=ORDER_TYPE_STOP_LOSS_LIMIT,
+            quantity=quantity,
+            price=price
+        )
+
+    def get_order(self, symbol, orderId):
+        # return self.client.get_order(symbol=symbol, orderId=orderId)
+        return self.client.get_order(symbol=symbol, orderId=orderId)
 
     def futures_cancel_order_(self):
         pass
