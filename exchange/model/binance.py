@@ -7,15 +7,13 @@ class BinanceHelper:
 
     def __init__(
             self,
-            api_key,
-            api_secret,
+            client,
             symbol,
             user,
             bot=None
     ):
 
-        self.api_key = api_key
-        self.api_secret = api_secret
+        self.client = client
         self.symbol = symbol
         self.user = user
         self.bot = bot
@@ -107,7 +105,6 @@ class BinanceHelper:
 
     def sell_market_futures(self, quantity):
         # Change leverage
-        self.client = Client(self.api_key, self.api_secret)
         self.client.futures_change_leverage(symbol=self.symbol, marginType='ISOLATED', leverage=self.bot.leverage)
         self.orderId = self.client.futures_create_order(
             symbol=self.symbol,
@@ -118,7 +115,6 @@ class BinanceHelper:
 
     def buy_market_futures(self, quantity):
         # Change leverage
-        self.client = Client(self.api_key, self.api_secret)
         self.client.futures_change_leverage(symbol=self.symbol, marginType='ISOLATED', leverage=self.bot.leverage)
         self.orderId = self.client.futures_create_order(
             symbol=self.symbol,
@@ -128,7 +124,6 @@ class BinanceHelper:
         )
 
     def sell_market_spot(self, quantity):
-        self.client = Client(self.api_key, self.api_secret)
         self.orderId = self.client.create_order(
             symbol=self.symbol,
             side=SIDE_SELL,
@@ -137,7 +132,6 @@ class BinanceHelper:
         )
 
     def buy_market_spot(self, quantity):
-        self.client = Client(self.api_key, self.api_secret)
         self.orderId = self.client.create_order(
             symbol=self.symbol,
             side=SIDE_BUY,

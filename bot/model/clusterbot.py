@@ -7,6 +7,7 @@ import sys
 import decouple
 import json
 import redis
+from binance import Client
 
 from bot.services.telegram import Telegram
 from exchange.model.binance import BinanceHelper
@@ -54,6 +55,7 @@ class ClusteringBot:
         self.redis_client = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
         self.pubsub = self.redis_client.pubsub()
         self.pubsub.subscribe(self.time_frame)
+        self.binance_client = Client(api_key=self.userexchange.api_key, api_secret=self.userexchange.api_secret)
 
         try:
             self.telegram = Telegram()
@@ -148,9 +150,8 @@ class ClusteringBot:
             self.symbol = symbol
 
             self.exchange = BinanceHelper(
+                client=self.binance_client,
                 bot=self.current_bot,
-                api_key=self.userexchange.api_key,
-                api_secret=self.userexchange.api_secret,
                 symbol=self.symbol,
                 user=self.user,
             )
