@@ -409,7 +409,7 @@ class ClusteringBot:
                                     break
 
                             if found_entry is False:
-                                sleep(1.5)
+                                sleep(3)
 
                             if found_entry:
                                 self.abort()
