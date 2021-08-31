@@ -64,7 +64,6 @@ def save_klines(kline):
         r.publish(key, json.dumps({}))
 
     time.sleep(0.1)
-    r.publish(interval, json.dumps({}))
     # Close thread
     sys.exit()
 
@@ -109,6 +108,9 @@ class Command(BaseCommand):
                                 oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
                             if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
 
+                                interval = oldest_stream_data_from_stream_buffer['kline']['interval']
+
+                                r.publish(interval, json.dumps({}))
                                 thread = Thread(target=save_klines,
                                                 args=(oldest_stream_data_from_stream_buffer['kline'],))
                                 thread.daemon = True
