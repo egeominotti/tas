@@ -144,7 +144,7 @@ class ClusteringBot:
         try:
 
             message = self.pubsub.get_message()
-            print(message)
+            #print(message)
             if message and not message['data'] == 1:
 
                 for symbol in self.coins:
