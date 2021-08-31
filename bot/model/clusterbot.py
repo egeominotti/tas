@@ -18,6 +18,7 @@ from bot.strategy.logic.logic_function import \
 
 redis_client = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 
+
 class ClusteringBot:
 
     def __init__(
@@ -45,6 +46,7 @@ class ClusteringBot:
         self.time_frame = instance.strategy.time_frame.time_frame
         self.func_entry = instance.strategy.logic_entry
         self.func_exit = instance.strategy.logic_exit
+        self.coins = Coins.objects.all().order_by('created_at')
         self.logger_instance = None
         self.indicators = None
         self.live = False
@@ -140,7 +142,7 @@ class ClusteringBot:
 
         try:
 
-            for symbol in Coins.objects.all().order_by('created_at'):
+            for symbol in self.coins:
 
                 self.exchange = BinanceHelper(
                     bot=self.current_bot,
@@ -267,7 +269,7 @@ class ClusteringBot:
             if self.item.get('entry') is True:
 
                 # Real time indicator enabled
-                #self.indicators.compute(True)
+                # self.indicators.compute(True)
                 func_exit(item=self.item)
 
                 """
