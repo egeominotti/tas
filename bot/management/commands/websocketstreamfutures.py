@@ -20,7 +20,8 @@ r.flushall()
 LIMIT_KLINE = 348
 
 
-def save_klines(kline):
+
+def save_klines(kline, counter):
     symbol = kline['symbol']
     interval = kline['interval']
     kline_start_time = kline['kline_start_time']
@@ -65,11 +66,11 @@ def save_klines(kline):
         # r.publish(key, json.dumps({}))
 
     # Close thread
+    counter += 1
     sys.exit()
 
 
 def send_realtime_candle_close(kline):
-
     symbol = kline['symbol']
     interval = kline['interval']
     key = symbol + "_" + interval + "_FUTURES_CANDLE"
@@ -86,6 +87,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
+        counter = 0
         symbolList = []
         for k in SymbolExchange.objects.all():
             symbolList.append(k.symbol.lower())
@@ -111,7 +113,6 @@ class Command(BaseCommand):
                 if oldest_stream_data_from_stream_buffer is not None:
                     try:
                         if not oldest_stream_data_from_stream_buffer['kline']['is_closed']:
-
                             thread = Thread(target=send_realtime_candle_close,
                                             args=(oldest_stream_data_from_stream_buffer['kline'],))
                             thread.daemon = True
@@ -120,9 +121,8 @@ class Command(BaseCommand):
                         if oldest_stream_data_from_stream_buffer['event_time'] >= \
                                 oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
                             if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
-
                                 thread = Thread(target=save_klines,
-                                                args=(oldest_stream_data_from_stream_buffer['kline'],))
+                                                args=(oldest_stream_data_from_stream_buffer['kline'], counter,))
                                 thread.daemon = True
                                 thread.start()
 
@@ -130,3 +130,9 @@ class Command(BaseCommand):
                         pass
                     except TypeError:
                         pass
+
+            print(len(symbolList))
+            print(counter)
+            if len(symbolList) == counter:
+                counter = 0
+                print("Ho scaricato tutto")

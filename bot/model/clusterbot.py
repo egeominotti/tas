@@ -397,7 +397,7 @@ class ClusteringBot:
                     self.abort()
 
                     current_time = datetime.datetime.now()
-                    if current_time.minute % 5 == 0 and current_time.second % 1 == 0:
+                    if current_time.minute % 5 == 0 and current_time.second % 60 == 0:
 
                         for coin in self.coins:
                             self.symbol = coin.symbol
