@@ -42,7 +42,7 @@ sentry-sdk
 raven
 django-quill-editor
 html-sanitizer
-unicorn-binance-websocket-api
+unicorn-binance-websocket-api==1.33.0
 unicorn-fy
 django-redis
 pymongo
