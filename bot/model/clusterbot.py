@@ -403,6 +403,7 @@ class ClusteringBot:
                     if self.redis_client.exists(self.time_frame):
                         val = json.loads(self.redis_client.get(self.time_frame))
                         if val.get('closed') is True:
+
                             self.redis_client.set(self.time_frame, json.dumps({'closed': False}))
 
                             for coin in self.coins:
