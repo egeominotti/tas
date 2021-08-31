@@ -426,7 +426,9 @@ class ClusteringBot:
 
                     self.abort()
                     message = self.pubsub.get_message()
+                    print(message)
                     if message and not message['data'] == 1:
+                        print(message)
                         closed = True
 
                     if closed:
