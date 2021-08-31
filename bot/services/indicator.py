@@ -15,13 +15,13 @@ class ClusterRealTimeIndicator:
     low_array = None
     high_array = None
 
-    def __init__(self, bot, symbol, time_frame):
+    def __init__(self, bot, symbol, time_frame, redis):
         self.bot = bot
         self.symbol = symbol
         self.time_frame = time_frame
         self.redis = True
         self.client = Client()
-        self.redis_client = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
+        self.redis_client = redis
         self.pubsub = self.redis_client.pubsub()
 
 

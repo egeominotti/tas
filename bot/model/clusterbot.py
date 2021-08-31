@@ -18,6 +18,7 @@ from bot.strategy.logic.logic_function import \
 
 redis_client = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 
+
 class ClusteringBot:
 
     def __init__(
@@ -157,7 +158,7 @@ class ClusteringBot:
                         user=self.user,
                     )
 
-                    self.indicators = RealTimeIndicator(self.current_bot, self.symbol, self.time_frame)
+                    self.indicators = RealTimeIndicator(self.current_bot, self.symbol, self.time_frame, redis_client)
                     self.item['indicators'] = self.indicators
                     self.item['symbol_exchange'] = self.symbol
 
