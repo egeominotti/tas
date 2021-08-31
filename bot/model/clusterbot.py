@@ -146,7 +146,6 @@ class ClusteringBot:
         try:
 
             self.symbol = symbol
-
             self.exchange = BinanceHelper(
                 bot=self.current_bot,
                 api_key=self.userexchange.api_key,
@@ -258,6 +257,10 @@ class ClusteringBot:
                                      "\n" + "Symbol: " + str(self.symbol) + \
                                      "\nTime frame: " + str(self.time_frame)
                         self.telegram.send(entry_text)
+
+                    sys.exit()
+
+            sys.exit()
 
         except Exception as e:
             self.error(e)
@@ -407,6 +410,11 @@ class ClusteringBot:
         entry = False
         sentinel = False
 
+        threads = []
+        for coin in self.coins:
+            thread = Thread(target=self.entry, args=(coin.symbol,))
+            threads.append(thread)
+
         while True:
 
             try:
@@ -416,17 +424,14 @@ class ClusteringBot:
                     self.abort()
                     message = self.pubsub.get_message()
                     if message and not message['data'] == 1:
-                        for coin in self.coins:
-
-                            thread = Thread(target=self.entry, args=(coin.symbol,))
-                            thread.daemon = True
+                        for thread in threads:
                             thread.start()
 
-                            if self.item.get('entry') is True:
-                                self.abort()
-                                print("Found Entry: " + str(self.item))
-                                entry = True
-                                continue
+                        if self.item.get('entry') is True:
+                            self.abort()
+                            print("Found Entry: " + str(self.item))
+                            entry = True
+                            continue
 
                 if entry is True:
 
