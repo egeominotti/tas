@@ -116,6 +116,7 @@ class BinanceHelper:
         )
 
     def sell_market_futures(self, quantity):
+        # Change leverage
         self.client.futures_change_leverage(symbol=self.symbol, marginType='ISOLATED', leverage=self.bot.leverage)
         self.orderId = self.client.futures_create_order(
             symbol=self.symbol,
@@ -125,6 +126,7 @@ class BinanceHelper:
         )
 
     def buy_market_futures(self, quantity):
+        # Change leverage
         self.client.futures_change_leverage(symbol=self.symbol, marginType='ISOLATED', leverage=self.bot.leverage)
         self.orderId = self.client.futures_create_order(
             symbol=self.symbol,
