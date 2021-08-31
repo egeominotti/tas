@@ -13,16 +13,14 @@ import requests
 logger = logging.getLogger('main')
 import json
 
-
 r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 r.flushall()
-#client.session.mount('https://', requests.adapters.HTTPAdapter(pool_maxsize=256))
+# client.session.mount('https://', requests.adapters.HTTPAdapter(pool_maxsize=256))
 
 LIMIT_KLINE = 348
 
 
 def save_klines(kline):
-
     symbol = kline['symbol']
     interval = kline['interval']
     kline_start_time = kline['kline_start_time']
@@ -48,7 +46,7 @@ def save_klines(kline):
         r.set(key, json.dumps(pre_kline))
 
         # Publish message to bot
-        r.publish(key, json.dumps({}))
+        # r.publish(key, json.dumps({}))
 
     # La prima volta scarico i dati dato che non esiste la chiave
     else:
@@ -64,7 +62,7 @@ def save_klines(kline):
         r.set(key, json.dumps(klines))
 
         # Publish message to bot
-        r.publish(key, json.dumps({}))
+        # r.publish(key, json.dumps({}))
 
     # Close thread
     sys.exit()
@@ -98,7 +96,6 @@ class Command(BaseCommand):
                 if oldest_stream_data_from_stream_buffer is not None:
                     try:
                         if not oldest_stream_data_from_stream_buffer['kline']['is_closed']:
-
                             kline = oldest_stream_data_from_stream_buffer['kline']
                             symbol = kline['symbol']
                             interval = kline['interval']
@@ -112,7 +109,8 @@ class Command(BaseCommand):
                             if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
 
                                 interval = oldest_stream_data_from_stream_buffer['kline']['interval']
-                                r.publish(interval, json.dumps({}))
+                                r.set(interval, json.dumps({'closed': True}))
+                                # r.publish(interval, json.dumps({}))
 
                                 thread = Thread(target=save_klines,
                                                 args=(oldest_stream_data_from_stream_buffer['kline'],))
