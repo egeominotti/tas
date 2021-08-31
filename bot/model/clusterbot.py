@@ -386,6 +386,7 @@ class ClusteringBot:
 
         entry = False
         sentinel = False
+        found_entry = False
 
         while True:
 
@@ -393,28 +394,28 @@ class ClusteringBot:
 
                 if entry is False:
 
-                    found = False
+
                     self.abort()
 
                     if self.redis_client.exists(self.time_frame):
                         val = json.loads(self.redis_client.get(self.time_frame))
                         if val.get('closed') is True:
+                            self.redis_client.set(self.time_frame, json.dumps({'closed': False}))
 
                             for coin in self.coins:
                                 self.symbol = coin.symbol
                                 self.item['symbol_exchange'] = self.symbol
                                 if self.entry(self.symbol):
-                                    found = True
+                                    found_entry = True
                                     break
 
-                            self.redis_client.set(self.time_frame, json.dumps({'closed': False}))
-
-                            if found:
+                            if found_entry:
                                 self.abort()
                                 print("Found Entry: " + str(self.item))
                                 entry = True
                                 continue
-                    sleep(0.1)
+
+                    sleep(1)
 
                 if entry is True:
 
