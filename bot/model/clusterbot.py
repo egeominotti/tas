@@ -424,12 +424,13 @@ class ClusteringBot:
                     self.abort()
                     message = self.pubsub.get_message()
                     if message and not message['data'] == 1:
-
-                        for thread in threads:
-                            thread.daemon = True
-                            thread.start()
-                        for thread in threads:
-                            thread.join()
+                        for coin in self.coins:
+                            self.entry(coin.symbol)
+                        # for thread in threads:
+                        #     thread.daemon = True
+                        #     thread.start()
+                        # for thread in threads:
+                        #     thread.join()
 
                         if self.item.get('entry') is True:
                             self.abort()
