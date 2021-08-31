@@ -138,6 +138,7 @@ class ClusteringBot:
     def entry(self) -> bool:
 
         try:
+
             for symbol in Coins.objects.all().order_by('created_at'):
 
                 self.exchange = BinanceHelper(
@@ -152,7 +153,6 @@ class ClusteringBot:
                 self.symbol = symbol.coins_exchange.symbol
                 self.item['indicators'] = self.indicators
                 self.item['symbol_exchange'] = self.symbol
-
 
                 func_entry = eval(self.func_entry.name)
                 if self.item.get('entry') is False:
@@ -264,7 +264,7 @@ class ClusteringBot:
             if self.item.get('entry') is True:
 
                 # Real time indicator enabled
-                self.indicators.compute(True)
+                #self.indicators.compute(True)
                 func_exit(item=self.item)
 
                 """
