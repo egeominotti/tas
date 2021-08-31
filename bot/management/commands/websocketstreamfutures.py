@@ -16,7 +16,7 @@ import json
 client = Client()
 r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 
-client.session.mount('https://', requests.adapters.HTTPAdapter(pool_maxsize=32))
+#client.session.mount('https://', requests.adapters.HTTPAdapter(pool_maxsize=32))
 
 LIMIT_KLINE = 350
 
@@ -68,6 +68,7 @@ class Command(BaseCommand):
                 if oldest_stream_data_from_stream_buffer is not None:
                     try:
                         if not oldest_stream_data_from_stream_buffer['kline']['is_closed']:
+
                             kline = oldest_stream_data_from_stream_buffer['kline']
                             symbol = kline['symbol']
                             interval = kline['interval']
