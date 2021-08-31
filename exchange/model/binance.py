@@ -14,24 +14,14 @@ class BinanceHelper:
             bot=None
     ):
 
-        self.client = Client(api_key, api_secret)
+        self.api_key = api_key
+        self.api_secret = api_secret
         self.symbol = symbol
         self.user = user
+        self.bot = bot
+        self.leverage = self.bot.leverage
         self.orderId = None
-
-        if bot is not None:
-            self.bot = bot
-            self.leverage = self.bot.leverage
-
-        # if bot is not None:
-        #
-        #     if self.bot.market_futures:
-        #         self.client.futures_change_leverage(symbol=symbol, marginType='ISOLATED', leverage=self.bot.leverage)
-        # else:
-        #
-        #     if self.bot.market_futures:
-        #         self.client.get_my_trades()
-        #         self.client.futures_change_leverage(symbol=symbol, marginType='ISOLATED', leverage=1)
+        self.client = None
 
     def get_quantity(self):
         """
@@ -117,6 +107,7 @@ class BinanceHelper:
 
     def sell_market_futures(self, quantity):
         # Change leverage
+        self.client = Client(self.api_key, self.api_secret)
         self.client.futures_change_leverage(symbol=self.symbol, marginType='ISOLATED', leverage=self.bot.leverage)
         self.orderId = self.client.futures_create_order(
             symbol=self.symbol,
@@ -127,6 +118,7 @@ class BinanceHelper:
 
     def buy_market_futures(self, quantity):
         # Change leverage
+        self.client = Client(self.api_key, self.api_secret)
         self.client.futures_change_leverage(symbol=self.symbol, marginType='ISOLATED', leverage=self.bot.leverage)
         self.orderId = self.client.futures_create_order(
             symbol=self.symbol,
@@ -136,6 +128,7 @@ class BinanceHelper:
         )
 
     def sell_market_spot(self, quantity):
+        self.client = Client(self.api_key, self.api_secret)
         self.orderId = self.client.create_order(
             symbol=self.symbol,
             side=SIDE_SELL,
@@ -144,6 +137,7 @@ class BinanceHelper:
         )
 
     def buy_market_spot(self, quantity):
+        self.client = Client(self.api_key, self.api_secret)
         self.orderId = self.client.create_order(
             symbol=self.symbol,
             side=SIDE_BUY,
@@ -152,6 +146,7 @@ class BinanceHelper:
         )
 
     def buy_limit(self):
+
         self.orderId = self.client.futures_create_order(
             symbol=self.symbol,
             side=SIDE_BUY,
