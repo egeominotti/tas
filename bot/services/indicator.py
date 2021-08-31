@@ -40,22 +40,12 @@ class ClusterRealTimeIndicator:
         if self.bot.market_futures:
             self.key = str(self.symbol) + "_" + str(self.time_frame) + "_FUTURES"
 
-        self.pubsub.subscribe(self.key)
+        #self.pubsub.subscribe(self.key)
 
         try:
 
             if real_time is False:
-
                 klines = json.loads(self.redis_client.get(self.key))
-                # while True:
-                #
-                #     message = self.pubsub.get_message()
-                #     if message and not message['data'] == 1:
-                #         klines = json.loads(self.redis_client.get(self.key))
-                #         if len(klines) > 0:
-                #             break
-                #     sleep(0.1)
-
 
             if real_time is True:
 

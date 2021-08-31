@@ -8,7 +8,7 @@ import redis
 
 from bot.services.telegram import Telegram
 from exchange.model.binance import BinanceHelper
-from bot.services.indicator import RealTimeIndicator
+from bot.services.indicator import ClusterRealTimeIndicator
 from strategy.models import SymbolExchange
 
 # Logic of bot
@@ -158,7 +158,7 @@ class ClusteringBot:
                         user=self.user,
                     )
 
-                    self.indicators = RealTimeIndicator(self.current_bot, self.symbol, self.time_frame, redis_client)
+                    self.indicators = ClusterRealTimeIndicator(self.current_bot, self.symbol, self.time_frame, redis_client)
                     self.item['indicators'] = self.indicators
                     self.item['symbol_exchange'] = self.symbol
 
