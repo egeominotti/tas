@@ -18,7 +18,6 @@ class BinanceHelper:
         self.bot = bot
         self.leverage = self.bot.leverage
         self.orderId = None
-        self.client = None
 
     def get_quantity(self):
         """
