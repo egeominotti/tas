@@ -195,19 +195,21 @@ class RealTimeIndicator:
 
             if real_time is False:
 
-                while True:
-
-                    message = self.pubsub.get_message()
-                    if message:
-                        klines = json.loads(self.redis_client.get(self.key))
-                        if len(klines) > 300:
-                            break
-                    sleep(0.1)
+                klines = json.loads(self.redis_client.get(self.key))
+                #
+                # while True:
+                #
+                #     message = self.pubsub.get_message()
+                #     if message:
+                #         klines = json.loads(self.redis_client.get(self.key))
+                #         if len(klines) > 300:
+                #             break
+                #     sleep(0.1)
 
 
             if real_time is True:
 
-                sleep(0.5)
+                sleep(1)
 
                 if self.bot.market_futures:
                     klines = self.client.futures_klines(

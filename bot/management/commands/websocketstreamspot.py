@@ -107,6 +107,8 @@ class Command(BaseCommand):
                         if oldest_stream_data_from_stream_buffer['event_time'] >= \
                                 oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
                             if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
+
+                                r.publish(oldest_stream_data_from_stream_buffer['kline']['interval'], json.dumps({}))
                                 thread = Thread(target=save_klines,
                                                 args=(oldest_stream_data_from_stream_buffer['kline'],))
                                 thread.daemon = True
