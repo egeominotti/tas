@@ -53,11 +53,12 @@ def logicexit_bot_rsi_20_bollinger(item: dict) -> None:
 
         if item['type'] == 0:
 
-            if item['candle_close'] >= item['entry_candle'] * 1.03:
+
+            if item['candle_close'] >= item['entry_candle'] * 1.02:
                 item['takeprofit_candle'] = item['candle_close']
                 item['takeprofit'] = True
 
-            if item['candle_close'] <= item['entry_candle'] * item['stoploss_value_long']:
+            if item['candle_close'] <= item['entry_candle'] * 0.985:
                 item['stoploss_candle'] = item['candle_close']
                 item['stoploss'] = True
 
@@ -67,21 +68,21 @@ def logicexit_bot_rsi_20_bollinger(item: dict) -> None:
         # Long
         if item['type'] == 0:
 
-            if item['candle_close'] >= item['entry_candle'] * 1.03:
+            if item['candle_close'] >= item['entry_candle'] * 1.02:
                 item['takeprofit_candle'] = item['candle_close']
                 item['takeprofit'] = True
 
-            if item['candle_close'] <= item['entry_candle'] * item['stoploss_value_long']:
+            if item['candle_close'] <= item['entry_candle'] * 0.985:
                 item['stoploss_candle'] = item['candle_close']
                 item['stoploss'] = True
 
         # Short
         else:
 
-            if item['candle_close'] <= item['entry_candle'] * 0.97:
+            if item['candle_close'] <= item['entry_candle'] * 0.98:
                 item['takeprofit_candle'] = item['candle_close']
                 item['takeprofit'] = True
 
-            if item['candle_close'] >= item['entry_candle'] * item['stoploss_value_short']:
+            if item['candle_close'] >= item['entry_candle'] * 1.015:
                 item['stoploss_candle'] = item['candle_close']
                 item['stoploss'] = True
