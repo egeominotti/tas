@@ -7,8 +7,8 @@ from time import sleep
 from binance import Client
 from numpy import double
 
-class ClusterRealTimeIndicator:
 
+class ClusterRealTimeIndicator:
     LIMIT_KLINE = 200
     close_array = None
     open_array = None
@@ -21,8 +21,7 @@ class ClusterRealTimeIndicator:
         self.time_frame = time_frame
         self.redis = True
         self.redis_client = redis
-        self.pubsub = self.redis_client.pubsub()
-
+        # self.pubsub = self.redis_client.pubsub()
 
     def compute(self, real_time):
 
@@ -38,8 +37,6 @@ class ClusterRealTimeIndicator:
             self.key = str(self.symbol) + "_" + str(self.time_frame) + "_SPOT"
         if self.bot.market_futures:
             self.key = str(self.symbol) + "_" + str(self.time_frame) + "_FUTURES"
-
-        #self.pubsub.subscribe(self.key)
 
         try:
 
@@ -67,7 +64,6 @@ class ClusterRealTimeIndicator:
             if klines is not None:
 
                 if len(klines) > 0:
-
                     open = [double(entry[1]) for entry in klines]
                     high = [double(entry[2]) for entry in klines]
                     low = [double(entry[3]) for entry in klines]
@@ -148,7 +144,6 @@ class ClusterRealTimeIndicator:
 
 
 class RealTimeIndicator:
-
     LIMIT_KLINE = 200
     close_array = None
     open_array = None
@@ -184,18 +179,7 @@ class RealTimeIndicator:
         try:
 
             if real_time is False:
-
                 klines = json.loads(self.redis_client.get(self.key))
-                #
-                # while True:
-                #
-                #     message = self.pubsub.get_message()
-                #     if message:
-                #         klines = json.loads(self.redis_client.get(self.key))
-                #         if len(klines) > 300:
-                #             break
-                #     sleep(0.1)
-
 
             if real_time is True:
 
@@ -218,7 +202,6 @@ class RealTimeIndicator:
             if klines is not None:
 
                 if len(klines) > 0:
-
                     open = [double(entry[1]) for entry in klines]
                     high = [double(entry[2]) for entry in klines]
                     low = [double(entry[3]) for entry in klines]
