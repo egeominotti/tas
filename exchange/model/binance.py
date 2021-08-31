@@ -15,6 +15,7 @@ class BinanceHelper:
         self.bot = bot
         self.leverage = self.bot.leverage
 
+
     def get_cluster_quantity(self, symbol):
         """
         :return: Entrata al 100% del capitale
@@ -104,6 +105,32 @@ class BinanceHelper:
             side=SIDE_BUY,
             type=ORDER_TYPE_MARKET,
             quantity=quantity,
+        )
+
+    def buy_limit(self, quantity, symbol):
+        self.client.create_order(
+            symbol=symbol,
+            side=SIDE_BUY,
+            type=ORDER_TYPE_MARKET,
+            quantity=quantity,
+        )
+
+    def takeprofit_limit(self, quantity, symbol, price):
+        self.client.create_order(
+            symbol=symbol,
+            side=SIDE_BUY,
+            type=ORDER_TYPE_TAKE_PROFIT_LIMIT,
+            quantity=quantity,
+            price=price
+        )
+
+    def stoploss_limit(self, quantity, symbol, price):
+        self.client.create_order(
+            symbol=symbol,
+            side=SIDE_BUY,
+            type=ORDER_TYPE_STOP_LOSS_LIMIT,
+            quantity=quantity,
+            price=price
         )
 
     def futures_cancel_order_(self):
