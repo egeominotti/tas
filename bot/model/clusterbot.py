@@ -146,6 +146,7 @@ class ClusteringBot:
         try:
 
             self.symbol = symbol
+
             self.exchange = BinanceHelper(
                 bot=self.current_bot,
                 api_key=self.userexchange.api_key,
