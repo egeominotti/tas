@@ -415,31 +415,48 @@ class ClusteringBot:
                                     try:
 
                                         orderIdProfit = None
-                                        orderidLoss= None
+                                        orderidLoss = None
 
                                         # Long
                                         if self.item['type'] == 0:
-                                            order_takeprofit_long =     self.exchange.takeprofit_limit_long(self.quantity, self.symbol, entry_candle * self.item['takeprofit_value_long'])
-                                            order_stoploss_long =     self.exchange.stoploss_limit_long(self.quantity, self.symbol, entry_candle * self.item['stoploss_value_long'])
+                                            order_takeprofit_long = self.exchange.takeprofit_limit_long(self.quantity,
+                                                                                                        self.symbol,
+                                                                                                        entry_candle,
+                                                                                                        entry_candle * self.item['takeprofit_value_long'])
 
-                                            orderIdProfit =     order_takeprofit_long['orderId']
-                                            orderidLoss =       order_stoploss_long['orderId']
+                                            order_stoploss_long = self.exchange.stoploss_limit_long(self.quantity,
+                                                                                                    self.symbol,
+                                                                                                    entry_candle,
+                                                                                                    entry_candle * self.item['stoploss_value_long'])
+
+                                            orderIdProfit = order_takeprofit_long['orderId']
+                                            orderidLoss = order_stoploss_long['orderId']
 
                                         # Short
                                         else:
-                                            order_takeprofit_short =     self.exchange.takeprofit_limit_short(self.quantity, self.symbol, entry_candle * self.item['takeprofit_value_short'])
-                                            order_stoploss_short =     self.exchange.stoploss_limit_short(self.quantity, self.symbol, entry_candle * self.item['stoploss_value_short'])
+                                            order_takeprofit_short = self.exchange.takeprofit_limit_short(self.quantity,
+                                                                                                          self.symbol,
+                                                                                                          entry_candle,
+                                                                                                          entry_candle * self.item['takeprofit_value_short'])
 
-                                            orderIdProfit =  order_takeprofit_short['orderId']
-                                            orderidLoss =   order_stoploss_short['orderId']
+                                            order_stoploss_short = self.exchange.stoploss_limit_short(self.quantity,
+                                                                                                      self.symbol,
+                                                                                                      entry_candle,
+                                                                                                      entry_candle * self.item['stoploss_value_short'])
+
+                                            orderIdProfit = order_takeprofit_short['orderId']
+                                            orderidLoss = order_stoploss_short['orderId']
 
                                         while True:
 
                                             if orderIdProfit is not None and orderidLoss is not None:
-                                                currentOrderProfit = self.exchange.get_order(self.symbol, orderId=orderIdProfit)
-                                                currentOrderStop = self.exchange.get_order(self.symbol, orderId=orderIdProfit)
+                                                currentOrderProfit = self.exchange.get_order(self.symbol,
+                                                                                             orderId=orderIdProfit)
+                                                currentOrderStop = self.exchange.get_order(self.symbol,
+                                                                                           orderId=orderIdProfit)
 
-                                                if currentOrderProfit['status'] == 'FILLED' or currentOrderStop['status'] == 'FILLED':
+                                                if currentOrderProfit['status'] == 'FILLED' or currentOrderStop[
+                                                    'status'] == 'FILLED':
                                                     break
                                             sleep(30)
 
@@ -448,7 +465,6 @@ class ClusteringBot:
                                         continue
 
                                     break
-
 
                             if found_entry:
                                 self.abort()

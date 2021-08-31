@@ -115,43 +115,47 @@ class BinanceHelper:
             quantity=quantity,
         )
 
-    def takeprofit_limit_long(self, quantity, symbol, price):
+    def takeprofit_limit_long(self, quantity, symbol, price, stopPrice):
         self.client.create_order(
             symbol=symbol,
             side=SIDE_SELL,
             type=ORDER_TYPE_TAKE_PROFIT_LIMIT,
             quantity=quantity,
             price=price,
-            timeInForce=TIME_IN_FORCE_GTC
+            stopPrice=stopPrice,
+            timeInForce=TIME_IN_FORCE_GTC,
         )
 
-    def takeprofit_limit_short(self, quantity, symbol, price):
+    def takeprofit_limit_short(self, quantity, symbol, price, stopPrice):
         self.client.create_order(
             symbol=symbol,
             side=SIDE_BUY,
             type=ORDER_TYPE_TAKE_PROFIT_LIMIT,
             quantity=quantity,
             price=price,
-            timeInForce=TIME_IN_FORCE_GTC
+            stopPrice=stopPrice,
+            timeInForce=TIME_IN_FORCE_GTC,
         )
 
-    def stoploss_limit_short(self, quantity, symbol, price):
+    def stoploss_limit_short(self, quantity, symbol, price, stopPrice):
         self.client.create_order(
             symbol=symbol,
             side=SIDE_BUY,
             type=ORDER_TYPE_STOP_LOSS_LIMIT,
             quantity=quantity,
             price=price,
+            stopPrice=stopPrice,
             timeInForce=TIME_IN_FORCE_GTC
         )
 
-    def stoploss_limit_long(self, quantity, symbol, price):
+    def stoploss_limit_long(self, quantity, symbol, price, stopPrice):
         self.client.create_order(
             symbol=symbol,
             side=SIDE_SELL,
             type=ORDER_TYPE_STOP_LOSS_LIMIT,
             quantity=quantity,
             price=price,
+            stopPrice=stopPrice,
             timeInForce=TIME_IN_FORCE_GTC
         )
 
