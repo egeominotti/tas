@@ -409,11 +409,18 @@ class ClusteringBot:
 
         entry = False
         sentinel = False
+        closed = False
 
-        threads = []
-        for coin in self.coins:
-            thread = Thread(target=self.entry, args=(coin.symbol,))
-            threads.append(thread)
+        # threads = []
+        # for coin in self.coins:
+        #     thread = Thread(target=self.entry, args=(coin.symbol,))
+        #     threads.append(thread)
+
+        # for thread in threads:
+        #     thread.daemon = True
+        #     thread.start()
+        # for thread in threads:
+        #     thread.join()
 
         while True:
 
@@ -424,19 +431,18 @@ class ClusteringBot:
                     self.abort()
                     message = self.pubsub.get_message()
                     if message and not message['data'] == 1:
+                        closed = True
+
+                    if closed:
                         for coin in self.coins:
                             self.entry(coin.symbol)
-                        # for thread in threads:
-                        #     thread.daemon = True
-                        #     thread.start()
-                        # for thread in threads:
-                        #     thread.join()
+                        closed = False
 
-                        if self.item.get('entry') is True:
-                            self.abort()
-                            print("Found Entry: " + str(self.item))
-                            entry = True
-                            continue
+                    if self.item.get('entry') is True:
+                        self.abort()
+                        print("Found Entry: " + str(self.item))
+                        entry = True
+                        continue
 
                 if entry is True:
 
