@@ -1,4 +1,5 @@
 import datetime
+import time
 from time import sleep
 import sys
 
@@ -257,6 +258,8 @@ class ClusteringBot:
                                 self.telegram.send(entry_text)
 
                             return True
+
+            time.sleep(0.001)
 
         except Exception as e:
             self.error(e)
