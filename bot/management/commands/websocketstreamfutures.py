@@ -45,6 +45,7 @@ def save_klines(kline):
                 kline['close_price'], ]
 
         pre_kline.append(kline_from_websocket)
+        print(len(pre_kline))
         r.set(key, json.dumps(pre_kline))
         r.publish(key, json.dumps({}))
 
