@@ -394,7 +394,6 @@ class ClusteringBot:
 
                 if entry is False:
 
-
                     self.abort()
 
                     if self.redis_client.exists(self.time_frame):
@@ -409,13 +408,13 @@ class ClusteringBot:
                                     found_entry = True
                                     break
 
+                            sleep(1)
+
                             if found_entry:
                                 self.abort()
                                 print("Found Entry: " + str(self.item))
                                 entry = True
                                 continue
-
-                    sleep(1)
 
                 if entry is True:
 
