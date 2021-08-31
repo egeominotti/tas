@@ -144,127 +144,122 @@ class ClusteringBot:
 
         try:
 
-            message = self.pubsub.get_message()
-            if message and not message['data'] == 1:
+            for symbol in self.coins:
+                self.symbol = symbol.symbol
 
-                for symbol in self.coins:
-                    self.symbol = symbol.symbol
+                self.exchange = BinanceHelper(
+                    bot=self.current_bot,
+                    api_key=self.userexchange.api_key,
+                    api_secret=self.userexchange.api_secret,
+                    symbol=self.symbol,
+                    user=self.user,
+                )
 
-                    self.exchange = BinanceHelper(
-                        bot=self.current_bot,
-                        api_key=self.userexchange.api_key,
-                        api_secret=self.userexchange.api_secret,
-                        symbol=self.symbol,
-                        user=self.user,
-                    )
+                self.indicators = ClusterRealTimeIndicator(
+                    self.current_bot,
+                    self.symbol,
+                    self.time_frame,
+                    self.redis_client
+                )
 
-                    self.indicators = ClusterRealTimeIndicator(
-                        self.current_bot,
-                        self.symbol,
-                        self.time_frame,
-                        self.redis_client
-                    )
+                self.item['indicators'] = self.indicators
+                self.item['symbol_exchange'] = self.symbol
 
-                    self.item['indicators'] = self.indicators
-                    self.item['symbol_exchange'] = self.symbol
+                func_entry = eval(self.func_entry.name)
+                if self.item.get('entry') is False:
 
-                    func_entry = eval(self.func_entry.name)
-                    if self.item.get('entry') is False:
+                    # Real time indicator disabled check only prev closed candle
+                    self.indicators.compute(False)
+                    func_entry(item=self.item)
 
-                        # Real time indicator disabled check only prev closed candle
-                        self.indicators.compute(False)
-                        func_entry(item=self.item)
+                    if self.item.get('entry') is True:
 
-                        if self.item.get('entry') is True:
+                        self.item['entry_function'] = True
 
-                            self.item['entry_function'] = True
+                        type = ''
+                        if self.item.get('type') == 0:
+                            # LONG
+                            type = 'LONG'
+                            self.item['takeprofit_ratio'] = round(
+                                self.item.get('entry_candle') * self.item.get('takeprofit_value_long'), 3)
+                            self.item['stoploss_ratio'] = round(
+                                self.item.get('entry_candle') * self.item.get('stoploss_value_long'), 3)
 
-                            type = ''
+                        elif self.item.get('type') == 1:
+                            # SHORT
+                            type = 'SHORT'
+                            self.item['takeprofit_ratio'] = round(
+                                self.item.get('entry_candle') * self.item.get('takeprofit_value_short'), 3)
+                            self.item['stoploss_ratio'] = round(
+                                self.item.get('entry_candle') * self.item.get('stoploss_value_short'), 3)
+                        self.item['type_text'] = type
+
+                        now = datetime.datetime.now()
+                        self.logger_instance = self.logger.objects \
+                            .create(
+                            user=self.user,
+                            entry_candle=self.item.get('entry_candle'),
+                            entry_candle_date=now,
+                            stop_loss_ratio=self.item.get('stoploss_ratio'),
+                            take_profit_ratio=self.item.get('takeprofit_ratio'),
+                            start_balance=self.exchange.get_current_balance_futures_(),
+                            coin_quantity=self.exchange.get_quantity(),
+                            leverage=self.exchange.leverage,
+                            short=False,
+                            long=False
+                        )
+
+                        if self.live:
+
+                            # Calculate quantity
+                            self.quantity = self.exchange.get_cluster_quantity()
+
                             if self.item.get('type') == 0:
+
                                 # LONG
-                                type = 'LONG'
-                                self.item['takeprofit_ratio'] = round(
-                                    self.item.get('entry_candle') * self.item.get('takeprofit_value_long'), 3)
-                                self.item['stoploss_ratio'] = round(
-                                    self.item.get('entry_candle') * self.item.get('stoploss_value_long'), 3)
+                                if self.current_bot.market_futures:
+                                    self.exchange.buy_market_futures(self.quantity)
 
-                            elif self.item.get('type') == 1:
-                                # SHORT
-                                type = 'SHORT'
-                                self.item['takeprofit_ratio'] = round(
-                                    self.item.get('entry_candle') * self.item.get('takeprofit_value_short'), 3)
-                                self.item['stoploss_ratio'] = round(
-                                    self.item.get('entry_candle') * self.item.get('stoploss_value_short'), 3)
-                            self.item['type_text'] = type
-
-                            now = datetime.datetime.now()
-                            self.logger_instance = self.logger.objects \
-                                .create(
-                                user=self.user,
-                                entry_candle=self.item.get('entry_candle'),
-                                entry_candle_date=now,
-                                stop_loss_ratio=self.item.get('stoploss_ratio'),
-                                take_profit_ratio=self.item.get('takeprofit_ratio'),
-                                start_balance=self.exchange.get_current_balance_futures_(),
-                                coin_quantity=self.exchange.get_quantity(),
-                                leverage=self.exchange.leverage,
-                                short=False,
-                                long=False
-                            )
-
-                            if self.live:
-
-                                # Calculate quantity
-                                self.quantity = self.exchange.get_cluster_quantity()
-
-                                if self.item.get('type') == 0:
-
-                                    # LONG
-                                    if self.current_bot.market_futures:
-                                        self.exchange.buy_market_futures(self.quantity)
-
-                                    if self.current_bot.market_spot:
-                                        self.exchange.buy_market_spot(self.quantity)
-
-                                if self.item.get('type') == 1:
-
-                                    # SHORT
-                                    if self.current_bot.market_futures:
-                                        self.exchange.sell_market_futures(self.quantity)
-
-                                    if self.current_bot.market_spot:
-                                        self.exchange.sell_market_spot(self.quantity)
-
-                            if self.item.get('type') == 0:
-                                self.logger.objects.filter(id=self.logger_instance.id) \
-                                    .update(
-                                    long=True
-                                )
+                                if self.current_bot.market_spot:
+                                    self.exchange.buy_market_spot(self.quantity)
 
                             if self.item.get('type') == 1:
-                                self.logger.objects.filter(id=self.logger_instance.id) \
-                                    .update(
-                                    short=True
-                                )
 
-                            if self.notify:
-                                now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                                entry_text = "Entry: " + str(self.current_bot.name) + \
-                                             "\n" + "User: " + self.user.username + \
-                                             "\n" + "Trading Market: " + self.market + \
-                                             "\nType Entry: " + self.item.get('type_text') + \
-                                             "\n" + "Live Mode: " + str(self.live) + \
-                                             "\nEntry Candle value: " + str(self.item.get('entry_candle')) + \
-                                             "\nEntry Candle date: " + str(now) + \
-                                             "\nStoploss ratio: " + str(self.item.get('stoploss_ratio')) + \
-                                             "\nTakeprofit ratio: " + str(self.item.get('takeprofit_ratio')) + \
-                                             "\n" + "Symbol: " + str(self.symbol) + \
-                                             "\nTime frame: " + str(self.time_frame)
-                                self.telegram.send(entry_text)
+                                # SHORT
+                                if self.current_bot.market_futures:
+                                    self.exchange.sell_market_futures(self.quantity)
 
-                            return True
+                                if self.current_bot.market_spot:
+                                    self.exchange.sell_market_spot(self.quantity)
 
-            time.sleep(0.001)
+                        if self.item.get('type') == 0:
+                            self.logger.objects.filter(id=self.logger_instance.id) \
+                                .update(
+                                long=True
+                            )
+
+                        if self.item.get('type') == 1:
+                            self.logger.objects.filter(id=self.logger_instance.id) \
+                                .update(
+                                short=True
+                            )
+
+                        if self.notify:
+                            now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+                            entry_text = "Entry: " + str(self.current_bot.name) + \
+                                         "\n" + "User: " + self.user.username + \
+                                         "\n" + "Trading Market: " + self.market + \
+                                         "\nType Entry: " + self.item.get('type_text') + \
+                                         "\n" + "Live Mode: " + str(self.live) + \
+                                         "\nEntry Candle value: " + str(self.item.get('entry_candle')) + \
+                                         "\nEntry Candle date: " + str(now) + \
+                                         "\nStoploss ratio: " + str(self.item.get('stoploss_ratio')) + \
+                                         "\nTakeprofit ratio: " + str(self.item.get('takeprofit_ratio')) + \
+                                         "\n" + "Symbol: " + str(self.symbol) + \
+                                         "\nTime frame: " + str(self.time_frame)
+                            self.telegram.send(entry_text)
+
+                        return True
 
         except Exception as e:
             self.error(e)
