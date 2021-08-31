@@ -20,8 +20,6 @@ from bot.strategy.logic.logic_function import \
 
 class ClusteringBot:
 
-    exchange = None
-
     def __init__(
             self,
             instance,
@@ -48,6 +46,7 @@ class ClusteringBot:
         self.func_exit = instance.strategy.logic_exit
         self.coins = SymbolExchange.objects.all().order_by('created_at')
         self.logger_instance = None
+        self.exchange = None
         self.indicators = None
         self.live = False
         self.quantity = 0
