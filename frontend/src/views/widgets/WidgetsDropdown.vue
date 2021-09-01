@@ -10,13 +10,13 @@
 
           <div v-if="values(item.data).rsi > 30 && values(item.data).rsi < 70">
             <CCardBody class="neutral-status">
-              <h5> RSI - {{ values(item.data).rsi }} </h5>
+              <h6> RSI - {{ values(item.data).rsi }} </h6>
             </CCardBody>
           </div>
 
           <div v-if="values(item.data).rsi < 30">
             <CCardBody class="low-status">
-                <h5> RSI - {{ values(item.data).rsi }} </h5>
+              <h5> RSI - {{ values(item.data).rsi }} </h5>
             </CCardBody>
           </div>
 
@@ -79,13 +79,21 @@ export default {
 <style>
 .card-body.neutral-status {
   background-color: #d0cfcf;
+  font-weight: 100;
+  text-align: center;
 }
 
 .card-body.high-status {
   background-color: #e55353;
+  color: antiquewhite;
+  font-weight: 900;
+  text-align: center;
 }
 
 .card-body.low-status {
   background-color: #2eb85c;
+  color: antiquewhite;
+  font-weight: 900;
+  text-align: center;
 }
 </style>
