@@ -18,6 +18,7 @@ def logicentry_bot_rsi_20_bollinger(item: dict) -> None:
     valueLowerBand = bbands.get('valueLowerBand')
     valueUpperBand = bbands.get('valueUpperBand')
 
+    # Long condition
     if rsi < 20 and item['candle_close'] <= valueLowerBand:
         item['type'] = 0  # type = 0 corrisponde ad una entrata long
         item['entry'] = True
