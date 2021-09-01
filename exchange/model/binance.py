@@ -36,7 +36,9 @@ class BinanceHelper:
         return symbols_n_precision[symbol]
 
     def current_price_coin(self, symbol) -> float:
-        resp = requests.get('https://api.binance.com/api/v1/ticker/price?symbol=' + symbol).json()
+        # Spot API
+        #resp = requests.get('https://api.binance.com/api/v3/ticker/price?symbol=' + symbol).json()
+        resp = requests.get('https://fapi.binance.com/fapi/v1/ticker/price?symbol=' + symbol).json()
         price = float(resp['price'])
         return price
 
@@ -105,58 +107,6 @@ class BinanceHelper:
             side=SIDE_BUY,
             type=ORDER_TYPE_MARKET,
             quantity=quantity,
-        )
-
-    def buy_limit(self, quantity, symbol):
-        self.client.create_order(
-            symbol=symbol,
-            side=SIDE_BUY,
-            type=ORDER_TYPE_MARKET,
-            quantity=quantity,
-        )
-
-    def takeprofit_limit_long(self, quantity, symbol, price, stopPrice):
-        self.client.create_order(
-            symbol=symbol,
-            side=SIDE_SELL,
-            type=ORDER_TYPE_TAKE_PROFIT_LIMIT,
-            quantity=quantity,
-            price=price,
-            stopPrice=stopPrice,
-            timeInForce=TIME_IN_FORCE_GTC,
-        )
-
-    def takeprofit_limit_short(self, quantity, symbol, price, stopPrice):
-        self.client.create_order(
-            symbol=symbol,
-            side=SIDE_BUY,
-            type=ORDER_TYPE_TAKE_PROFIT_LIMIT,
-            quantity=quantity,
-            price=price,
-            stopPrice=stopPrice,
-            timeInForce=TIME_IN_FORCE_GTC,
-        )
-
-    def stoploss_limit_short(self, quantity, symbol, price, stopPrice):
-        self.client.create_order(
-            symbol=symbol,
-            side=SIDE_BUY,
-            type=ORDER_TYPE_STOP_LOSS_LIMIT,
-            quantity=quantity,
-            price=price,
-            stopPrice=stopPrice,
-            timeInForce=TIME_IN_FORCE_GTC
-        )
-
-    def stoploss_limit_long(self, quantity, symbol, price, stopPrice):
-        self.client.create_order(
-            symbol=symbol,
-            side=SIDE_SELL,
-            type=ORDER_TYPE_STOP_LOSS_LIMIT,
-            quantity=quantity,
-            price=price,
-            stopPrice=stopPrice,
-            timeInForce=TIME_IN_FORCE_GTC
         )
 
     def get_order(self, symbol, orderId):
