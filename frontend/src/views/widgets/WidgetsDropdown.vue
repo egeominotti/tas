@@ -137,4 +137,9 @@ header.card-header {
   text-align: center;
   padding-bottom: 0;
 }
+
+.card {
+  border-radius: 10px 10px 10px 11px !important;
+  border-color: black !important;
+}
 </style>
