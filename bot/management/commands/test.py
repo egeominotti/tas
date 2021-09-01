@@ -25,25 +25,21 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        client = Client()
-
-        symbol = 'RVNUSDT'
-        timeframe = '1m'
-        key = symbol + "_" + str(timeframe) + "_FUTURES"
         p = r.pubsub()
-        p.subscribe(key)
+        p.subscribe('1m')
         while True:
             message = p.get_message()
-            if message:
-                symbol = 'RVNUSDT'
-                timeframe = '1m'
-                key = symbol + "_" + str(timeframe) + "_FUTURES"
-                data = json.loads(r.get(key))
-                close = [double(entry[4]) for entry in data]
-                close_array = np.asarray(close)
-                if len(close_array) > 14 and close_array is not None:
-                    rsi = talib.RSI(close_array, timeperiod=14)
-                    print(rsi[-1])
+            if message is not None and message['type'] == 'message':
+                print(message)
+                # symbol = 'RVNUSDT'
+                # timeframe = '1m'
+                # key = symbol + "_" + str(timeframe) + "_FUTURES"
+                # data = json.loads(r.get(key))
+                # close = [double(entry[4]) for entry in data]
+                # close_array = np.asarray(close)
+                # if len(close_array) > 14 and close_array is not None:
+                #     rsi = talib.RSI(close_array, timeperiod=14)
+                #     print(rsi[-1])
                 # klines = client \
                 #     .futures_klines(symbol='RVNUSDT',
                 #                     interval='1m',

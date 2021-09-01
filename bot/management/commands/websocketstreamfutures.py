@@ -20,8 +20,7 @@ r.flushall()
 LIMIT_KLINE = 348
 
 
-
-def save_klines(kline, counter):
+def save_klines(kline):
     symbol = kline['symbol']
     interval = kline['interval']
     kline_start_time = kline['kline_start_time']
@@ -66,7 +65,6 @@ def save_klines(kline, counter):
         # r.publish(key, json.dumps({}))
 
     # Close thread
-    counter += 1
     sys.exit()
 
 
@@ -95,7 +93,7 @@ class Command(BaseCommand):
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures",
                                                                    output_default="UnicornFy")
 
-        binance_websocket_api_manager.create_stream('kline_5m', symbolList, output="UnicornFy")
+        binance_websocket_api_manager.create_stream('kline_1m', symbolList, output="UnicornFy")
         # binance_websocket_api_manager.create_stream('kline_4h', symbolList, output="UnicornFy")
         # binance_websocket_api_manager.create_stream('kline_1d', symbolList, output="UnicornFy")
 
@@ -121,18 +119,20 @@ class Command(BaseCommand):
                         if oldest_stream_data_from_stream_buffer['event_time'] >= \
                                 oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
                             if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
+
                                 thread = Thread(target=save_klines,
-                                                args=(oldest_stream_data_from_stream_buffer['kline'], counter,))
+                                                args=(oldest_stream_data_from_stream_buffer['kline'],))
                                 thread.daemon = True
                                 thread.start()
+
+                                counter += 1
+
+                                if len(symbolList) == counter:
+                                    r.publish(oldest_stream_data_from_stream_buffer['kline']['interval'],
+                                              json.dumps({'closed': True}))
+                                    counter = 0
 
                     except KeyError:
                         pass
                     except TypeError:
                         pass
-
-            print(len(symbolList))
-            print(counter)
-            if len(symbolList) == counter:
-                counter = 0
-                print("Ho scaricato tutto")
