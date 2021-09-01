@@ -1,4 +1,5 @@
 def logicentry_bot_rsi_20_bollinger(item: dict) -> None:
+
     indicators = item['indicators']
 
     rsi = indicators.rsi(14)
@@ -6,13 +7,13 @@ def logicentry_bot_rsi_20_bollinger(item: dict) -> None:
 
     item['candle_close'] = indicators.candle().get('close')
 
-    print("symbol: " + str(item.get('symbol_exchange'))
-          + " Market: " + str(item.get('market'))
-          + " Time Frame : " + str(item.get('time_frame'))
-          + " Candle Close: " + str(item['candle_close'])
-          + " RSI: " + str(rsi)
-          + " valueLowerBand: " + str(bbands.get('valueLowerBand'))
-          + " valueUpperBand: " + str(bbands.get('valueUpperBand')))
+    # print("symbol: " + str(item.get('symbol_exchange'))
+    #       + " Market: " + str(item.get('market'))
+    #       + " Time Frame : " + str(item.get('time_frame'))
+    #       + " Candle Close: " + str(item['candle_close'])
+    #       + " RSI: " + str(rsi)
+    #       + " valueLowerBand: " + str(bbands.get('valueLowerBand'))
+    #       + " valueUpperBand: " + str(bbands.get('valueUpperBand')))
 
     valueLowerBand = bbands.get('valueLowerBand')
     valueUpperBand = bbands.get('valueUpperBand')
@@ -32,14 +33,15 @@ def logicentry_bot_rsi_20_bollinger(item: dict) -> None:
 
 
 def logicexit_bot_rsi_20_bollinger(item: dict) -> None:
+
     # indicators = item['indicators']
     # item['candle_close'] = indicators.candle().get('close')
 
-    print("symbol: " + str(item.get('symbol_exchange'))
-          + " Market: " + str(item.get('market'))
-          + " time_frame:" + str(item.get('time_frame'))
-          + " candle_close:" + str(item['candle_close'])
-          )
+    # print("symbol: " + str(item.get('symbol_exchange'))
+    #       + " Market: " + str(item.get('market'))
+    #       + " time_frame:" + str(item.get('time_frame'))
+    #       + " candle_close:" + str(item['candle_close'])
+    #       )
     # + " valueLowerBand:" + str(indicators.bbands(20).get('valueLowerBand'))
     # + " valueUpperBand:" + str(indicators.bbands(20).get('valueUpperBand')))
 
