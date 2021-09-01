@@ -129,7 +129,7 @@ class Command(BaseCommand):
 
                                 if len(symbolList) == counter:
                                     r.publish(oldest_stream_data_from_stream_buffer['kline']['interval'],
-                                              json.dumps({'closed': True}))
+                                              json.dumps({'status': True}))
                                     counter = 0
 
                     except KeyError:

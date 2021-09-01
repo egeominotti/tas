@@ -396,26 +396,26 @@ class ClusteringBot:
 
                     self.abort()
 
-
-                    #current_time = datetime.datetime.now()
-                    #if current_time.minute % 5 == 0 and current_time.second % 60 == 0:
+                    # current_time = datetime.datetime.now()
+                    # if current_time.minute % 5 == 0 and current_time.second % 60 == 0:
                     message = self.pubsub.get_message()
                     if message is not None and message['type'] == 'message':
+                        message = json.loads(message['data'])
+                        if message.get('status') is True:
+                            for coin in self.coins:
+                                self.symbol = coin.symbol
+                                self.item['symbol_exchange'] = self.symbol
+                                if self.entry(self.symbol):
+                                    found_entry = True
+                                    break
 
-                        for coin in self.coins:
-                            self.symbol = coin.symbol
-                            self.item['symbol_exchange'] = self.symbol
-                            if self.entry(self.symbol):
-                                found_entry = True
-                                break
+                            if found_entry:
+                                self.abort()
+                                print("Found Entry: " + str(self.item))
+                                entry = True
+                                continue
 
-                        if found_entry:
-                            self.abort()
-                            print("Found Entry: " + str(self.item))
-                            entry = True
-                            continue
-
-                    #sleep(0.001)
+                    # sleep(0.001)
 
                 if entry is True:
 
