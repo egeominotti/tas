@@ -3,6 +3,7 @@ from bot.API.v0.Bot.views import BotSpotList, BotFuturesList, BotCreate, BotUpda
 from bot.API.v0.StrategyBot.views import StrategyBotList, StrategyBotCreate
 from bot.API.v0.UserEchange.views import UserExchangeList, UserExchangeCreate, UserExchangeDestroy
 from bot.API.v0.BotLogger.views import BotLoggerList
+from bot.API.v0.ComputeData.views import ComputedDataList
 
 urlpatterns = [
 
@@ -24,4 +25,7 @@ urlpatterns = [
     path('api/v0/userexhcange/list', UserExchangeList.as_view()),
     path('api/v0/userexhcange/create', UserExchangeCreate.as_view()),
     path('api/v0/userexhcange/destroy/<int:pk>', UserExchangeDestroy.as_view()),
+
+    # ComputedData
+    path('api/v0/computedata/list', ComputedDataList.as_view()),
 ]
