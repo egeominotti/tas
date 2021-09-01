@@ -24,34 +24,9 @@ class Command(BaseCommand):
     help = 'AsyncRunnerBot'
 
     def handle(self, *args, **kwargs):
-
-        p = r.pubsub()
-        p.subscribe('1m')
-        while True:
-            message = p.get_message()
-            if message is not None and message['type'] == 'message':
-                print(message)
-                message = json.loads(message['data'])
-                if message.get('status') is True:
-                    print("Sono entrato per davvero")
-                # symbol = 'RVNUSDT'
-                # timeframe = '1m'
-                # key = symbol + "_" + str(timeframe) + "_FUTURES"
-                # data = json.loads(r.get(key))
-                # close = [double(entry[4]) for entry in data]
-                # close_array = np.asarray(close)
-                # if len(close_array) > 14 and close_array is not None:
-                #     rsi = talib.RSI(close_array, timeperiod=14)
-                #     print(rsi[-1])
-                # klines = client \
-                #     .futures_klines(symbol='RVNUSDT',
-                #                     interval='1m',
-                #                     limit=len(close)
-                #                     )
-                # del klines[-1]
-                # close = [double(entry[4]) for entry in klines]
-                # close_array = np.asarray(close)
-                # # print(close_array)
-                # if len(close_array) >= 14 and close_array is not None:
-                #     rsi = talib.RSI(close_array, timeperiod=14)
-                #     print(rsi[-1])
+        client = Client('vyghMLzH2Pvr0TCoV11Equ9kIK2jxL6ZpDh8pyUBz4hvAWXSLWO6rBHbogQmX9lH',
+                        'yTmr8uu0w3ARIzTlYadGkWX79BlTHSybzzJeInrWcjUoygP3K7t81j4WXd8amMOM')
+        client = client.futures_get_all_orders(symbol='ETHUSDT')
+        print(client)
+        for k in client:
+            print(k)

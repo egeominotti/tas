@@ -28,7 +28,7 @@ def logicentry_bot_rsi_20_bollinger(item: dict) -> None:
     if item.get('market') == 'FUTURES':
 
         # Parabolic RSI
-        if rsi > 90 and item['candle_close'] >= valueUpperBand:
+        if rsi > 86 and item['candle_close'] >= valueUpperBand:
             item['type'] = 1  # type = 1 corrisponde ad una entrata short
             item['entry'] = True
             item['entry_candle'] = item['candle_close']
