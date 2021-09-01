@@ -293,7 +293,6 @@ class ClusteringBot:
                                     "\n" + "Live Mode: " + str(self.live) + \
                                     "\n" + "Trading Market: " + self.market + \
                                     "\n" + "Current Balance: " + str(self.exchange.get_current_balance_futures_()) + \
-                                    "\n" + "Investement: " + str(self.exchange.get_current_investment_amount()) + \
                                     "\n" + "User: " + self.user.username + \
                                     "\nType Entry: " + self.item.get('type_text') + \
                                     "\nStoploss candle value: " + str(self.item.get('stoploss_candle')) + \
@@ -342,7 +341,6 @@ class ClusteringBot:
                                     "\n" + "Live Mode: " + str(self.live) + \
                                     "\n" + "Trading Market: " + self.market + \
                                     "\n" + "Current Balance: " + str(self.exchange.get_current_balance_futures_()) + \
-                                    "\n" + "Investement: " + str(self.exchange.get_current_investment_amount()) + \
                                     "\n" + "User: " + self.user.username + \
                                     "\nType Entry: " + self.item.get('type_text') + \
                                     "\nTakeprofit candle value: " + str(self.item.get('takeprofit_candle')) + \
