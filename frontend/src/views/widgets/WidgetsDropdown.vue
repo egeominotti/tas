@@ -2,40 +2,41 @@
   <CRow>
     <div v-for="item in data" :key="item.id">
 
-      <CCol sm="12">
+      <div v-if="values(item.data).rsi > 30 && values(item.data).rsi < 70">
         <CCard>
-
-          <div v-if="values(item.data).rsi > 30 && values(item.data).rsi < 70">
-            <CCardHeader>
-              <p>{{ item.symbol }} - {{ item.time_frame }}</p>
-            </CCardHeader>
-            <CCardBody class="neutral-status">
-              <p class="micro-condition"> RSI - {{ values(item.data).rsi }} </p>
-            </CCardBody>
-          </div>
-
-          <div v-if="values(item.data).rsi < 30">
-            <CCardHeader>
-              <h5>{{ item.symbol }} - {{ item.time_frame }}</h5>
-            </CCardHeader>
-            <CCardBody class="low-status">
-              <h5> Possibile Long </h5>
-              <h5> RSI - {{ values(item.data).rsi }} </h5>
-            </CCardBody>
-          </div>
-
-          <div v-if="values(item.data).rsi > 70">
-            <CCardHeader>
-              <h5>{{ item.symbol }} - {{ item.time_frame }}</h5>
-            </CCardHeader>
-            <CCardBody class="high-status">
-              <h5> Possibile Short </h5>
-              <h5>RSI - {{ values(item.data).rsi }}</h5>
-            </CCardBody>
-          </div>
-
+          <CCardHeader>
+            <p>{{ item.symbol }} - {{ item.time_frame }}</p>
+          </CCardHeader>
+          <CCardBody class="neutral-status">
+            <p class="micro-condition"> RSI - {{ values(item.data).rsi }} </p>
+          </CCardBody>
         </CCard>
-      </CCol>
+      </div>
+
+      <div v-if="values(item.data).rsi < 30">
+        <CCard>
+          <CCardHeader>
+            <h5>{{ item.symbol }} - {{ item.time_frame }}</h5>
+          </CCardHeader>
+          <CCardBody class="low-status">
+            <h5> Possible Long </h5>
+            <h5> RSI - {{ values(item.data).rsi }} </h5>
+          </CCardBody>
+        </CCard>
+      </div>
+
+      <div v-if="values(item.data).rsi > 70">
+        <CCard>
+          <CCardHeader>
+            <h5>{{ item.symbol }} - {{ item.time_frame }}</h5>
+          </CCardHeader>
+          <CCardBody class="high-status">
+            <h5> Possible Short </h5>
+            <h5>RSI - {{ values(item.data).rsi }}</h5>
+          </CCardBody>
+        </CCard>
+      </div>
+
 
     </div>
 
@@ -127,5 +128,13 @@ export default {
   color: antiquewhite;
   font-weight: 900;
   text-align: center;
+}
+
+header.card-header {
+  font-size: 10px;
+  margin: 0;
+  /* padding: 0; */
+  text-align: center;
+  padding-bottom: 0;
 }
 </style>
