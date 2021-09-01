@@ -4,24 +4,32 @@
 
       <CCol sm="12">
         <CCard>
-          <CCardHeader>
-            <h5>{{ item.symbol }} - {{ item.time_frame }}</h5>
-          </CCardHeader>
 
           <div v-if="values(item.data).rsi > 30 && values(item.data).rsi < 70">
+            <CCardHeader>
+              <p>{{ item.symbol }} - {{ item.time_frame }}</p>
+            </CCardHeader>
             <CCardBody class="neutral-status">
-              <h6> RSI - {{ values(item.data).rsi }} </h6>
+              <p class="micro-condition"> RSI - {{ values(item.data).rsi }} </p>
             </CCardBody>
           </div>
 
           <div v-if="values(item.data).rsi < 30">
+            <CCardHeader>
+              <h5>{{ item.symbol }} - {{ item.time_frame }}</h5>
+            </CCardHeader>
             <CCardBody class="low-status">
+              <h5> Possibile Long </h5>
               <h5> RSI - {{ values(item.data).rsi }} </h5>
             </CCardBody>
           </div>
 
           <div v-if="values(item.data).rsi > 70">
+            <CCardHeader>
+              <h5>{{ item.symbol }} - {{ item.time_frame }}</h5>
+            </CCardHeader>
             <CCardBody class="high-status">
+              <h5> Possibile Short </h5>
               <h5>RSI - {{ values(item.data).rsi }}</h5>
             </CCardBody>
           </div>
