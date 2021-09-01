@@ -8,7 +8,6 @@
             <h5>{{ item.symbol }} - {{ item.time_frame }}</h5>
           </CCardHeader>
 
-
           <div v-if="values(item.data).rsi > 30 && values(item.data).rsi < 70">
             <CCardBody class="neutral-status">
               <h5> RSI - {{ values(item.data).rsi }} </h5>
@@ -64,9 +63,7 @@ export default {
           })
           .then((response) => {
             if (response.statusText === 'OK' && response.status === 200) {
-              console.log(response.data.results)
               this.data = response.data.results
-              console.log("Widget Statistiche Response")
             }
           }, (error) => {
             console.log(error);
