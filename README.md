@@ -61,6 +61,7 @@
         systemctl enable runnerbot
         systemctl stop runnerbot
         systemctl status runnerbot
+        systemctl restart runnerbot
 
         # Check log
             journalctl -u runnerbot.service -f
@@ -72,6 +73,7 @@
         systemctl enable runnerclusterbot
         systemctl stop runnerclusterbot
         systemctl status runnerclusterbot
+        systemctl restart runnerclusterbot
 
         # Check log
             journalctl -u runnerclusterbot.service -f    
