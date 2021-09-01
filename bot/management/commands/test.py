@@ -30,9 +30,10 @@ class Command(BaseCommand):
         while True:
             message = p.get_message()
             if message is not None and message['type'] == 'message':
+                print(message)
                 message = json.loads(message['data'])
                 if message.get('status') is True:
-                    print(message)
+                    print("Sono entrato per davvero")
                 # symbol = 'RVNUSDT'
                 # timeframe = '1m'
                 # key = symbol + "_" + str(timeframe) + "_FUTURES"

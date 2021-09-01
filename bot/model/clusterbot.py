@@ -402,6 +402,7 @@ class ClusteringBot:
                     if message is not None and message['type'] == 'message':
                         message = json.loads(message['data'])
                         if message.get('status') is True:
+
                             for coin in self.coins:
                                 self.symbol = coin.symbol
                                 self.item['symbol_exchange'] = self.symbol
