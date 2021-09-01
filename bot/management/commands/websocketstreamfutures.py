@@ -45,9 +45,6 @@ def save_klines(kline):
         pre_kline.append(kline_from_websocket)
         r.set(key, json.dumps(pre_kline))
 
-        # Publish message to bot
-        # r.publish(key, json.dumps({}))
-
     # La prima volta scarico i dati dato che non esiste la chiave
     else:
 
@@ -60,9 +57,6 @@ def save_klines(kline):
                             limit=LIMIT_KLINE)
 
         r.set(key, json.dumps(klines))
-
-        # Publish message to bot
-        # r.publish(key, json.dumps({}))
 
     # Close thread
     sys.exit()
