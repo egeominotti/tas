@@ -396,8 +396,6 @@ class ClusteringBot:
 
                     self.abort()
 
-                    # current_time = datetime.datetime.now()
-                    # if current_time.minute % 5 == 0 and current_time.second % 60 == 0:
                     message = self.pubsub.get_message()
                     if message is not None and message['type'] == 'message':
                         message = json.loads(message['data'])
