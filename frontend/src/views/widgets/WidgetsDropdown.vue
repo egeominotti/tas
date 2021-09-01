@@ -54,6 +54,7 @@ export default {
   data() {
     return {
       data: {},
+      polling: null
     };
   },
   methods: {
@@ -77,10 +78,33 @@ export default {
             console.log(error);
           });
     },
+
+    getDataPolling() {
+      this.polling = setInterval(() => {
+        axios
+            .get('/api/v0/computedata/list', {
+              headers: {
+                'Authorization': 'Token ' + localStorage.getItem('token')
+              }
+            })
+            .then((response) => {
+              if (response.statusText === 'OK' && response.status === 200) {
+                this.data = response.data.results
+              }
+            }, (error) => {
+              console.log(error);
+            });
+      }, 5000)
+    },
+
   },
   created() {
     this.getData();
+    this.getDataPolling();
   },
+  beforeDestroy() {
+    clearInterval(this.polling)
+  }
 }
 </script>
 
