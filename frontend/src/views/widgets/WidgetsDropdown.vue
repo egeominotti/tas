@@ -18,6 +18,7 @@
       <div v-if="values(item.data).rsi < 30">
         <CCard>
           <CCardHeader>
+            <h5>{{ item.key }} </h5>
             <h5>{{ item.symbol }} - {{ item.time_frame }}</h5>
             <h5> Possible Long </h5>
           </CCardHeader>
