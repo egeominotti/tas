@@ -1,9 +1,8 @@
 from rest_framework import serializers
-from strategy.models import Coins
+from strategy.models import SymbolExchange
 
 
 class CoinsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Coins
+        model = SymbolExchange
         fields = '__all__'
-        depth = 1

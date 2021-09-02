@@ -26,7 +26,16 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         client = Client('vyghMLzH2Pvr0TCoV11Equ9kIK2jxL6ZpDh8pyUBz4hvAWXSLWO6rBHbogQmX9lH',
                         'yTmr8uu0w3ARIzTlYadGkWX79BlTHSybzzJeInrWcjUoygP3K7t81j4WXd8amMOM')
-        client = client.futures_get_all_orders(symbol='ETHUSDT')
-        print(client)
-        for k in client:
-            print(k)
+        info_spot = client.get_exchange_info()
+        info_futures = client.futures_exchange_info()
+
+        coinsspot = []
+        for coins_futures in info_spot['symbols']:
+            coinsspot.append(coins_futures['symbol'])
+        print(len(coinsspot))
+
+        coinsfutures = []
+        for coins_futures in info_futures['symbols']:
+            print(coins_futures['pricePrecision'])
+            coinsfutures.append(coins_futures['symbol'])
+        print(len(coinsfutures))

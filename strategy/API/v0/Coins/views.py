@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from strategy.API.v0.Coins.serializers import CoinsSerializer
-from bot.models import Coins
+from bot.models import SymbolExchange
 
 
 class LargeResultsSetPagination(PageNumberPagination):
@@ -18,4 +18,4 @@ class SmallResultsSetPagination(PageNumberPagination):
 
 class CoinsList(generics.ListAPIView):
     serializer_class = CoinsSerializer
-    queryset = Coins.objects.all().order_by('-created_at')
+    queryset = SymbolExchange.objects.all().order_by('-created_at')

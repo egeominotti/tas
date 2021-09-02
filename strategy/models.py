@@ -29,6 +29,10 @@ class SymbolTaapiApi(CommonTrait):
 
 class SymbolExchange(CommonTrait):
     symbol = models.CharField(max_length=20, blank=False)
+    market = models.CharField(max_length=10, blank=True)
+    precision = models.IntegerField(default=0, blank=True)
+    quantity_precision = models.IntegerField(default=0, blank=True)
+    exchange = models.CharField(max_length=15, blank=True)
 
     class Meta:
         verbose_name = 'SymbolExchange'
@@ -37,15 +41,3 @@ class SymbolExchange(CommonTrait):
     def __str__(self):
         if self.symbol is not None:
             return str(self.symbol)
-
-
-class Coins(CommonTrait):
-    coins_exchange = models.ForeignKey(SymbolExchange, on_delete=models.CASCADE, null=False, blank=False)
-
-    def __str__(self):
-        if self.coins_exchange is not None:
-            return str(self.coins_exchange)
-
-    class Meta:
-        verbose_name = 'Coins'
-        verbose_name_plural = 'Coins'
