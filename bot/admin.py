@@ -33,6 +33,7 @@ class BotAdmin(admin.ModelAdmin):
     def has_add_permission(self, request, obj=None):
         return True
 
+
 class ClusterBotAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_per_page = 50
@@ -62,12 +63,14 @@ class ClusterBotAdmin(admin.ModelAdmin):
     def has_add_permission(self, request, obj=None):
         return True
 
+
 class BotLoggerAdmin(admin.ModelAdmin):
     search_fields = ['bot__name']
     list_per_page = 20
     ordering = ('id',)
     list_display = (
-        'user', 'take_profit_ratio', 'stop_loss_ratio', 'entry_candle', 'entry_candle_date', 'take_profit',
+        'user', 'start_balance', 'end_balance', 'take_profit_ratio', 'stop_loss_ratio', 'entry_candle',
+        'entry_candle_date', 'take_profit',
         'candle_take_profit',
         'candle_take_profit_date', 'created_at',
         'stop_loss', 'candle_stop_loss', 'candle_stop_loss_date')
