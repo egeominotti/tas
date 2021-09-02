@@ -264,6 +264,8 @@ class ClusteringBot:
                 """
                 if self.item.get('stoploss') is True:
 
+                    self.quantity = self.exchange.get_cluster_quantity(self.symbol)
+
                     if self.live:
 
                         if self.item.get('type') == 0:
@@ -283,7 +285,7 @@ class ClusteringBot:
                                 self.exchange.buy_market_spot(self.quantity, self.symbol)
 
                     self.item['end_balance'] = self.exchange.get_current_balance_futures_()
-                    profit = self.item['end_balance'] - self.item['start_balance']
+                    profit = round(self.item['end_balance'] - self.item['start_balance'], 4)
 
                     now = datetime.datetime.now()
                     self.logger.objects.filter(id=self.logger_instance.id) \
@@ -317,6 +319,8 @@ class ClusteringBot:
                 """
                 if self.item.get('takeprofit') is True:
 
+                    self.quantity = self.exchange.get_cluster_quantity(self.symbol)
+
                     if self.live:
 
                         if self.item.get('type') == 0:
@@ -336,7 +340,7 @@ class ClusteringBot:
                                 self.exchange.buy_market_spot(self.quantity, self.symbol)
 
                     self.item['end_balance'] = self.exchange.get_current_balance_futures_()
-                    profit = self.item['end_balance'] - self.item['start_balance']
+                    profit = round(self.item['end_balance'] - self.item['start_balance'], 4)
 
                     now = datetime.datetime.now()
                     self.logger.objects.filter(id=self.logger_instance.id) \
@@ -420,7 +424,7 @@ class ClusteringBot:
                                     break
 
                             if found_entry:
-                                #print("Found Entry: " + str(self.item))
+                                # print("Found Entry: " + str(self.item))
                                 entry = True
                                 continue
 
@@ -429,11 +433,10 @@ class ClusteringBot:
                     self.abort()
 
                     if self.exit():
-
                         self.item['exit_function'] = True
                         self.item['start_balance'] = 0
                         self.item['end_balance'] = 0
-                        #print("Found stoploss or takeprofit: " + str(self.item))
+                        # print("Found stoploss or takeprofit: " + str(self.item))
                         entry = False
                         continue
                         # sentinel = True

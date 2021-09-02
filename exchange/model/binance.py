@@ -17,9 +17,6 @@ class BinanceHelper:
         self.leverage = self.bot.leverage
 
     def get_cluster_quantity(self, symbol):
-        """
-        :return: Entrata al 100% del capitale
-        """
         balance_wallet = self.get_current_balance_futures_() - 0.5
         symbol_precision = self.get_symbol_precision(symbol)
         price_coin = self.current_price_coin(symbol)
