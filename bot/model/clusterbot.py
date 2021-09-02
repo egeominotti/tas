@@ -266,7 +266,7 @@ class ClusteringBot:
 
                 if self.item.get('stoploss') is True:
 
-                    self.quantity = self.exchange.get_cluster_quantity(self.symbol)
+                    #self.quantity = self.exchange.get_cluster_quantity(self.symbol)
 
                     if self.live:
 
@@ -329,7 +329,7 @@ class ClusteringBot:
 
                 if self.item.get('takeprofit') is True:
 
-                    self.quantity = self.exchange.get_cluster_quantity(self.symbol)
+                    #self.quantity = self.exchange.get_cluster_quantity(self.symbol)
 
                     if self.live:
 
@@ -419,7 +419,7 @@ class ClusteringBot:
     def run(self) -> None:
 
         entry = False
-        # sentinel = False
+        sentinel = False
         found_entry = False
 
         while True:
@@ -454,12 +454,14 @@ class ClusteringBot:
                     self.abort()
 
                     if self.exit():
+
                         self.item['exit_function'] = True
                         self.item['start_balance'] = 0
                         self.item['end_balance'] = 0
                         # print("Found stoploss or takeprofit: " + str(self.item))
-                        entry = False
-                        continue
+                        #entry = False
+                        sentinel = True
+                        break
                         # sentinel = True
                         # break
 
@@ -468,12 +470,11 @@ class ClusteringBot:
                 self.abort()
 
         # end-while-true
-        # if sentinel:
-        #     print("Exit bot normally set running = False : " + str(self.item))
-        #     self.abort()
-        #
-        #     # Set running = False for restart bot
-        #     self.current_bot.running = False
-        #     self.current_bot.save()
-        #
-        #     exit(1)
+        if sentinel:
+
+            print("Exit bot normally set running = False : " + str(self.item))
+            self.abort()
+            self.current_bot.running = False
+            self.current_bot.save()
+
+            exit(1)
