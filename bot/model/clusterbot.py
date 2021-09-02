@@ -351,8 +351,6 @@ class ClusteringBot:
 
                     return True
 
-            #sleep(0.1)
-
         except Exception as e:
             self.error(e)
             self.abort()
