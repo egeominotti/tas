@@ -299,7 +299,7 @@ class ClusteringBot:
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                         stop_loss = "Stoploss: " + str(self.current_bot.name) + \
                                     "\n" + "User: " + self.user.username + \
-                                    "\n" + "Profit: " + profit + \
+                                    "\n" + "Profit: " + str(profit) + \
                                     "\n" + "Live Mode: " + str(self.live) + \
                                     "\n" + "Trading Market: " + self.market + \
                                     "\n" + "Current Balance: " + str(self.exchange.get_current_balance_futures_()) + \
@@ -352,7 +352,7 @@ class ClusteringBot:
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                         stop_loss = "Takeprofit: " + str(self.current_bot.name) + \
                                     "\n" + "User: " + self.user.username + \
-                                    "\n" + "Profit: " + profit + \
+                                    "\n" + "Profit: " + str(profit) + \
                                     "\n" + "Live Mode: " + str(self.live) + \
                                     "\n" + "Trading Market: " + self.market + \
                                     "\n" + "Current Balance: " + str(self.exchange.get_current_balance_futures_()) + \
