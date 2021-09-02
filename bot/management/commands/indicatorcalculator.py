@@ -20,7 +20,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        symbols = SymbolExchange.objects.all().order_by('created_at')
+        symbols = SymbolExchange.objects.all()
         time_frame = TimeFrame.objects.all()
 
         ComputedData.objects.all().delete()
