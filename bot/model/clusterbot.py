@@ -1,6 +1,4 @@
 import datetime
-import time
-from time import sleep
 import sys
 import decouple
 import json
@@ -102,13 +100,8 @@ class ClusteringBot:
             'user': self.user.username
         }
 
-        try:
-            self.current_bot.running = True
-            self.current_bot.save()
-
-        except Exception as e:
-            self.error(e)
-            self.abort()
+        self.current_bot.running = True
+        self.current_bot.save()
 
     def error(self, e):
 
@@ -395,6 +388,7 @@ class ClusteringBot:
             return False
 
     def abort(self) -> None:
+
         if not self.bot_object.objects.get(id=self.current_bot.id).running:
 
             self.current_bot.abort = True
