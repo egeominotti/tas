@@ -6,7 +6,6 @@ import decouple
 import json
 import redis
 from binance import Client
-
 from bot.services.telegram import Telegram
 from exchange.model.binance import BinanceHelper
 from bot.services.indicator import ClusterRealTimeIndicator
@@ -128,6 +127,7 @@ class ClusteringBot:
         self.current_bot.running = False
         self.current_bot.save()
         self.telegram.send(str(e))
+
         exit(1)
 
     def entry(self, symbol):
@@ -249,7 +249,7 @@ class ClusteringBot:
 
         try:
 
-            key = self.symbol + "_" + self.time_frame + "_FUTURES_CANDLE"
+            key = self.symbol + "_" + self.time_frame + "_" + self.market + "_CANDLE"
             value = json.loads(self.redis_client.get(key))
             self.item['candle_close'] = value.get('close')
 
@@ -261,8 +261,9 @@ class ClusteringBot:
                 func_exit(item=self.item)
 
                 """
-                Stoploss
+                Stoploss Exit
                 """
+
                 if self.item.get('stoploss') is True:
 
                     self.quantity = self.exchange.get_cluster_quantity(self.symbol)
@@ -299,7 +300,6 @@ class ClusteringBot:
                     )
 
                     if self.notify:
-
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                         stop_loss = "Stoploss: " + str(self.current_bot.name) + \
                                     "\n" + "User: " + self.user.username + \
@@ -324,8 +324,9 @@ class ClusteringBot:
                     return True
 
                 """
-                Takeprofit
+                Takeprofit Exit
                 """
+
                 if self.item.get('takeprofit') is True:
 
                     self.quantity = self.exchange.get_cluster_quantity(self.symbol)
@@ -362,7 +363,6 @@ class ClusteringBot:
                     )
 
                     if self.notify:
-
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                         stop_loss = "Takeprofit: " + str(self.current_bot.name) + \
                                     "\n" + "User: " + self.user.username + \
