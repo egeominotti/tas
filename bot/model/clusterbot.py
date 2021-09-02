@@ -472,7 +472,7 @@ class ClusteringBot:
         # end-while-true
         if sentinel:
 
-            print("Exit bot normally set running = False : " + str(self.item))
+            #print("Exit bot normally set running = False : " + str(self.item))
             self.abort()
             self.current_bot.running = False
             self.current_bot.save()
