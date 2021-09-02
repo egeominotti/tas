@@ -17,6 +17,7 @@ r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 r.flushall()
 
 LIMIT_KLINE = 348
+KEY = 'SPOT'
 
 
 def save_klines(kline):
@@ -24,7 +25,7 @@ def save_klines(kline):
     interval = kline['interval']
     kline_start_time = kline['kline_start_time']
 
-    key = symbol + "_" + interval + "_SPOT"
+    key = symbol + "_" + interval + "_" + KEY
 
     # Solo la prima volta scarico i dati la seconda volta li accodo
     if r.exists(key):
@@ -64,7 +65,7 @@ def save_klines(kline):
 def send_realtime_candle_close(kline):
     symbol = kline['symbol']
     interval = kline['interval']
-    key = symbol + "_" + interval + "_SPOT_CANDLE"
+    key = symbol + "_" + interval + "_" + KEY + "_CANDLE"
     close_price = kline['close_price']
     candle = {'close': float(close_price)}
     r.set(key, json.dumps(candle))
@@ -80,7 +81,7 @@ class Command(BaseCommand):
 
         counter = 0
         symbolList = []
-        for k in SymbolExchange.objects.filter(market='SPOT'):
+        for k in SymbolExchange.objects.filter(market=KEY):
             symbolList.append(k.symbol.lower())
 
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com",
