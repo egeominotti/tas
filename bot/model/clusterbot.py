@@ -84,6 +84,8 @@ class ClusteringBot:
             'takeprofit': False,
             'stoploss_ratio': 0,
             'stoploss_candle': 0,
+            'start_balance': 0,
+            'end_balance': 0,
             'stoploss': False,
             'entry': False,
             'sleep_func_entry': self.func_entry.sleep,
@@ -170,6 +172,8 @@ class ClusteringBot:
                             self.item.get('entry_candle') * self.item.get('stoploss_value_short'), 3)
                     self.item['type_text'] = type
 
+                    self.item['start_balance'] = self.exchange.get_current_balance_futures_()
+
                     now = datetime.datetime.now()
                     self.logger_instance = self.logger.objects \
                         .create(
@@ -178,7 +182,7 @@ class ClusteringBot:
                         entry_candle_date=now,
                         stop_loss_ratio=self.item.get('stoploss_ratio'),
                         take_profit_ratio=self.item.get('takeprofit_ratio'),
-                        start_balance=self.exchange.get_current_balance_futures_(),
+                        start_balance=self.item['start_balance'],
                         coin_quantity=self.exchange.get_cluster_quantity(self.symbol),
                         leverage=self.exchange.leverage,
                         short=False,
@@ -278,22 +282,27 @@ class ClusteringBot:
                             if self.current_bot.market_spot:
                                 self.exchange.buy_market_spot(self.quantity, self.symbol)
 
+                    self.item['end_balance'] = self.exchange.get_current_balance_futures_()
+                    profit = self.item['end_balance'] - self.item['start_balance']
+
                     now = datetime.datetime.now()
                     self.logger.objects.filter(id=self.logger_instance.id) \
                         .update(
-                        end_balance=self.exchange.get_current_balance_futures_(),
+                        profit=profit,
+                        end_balance=self.item['end_balance'],
                         candle_stop_loss=self.item.get('stoploss_candle'),
                         candle_stop_loss_date=now,
-                        stop_loss=True
+                        stop_loss=True,
                     )
 
                     if self.notify:
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                         stop_loss = "Stoploss: " + str(self.current_bot.name) + \
+                                    "\n" + "User: " + self.user.username + \
+                                    "\n" + "Profit: " + profit + \
                                     "\n" + "Live Mode: " + str(self.live) + \
                                     "\n" + "Trading Market: " + self.market + \
                                     "\n" + "Current Balance: " + str(self.exchange.get_current_balance_futures_()) + \
-                                    "\n" + "User: " + self.user.username + \
                                     "\nType Entry: " + self.item.get('type_text') + \
                                     "\nStoploss candle value: " + str(self.item.get('stoploss_candle')) + \
                                     "\nStoploss candle date: " + str(now) + \
@@ -326,22 +335,27 @@ class ClusteringBot:
                             if self.current_bot.market_spot:
                                 self.exchange.buy_market_spot(self.quantity, self.symbol)
 
+                    self.item['end_balance'] = self.exchange.get_current_balance_futures_()
+                    profit = self.item['end_balance'] - self.item['start_balance']
+
                     now = datetime.datetime.now()
                     self.logger.objects.filter(id=self.logger_instance.id) \
                         .update(
-                        end_balance=self.exchange.get_current_balance_futures_(),
+                        profit=profit,
+                        end_balance=self.item['end_balance'],
                         candle_take_profit=self.item.get('takeprofit_candle'),
                         candle_take_profit_date=now,
-                        take_profit=True
+                        take_profit=True,
                     )
 
                     if self.notify:
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                         stop_loss = "Takeprofit: " + str(self.current_bot.name) + \
+                                    "\n" + "User: " + self.user.username + \
+                                    "\n" + "Profit: " + profit + \
                                     "\n" + "Live Mode: " + str(self.live) + \
                                     "\n" + "Trading Market: " + self.market + \
                                     "\n" + "Current Balance: " + str(self.exchange.get_current_balance_futures_()) + \
-                                    "\n" + "User: " + self.user.username + \
                                     "\nType Entry: " + self.item.get('type_text') + \
                                     "\nTakeprofit candle value: " + str(self.item.get('takeprofit_candle')) + \
                                     "\nTakeprofit candle date: " + str(now) + \
@@ -380,7 +394,7 @@ class ClusteringBot:
     def run(self) -> None:
 
         entry = False
-        #sentinel = False
+        # sentinel = False
         found_entry = False
 
         while True:
@@ -406,7 +420,7 @@ class ClusteringBot:
                                     break
 
                             if found_entry:
-                                print("Found Entry: " + str(self.item))
+                                #print("Found Entry: " + str(self.item))
                                 entry = True
                                 continue
 
@@ -417,12 +431,13 @@ class ClusteringBot:
                     if self.exit():
 
                         self.item['exit_function'] = True
-                        print("Found stoploss or takeprofit: " + str(self.item))
-
+                        self.item['start_balance'] = 0
+                        self.item['end_balance'] = 0
+                        #print("Found stoploss or takeprofit: " + str(self.item))
                         entry = False
                         continue
-                        #sentinel = True
-                        #break
+                        # sentinel = True
+                        # break
 
             except Exception as e:
                 self.error(e)
