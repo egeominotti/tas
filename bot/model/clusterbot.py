@@ -385,8 +385,6 @@ class ClusteringBot:
 
         while True:
 
-            self.abort()
-
             try:
 
                 if entry is False:
@@ -402,12 +400,12 @@ class ClusteringBot:
                             for coin in self.coins:
                                 self.symbol = coin.symbol
                                 self.item['symbol_exchange'] = self.symbol
+
                                 if self.entry(self.symbol):
                                     found_entry = True
                                     break
 
                             if found_entry:
-                                self.abort()
                                 print("Found Entry: " + str(self.item))
                                 entry = True
                                 continue
@@ -417,12 +415,9 @@ class ClusteringBot:
                     self.abort()
 
                     if self.exit():
+
                         self.item['exit_function'] = True
-                        """
-                        FOUND EXIT
-                        """
-                        print("Found stoploss or takeprofit : " + str(self.item))
-                        self.abort()
+                        print("Found stoploss or takeprofit: " + str(self.item))
 
                         entry = False
                         continue
