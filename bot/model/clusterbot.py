@@ -43,7 +43,6 @@ class ClusteringBot:
         self.time_frame = instance.strategy.time_frame.time_frame
         self.func_entry = instance.strategy.logic_entry
         self.func_exit = instance.strategy.logic_exit
-        self.coins = SymbolExchange.objects.all().order_by('created_at')
         self.logger_instance = None
         self.indicators = None
         self.live = False
@@ -67,6 +66,8 @@ class ClusteringBot:
                 self.market = 'SPOT'
             if self.current_bot.market_futures:
                 self.market = 'FUTURES'
+
+            self.coins = SymbolExchange.objects.filter(market=self.market).order_by('created_at')
 
             if self.current_bot.live:
                 self.live = True
@@ -265,7 +266,7 @@ class ClusteringBot:
 
                 if self.item.get('stoploss') is True:
 
-                    #self.quantity = self.exchange.get_cluster_quantity(self.symbol)
+                    # self.quantity = self.exchange.get_cluster_quantity(self.symbol)
 
                     if self.live:
 
@@ -328,7 +329,7 @@ class ClusteringBot:
 
                 if self.item.get('takeprofit') is True:
 
-                    #self.quantity = self.exchange.get_cluster_quantity(self.symbol)
+                    # self.quantity = self.exchange.get_cluster_quantity(self.symbol)
 
                     if self.live:
 
@@ -461,7 +462,6 @@ class ClusteringBot:
 
         # end-while-true
         if sentinel:
-
             self.abort()
             self.current_bot.running = False
             self.current_bot.save()
