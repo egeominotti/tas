@@ -19,7 +19,6 @@
         <CCard>
           <CCardHeader>
             <h5>{{ item.key }} </h5>
-            <h5>{{ item.symbol }} - {{ item.time_frame }}</h5>
             <h5> Possible Long </h5>
           </CCardHeader>
           <CCardBody class="low-status">
@@ -35,7 +34,7 @@
       <div v-if="values(item.data).rsi > 75">
         <CCard>
           <CCardHeader>
-            <h5>{{ item.symbol }} - {{ item.time_frame }}</h5>
+             <h5>{{ item.key }} </h5>
             <h5> Possible Short </h5>
           </CCardHeader>
           <CCardBody class="high-status">
