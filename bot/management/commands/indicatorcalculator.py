@@ -20,7 +20,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        type = ['SPOT', 'FUTURES']
+        #type = ['SPOT', 'FUTURES']
+        type = ['FUTURES']
         symbol_futures = SymbolExchange.objects.all().order_by('created_at')
         time_frame = TimeFrame.objects.all()
 

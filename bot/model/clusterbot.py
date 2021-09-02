@@ -315,7 +315,7 @@ class ClusteringBot:
                         self.telegram.send(stop_loss)
 
                     profit = 0
-                    for log in self.logger.objects.filter(id=self.logger_instance.id):
+                    for log in self.logger.objects.filter(user=self.user):
                         profit += log.profit
 
                     self.current_bot.profit = profit
@@ -378,7 +378,7 @@ class ClusteringBot:
                         self.telegram.send(stop_loss)
 
                     profit = 0
-                    for log in self.logger.objects.filter(id=self.logger_instance.id):
+                    for log in self.logger.objects.filter(user=self.user):
                         profit += log.profit
 
                     self.current_bot.profit = profit
