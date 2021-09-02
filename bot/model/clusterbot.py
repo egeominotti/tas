@@ -246,6 +246,7 @@ class ClusteringBot:
             self.abort()
 
     def exit(self) -> bool:
+
         try:
 
             key = self.symbol + "_" + self.time_frame + "_FUTURES_CANDLE"
@@ -391,6 +392,8 @@ class ClusteringBot:
             self.error(e)
             self.abort()
 
+            return False
+
     def abort(self) -> None:
         if not self.bot_object.objects.get(id=self.current_bot.id).running:
 
@@ -465,8 +468,6 @@ class ClusteringBot:
                 self.abort()
 
         # end-while-true
-
-        #
         # if sentinel:
         #     print("Exit bot normally set running = False : " + str(self.item))
         #     self.abort()
