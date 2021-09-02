@@ -393,6 +393,7 @@ class ClusteringBot:
 
                     self.abort()
 
+                    # wait message from websocket when candle is closed
                     message = self.pubsub.get_message()
                     if message is not None and message['type'] == 'message':
                         message = json.loads(message['data'])
