@@ -142,4 +142,11 @@ header.card-header {
   border-radius: 10px 10px 10px 11px !important;
   border-color: black !important;
 }
+
+p.micro-condition {
+  padding: 0;
+  margin: 0;
+  color: black;
+  font-weight: 200;
+}
 </style>
