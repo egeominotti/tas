@@ -51,7 +51,7 @@ def save_klines(kline):
         client = Client()
 
         klines = client \
-            .futures_klines(symbol=symbol,
+            .get_klines(symbol=symbol,
                             interval=interval,
                             endTime=kline_start_time,
                             limit=LIMIT_KLINE)
@@ -81,7 +81,7 @@ class Command(BaseCommand):
 
         counter = 0
         symbolList = []
-        for k in SymbolExchange.objects.filter(market=KEY):
+        for k in SymbolExchange.objects.filter(market=KEY)[0:1024]:
             symbolList.append(k.symbol.lower())
 
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com",
