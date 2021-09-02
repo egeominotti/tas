@@ -1,7 +1,8 @@
 <template>
   <CRow>
-    <div v-for="item in data" :key="item.id">
+    <div v-for="item in data" :key="item.id" class="iteration-for">
 
+      <!--
       <div v-if="values(item.data).rsi > 30 && values(item.data).rsi < 70">
         <CCard>
           <CCardHeader>
@@ -12,15 +13,20 @@
           </CCardBody>
         </CCard>
       </div>
+      -->
 
       <div v-if="values(item.data).rsi < 30">
         <CCard>
           <CCardHeader>
             <h5>{{ item.symbol }} - {{ item.time_frame }}</h5>
+            <h5> Possible Long </h5>
           </CCardHeader>
           <CCardBody class="low-status">
-            <h5> Possible Long </h5>
-            <h5> RSI - {{ values(item.data).rsi }} </h5>
+            <h5>RSI - {{ values(item.data).rsi }}</h5>
+            <h5>Close - {{ values(item.data).close }}</h5>
+            <h5>Upperband - {{ values(item.data).upperband }}</h5>
+            <h5>Middleband - {{ values(item.data).middleband }}</h5>
+            <h5>Lowerband - {{ values(item.data).lowerband }}</h5>
           </CCardBody>
         </CCard>
       </div>
@@ -29,10 +35,14 @@
         <CCard>
           <CCardHeader>
             <h5>{{ item.symbol }} - {{ item.time_frame }}</h5>
+            <h5> Possible Short </h5>
           </CCardHeader>
           <CCardBody class="high-status">
-            <h5> Possible Short </h5>
             <h5>RSI - {{ values(item.data).rsi }}</h5>
+            <h5>Close - {{ values(item.data).close }}</h5>
+            <h5>Upperband - {{ values(item.data).upperband }}</h5>
+            <h5>Middleband - {{ values(item.data).middleband }}</h5>
+            <h5>Lowerband - {{ values(item.data).lowerband }}</h5>
           </CCardBody>
         </CCard>
       </div>
@@ -149,4 +159,9 @@ p.micro-condition {
   color: black;
   font-weight: 200;
 }
+
+.card {
+  margin-right: 18px;
+}
+
 </style>
