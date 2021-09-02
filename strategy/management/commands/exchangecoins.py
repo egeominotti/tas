@@ -7,7 +7,7 @@ logger = logging.getLogger('main')
 
 
 class Command(BaseCommand):
-    help = 'AsyncRunnerBot'
+    help = 'Download Info coins'
 
     def handle(self, *args, **kwargs):
 
@@ -36,8 +36,6 @@ class Command(BaseCommand):
                 symbol = coins_futures['symbol']
                 precision = coins_futures['pricePrecision']
                 quantity_precision = coins_futures['quantityPrecision']
-                print(precision)
-                print(quantity_precision)
                 SymbolExchange.objects.create(
                     symbol=symbol,
                     market='FUTURES',
