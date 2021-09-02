@@ -19,7 +19,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        symbols = SymbolExchange.objects.all()
+        symbols = SymbolExchange.objects.filter(market='FUTURES')
         time_frame = TimeFrame.objects.all()
 
         ComputedData.objects.all().delete()
