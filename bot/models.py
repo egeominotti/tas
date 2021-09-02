@@ -47,6 +47,7 @@ class ComputedData(CommonTrait):
     time_frame = models.CharField(db_index=True, max_length=4, blank=False, null=False)
     data = models.JSONField(blank=True)
 
+
 class BufferRecordData(CommonTrait):
     key = models.CharField(db_index=True, max_length=20, blank=False, null=False)
     symbol = models.CharField(db_index=True, max_length=10, blank=False, null=False)
@@ -96,6 +97,7 @@ class BotLogger(CommonTrait):
     take_profit = models.BooleanField(default=False, blank=True)
     long = models.BooleanField(default=False, blank=True)
     short = models.BooleanField(default=False, blank=True)
+    profit = models.FloatField(default=0, blank=True)
 
     class Meta:
         verbose_name = 'BotLogger'
