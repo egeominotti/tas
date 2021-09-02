@@ -78,53 +78,53 @@ class Command(BaseCommand):
     help = 'WebSocketStream Market Spot Binance'
 
     def handle(self, *args, **kwargs):
-        pass
-        # counter = 0
-        # symbolList = []
-        # for k in SymbolExchange.objects.filter(market=KEY)[0:256]:
-        #     symbolList.append(k.symbol.lower())
-        #
-        # binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com",
-        #                                                            output_default="UnicornFy")
-        #
-        # binance_websocket_api_manager.create_stream('kline_5m', symbolList, output="UnicornFy")
-        #
-        # while True:
-        #
-        #     if binance_websocket_api_manager.is_manager_stopping():
-        #         r.flushall()
-        #         exit(0)
-        #     oldest_stream_data_from_stream_buffer = binance_websocket_api_manager.pop_stream_data_from_stream_buffer()
-        #
-        #     if oldest_stream_data_from_stream_buffer is False:
-        #         time.sleep(0.01)
-        #     else:
-        #
-        #         if oldest_stream_data_from_stream_buffer is not None:
-        #             try:
-        #                 if not oldest_stream_data_from_stream_buffer['kline']['is_closed']:
-        #                     thread = Thread(target=send_realtime_candle_close,
-        #                                     args=(oldest_stream_data_from_stream_buffer['kline'],))
-        #                     thread.daemon = True
-        #                     thread.start()
-        #
-        #                 if oldest_stream_data_from_stream_buffer['event_time'] >= \
-        #                         oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
-        #                     if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
-        #
-        #                         thread = Thread(target=save_klines,
-        #                                         args=(oldest_stream_data_from_stream_buffer['kline'],))
-        #                         thread.daemon = True
-        #                         thread.start()
-        #
-        #                         counter += 1
-        #
-        #                         if len(symbolList) == counter:
-        #                             r.publish(oldest_stream_data_from_stream_buffer['kline']['interval'],
-        #                                       json.dumps({'status': True}))
-        #                             counter = 0
-        #
-        #             except KeyError:
-        #                 pass
-        #             except TypeError:
-        #                 pass
+
+        counter = 0
+        symbolList = []
+        for k in SymbolExchange.objects.filter(market=KEY):
+            symbolList.append(k.symbol.lower())
+
+        binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com",
+                                                                   output_default="UnicornFy")
+
+        binance_websocket_api_manager.create_stream('kline_5m', symbolList, output="UnicornFy")
+
+        while True:
+
+            if binance_websocket_api_manager.is_manager_stopping():
+                r.flushall()
+                exit(0)
+            oldest_stream_data_from_stream_buffer = binance_websocket_api_manager.pop_stream_data_from_stream_buffer()
+
+            if oldest_stream_data_from_stream_buffer is False:
+                time.sleep(0.01)
+            else:
+
+                if oldest_stream_data_from_stream_buffer is not None:
+                    try:
+                        if not oldest_stream_data_from_stream_buffer['kline']['is_closed']:
+                            thread = Thread(target=send_realtime_candle_close,
+                                            args=(oldest_stream_data_from_stream_buffer['kline'],))
+                            thread.daemon = True
+                            thread.start()
+
+                        if oldest_stream_data_from_stream_buffer['event_time'] >= \
+                                oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
+                            if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
+
+                                thread = Thread(target=save_klines,
+                                                args=(oldest_stream_data_from_stream_buffer['kline'],))
+                                thread.daemon = True
+                                thread.start()
+
+                                counter += 1
+
+                                if len(symbolList) == counter:
+                                    r.publish(oldest_stream_data_from_stream_buffer['kline']['interval'],
+                                              json.dumps({'status': True}))
+                                    counter = 0
+
+                    except KeyError:
+                        pass
+                    except TypeError:
+                        pass
