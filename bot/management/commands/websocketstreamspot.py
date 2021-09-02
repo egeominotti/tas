@@ -87,8 +87,6 @@ class Command(BaseCommand):
                                                                    output_default="UnicornFy")
 
         binance_websocket_api_manager.create_stream('kline_5m', symbolList, output="UnicornFy")
-        # binance_websocket_api_manager.create_stream('kline_4h', symbolList, output="UnicornFy")
-        # binance_websocket_api_manager.create_stream('kline_1d', symbolList, output="UnicornFy")
 
         while True:
 
