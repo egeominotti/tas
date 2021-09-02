@@ -165,6 +165,7 @@ class ClusterBot(CommonTrait):
     leverage = models.IntegerField(default=1, blank=False)
     amount = models.FloatField(default=0, blank=False)
     live = models.BooleanField(default=False)
+    profit = models.FloatField(default=0, blank=True)
 
     class Meta:
         verbose_name = 'ClusterBot'
