@@ -285,7 +285,7 @@ class ClusteringBot:
                                 self.exchange.buy_market_spot(self.quantity, self.symbol)
 
                     self.item['end_balance'] = self.exchange.get_current_balance_futures_()
-                    profit = round(self.item['end_balance'] - self.item['start_balance'], 4)
+                    profit = round(self.item['end_balance'] - self.item['start_balance'], 3)
 
                     now = datetime.datetime.now()
                     self.logger.objects.filter(id=self.logger_instance.id) \
@@ -340,7 +340,7 @@ class ClusteringBot:
                                 self.exchange.buy_market_spot(self.quantity, self.symbol)
 
                     self.item['end_balance'] = self.exchange.get_current_balance_futures_()
-                    profit = round(self.item['end_balance'] - self.item['start_balance'], 4)
+                    profit = round(self.item['end_balance'] - self.item['start_balance'], 3)
 
                     now = datetime.datetime.now()
                     self.logger.objects.filter(id=self.logger_instance.id) \
