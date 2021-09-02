@@ -69,7 +69,7 @@ class BotLoggerAdmin(admin.ModelAdmin):
     list_per_page = 20
     ordering = ('id',)
     list_display = (
-        'created_at', 'user', 'start_balance', 'end_balance', 'take_profit_ratio', 'stop_loss_ratio', 'entry_candle',
+        'created_at', 'user','profit', 'start_balance', 'end_balance', 'take_profit_ratio', 'stop_loss_ratio', 'entry_candle',
         'entry_candle_date', 'take_profit',
         'candle_take_profit',
         'candle_take_profit_date', 'created_at',
