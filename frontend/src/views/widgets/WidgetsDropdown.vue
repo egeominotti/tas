@@ -25,7 +25,7 @@
         </CCard>
       </div>
 
-      <div v-if="values(item.data).rsi > 70">
+      <div v-if="values(item.data).rsi > 75">
         <CCard>
           <CCardHeader>
             <h5>{{ item.symbol }} - {{ item.time_frame }}</h5>
