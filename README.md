@@ -110,6 +110,10 @@
 
         https://pgtune.leopard.in.ua/#/
 
+
+# Links
+    https://ccxt.pro/
+
 ## Documentazione dizionario Bot
     
     """
