@@ -104,7 +104,6 @@ class ClusteringBot:
         try:
             self.current_bot.running = True
             self.current_bot.save()
-            # self.start()
 
         except Exception as e:
             self.error(e)
@@ -128,7 +127,7 @@ class ClusteringBot:
         self.current_bot.save()
         self.telegram.send(str(e))
 
-        exit(1)
+        sys.exit()
 
     def entry(self, symbol):
 
@@ -414,7 +413,7 @@ class ClusteringBot:
                     "\nAborted at: " + str(now)
             self.telegram.send(start)
 
-            exit(1)
+            sys.exit()
 
     def run(self) -> None:
 
@@ -445,7 +444,6 @@ class ClusteringBot:
                                     break
 
                             if found_entry:
-                                # print("Found Entry: " + str(self.item))
                                 entry = True
                                 continue
 
@@ -454,16 +452,8 @@ class ClusteringBot:
                     self.abort()
 
                     if self.exit():
-
-                        self.item['exit_function'] = True
-                        self.item['start_balance'] = 0
-                        self.item['end_balance'] = 0
-                        # print("Found stoploss or takeprofit: " + str(self.item))
-                        #entry = False
                         sentinel = True
                         break
-                        # sentinel = True
-                        # break
 
             except Exception as e:
                 self.error(e)
@@ -472,9 +462,8 @@ class ClusteringBot:
         # end-while-true
         if sentinel:
 
-            #print("Exit bot normally set running = False : " + str(self.item))
             self.abort()
             self.current_bot.running = False
             self.current_bot.save()
 
-            exit(1)
+            sys.exit()
