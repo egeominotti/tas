@@ -20,20 +20,20 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        symbol_futures = SymbolExchange.objects.all().order_by('created_at')
+        symbols = SymbolExchange.objects.all().order_by('created_at')
         time_frame = TimeFrame.objects.all()
 
         ComputedData.objects.all().delete()
         for interval in time_frame:
-            for symbol in symbol_futures:
-                key = str(symbol.symbol) + "_" + str(interval) + "_" + symbol.market
+            for coin in symbols:
+                key = str(coin.symbol) + "_" + str(interval) + "_" + coin.market
                 if r.exists(key):
                     klines = json.loads(r.get(key))
                     if len(klines) > 0:
                         computed_data = compute_data_to_store(klines)
                         ComputedData.objects.create(
                             key=key,
-                            symbol=symbol,
+                            symbol=coin.symbol,
                             time_frame=interval,
                             data=computed_data
                         )

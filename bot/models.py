@@ -42,7 +42,7 @@ class LogicExit(CommonTrait):
 
 
 class ComputedData(CommonTrait):
-    key = models.CharField(db_index=True, max_length=20, blank=False, null=False)
+    key = models.CharField(db_index=True, max_length=30, blank=False, null=False)
     symbol = models.CharField(db_index=True, max_length=10, blank=False, null=False)
     time_frame = models.CharField(db_index=True, max_length=4, blank=False, null=False)
     data = models.JSONField(blank=True)
