@@ -1,5 +1,5 @@
 from django.contrib import admin
-from strategy.models import TimeFrame, SymbolExchange, SymbolTaapiApi
+from strategy.models import TimeFrame, SymbolExchange
 
 
 class TimeFrameAdmin(admin.ModelAdmin):
@@ -18,15 +18,5 @@ class SymbolExchangeAdmin(admin.ModelAdmin):
     exclude = ['flgEnable', ]
 
 
-# class SymbolTaapiApiAmin(admin.ModelAdmin):
-#     search_fields = ['tf']
-#     list_per_page = 50
-#     ordering = ('id',)
-#     list_display = (
-#         'symbol',)
-#     exclude = ['flgEnable', ]
-
-
 admin.site.register(TimeFrame, TimeFrameAdmin)
 admin.site.register(SymbolExchange, SymbolExchangeAdmin)
-#admin.site.register(SymbolTaapiApi, SymbolTaapiApiAmin)

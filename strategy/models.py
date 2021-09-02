@@ -15,18 +15,6 @@ class TimeFrame(CommonTrait):
         verbose_name_plural = 'TimeFrame'
 
 
-class SymbolTaapiApi(CommonTrait):
-    symbol = models.CharField(max_length=20, blank=False)
-
-    def __str__(self):
-        if self.symbol is not None:
-            return str(self.symbol)
-
-    class Meta:
-        verbose_name = 'SymbolTaapiApi'
-        verbose_name_plural = 'SymbolTaapiApi'
-
-
 class SymbolExchange(CommonTrait):
     symbol = models.CharField(max_length=20, blank=False)
     market = models.CharField(max_length=10, blank=True)

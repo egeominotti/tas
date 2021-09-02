@@ -20,23 +20,20 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        #type = ['SPOT', 'FUTURES']
-        type = ['FUTURES']
         symbol_futures = SymbolExchange.objects.all().order_by('created_at')
         time_frame = TimeFrame.objects.all()
 
         ComputedData.objects.all().delete()
         for interval in time_frame:
             for symbol in symbol_futures:
-                for j in type:
-                    key = str(symbol.symbol) + "_" + str(interval) + "_" + j
-                    if r.exists(key):
-                        klines = json.loads(r.get(key))
-                        if len(klines) > 0:
-                            computed_data = compute_data_to_store(klines)
-                            ComputedData.objects.create(
-                                key=key,
-                                symbol=symbol,
-                                time_frame=interval,
-                                data=computed_data
-                            )
+                key = str(symbol.symbol) + "_" + str(interval) + "_" + symbol.market
+                if r.exists(key):
+                    klines = json.loads(r.get(key))
+                    if len(klines) > 0:
+                        computed_data = compute_data_to_store(klines)
+                        ComputedData.objects.create(
+                            key=key,
+                            symbol=symbol,
+                            time_frame=interval,
+                            data=computed_data
+                        )
