@@ -385,6 +385,8 @@ class ClusteringBot:
 
                     return True
 
+            return False
+
         except Exception as e:
             self.error(e)
             self.abort()
