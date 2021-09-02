@@ -298,6 +298,7 @@ class ClusteringBot:
                     )
 
                     if self.notify:
+
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                         stop_loss = "Stoploss: " + str(self.current_bot.name) + \
                                     "\n" + "User: " + self.user.username + \
@@ -360,6 +361,7 @@ class ClusteringBot:
                     )
 
                     if self.notify:
+
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                         stop_loss = "Takeprofit: " + str(self.current_bot.name) + \
                                     "\n" + "User: " + self.user.username + \
