@@ -14,7 +14,6 @@ logger = logging.getLogger('main')
 
 r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 
-
 class Command(BaseCommand):
     help = 'Indicator Calculator'
 
