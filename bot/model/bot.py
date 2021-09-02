@@ -378,7 +378,6 @@ class TradingBot:
                     "\nAborted at: " + str(now)
             self.telegram.send(start)
 
-            sleep(5)
             exit(1)
 
 
@@ -432,5 +431,4 @@ class TradingBot:
             self.current_bot.running = False
             self.current_bot.save()
 
-            sleep(30)
             exit(1)

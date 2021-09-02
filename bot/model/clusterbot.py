@@ -351,7 +351,7 @@ class ClusteringBot:
 
                     return True
 
-            sleep(0.1)
+            #sleep(0.1)
 
         except Exception as e:
             self.error(e)
@@ -377,16 +377,17 @@ class ClusteringBot:
                     "\nAborted at: " + str(now)
             self.telegram.send(start)
 
-            sleep(5)
             exit(1)
 
     def run(self) -> None:
 
         entry = False
-        sentinel = False
+        #sentinel = False
         found_entry = False
 
         while True:
+
+            self.abort()
 
             try:
 
@@ -412,8 +413,6 @@ class ClusteringBot:
                                 entry = True
                                 continue
 
-                    # sleep(0.001)
-
                 if entry is True:
 
                     self.abort()
@@ -427,23 +426,23 @@ class ClusteringBot:
                         self.abort()
 
                         entry = False
-                        sentinel = True
-                        break
+                        continue
+                        #sentinel = True
+                        #break
 
             except Exception as e:
                 self.error(e)
                 self.abort()
 
         # end-while-true
-        self.abort()
 
-        if sentinel:
-            print("Exit bot normally set running = False : " + str(self.item))
-            self.abort()
-
-            # Set running = False for restart bot
-            self.current_bot.running = False
-            self.current_bot.save()
-
-            sleep(30)
-            exit(1)
+        #
+        # if sentinel:
+        #     print("Exit bot normally set running = False : " + str(self.item))
+        #     self.abort()
+        #
+        #     # Set running = False for restart bot
+        #     self.current_bot.running = False
+        #     self.current_bot.save()
+        #
+        #     exit(1)
