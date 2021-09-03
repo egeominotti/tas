@@ -12,10 +12,7 @@ import ccxt
 from numpy import double
 
 logger = logging.getLogger('main')
-# each ohlcv candle is a list of [ timestamp, open, high, low, close, volume ]
-index = 4  # use close price from each ohlcv candle
-
-r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
+redis = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 KEY = 'FUTURES'
 
 class Command(BaseCommand):
@@ -25,14 +22,15 @@ class Command(BaseCommand):
 
         symbol = 'RVNUSDT'
         timeframe = '5m'
-        key = symbol + "_" + timeframe + "_" + KEY + "_" + "_REALTIME"
+
+        key = symbol + "_" + timeframe + "_" + KEY
+        key2 = symbol + "_" + timeframe + "_" + KEY + "_CANDLE"
+
         while True:
-            data = r.smembers(key)
-            for k in data:
-                print(k[0])
-        # print(data)
-        # close = [double(entry[4]) for entry in data]
-        # close_array = np.asarray(close)
-        # if len(close_array) > 14 and close_array is not None:
-        #     rsi = talib.RSI(close_array, timeperiod=14)
-        #     print(rsi[-1])
+            klines = json.loads(redis.get(key))
+            klines_realtime =  json.loads(redis.get(key2))
+            close = [double(entry[4]) for entry in klines]
+            close_array = np.asarray(close)
+            arr_flat = np.append(close_array, [klines_realtime.get('close')])
+            rsi = talib.RSI(arr_flat, timeperiod=14)
+            print(round(rsi[-1], 4))

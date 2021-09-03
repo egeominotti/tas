@@ -7,6 +7,7 @@ from numpy import double
 
 
 class Indicators:
+
     LIMIT_KLINE = 200
     close_array = None
     open_array = None
@@ -17,58 +18,62 @@ class Indicators:
         self.bot = bot
         self.symbol = symbol
         self.time_frame = time_frame
-        self.redis = True
         self.redis_client = redis
 
     def compute(self, real_time):
-
-        klines = None
 
         self.close_array = None
         self.open_array = None
         self.low_array = None
         self.high_array = None
 
-        self.key = None
+        key = None
+        key2 = None
+
         if self.bot.market_spot:
-            self.key = str(self.symbol) + "_" + str(self.time_frame) + "_SPOT"
+            key = str(self.symbol) + "_" + str(self.time_frame) + "_SPOT"
+            key2 = str(self.symbol) + "_" + str(self.time_frame) + "_SPOT" + "_CANDLE"
         if self.bot.market_futures:
-            self.key = str(self.symbol) + "_" + str(self.time_frame) + "_FUTURES"
+            key = str(self.symbol) + "_" + str(self.time_frame) + "_FUTURES"
+            key2 = str(self.symbol) + "_" + str(self.time_frame) + "_FUTURES" + "_CANDLE"
 
         try:
 
-            if real_time is False:
-                klines = json.loads(self.redis_client.get(self.key))
+            klines = json.loads(self.redis_client.get(key))
+            klines_realtime = json.loads(self.redis_client.get(key2))
 
-            if real_time is True:
+            if klines is not None and klines_realtime is not None:
 
-                client = Client()
-                if self.bot.market_futures:
-                    klines = client.futures_klines(
-                        symbol=self.symbol,
-                        interval=self.time_frame,
-                        limit=self.LIMIT_KLINE
-                    )
+                if len(klines) > 0 and len(klines_realtime) > 0:
 
-                if self.bot.market_spot:
-                    klines = client.get_klines(
-                        symbol=self.symbol,
-                        interval=self.time_frame,
-                        limit=self.LIMIT_KLINE,
-                    )
+                    if real_time is False:
 
-            if klines is not None:
+                        open = [double(entry[1]) for entry in klines]
+                        high = [double(entry[2]) for entry in klines]
+                        low = [double(entry[3]) for entry in klines]
+                        close = [double(entry[4]) for entry in klines]
 
-                if len(klines) > 0:
-                    open = [double(entry[1]) for entry in klines]
-                    high = [double(entry[2]) for entry in klines]
-                    low = [double(entry[3]) for entry in klines]
-                    close = [double(entry[4]) for entry in klines]
+                        self.close_array = np.asarray(close)
+                        self.open_array = np.asarray(open)
+                        self.low_array = np.asarray(low)
+                        self.high_array = np.asarray(high)
 
-                    self.close_array = np.asarray(close)
-                    self.open_array = np.asarray(open)
-                    self.low_array = np.asarray(low)
-                    self.high_array = np.asarray(high)
+                    if real_time is True:
+
+                        open = [double(entry[1]) for entry in klines]
+                        high = [double(entry[2]) for entry in klines]
+                        low = [double(entry[3]) for entry in klines]
+                        close = [double(entry[4]) for entry in klines]
+
+                        self.close_array = np.asarray(close)
+                        self.open_array = np.asarray(open)
+                        self.low_array = np.asarray(low)
+                        self.high_array = np.asarray(high)
+
+                        self.close_array = np.append(self.close_array, [klines_realtime.get('close')])
+                        self.open_array = np.append(self.open_array, [klines_realtime.get('open')])
+                        self.low_array = np.append(self.low_array, [klines_realtime.get('low')])
+                        self.high_array = np.append(self.high_array, [klines_realtime.get('high')])
 
         except Exception as e:
             # retry connection
