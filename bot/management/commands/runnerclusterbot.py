@@ -4,13 +4,11 @@ from bot.models import ClusterBot, UserExchange, BotLogger
 from django.core.management import BaseCommand
 from time import sleep
 import logging
-import os
 
 logger = logging.getLogger('main')
 
 
 def spawnbot(instance) -> None:
-
 
     tb = ClusteringBot(
         instance=instance,
@@ -33,7 +31,6 @@ def init() -> None:
                 instance.save()
                 thread.start()
                 print("Sart thread: " + str(thread))
-
         sleep(1)
 
 
