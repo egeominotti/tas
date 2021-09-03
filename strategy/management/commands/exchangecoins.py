@@ -36,12 +36,13 @@ class Command(BaseCommand):
             status = coins_futures['status']
             if status == 'TRADING':
                 symbol = coins_futures['symbol']
-                precision = coins_futures['pricePrecision']
-                quantity_precision = coins_futures['quantityPrecision']
-                SymbolExchange.objects.create(
-                    symbol=symbol,
-                    market='FUTURES',
-                    precision=precision,
-                    quantity_precision = quantity_precision,
-                    exchange='BINANCE'
-                )
+                if 'USDT' in symbol:
+                    precision = coins_futures['pricePrecision']
+                    quantity_precision = coins_futures['quantityPrecision']
+                    SymbolExchange.objects.create(
+                        symbol=symbol,
+                        market='FUTURES',
+                        precision=precision,
+                        quantity_precision = quantity_precision,
+                        exchange='BINANCE'
+                    )
