@@ -250,17 +250,11 @@ class ClusteringBot:
 
         try:
 
-            # key = self.symbol + "_" + self.time_frame + "_" + self.market + "_CANDLE"
-            # value = json.loads(self.redis_client.get(key))
-            # self.item['candle_close'] = value.get('close')
-
             func_exit = eval(self.func_exit.name)
             if self.item.get('entry') is True:
 
                 self.indicators.compute(True)
                 func_exit(item=self.item)
-
-                sleep(0.5)
 
                 """
                 Stoploss Exit
