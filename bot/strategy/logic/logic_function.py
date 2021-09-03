@@ -1,6 +1,5 @@
 def logicentry_bot_rsi_20_bollinger(item: dict) -> None:
 
-
     # print("symbol: " + str(item.get('symbol_exchange'))
     #       + " Market: " + str(item.get('market'))
     #       + " Time Frame : " + str(item.get('time_frame'))

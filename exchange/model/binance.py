@@ -107,7 +107,7 @@ class BinanceHelper:
         )
 
     def get_order_entry_price(self, symbol, orderId):
-        return self.client.futures_get_order(symbol=symbol, orderId=orderId).get('avgPrice')
+        return float(self.client.futures_get_order(symbol=symbol, orderId=orderId).get('avgPrice'))
 
     def futures_cancel_order_(self):
         pass
