@@ -1,7 +1,6 @@
 from threading import Thread
-from bot.model.bot import TradingBot
 from bot.model.clusterbot import ClusteringBot
-from bot.models import Bot, ClusterBot, UserExchange, BotLogger
+from bot.models import ClusterBot, UserExchange, BotLogger
 from django.core.management import BaseCommand
 from time import sleep
 import logging

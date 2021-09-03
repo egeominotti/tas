@@ -1,24 +1,29 @@
 import datetime
-from time import sleep
 import sys
+import decouple
+import json
+import redis
+from binance import Client
 from bot.services.telegram import Telegram
-from analytics.services.exchangeApi import Taapi
 from exchange.model.binance import BinanceHelper
-from bot.services.indicator import RealTimeIndicator
+from bot.services.indicator import ClusterRealTimeIndicator
+from strategy.models import SymbolExchange
 
 # Logic of bot
 from bot.strategy.logic.logic_function import \
     logicexit_bot_rsi_20_bollinger, \
     logicentry_bot_rsi_20_bollinger
 
-class TradingBot:
+
+class Bot:
 
     def __init__(
             self,
             instance,
             userexchange,
             logger,
-            bot_object
+            bot_object,
+            symbol
     ):
         """
 
@@ -33,32 +38,35 @@ class TradingBot:
         self.bot_object = bot_object
         self.user = instance.user
         self.userexchange = userexchange
-        self.symbol_exchange = instance.coins.coins_exchange.symbol
+        self.symbol = symbol
         self.time_frame = instance.strategy.time_frame.time_frame
         self.func_entry = instance.strategy.logic_entry
         self.func_exit = instance.strategy.logic_exit
         self.logger_instance = None
+        self.indicators = None
         self.live = False
         self.quantity = 0
+        self.redis_client = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
+        self.pubsub = self.redis_client.pubsub()
+        self.pubsub.subscribe(self.time_frame)
+        self.binance_client = Client(api_key=self.userexchange.api_key, api_secret=self.userexchange.api_secret)
+        self.exchange = BinanceHelper(
+            client=self.binance_client,
+            bot=self.current_bot,
+            user=self.user,
+        )
 
         try:
-
             self.telegram = Telegram()
             self.notify = self.user.telegram_notifications
-            self.indicators = RealTimeIndicator(self.current_bot, self.symbol_exchange, self.time_frame)
-            self.exchange = BinanceHelper(
-                bot=self.current_bot,
-                api_key=self.userexchange.api_key,
-                api_secret=self.userexchange.api_secret,
-                symbol=self.symbol_exchange,
-                user=self.user,
-            )
 
             self.market = ''
             if self.current_bot.market_spot:
                 self.market = 'SPOT'
             if self.current_bot.market_futures:
                 self.market = 'FUTURES'
+
+
 
             if self.current_bot.live:
                 self.live = True
@@ -68,7 +76,6 @@ class TradingBot:
             self.abort()
 
         self.item = {
-            'indicators': self.indicators,
             'candle_close': 0,
             'entry_candle': 0,
             'takeprofit_ratio': 0,
@@ -76,10 +83,11 @@ class TradingBot:
             'takeprofit': False,
             'stoploss_ratio': 0,
             'stoploss_candle': 0,
+            'start_balance': 0,
+            'end_balance': 0,
             'stoploss': False,
             'entry': False,
             'sleep_func_entry': self.func_entry.sleep,
-            'symbol_exchange': self.symbol_exchange,
             'type': -1,
             'time_frame': self.time_frame,
             'ratio': self.func_entry.ratio,
@@ -93,14 +101,8 @@ class TradingBot:
             'user': self.user.username
         }
 
-        try:
-            self.current_bot.running = True
-            self.current_bot.save()
-            self.start()
-
-        except Exception as e:
-            self.error(e)
-            self.abort()
+        self.current_bot.running = True
+        self.current_bot.save()
 
     def error(self, e):
 
@@ -111,7 +113,6 @@ class TradingBot:
         start = "Warning Stopped Bot: " + str(self.current_bot.name) + \
                 "\n" + "Fatal error: " + str(exception) + \
                 "\n" + "User: " + self.user.username + \
-                "\n" + "Symbol: " + str(self.symbol_exchange) + \
                 "\nTime frame: " + str(self.time_frame) + \
                 "\nStopped at: " + str(now)
         self.telegram.send(start)
@@ -120,29 +121,21 @@ class TradingBot:
         self.current_bot.running = False
         self.current_bot.save()
         self.telegram.send(str(e))
-        exit(1)
 
-    def start(self) -> None:
+        sys.exit()
 
-        if self.notify:
-            now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-            start = "Started: " + str(self.current_bot.name) + \
-                    "\n" + "User: " + self.user.username + \
-                    "\n" + "Trading Market: " + self.market + \
-                    "\n" + "Balance: " + str(self.exchange.get_current_balance_futures_()) + \
-                    "\n" + "Live Mode: " + str(self.live) + \
-                    "\n" + "Investment amount: " + str(self.exchange.get_current_investment_amount()) + \
-                    "\n" + "Quantity of investement: " + str(self.exchange.get_quantity()) + \
-                    "\n" + "Leverage: " + str(self.exchange.leverage) + \
-                    "\n" + "Symbol: " + str(self.symbol_exchange) + \
-                    "\nTime frame: " + str(self.time_frame) + \
-                    "\nStarted at: " + str(now) + \
-                    "\nLet's go to the moon 🚀️"
-            self.telegram.send(start)
-
-    def entry(self) -> bool:
+    def entry(self, symbol):
 
         try:
+
+            self.indicators = ClusterRealTimeIndicator(
+                self.current_bot,
+                symbol,
+                self.time_frame,
+                self.redis_client
+            )
+
+            self.item['indicators'] = self.indicators
 
             func_entry = eval(self.func_entry.name)
             if self.item.get('entry') is False:
@@ -173,6 +166,8 @@ class TradingBot:
                             self.item.get('entry_candle') * self.item.get('stoploss_value_short'), 3)
                     self.item['type_text'] = type
 
+                    self.item['start_balance'] = self.exchange.get_current_balance_futures_()
+
                     now = datetime.datetime.now()
                     self.logger_instance = self.logger.objects \
                         .create(
@@ -181,8 +176,8 @@ class TradingBot:
                         entry_candle_date=now,
                         stop_loss_ratio=self.item.get('stoploss_ratio'),
                         take_profit_ratio=self.item.get('takeprofit_ratio'),
-                        start_balance=self.exchange.get_current_balance_futures_(),
-                        coin_quantity=self.exchange.get_quantity(),
+                        start_balance=self.item['start_balance'],
+                        coin_quantity=self.exchange.get_cluster_quantity(self.symbol),
                         leverage=self.exchange.leverage,
                         short=False,
                         long=False
@@ -191,25 +186,25 @@ class TradingBot:
                     if self.live:
 
                         # Calculate quantity
-                        self.quantity = self.exchange.get_quantity()
+                        self.quantity = self.exchange.get_cluster_quantity(self.symbol)
 
                         if self.item.get('type') == 0:
 
                             # LONG
                             if self.current_bot.market_futures:
-                                self.exchange.buy_market_futures(self.quantity)
+                                self.exchange.buy_market_futures(self.quantity, self.symbol)
 
                             if self.current_bot.market_spot:
-                                self.exchange.buy_market_spot(self.quantity)
+                                self.exchange.buy_market_spot(self.quantity, self.symbol)
 
                         if self.item.get('type') == 1:
 
                             # SHORT
                             if self.current_bot.market_futures:
-                                self.exchange.sell_market_futures(self.quantity)
+                                self.exchange.sell_market_futures(self.quantity, self.symbol)
 
                             if self.current_bot.market_spot:
-                                self.exchange.sell_market_spot(self.quantity)
+                                self.exchange.sell_market_spot(self.quantity, self.symbol)
 
                     if self.item.get('type') == 0:
                         self.logger.objects.filter(id=self.logger_instance.id) \
@@ -244,121 +239,157 @@ class TradingBot:
             self.error(e)
             self.abort()
 
-
     def exit(self) -> bool:
+
         try:
+
+            key = self.symbol + "_" + self.time_frame + "_" + self.market + "_CANDLE"
+            value = json.loads(self.redis_client.get(key))
+            self.item['candle_close'] = value.get('close')
 
             func_exit = eval(self.func_exit.name)
             if self.item.get('entry') is True:
 
                 # Real time indicator enabled
-                self.indicators.compute(True)
+                # self.indicators.compute(True)
                 func_exit(item=self.item)
 
                 """
-                Stoploss
+                Stoploss Exit
                 """
+
                 if self.item.get('stoploss') is True:
+
+                    # self.quantity = self.exchange.get_cluster_quantity(self.symbol)
 
                     if self.live:
 
                         if self.item.get('type') == 0:
                             # LONG
                             if self.current_bot.market_futures:
-                                self.exchange.sell_market_futures(self.quantity)
+                                self.exchange.sell_market_futures(self.quantity, self.symbol)
 
                             if self.current_bot.market_spot:
-                                self.exchange.sell_market_spot(self.quantity)
+                                self.exchange.sell_market_spot(self.quantity, self.symbol)
 
                         if self.item.get('type') == 1:
                             # SHORT
                             if self.current_bot.market_futures:
-                                self.exchange.buy_market_futures(self.quantity)
+                                self.exchange.buy_market_futures(self.quantity, self.symbol)
 
                             if self.current_bot.market_spot:
-                                self.exchange.buy_market_spot(self.quantity)
+                                self.exchange.buy_market_spot(self.quantity, self.symbol)
+
+                    self.item['end_balance'] = self.exchange.get_current_balance_futures_()
+                    profit = round(self.item['end_balance'] - self.item['start_balance'], 5)
 
                     now = datetime.datetime.now()
                     self.logger.objects.filter(id=self.logger_instance.id) \
                         .update(
-                        end_balance=self.exchange.get_current_balance_futures_(),
+                        profit=profit,
+                        end_balance=self.item['end_balance'],
                         candle_stop_loss=self.item.get('stoploss_candle'),
                         candle_stop_loss_date=now,
-                        stop_loss=True
+                        stop_loss=True,
                     )
 
                     if self.notify:
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                         stop_loss = "Stoploss: " + str(self.current_bot.name) + \
+                                    "\n" + "User: " + self.user.username + \
+                                    "\n" + "Profit: " + str(profit) + \
                                     "\n" + "Live Mode: " + str(self.live) + \
                                     "\n" + "Trading Market: " + self.market + \
                                     "\n" + "Current Balance: " + str(self.exchange.get_current_balance_futures_()) + \
-                                    "\n" + "Investement: " + str(self.exchange.get_current_investment_amount()) + \
-                                    "\n" + "User: " + self.user.username + \
                                     "\nType Entry: " + self.item.get('type_text') + \
                                     "\nStoploss candle value: " + str(self.item.get('stoploss_candle')) + \
                                     "\nStoploss candle date: " + str(now) + \
-                                    "\n" + "Symbol: " + str(self.symbol_exchange) + \
+                                    "\n" + "Symbol: " + str(self.symbol) + \
                                     "\nTime frame: " + str(self.time_frame)
                         self.telegram.send(stop_loss)
+
+                    profit = 0
+                    for log in self.logger.objects.filter(user=self.user):
+                        profit += log.profit
+
+                    self.current_bot.profit = profit
+                    self.current_bot.save()
 
                     return True
 
                 """
-                Takeprofit
+                Takeprofit Exit
                 """
+
                 if self.item.get('takeprofit') is True:
+
+                    # self.quantity = self.exchange.get_cluster_quantity(self.symbol)
 
                     if self.live:
 
                         if self.item.get('type') == 0:
                             # LONG
                             if self.current_bot.market_futures:
-                                self.exchange.sell_market_futures(self.quantity)
+                                self.exchange.sell_market_futures(self.quantity, self.symbol)
 
                             if self.current_bot.market_spot:
-                                self.exchange.sell_market_spot(self.quantity)
+                                self.exchange.sell_market_spot(self.quantity, self.symbol)
 
                         if self.item.get('type') == 1:
                             # SHORT
                             if self.current_bot.market_futures:
-                                self.exchange.buy_market_futures(self.quantity)
+                                self.exchange.buy_market_futures(self.quantity, self.symbol)
 
                             if self.current_bot.market_spot:
-                                self.exchange.buy_market_spot(self.quantity)
+                                self.exchange.buy_market_spot(self.quantity, self.symbol)
+
+                    self.item['end_balance'] = self.exchange.get_current_balance_futures_()
+                    profit = round(self.item['end_balance'] - self.item['start_balance'], 5)
 
                     now = datetime.datetime.now()
                     self.logger.objects.filter(id=self.logger_instance.id) \
                         .update(
-                        end_balance=self.exchange.get_current_balance_futures_(),
+                        profit=profit,
+                        end_balance=self.item['end_balance'],
                         candle_take_profit=self.item.get('takeprofit_candle'),
                         candle_take_profit_date=now,
-                        take_profit=True
+                        take_profit=True,
                     )
 
                     if self.notify:
                         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                         stop_loss = "Takeprofit: " + str(self.current_bot.name) + \
+                                    "\n" + "User: " + self.user.username + \
+                                    "\n" + "Profit: " + str(profit) + \
                                     "\n" + "Live Mode: " + str(self.live) + \
                                     "\n" + "Trading Market: " + self.market + \
                                     "\n" + "Current Balance: " + str(self.exchange.get_current_balance_futures_()) + \
-                                    "\n" + "Investement: " + str(self.exchange.get_current_investment_amount()) + \
-                                    "\n" + "User: " + self.user.username + \
                                     "\nType Entry: " + self.item.get('type_text') + \
                                     "\nTakeprofit candle value: " + str(self.item.get('takeprofit_candle')) + \
                                     "\nTakeprofit candle date: " + str(now) + \
-                                    "\n" + "Symbol: " + str(self.symbol_exchange) + \
+                                    "\n" + "Symbol: " + str(self.symbol) + \
                                     "\nTime frame: " + str(self.time_frame)
                         self.telegram.send(stop_loss)
 
+                    profit = 0
+                    for log in self.logger.objects.filter(user=self.user):
+                        profit += log.profit
+
+                    self.current_bot.profit = profit
+                    self.current_bot.save()
+
                     return True
+
+            return False
 
         except Exception as e:
             self.error(e)
             self.abort()
 
+            return False
 
     def abort(self) -> None:
+
         if not self.bot_object.objects.get(id=self.current_bot.id).running:
 
             self.current_bot.abort = True
@@ -373,15 +404,15 @@ class TradingBot:
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
             start = "Aborted bot: " + str(self.current_bot.name) + \
                     "\n" + "User: " + self.user.username + \
-                    "\n" + "Symbol: " + str(self.symbol_exchange) + \
+                    "\n" + "Symbol: " + str(self.symbol) + \
                     "\nTime frame: " + str(self.time_frame) + \
                     "\nAborted at: " + str(now)
             self.telegram.send(start)
 
-            exit(1)
-
+            sys.exit()
 
     def run(self) -> None:
+
         entry = False
         sentinel = False
 
@@ -392,26 +423,24 @@ class TradingBot:
                 if entry is False:
 
                     self.abort()
-                    if self.entry():
-                        self.abort()
 
-                        print("Found Entry: " + str(self.item))
-                        entry = True
-                        continue
+                    # wait message from websocket when candle is closed
+                    message = self.pubsub.get_message()
+                    if message is not None and message['type'] == 'message':
+                        message = json.loads(message['data'])
+                        if message.get('status') is True:
+
+                            self.item['symbol_exchange'] = self.symbol
+
+                            if self.entry(self.symbol):
+                                entry = True
+                                continue
 
                 if entry is True:
 
                     self.abort()
 
                     if self.exit():
-                        self.item['exit_function'] = True
-                        """
-                        FOUND EXIT
-                        """
-                        print("Found stoploss or takeprofit : " + str(self.item))
-                        self.abort()
-
-                        entry = False
                         sentinel = True
                         break
 
@@ -420,15 +449,9 @@ class TradingBot:
                 self.abort()
 
         # end-while-true
-        self.abort()
-
         if sentinel:
-
-            print("Exit bot normally set running = False : " + str(self.item))
             self.abort()
-
-            # Set running = False for restart bot
             self.current_bot.running = False
             self.current_bot.save()
 
-            exit(1)
+            sys.exit()

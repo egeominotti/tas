@@ -8,6 +8,7 @@ from bot.services.telegram import Telegram
 from exchange.model.binance import BinanceHelper
 from bot.services.indicator import ClusterRealTimeIndicator
 from strategy.models import SymbolExchange
+from bot.model.bot import Bot
 
 # Logic of bot
 from bot.strategy.logic.logic_function import \
