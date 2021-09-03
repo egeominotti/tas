@@ -257,7 +257,6 @@ class ClusteringBot:
             func_exit = eval(self.func_exit.name)
             if self.item.get('entry') is True:
 
-                # Real time indicator enabled
                 self.indicators.compute(True)
                 func_exit(item=self.item)
 
