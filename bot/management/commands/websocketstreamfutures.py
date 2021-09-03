@@ -74,7 +74,6 @@ def send_realtime_candle_close(kline):
     # Close thread
     sys.exit()
 
-
 class Command(BaseCommand):
     help = 'WebSocketStream Market Futures Binance'
 
