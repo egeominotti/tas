@@ -45,6 +45,7 @@ class ClusteringBot:
         self.indicators = None
         self.live = False
         self.precision = 0
+        self.quantity_precision = 0
         self.quantity = 0
         self.redis_client = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
         self.pubsub = self.redis_client.pubsub()
@@ -434,6 +435,7 @@ class ClusteringBot:
                             for coin in self.coins:
                                 self.symbol = coin.symbol
                                 self.precision = coin.precision
+                                self.quantity_precision = coin.quantity_precision
                                 self.item['symbol_exchange'] = self.symbol
 
                                 if self.entry(self.symbol):
