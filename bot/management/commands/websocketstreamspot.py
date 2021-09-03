@@ -63,11 +63,21 @@ def save_klines(kline):
 
 
 def send_realtime_candle_close(kline):
+
     symbol = kline['symbol']
     interval = kline['interval']
     key = symbol + "_" + interval + "_" + KEY + "_CANDLE"
+
     close_price = kline['close_price']
-    candle = {'close': float(close_price)}
+    open_price = kline['open_price']
+    high_price = kline['high_price']
+    low_price = kline['low_price']
+
+    candle = {'close': float(close_price),
+              'open': float(open_price),
+              'low': float(low_price),
+              'high': float(high_price)}
+
     r.set(key, json.dumps(candle))
 
     # Close thread
