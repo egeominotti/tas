@@ -1,11 +1,5 @@
 def logicentry_bot_rsi_20_bollinger(item: dict) -> None:
 
-    indicators = item['indicators']
-
-    rsi = indicators.rsi(14)
-    bbands = indicators.bbands(20)
-
-    item['candle_close'] = indicators.candle().get('close')
 
     # print("symbol: " + str(item.get('symbol_exchange'))
     #       + " Market: " + str(item.get('market'))
@@ -15,6 +9,13 @@ def logicentry_bot_rsi_20_bollinger(item: dict) -> None:
     #       + " valueLowerBand: " + str(bbands.get('valueLowerBand'))
     #       + " valueUpperBand: " + str(bbands.get('valueUpperBand')))
 
+    indicators = item['indicators']
+
+    rsi = indicators.rsi(14)
+    bbands = indicators.bbands(20)
+
+    item['candle_close'] = indicators.candle().get('close')
+
     valueLowerBand = bbands.get('valueLowerBand')
     valueUpperBand = bbands.get('valueUpperBand')
 
@@ -22,7 +23,6 @@ def logicentry_bot_rsi_20_bollinger(item: dict) -> None:
     if rsi < 20 and item['candle_close'] <= valueLowerBand:
         item['type'] = 0  # type = 0 corrisponde ad una entrata long
         item['entry'] = True
-        item['entry_candle'] = item['candle_close']
 
     # Short only in futures market
     if item.get('market') == 'FUTURES':
@@ -31,7 +31,6 @@ def logicentry_bot_rsi_20_bollinger(item: dict) -> None:
         if rsi > 85 and item['candle_close'] >= valueUpperBand:
             item['type'] = 1  # type = 1 corrisponde ad una entrata short
             item['entry'] = True
-            item['entry_candle'] = item['candle_close']
 
 
 def logicexit_bot_rsi_20_bollinger(item: dict) -> None:

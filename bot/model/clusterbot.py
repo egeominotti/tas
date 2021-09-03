@@ -48,12 +48,14 @@ class ClusteringBot:
         self.redis_client = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
         self.pubsub = self.redis_client.pubsub()
         self.pubsub.subscribe(self.time_frame)
+        self.order = None
         self.binance_client = Client(api_key=self.userexchange.api_key, api_secret=self.userexchange.api_secret)
         self.exchange = BinanceHelper(
             client=self.binance_client,
             bot=self.current_bot,
             user=self.user,
         )
+
 
         try:
             self.telegram = Telegram()
@@ -191,19 +193,21 @@ class ClusteringBot:
 
                             # LONG
                             if self.current_bot.market_futures:
-                                self.exchange.buy_market_futures(self.quantity, self.symbol)
+                                self.order = self.exchange.buy_market_futures(self.quantity, self.symbol)
 
                             if self.current_bot.market_spot:
-                                self.exchange.buy_market_spot(self.quantity, self.symbol)
+                                self.order = self.exchange.buy_market_spot(self.quantity, self.symbol)
 
                         if self.item.get('type') == 1:
 
                             # SHORT
                             if self.current_bot.market_futures:
-                                self.exchange.sell_market_futures(self.quantity, self.symbol)
+                                self.order = self.exchange.sell_market_futures(self.quantity, self.symbol)
 
                             if self.current_bot.market_spot:
-                                self.exchange.sell_market_spot(self.quantity, self.symbol)
+                                self.order = self.exchange.sell_market_spot(self.quantity, self.symbol)
+
+                        self.item['entry_candle'] = self.exchange.get_order_entry_price(self.symbol, self.order.get('orderId'))
 
                     if self.item.get('type') == 0:
                         self.logger.objects.filter(id=self.logger_instance.id) \
@@ -258,8 +262,6 @@ class ClusteringBot:
                 """
 
                 if self.item.get('stoploss') is True:
-
-                    # self.quantity = self.exchange.get_cluster_quantity(self.symbol)
 
                     if self.live:
 
@@ -321,8 +323,6 @@ class ClusteringBot:
                 """
 
                 if self.item.get('takeprofit') is True:
-
-                    # self.quantity = self.exchange.get_cluster_quantity(self.symbol)
 
                     if self.live:
 

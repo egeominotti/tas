@@ -34,7 +34,7 @@ class BinanceHelper:
 
     def current_price_coin(self, symbol) -> float:
         # Spot API
-        #resp = requests.get('https://api.binance.com/api/v3/ticker/price?symbol=' + symbol).json()
+        # resp = requests.get('https://api.binance.com/api/v3/ticker/price?symbol=' + symbol).json()
         resp = requests.get('https://fapi.binance.com/fapi/v1/ticker/price?symbol=' + symbol).json()
         price = float(resp['price'])
         return price
@@ -73,7 +73,7 @@ class BinanceHelper:
     def sell_market_futures(self, quantity, symbol):
         # Change leverage
         self.client.futures_change_leverage(symbol=symbol, marginType='ISOLATED', leverage=self.bot.leverage)
-        self.client.futures_create_order(
+        return self.client.futures_create_order(
             symbol=symbol,
             side=SIDE_SELL,
             type=ORDER_TYPE_MARKET,
@@ -83,7 +83,7 @@ class BinanceHelper:
     def buy_market_futures(self, quantity, symbol):
         # Change leverage
         self.client.futures_change_leverage(symbol=symbol, marginType='ISOLATED', leverage=self.bot.leverage)
-        self.client.futures_create_order(
+        return self.client.futures_create_order(
             symbol=symbol,
             side=SIDE_BUY,
             type=ORDER_TYPE_MARKET,
@@ -91,7 +91,7 @@ class BinanceHelper:
         )
 
     def sell_market_spot(self, quantity, symbol):
-        self.client.create_order(
+        return self.client.create_order(
             symbol=symbol,
             side=SIDE_SELL,
             type=ORDER_TYPE_MARKET,
@@ -99,16 +99,15 @@ class BinanceHelper:
         )
 
     def buy_market_spot(self, quantity, symbol):
-        self.client.create_order(
+        return self.client.create_order(
             symbol=symbol,
             side=SIDE_BUY,
             type=ORDER_TYPE_MARKET,
             quantity=quantity,
         )
 
-    def get_order(self, symbol, orderId):
-        # return self.client.get_order(symbol=symbol, orderId=orderId)
-        return self.client.get_order(symbol=symbol, orderId=orderId)
+    def get_order_entry_price(self, symbol, orderId):
+        return self.client.futures_get_order(symbol=symbol, orderId=orderId).get('avgPrice')
 
     def futures_cancel_order_(self):
         pass
