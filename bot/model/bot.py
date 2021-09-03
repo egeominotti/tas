@@ -7,7 +7,6 @@ from binance import Client
 from bot.services.telegram import Telegram
 from exchange.model.binance import BinanceHelper
 from bot.services.indicator import ClusterRealTimeIndicator
-from strategy.models import SymbolExchange
 
 # Logic of bot
 from bot.strategy.logic.logic_function import \
@@ -15,15 +14,15 @@ from bot.strategy.logic.logic_function import \
     logicentry_bot_rsi_20_bollinger
 
 
-class Bot:
+class TradeBot:
 
     def __init__(
             self,
             instance,
             userexchange,
             logger,
-            bot_object,
-            symbol
+            symbol,
+            redis
     ):
         """
 
@@ -35,7 +34,6 @@ class Bot:
 
         self.current_bot = instance
         self.logger = logger
-        self.bot_object = bot_object
         self.user = instance.user
         self.userexchange = userexchange
         self.symbol = symbol
@@ -46,7 +44,7 @@ class Bot:
         self.indicators = None
         self.live = False
         self.quantity = 0
-        self.redis_client = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
+        self.redis_client = redis
         self.pubsub = self.redis_client.pubsub()
         self.pubsub.subscribe(self.time_frame)
         self.binance_client = Client(api_key=self.userexchange.api_key, api_secret=self.userexchange.api_secret)
@@ -57,6 +55,7 @@ class Bot:
         )
 
         try:
+
             self.telegram = Telegram()
             self.notify = self.user.telegram_notifications
 
@@ -66,14 +65,11 @@ class Bot:
             if self.current_bot.market_futures:
                 self.market = 'FUTURES'
 
-
-
             if self.current_bot.live:
                 self.live = True
 
         except Exception as e:
             self.error(e)
-            self.abort()
 
         self.item = {
             'candle_close': 0,
@@ -89,6 +85,7 @@ class Bot:
             'entry': False,
             'sleep_func_entry': self.func_entry.sleep,
             'type': -1,
+            'symbol_exchange': self.symbol,
             'time_frame': self.time_frame,
             'ratio': self.func_entry.ratio,
             'takeprofit_value_long': self.func_exit.takeprofit_long,
@@ -100,9 +97,6 @@ class Bot:
             'market': self.market,
             'user': self.user.username
         }
-
-        self.current_bot.running = True
-        self.current_bot.save()
 
     def error(self, e):
 
@@ -117,9 +111,6 @@ class Bot:
                 "\nStopped at: " + str(now)
         self.telegram.send(start)
 
-        self.current_bot.abort = True
-        self.current_bot.running = False
-        self.current_bot.save()
         self.telegram.send(str(e))
 
         sys.exit()
@@ -237,7 +228,6 @@ class Bot:
 
         except Exception as e:
             self.error(e)
-            self.abort()
 
     def exit(self) -> bool:
 
@@ -384,53 +374,24 @@ class Bot:
 
         except Exception as e:
             self.error(e)
-            self.abort()
 
             return False
 
-    def abort(self) -> None:
-
-        if not self.bot_object.objects.get(id=self.current_bot.id).running:
-
-            self.current_bot.abort = True
-            self.current_bot.running = False
-            self.current_bot.save()
-
-            try:
-                self.exchange.futures_cancel_order_()
-            except Exception as e:
-                self.error(e)
-
-            now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-            start = "Aborted bot: " + str(self.current_bot.name) + \
-                    "\n" + "User: " + self.user.username + \
-                    "\n" + "Symbol: " + str(self.symbol) + \
-                    "\nTime frame: " + str(self.time_frame) + \
-                    "\nAborted at: " + str(now)
-            self.telegram.send(start)
-
-            sys.exit()
 
     def run(self) -> None:
 
         entry = False
-        sentinel = False
 
         while True:
 
             try:
 
                 if entry is False:
-
-                    self.abort()
-
                     # wait message from websocket when candle is closed
                     message = self.pubsub.get_message()
                     if message is not None and message['type'] == 'message':
                         message = json.loads(message['data'])
                         if message.get('status') is True:
-
-                            self.item['symbol_exchange'] = self.symbol
 
                             if self.entry(self.symbol):
                                 entry = True
@@ -438,20 +399,8 @@ class Bot:
 
                 if entry is True:
 
-                    self.abort()
-
                     if self.exit():
-                        sentinel = True
-                        break
+                        sys.exit()
 
             except Exception as e:
                 self.error(e)
-                self.abort()
-
-        # end-while-true
-        if sentinel:
-            self.abort()
-            self.current_bot.running = False
-            self.current_bot.save()
-
-            sys.exit()
