@@ -10,7 +10,7 @@ class TimeFrameAdmin(admin.ModelAdmin):
 
 
 class SymbolExchangeAdmin(admin.ModelAdmin):
-    search_fields = ['tf']
+    search_fields = ['symbol']
     list_per_page = 50
     ordering = ('id',)
     list_display = (
