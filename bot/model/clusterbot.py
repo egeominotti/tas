@@ -1,5 +1,7 @@
 import datetime
 import sys
+from time import sleep
+
 import decouple
 import json
 import redis
@@ -256,8 +258,10 @@ class ClusteringBot:
             if self.item.get('entry') is True:
 
                 # Real time indicator enabled
-                # self.indicators.compute(True)
+                self.indicators.compute(True)
                 func_exit(item=self.item)
+
+                sleep(0.5)
 
                 """
                 Stoploss Exit

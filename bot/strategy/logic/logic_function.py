@@ -34,8 +34,8 @@ def logicentry_bot_rsi_20_bollinger(item: dict) -> None:
 
 def logicexit_bot_rsi_20_bollinger(item: dict) -> None:
 
-    # indicators = item['indicators']
-    # item['candle_close'] = indicators.candle().get('close')
+    indicators = item['indicators']
+    item['candle_close'] = indicators.candle().get('close')
 
     # print("symbol: " + str(item.get('symbol_exchange'))
     #       + " Market: " + str(item.get('market'))
@@ -45,16 +45,17 @@ def logicexit_bot_rsi_20_bollinger(item: dict) -> None:
     # + " valueLowerBand:" + str(indicators.bbands(20).get('valueLowerBand'))
     # + " valueUpperBand:" + str(indicators.bbands(20).get('valueUpperBand')))
 
-    # bbands = indicators.bbands(20)
-    # valueUpperBand = bbands.get('valueUpperBand')
-    # valueLowerBand = bbands.get('valueLowerBand')
+    bbands = indicators.bbands(20)
+    valueUpperBand = bbands.get('valueUpperBand')
+    valueLowerBand = bbands.get('valueLowerBand')
+
 
     # Market Spot
     if item.get('market') == 'SPOT':
 
         if item['type'] == 0:
 
-            if item['candle_close'] >= item['entry_candle'] * item['takeprofit_value_long']:
+            if item['candle_close'] >= valueUpperBand * item['takeprofit_value_long']:
                 item['takeprofit_candle'] = item['candle_close']
                 item['takeprofit'] = True
 
@@ -68,7 +69,7 @@ def logicexit_bot_rsi_20_bollinger(item: dict) -> None:
         # Long
         if item['type'] == 0:
 
-            if item['candle_close'] >= item['entry_candle'] * item['takeprofit_value_long']:
+            if item['candle_close'] >= valueUpperBand * item['takeprofit_value_long']:
                 item['takeprofit_candle'] = item['candle_close']
                 item['takeprofit'] = True
 
@@ -79,7 +80,7 @@ def logicexit_bot_rsi_20_bollinger(item: dict) -> None:
         # Short
         else:
 
-            if item['candle_close'] <= item['entry_candle'] * item['takeprofit_value_short']:
+            if item['candle_close'] <= valueLowerBand:
                 item['takeprofit_candle'] = item['candle_close']
                 item['takeprofit'] = True
 
