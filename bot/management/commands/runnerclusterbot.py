@@ -1,7 +1,5 @@
 from threading import Thread
-from bot.model.clusterbotmultiple import ClusteringBotMultiple
-from bot.model.clusterbotsingle import ClusteringBot
-
+from bot.model.clusterbot import ClusteringBot
 from bot.models import ClusterBot, UserExchange, BotLogger
 from django.core.management import BaseCommand
 from time import sleep
@@ -13,16 +11,8 @@ logger = logging.getLogger('main')
 
 def spawnbot(instance) -> None:
 
-    # Old versione
-    # tb = ClusteringBot(
-    #     instance=instance,
-    #     userexchange=UserExchange.objects.get(user=instance.user),
-    #     logger=BotLogger,
-    #     bot_object=ClusterBot,
-    # )
-    # tb.run()
-    #
-    tb = ClusteringBotMultiple(
+
+    tb = ClusteringBot(
         instance=instance,
         userexchange=UserExchange.objects.get(user=instance.user),
         logger=BotLogger,
