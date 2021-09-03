@@ -8,14 +8,12 @@ from strategy.models import SymbolExchange
 import redis
 import logging
 import time
-import requests
 
 logger = logging.getLogger('main')
 import json
 
 r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 r.flushall()
-# client.session.mount('https://', requests.adapters.HTTPAdapter(pool_maxsize=256))
 
 LIMIT_KLINE = 348
 KEY = 'FUTURES'
@@ -64,7 +62,6 @@ def save_klines(kline):
 
 
 def send_realtime_candle_close(kline):
-
     symbol = kline['symbol']
     interval = kline['interval']
     key = symbol + "_" + interval + "_" + KEY + "_CANDLE"
