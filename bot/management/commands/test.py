@@ -34,3 +34,4 @@ class Command(BaseCommand):
             arr_flat = np.append(close_array, [klines_realtime.get('close')])
             rsi = talib.RSI(arr_flat, timeperiod=14)
             print(round(rsi[-1], 4))
+            sleep(0.2)
