@@ -56,7 +56,6 @@ class ClusteringBot:
             user=self.user,
         )
 
-
         try:
             self.telegram = Telegram()
             self.notify = self.user.telegram_notifications
@@ -149,6 +148,32 @@ class ClusteringBot:
 
                     self.item['entry_function'] = True
 
+                    if self.live:
+
+                        # Calculate quantity
+                        self.quantity = self.exchange.get_cluster_quantity(self.symbol)
+
+                        if self.item.get('type') == 0:
+
+                            # LONG
+                            if self.current_bot.market_futures:
+                                self.order = self.exchange.buy_market_futures(self.quantity, self.symbol)
+
+                            if self.current_bot.market_spot:
+                                self.order = self.exchange.buy_market_spot(self.quantity, self.symbol)
+
+                        if self.item.get('type') == 1:
+
+                            # SHORT
+                            if self.current_bot.market_futures:
+                                self.order = self.exchange.sell_market_futures(self.quantity, self.symbol)
+
+                            if self.current_bot.market_spot:
+                                self.order = self.exchange.sell_market_spot(self.quantity, self.symbol)
+
+                        self.item['entry_candle'] = self.exchange.get_order_entry_price(self.symbol,
+                                                                                        self.order.get('orderId'))
+
                     type = ''
                     if self.item.get('type') == 0:
                         # LONG
@@ -183,31 +208,6 @@ class ClusteringBot:
                         short=False,
                         long=False
                     )
-
-                    if self.live:
-
-                        # Calculate quantity
-                        self.quantity = self.exchange.get_cluster_quantity(self.symbol)
-
-                        if self.item.get('type') == 0:
-
-                            # LONG
-                            if self.current_bot.market_futures:
-                                self.order = self.exchange.buy_market_futures(self.quantity, self.symbol)
-
-                            if self.current_bot.market_spot:
-                                self.order = self.exchange.buy_market_spot(self.quantity, self.symbol)
-
-                        if self.item.get('type') == 1:
-
-                            # SHORT
-                            if self.current_bot.market_futures:
-                                self.order = self.exchange.sell_market_futures(self.quantity, self.symbol)
-
-                            if self.current_bot.market_spot:
-                                self.order = self.exchange.sell_market_spot(self.quantity, self.symbol)
-
-                        self.item['entry_candle'] = self.exchange.get_order_entry_price(self.symbol, self.order.get('orderId'))
 
                     if self.item.get('type') == 0:
                         self.logger.objects.filter(id=self.logger_instance.id) \
@@ -456,7 +456,6 @@ class ClusteringBot:
 
         # end-while-true
         if sentinel:
-
             self.abort()
             self.current_bot.running = False
             self.current_bot.save()
