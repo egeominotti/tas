@@ -81,7 +81,7 @@ def logicexit_bot_rsi_20_bollinger(item: dict) -> None:
         #Short
         else:
 
-            if item['candle_close'] <= item['entry_candle'] * item['takeprofit_value_long']:
+            if item['candle_close'] <= item['entry_candle'] * item['takeprofit_value_short']:
                 item['takeprofit_candle'] = item['candle_close']
                 item['takeprofit'] = True
 
