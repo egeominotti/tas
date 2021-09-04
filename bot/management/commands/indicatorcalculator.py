@@ -42,7 +42,7 @@ class Command(BaseCommand):
                             middleband = round(val.get('middleband'), coin.precision)
                             lowerband = round(val.get('lowerband'), coin.precision)
 
-                            if rsi < 22:
+                            if rsi < 21:
                                 message = 'Entry Possibile: ' + coin.symbol + \
                                           "\n" + 'Time Frame: ' + str(interval) + \
                                           "\n" + "Candle Close: " + str(close) + \
