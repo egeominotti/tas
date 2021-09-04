@@ -2,9 +2,6 @@ from django.core.management import BaseCommand
 from backtest.models import BackTest
 from backtest.model.backtest import BackTesting
 from threading import Thread
-import logging
-
-logger = logging.getLogger('main')
 
 
 def init():
