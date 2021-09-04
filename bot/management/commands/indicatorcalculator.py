@@ -35,11 +35,21 @@ class Command(BaseCommand):
                         val = json.loads(computed_data)
 
                         if val.get('rsi') is not None:
-                            rsi = round(val.get('rsi'), 3)
+
+                            rsi = round(val.get('rsi'), coin.precision)
+                            close = round(val.get('close'), coin.precision)
+                            upperband = round(val.get('upperband'), coin.precision)
+                            middleband = round(val.get('middleband'), coin.precision)
+                            lowerband = round(val.get('lowerband'), coin.precision)
+
                             if rsi < 22:
                                 message = 'Entry Possibile: ' + coin.symbol + \
                                           "\n" + 'Time Frame: ' + str(interval) + \
-                                          "\n" + "RSI:" + str(rsi)
+                                          "\n" + "Candle Close: " + str(close) + \
+                                          "\n" + "RSI: " + str(rsi) + \
+                                          "\n" + "Upperband: " + str(upperband) + \
+                                          "\n" + "Middleband: " + str(middleband) + \
+                                          "\n" + "Lowerband: " + str(lowerband)
                                 telegram.send(message)
 
                         ComputedData.objects.create(
