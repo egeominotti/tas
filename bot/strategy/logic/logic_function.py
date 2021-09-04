@@ -24,12 +24,12 @@ def logicentry_bot_rsi_20_bollinger(item: dict) -> None:
         item['entry'] = True
 
     # Short only in futures market
-    if item.get('market') == 'FUTURES':
-
-        # Parabolic RSI
-        if rsi > 85 and item['candle_close'] >= valueUpperBand:
-            item['type'] = 1  # type = 1 corrisponde ad una entrata short
-            item['entry'] = True
+    # if item.get('market') == 'FUTURES':
+    #
+    #     # Parabolic RSI
+    #     if rsi > 85 and item['candle_close'] >= valueUpperBand:
+    #         item['type'] = 1  # type = 1 corrisponde ad una entrata short
+    #         item['entry'] = True
 
 
 def logicexit_bot_rsi_20_bollinger(item: dict) -> None:
