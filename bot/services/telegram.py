@@ -24,7 +24,6 @@ class Telegram:
             exception = 'Error on line {}'.format(sys.exc_info()[-1].tb_lineno), type(e).__name__, e
             print(exception)
 
-
         sys.exit()
 
     def send(self, text):
