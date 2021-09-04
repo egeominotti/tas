@@ -47,7 +47,7 @@ def logicexit_bot_rsi_20_bollinger(item: dict) -> None:
 
     bbands = indicators.bbands(20)
     valueUpperBand = bbands.get('valueUpperBand')
-    valueLowerBand = bbands.get('valueLowerBand')
+    #valueLowerBand = bbands.get('valueLowerBand')
 
 
     # Market Spot
@@ -79,11 +79,11 @@ def logicexit_bot_rsi_20_bollinger(item: dict) -> None:
 
         # Short
         # else:
-        # 
+        #
         #     if item['candle_close'] <= valueLowerBand:
         #         item['takeprofit_candle'] = item['candle_close']
         #         item['takeprofit'] = True
-        # 
+        #
         #     if item['candle_close'] >= item['entry_candle'] * item['stoploss_value_short']:
         #         item['stoploss_candle'] = item['candle_close']
         #         item['stoploss'] = True
