@@ -42,8 +42,18 @@ class Command(BaseCommand):
                             middleband = round(val.get('middleband'), coin.precision)
                             lowerband = round(val.get('lowerband'), coin.precision)
 
-                            if rsi < 21:
+                            if rsi < 20:
                                 message = '‼️+ Possibile entry long: ' + coin.symbol + " " \
+                                          "\n" + 'Time Frame: ' + str(interval) + \
+                                          "\n" + "Candle Close: " + str(close) + \
+                                          "\n" + "RSI: " + str(rsi) + \
+                                          "\n" + "Upperband: " + str(upperband) + \
+                                          "\n" + "Middleband: " + str(middleband) + \
+                                          "\n" + "Lowerband: " + str(lowerband)
+                                telegram.send(message)
+
+                            if rsi > 90:
+                                message = '‼️+ Possibile entry short: ' + coin.symbol + " " \
                                           "\n" + 'Time Frame: ' + str(interval) + \
                                           "\n" + "Candle Close: " + str(close) + \
                                           "\n" + "RSI: " + str(rsi) + \
