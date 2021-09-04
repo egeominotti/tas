@@ -113,6 +113,7 @@
 
 # Links
     https://ccxt.pro/
+    https://www.npmjs.com/package/redis
 
 ## Documentazione dizionario Bot
     
