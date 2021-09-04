@@ -21,7 +21,6 @@ def init():
             thread = Thread(target=bt.run)
             thread.daemon = True
             thread.start()
-            thread.join()
 
 
 class Command(BaseCommand):

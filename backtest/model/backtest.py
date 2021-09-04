@@ -1,3 +1,5 @@
+import sys
+
 import pandas
 from backtest.models import BackTestLog, StatisticsPortfolio
 from backtest.services.computedata import compute_data
@@ -32,20 +34,22 @@ class BackTesting:
     def run(self):
 
         try:
+
             self.instance.scheduled = True
             self.instance.save()
 
-            qs = UserExchange.objects.get(user__username='egeo')
-            client = Client(qs.api_key, qs.api_secret)
+            client = Client()
 
             self.klines = client.get_historical_klines(self.symbol, self.time_frame, self.start_period, self.end_period)
             if len(self.klines) > 0:
+
                 self.instance.running = True
                 self.instance.save()
-
                 self.find_entry()
                 self.find_exit()
                 self.postprocessing()
+
+                sys.exit()
 
         except Exception as e:
             self.instance.error = True
