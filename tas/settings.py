@@ -213,12 +213,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = 'it-it'
-TIME_ZONE = 'UTC'
+LANGUAGE_CODE = 'it-IT'
+TIME_ZONE = 'Europe/Rome'
 USE_I18N = True
 USE_L10N = True
 AUTH_USER_MODEL = 'exchange.User'
-# USE_TZ = True
+USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
