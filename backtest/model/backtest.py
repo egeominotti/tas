@@ -1,10 +1,8 @@
 import sys
-
 import pandas
 from backtest.models import BackTestLog, StatisticsPortfolio
 from backtest.services.computedata import compute_data
 from binance import Client
-from bot.models import UserExchange
 
 from backtest.strategy.logic.logic_function import *
 
