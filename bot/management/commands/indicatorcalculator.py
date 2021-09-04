@@ -43,7 +43,7 @@ class Command(BaseCommand):
                             lowerband = round(val.get('lowerband'), coin.precision)
 
                             if rsi < 21:
-                                message = 'Entry Possibile: ' + coin.symbol + \
+                                message = '‼️+ Possibile entry long: ' + coin.symbol + " " \
                                           "\n" + 'Time Frame: ' + str(interval) + \
                                           "\n" + "Candle Close: " + str(close) + \
                                           "\n" + "RSI: " + str(rsi) + \
