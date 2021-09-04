@@ -52,7 +52,7 @@ class Command(BaseCommand):
                                           "\n" + "Lowerband: " + str(lowerband)
                                 telegram.send(message)
 
-                            if rsi > 90:
+                            if rsi > 88:
                                 message = '‼️+ Possibile entry short: ' + coin.symbol + " " \
                                           "\n" + 'Time Frame: ' + str(interval) + \
                                           "\n" + "Candle Close: " + str(close) + \
