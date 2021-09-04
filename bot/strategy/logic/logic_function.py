@@ -55,7 +55,7 @@ def logicexit_bot_rsi_20_bollinger(item: dict) -> None:
 
         if item['type'] == 0:
 
-            if item['candle_close'] >= valueUpperBand:
+            if item['candle_close'] >= item['entry_candle'] * item['takeprofit_value_long']:
                 item['takeprofit_candle'] = item['candle_close']
                 item['takeprofit'] = True
 
@@ -63,13 +63,14 @@ def logicexit_bot_rsi_20_bollinger(item: dict) -> None:
                 item['stoploss_candle'] = item['candle_close']
                 item['stoploss'] = True
 
+
     # Market Futures
     if item.get('market') == 'FUTURES':
 
         # Long
         if item['type'] == 0:
 
-            if item['candle_close'] >= valueUpperBand:
+            if item['candle_close'] >= item['entry_candle'] * item['takeprofit_value_long']:
                 item['takeprofit_candle'] = item['candle_close']
                 item['takeprofit'] = True
 
