@@ -17,7 +17,7 @@ class TimeFrame(CommonTrait):
 
 class SymbolExchange(CommonTrait):
     symbol = models.CharField(max_length=20, blank=False)
-    market = models.CharField(max_length=10, blank=True)
+    market = models.CharField(max_length=20, blank=True)
     precision = models.IntegerField(default=0, blank=True)
     quantity_precision = models.IntegerField(default=0, blank=True)
     exchange = models.CharField(max_length=15, blank=True)

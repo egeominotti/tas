@@ -3,6 +3,7 @@ from binance import Client
 from django.core.management import BaseCommand
 import logging
 import ccxt
+
 logger = logging.getLogger('main')
 
 
@@ -13,36 +14,35 @@ class Command(BaseCommand):
 
         SymbolExchange.objects.all().delete()
 
-        client = Client()
-        info_spot = client.get_exchange_info()
-        info_futures = client.futures_exchange_info()
+        exchanges = ['binanceusdm', 'binance']
+        for exchange in exchanges:
 
-        for coins_spot in info_spot['symbols']:
-            status = coins_spot['status']
-            if status == 'TRADING':
-                symbol = coins_spot['symbol']
-                if 'USDT' in symbol:
-                    #precision = coins_spot['pricePrecision']
-                    #quantity_precision = coins_spot['quantityPrecision']
+            exchange_id = exchange
+            exchange_class = getattr(ccxt, exchange_id)
+            exchange_instance = exchange_class({})
+            markets = exchange_instance.load_markets()
+
+            for k in markets:
+                print(exchange)
+                type_of_market = ''
+                if exchange == 'binance':
+                    type_of_market = 'SPOT'
+                if exchange == 'binanceusdm':
+                    type_of_market = 'FUTURES'
+
+                if markets[k]['quote'] == 'USDT' and markets[k]['info']['status'] == 'TRADING' and markets[k]['active']:
+
+                    # print(markets[k])
+                    # print(markets[k]['precision'])
+
+                    symbol = markets[k]['id']
+                    quantity_precision = markets[k]['precision']['price']
+                    precision = markets[k]['precision']['amount']
+
                     SymbolExchange.objects.create(
                         symbol=symbol,
-                        market='SPOT',
-                        #precision=precision,
-                        #quantity_precision = quantity_precision,
-                        exchange='BINANCE'
-                    )
-
-        for coins_futures in info_futures['symbols']:
-            status = coins_futures['status']
-            if status == 'TRADING':
-                symbol = coins_futures['symbol']
-                if 'USDT' in symbol:
-                    precision = coins_futures['pricePrecision']
-                    quantity_precision = coins_futures['quantityPrecision']
-                    SymbolExchange.objects.create(
-                        symbol=symbol,
-                        market='FUTURES',
                         precision=precision,
-                        quantity_precision = quantity_precision,
-                        exchange='BINANCE'
+                        market=type_of_market,
+                        quantity_precision=quantity_precision,
+                        exchange=exchange
                     )
