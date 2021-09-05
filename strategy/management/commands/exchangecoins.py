@@ -13,7 +13,9 @@ class Command(BaseCommand):
 
         SymbolExchange.objects.all().delete()
 
+        #exchanges = ['coinbasepro', 'kraken', 'binanceusdm', 'binance']
         exchanges = ['binanceusdm', 'binance']
+
         for exchange in exchanges:
 
             exchange_id = exchange
@@ -30,12 +32,12 @@ class Command(BaseCommand):
                     type_of_market = 'FUTURES'
 
                 if markets[k]['quote'] == 'USDT' and markets[k]['info']['status'] == 'TRADING' and markets[k]['active']:
+                    # if markets[k]['quote'] == 'USDT' and markets[k]['info']['status'] == 'TRADING' and markets[k]['active']:
+                    # print(markets[k]['precision'])
 
-                    print(markets[k]['precision'])
-
-                    symbol =                markets[k]['id']
-                    quantity_precision =    markets[k]['precision']['price']
-                    precision =             markets[k]['precision']['amount']
+                    symbol = markets[k]['id']
+                    quantity_precision = markets[k]['precision']['price']
+                    precision = markets[k]['precision']['amount']
 
                     SymbolExchange.objects.create(
                         symbol=symbol,
