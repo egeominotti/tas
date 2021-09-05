@@ -41,4 +41,5 @@ class Command(BaseCommand):
     help = 'AsyncRunnerBot'
 
     def handle(self, *args, **kwargs):
-        init()
+        pass
+        #init()
