@@ -33,9 +33,9 @@ class Command(BaseCommand):
 
                     print(markets[k]['precision'])
 
-                    symbol = markets[k]['id']
-                    quantity_precision = markets[k]['precision']['price']
-                    precision = markets[k]['precision']['amount']
+                    symbol =                markets[k]['id']
+                    quantity_precision =    markets[k]['precision']['price']
+                    precision =             markets[k]['precision']['amount']
 
                     SymbolExchange.objects.create(
                         symbol=symbol,
