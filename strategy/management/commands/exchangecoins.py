@@ -33,7 +33,7 @@ class Command(BaseCommand):
 
                 if markets[k]['quote'] == 'USDT' and markets[k]['info']['status'] == 'TRADING' and markets[k]['active']:
                     # if markets[k]['quote'] == 'USDT' and markets[k]['info']['status'] == 'TRADING' and markets[k]['active']:
-                    # print(markets[k]['precision'])
+                    print(markets[k]['precision'])
 
                     symbol = markets[k]['id']
                     quantity_precision = markets[k]['precision']['price']

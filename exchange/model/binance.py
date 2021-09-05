@@ -33,9 +33,12 @@ class ExchangeHelper:
     #     return symbols_n_precision[symbol]
 
     def current_price_coin(self, symbol) -> float:
-        # Spot API
-        # resp = requests.get('https://api.binance.com/api/v3/ticker/price?symbol=' + symbol).json()
-        resp = requests.get('https://fapi.binance.com/fapi/v1/ticker/price?symbol=' + symbol).json()
+
+        resp = 0
+        if self.bot.market_spot:
+            resp = requests.get('https://api.binance.com/api/v3/ticker/price?symbol=' + symbol).json()
+        if self.bot.market_futures:
+            resp = requests.get('https://fapi.binance.com/fapi/v1/ticker/price?symbol=' + symbol).json()
         price = float(resp['price'])
         return price
 
@@ -43,8 +46,11 @@ class ExchangeHelper:
         return self.bot.amount
 
     def get_current_balance_futures_(self, coin='USDT'):
+
         item = {}
-        for k in self.client.futures_account_balance():
+        account_balance = self.client.futures_account_balance()
+
+        for k in account_balance:
             item[k['asset']] = k['balance']
         if coin is not None:
             return float(item[coin])
