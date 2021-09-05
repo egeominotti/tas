@@ -66,16 +66,28 @@ class ClusterBotAdmin(admin.ModelAdmin):
 
 
 class BotLoggerAdmin(admin.ModelAdmin):
-    search_fields = ['bot__name']
+    search_fields = ['user']
     list_per_page = 20
     ordering = ('id',)
     list_display = (
-        'created_at', 'user', 'profit', 'start_balance', 'end_balance', 'take_profit_ratio', 'stop_loss_ratio',
+        'created_at',
+        'user',
+        'profit',
+        'start_balance',
+        'end_balance',
+        'short',
+        'long',
+        'take_profit_ratio',
+        'stop_loss_ratio',
         'entry_candle',
-        'entry_candle_date', 'take_profit',
+        'entry_candle_date',
+        'take_profit',
         'candle_take_profit',
-        'candle_take_profit_date', 'created_at',
-        'stop_loss', 'candle_stop_loss', 'candle_stop_loss_date')
+        'candle_take_profit_date',
+        'stop_loss',
+        'candle_stop_loss',
+        'candle_stop_loss_date'
+    )
     exclude = ['flgEnable', ]
 
     def has_delete_permission(self, request, obj=None):
