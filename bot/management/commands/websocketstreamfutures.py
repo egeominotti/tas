@@ -90,7 +90,7 @@ class Command(BaseCommand):
         counter = 0
 
         symbolList = []
-        for k in SymbolExchange.objects.filter(exchange='binanceusdm'):
+        for k in SymbolExchange.objects.filter(market=KEY):
             symbolList.append(k.symbol.lower())
 
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures",
