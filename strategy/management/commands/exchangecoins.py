@@ -1,5 +1,4 @@
 from strategy.models import SymbolExchange
-from binance import Client
 from django.core.management import BaseCommand
 import logging
 import ccxt
@@ -23,7 +22,7 @@ class Command(BaseCommand):
             markets = exchange_instance.load_markets()
 
             for k in markets:
-                print(exchange)
+
                 type_of_market = ''
                 if exchange == 'binance':
                     type_of_market = 'SPOT'
@@ -32,8 +31,7 @@ class Command(BaseCommand):
 
                 if markets[k]['quote'] == 'USDT' and markets[k]['info']['status'] == 'TRADING' and markets[k]['active']:
 
-                    # print(markets[k])
-                    # print(markets[k]['precision'])
+                    print(markets[k]['precision'])
 
                     symbol = markets[k]['id']
                     quantity_precision = markets[k]['precision']['price']
@@ -42,7 +40,7 @@ class Command(BaseCommand):
                     SymbolExchange.objects.create(
                         symbol=symbol,
                         precision=precision,
-                        market=type_of_market,
                         quantity_precision=quantity_precision,
+                        market=type_of_market,
                         exchange=exchange
                     )
