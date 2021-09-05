@@ -6,7 +6,7 @@ import redis
 from binance import Client
 from bot.services.telegram import Telegram
 from exchange.model.binance import BinanceHelper
-from bot.services.indicator import ClusterRealTimeIndicator
+from bot.services.indicator import Indicators
 
 # Logic of bot
 from bot.strategy.logic.logic_function import \
@@ -119,7 +119,7 @@ class TradeBot:
 
         try:
 
-            self.indicators = ClusterRealTimeIndicator(
+            self.indicators = Indicators(
                 self.current_bot,
                 symbol,
                 self.time_frame,

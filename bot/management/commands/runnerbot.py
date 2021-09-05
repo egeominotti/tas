@@ -1,5 +1,5 @@
 from threading import Thread
-from bot.model.bot import TradingBot
+from bot.model.bot import TradeBot
 from bot.models import Bot, UserExchange, BotLogger
 from django.core.management import BaseCommand
 from time import sleep
@@ -11,7 +11,7 @@ logger = logging.getLogger('main')
 
 
 def spawnbot(instance) -> None:
-    tb = TradingBot(
+    tb = TradeBot(
         instance=instance,
         userexchange=UserExchange.objects.get(user=instance.user),
         logger=BotLogger,
