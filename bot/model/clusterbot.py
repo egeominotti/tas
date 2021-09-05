@@ -7,7 +7,7 @@ import json
 import redis
 from binance import Client
 from bot.services.telegram import Telegram
-from exchange.model.binance import BinanceHelper
+from exchange.model.binance import ExchangeHelper
 from bot.services.indicator import Indicators
 from strategy.models import SymbolExchange
 
@@ -54,7 +54,7 @@ class ClusteringBot:
         self.pubsub.subscribe(self.time_frame)
         self.order = None
         self.binance_client = Client(api_key=self.userexchange.api_key, api_secret=self.userexchange.api_secret)
-        self.exchange = BinanceHelper(
+        self.exchange = ExchangeHelper(
             client=self.binance_client,
             bot=self.current_bot,
             user=self.user,
@@ -155,7 +155,7 @@ class ClusteringBot:
                     if self.live:
 
                         # Calculate quantity
-                        self.quantity = self.exchange.get_cluster_quantity(self.symbol)
+                        self.quantity = self.exchange.get_cluster_quantity(self.symbol, self.quantity_precision)
 
                         if self.item.get('type') == 0:
 

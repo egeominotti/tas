@@ -1,4 +1,5 @@
 from time import sleep
+import ccxt
 
 import decouple
 import json
@@ -15,23 +16,41 @@ logger = logging.getLogger('main')
 redis = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 KEY = 'FUTURES'
 
+
+def get_current_balance_futures_(self, coin='USDT'):
+    item = {}
+    for k in self.client.futures_account_balance():
+        item[k['asset']] = k['balance']
+    if coin is not None:
+        return float(item[coin])
+    return item
+
 class Command(BaseCommand):
     help = 'AsyncRunnerBot'
 
     def handle(self, *args, **kwargs):
 
-        symbol = 'RVNUSDT'
-        timeframe = '5m'
+        exchange_id = 'binance'
+        exchange_class = getattr(ccxt, exchange_id)
 
-        key = symbol + "_" + timeframe + "_" + KEY
-        key2 = symbol + "_" + timeframe + "_" + KEY + "_CANDLE"
+        exchange = exchange_class({
+            'apiKey': 'vyghMLzH2Pvr0TCoV11Equ9kIK2jxL6ZpDh8pyUBz4hvAWXSLWO6rBHbogQmX9lH',
+            'secret': 'yTmr8uu0w3ARIzTlYadGkWX79BlTHSybzzJeInrWcjUoygP3K7t81j4WXd8amMOM',
+            'enableRateLimit': True,
+            'options': {
+                'defaultType': 'future',  # ←-------------- quotes and 'future'
+            },
+        })
 
-        while True:
-            klines = json.loads(redis.get(key))
-            klines_realtime =  json.loads(redis.get(key2))
-            close = [double(entry[4]) for entry in klines]
-            close_array = np.asarray(close)
-            arr_flat = np.append(close_array, [klines_realtime.get('close')])
-            rsi = talib.RSI(arr_flat, timeperiod=14)
-            print(round(rsi[-1], 4))
-            print(arr_flat[-1])
+        #print(exchange.id, exchange.load_markets())
+        print(exchange.fetch_balance())
+
+        coin = 'USDT'
+        item = {}
+        for k in exchange.fetch_balance():
+            item[k['asset']] = k['balance']
+            print(item)
+        # hitbtc = ccxt.hitbtc({'verbose': True})
+        # hitbtc.fetch_balance()
+        # hitbtc.create_market_buy_order()
+        # hitbtc.create_market_sell_order()

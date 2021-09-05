@@ -3,7 +3,7 @@ from binance.enums import *
 from binance.enums import SIDE_BUY
 
 
-class BinanceHelper:
+class ExchangeHelper:
 
     def __init__(
             self,
@@ -16,21 +16,21 @@ class BinanceHelper:
         self.bot = bot
         self.leverage = self.bot.leverage
 
-    def get_cluster_quantity(self, symbol):
+    def get_cluster_quantity(self, symbol, quantity_precision):
         balance_wallet = self.get_current_balance_futures_() - 0.5
-        symbol_precision = self.get_symbol_precision(symbol)
+        #quantity_precision = self.get_symbol_precision(symbol)
         price_coin = self.current_price_coin(symbol)
-        qty = round(balance_wallet / price_coin, symbol_precision)
+        qty = round(balance_wallet / price_coin, quantity_precision)
 
         return qty
 
-    def get_symbol_precision(self, symbol):
-        symbols_n_precision = {}
-        info = self.client.futures_exchange_info()
-        for item in info['symbols']:
-            symbols_n_precision[item['symbol']] = item['quantityPrecision']
-
-        return symbols_n_precision[symbol]
+    # def get_symbol_precision(self, symbol):
+    #     symbols_n_precision = {}
+    #     info = self.client.futures_exchange_info()
+    #     for item in info['symbols']:
+    #         symbols_n_precision[item['symbol']] = item['quantityPrecision']
+    #
+    #     return symbols_n_precision[symbol]
 
     def current_price_coin(self, symbol) -> float:
         # Spot API
