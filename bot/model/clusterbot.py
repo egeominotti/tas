@@ -280,8 +280,13 @@ class ClusteringBot:
                             if self.current_bot.market_spot:
                                 self.exchange.buy_market_spot(self.quantity, self.symbol)
 
-                    self.item['end_balance'] = self.exchange.get_current_balance_futures_()
-                    profit = round(self.item['end_balance'] - self.item['start_balance'], 5)
+                    profit = 0
+                    if self.current_bot.market_futures:
+                        self.item['end_balance'] = self.exchange.get_current_balance_futures_()
+                        profit = round(self.item['end_balance'] - self.item['start_balance'], 5)
+                    if self.current_bot.market_spot:
+                        self.item['end_balance'] = self.exchange.spot_balance()
+                        profit = round(self.item['end_balance'] - self.item['start_balance'], 5)
 
                     now = datetime.datetime.now()
                     self.logger.objects.filter(id=self.logger_instance.id) \
@@ -341,8 +346,15 @@ class ClusteringBot:
                             if self.current_bot.market_spot:
                                 self.exchange.buy_market_spot(self.quantity, self.symbol)
 
-                    self.item['end_balance'] = self.exchange.get_current_balance_futures_()
-                    profit = round(self.item['end_balance'] - self.item['start_balance'], 5)
+                    profit = 0
+
+                    if self.current_bot.market_futures:
+                        self.item['end_balance'] = self.exchange.get_current_balance_futures_()
+                        profit = round(self.item['end_balance'] - self.item['start_balance'], 5)
+
+                    if self.current_bot.market_spot:
+                        self.item['end_balance'] = self.exchange.spot_balance()
+                        profit = round(self.item['end_balance'] - self.item['start_balance'], 5)
 
                     now = datetime.datetime.now()
                     self.logger.objects.filter(id=self.logger_instance.id) \
