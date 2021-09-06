@@ -114,6 +114,7 @@
 # Links
     https://ccxt.pro/
     https://www.npmjs.com/package/redis
+    https://gist.github.com/matriphe/87d6f4b4460152e3609e55348f2f8fcc
 
 ## Documentazione dizionario Bot
     
