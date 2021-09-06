@@ -1,4 +1,7 @@
 from threading import Thread
+
+import multiprocessing
+
 from bot.model.clusterbot import ClusteringBot
 from bot.models import ClusterBot, UserExchange, BotLogger
 from django.core.management import BaseCommand
@@ -25,13 +28,14 @@ def init() -> None:
         qs = ClusterBot.objects.filter(running=False, abort=False)
         if qs.count() > 0:
             for instance in qs:
-                thread = Thread(target=spawnbot, name=instance.name, args=(instance,))
-                thread.daemon = True
+                process = multiprocessing.Process(target=spawnbot, name=instance.name, args=(instance,))
+                process.daemon = True
                 instance.running = True
                 instance.save()
-                thread.start()
-                print("Sart thread: " + str(thread))
-        sleep(1)
+                process.start()
+                print("Sart process: " + str(process))
+
+        sleep(0.1)
 
 
 class Command(BaseCommand):
