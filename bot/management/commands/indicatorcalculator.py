@@ -37,11 +37,11 @@ class Command(BaseCommand):
 
                         if val.get('rsi') is not None:
 
-                            rsi = round(val.get('rsi'), coin.precision)
-                            close = round(val.get('close'), coin.precision)
-                            upperband = round(val.get('upperband'), coin.precision)
-                            middleband = round(val.get('middleband'), coin.precision)
-                            lowerband = round(val.get('lowerband'), coin.precision)
+                            rsi = round(val.get('rsi'), coin.quantity_precision)
+                            close = round(val.get('close'), coin.quantity_precision)
+                            upperband = round(val.get('upperband'), coin.quantity_precision)
+                            middleband = round(val.get('middleband'), coin.quantity_precision)
+                            lowerband = round(val.get('lowerband'), coin.quantity_precision)
 
                             # Long signal
                             if rsi <= 25 and close <= lowerband:
