@@ -16,7 +16,7 @@ class ExchangeHelper:
         self.bot = bot
         self.leverage = self.bot.leverage
 
-    def get_cluster_quantity(self, symbol):
+    def get_leveraged_quantity(self, symbol):
 
         balance_wallet = self.get_current_balance_futures_() * 0.88
         quantity_precision_live = self.get_symbol_precision(symbol)

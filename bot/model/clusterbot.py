@@ -162,7 +162,7 @@ class ClusteringBot:
                             # LONG
                             if self.current_bot.market_futures:
 
-                                self.quantity = self.exchange.get_cluster_quantity(self.symbol)
+                                self.quantity = self.exchange.get_leveraged_quantity(self.symbol)
 
                                 self.order = self.exchange.buy_market_futures(self.quantity, self.symbol)
 
@@ -174,7 +174,7 @@ class ClusteringBot:
                             # SHORT
                             if self.current_bot.market_futures:
 
-                                self.quantity = self.exchange.get_cluster_quantity(self.symbol)
+                                self.quantity = self.exchange.get_leveraged_quantity(self.symbol)
 
                                 self.order = self.exchange.sell_market_futures(self.quantity, self.symbol)
 
@@ -213,7 +213,7 @@ class ClusteringBot:
                         stop_loss_ratio=self.item.get('stoploss_ratio'),
                         take_profit_ratio=self.item.get('takeprofit_ratio'),
                         start_balance=self.item['start_balance'],
-                        coin_quantity=self.exchange.get_cluster_quantity(self.symbol),
+                        coin_quantity=self.exchange.get_leveraged_quantity(self.symbol),
                         leverage=self.exchange.leverage,
                         short=False,
                         long=False
