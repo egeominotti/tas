@@ -17,10 +17,13 @@ class ExchangeHelper:
         self.leverage = self.bot.leverage
 
     def get_cluster_quantity(self, symbol):
-        balance_wallet = self.get_current_balance_futures_() - 0.5
+
+        balance_wallet = self.get_current_balance_futures_() * 0.88
         quantity_precision_live = self.get_symbol_precision(symbol)
         price_coin = self.current_price_coin(symbol)
-        qty = round(balance_wallet / price_coin, quantity_precision_live)
+
+        total = (balance_wallet / price_coin) * self.bot.leverage
+        qty = round(total, quantity_precision_live)
 
         return qty
 

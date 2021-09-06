@@ -162,8 +162,7 @@ class ClusteringBot:
                             # LONG
                             if self.current_bot.market_futures:
 
-                                estimated_quantity = self.exchange.get_cluster_quantity(self.symbol) * 0.85
-                                self.quantity = estimated_quantity * self.exchange.leverage
+                                self.quantity = self.exchange.get_cluster_quantity(self.symbol)
 
                                 self.order = self.exchange.buy_market_futures(self.quantity, self.symbol)
 
@@ -175,8 +174,7 @@ class ClusteringBot:
                             # SHORT
                             if self.current_bot.market_futures:
 
-                                estimated_quantity = self.exchange.get_cluster_quantity(self.symbol) * 0.85
-                                self.quantity = estimated_quantity * self.exchange.leverage
+                                self.quantity = self.exchange.get_cluster_quantity(self.symbol)
 
                                 self.order = self.exchange.sell_market_futures(self.quantity, self.symbol)
 
