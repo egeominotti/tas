@@ -44,7 +44,7 @@ class Command(BaseCommand):
                             lowerband = round(val.get('lowerband'), coin.precision)
 
                             # Long signal
-                            if rsi < 25 and close <= lowerband:
+                            if close <= lowerband:
                                 now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                                 message = '‼️+ Entry Long: ' + coin.symbol + " " \
                                           "\n" + 'Time Frame: ' + str(interval) + \
@@ -57,7 +57,7 @@ class Command(BaseCommand):
                                 telegram.send(message)
 
                             # Short signal
-                            if rsi > 80 and close >= upperband:
+                            if close >= upperband:
                                 now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                                 message = '‼️+  Entry Short: ' + coin.symbol + " " \
                                           "\n" + 'Time Frame: ' + str(interval) + \
