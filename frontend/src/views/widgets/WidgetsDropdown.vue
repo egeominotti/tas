@@ -31,8 +31,8 @@
         </CCard>
       </div>
 
-      <!--
-      <div v-if="values(item.data).rsi > 75">
+
+      <div v-if="values(item.data).rsi > 70">
         <CCard>
           <CCardHeader>
              <h5>{{ item.key }} </h5>
@@ -47,7 +47,6 @@
           </CCardBody>
         </CCard>
       </div>
-      -->
 
 
     </div>
