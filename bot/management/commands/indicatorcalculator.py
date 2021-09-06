@@ -46,7 +46,7 @@ class Command(BaseCommand):
                             # Long signal
                             if rsi < 25 and close <= lowerband:
                                 now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                                message = '‼️+ Entry long: ' + coin.symbol + " " \
+                                message = '‼️+ Entry Long: ' + coin.symbol + " " \
                                           "\n" + 'Time Frame: ' + str(interval) + \
                                           "\n" + "Candle Close: " + str(close) + \
                                           "\n" + "RSI: " + str(rsi) + \
@@ -59,7 +59,7 @@ class Command(BaseCommand):
                             # Short signal
                             if rsi > 80 and close >= upperband:
                                 now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                                message = '‼️+  Entry short: ' + coin.symbol + " " \
+                                message = '‼️+  Entry Short: ' + coin.symbol + " " \
                                           "\n" + 'Time Frame: ' + str(interval) + \
                                           "\n" + "Candle Close: " + str(close) + \
                                           "\n" + "RSI: " + str(rsi) + \
