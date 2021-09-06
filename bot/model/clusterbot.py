@@ -325,7 +325,7 @@ class ClusteringBot:
                     for log in self.logger.objects.filter(user=self.user):
                         profit += log.profit
 
-                    self.current_bot.profit = round(profit, 4)
+                    self.current_bot.profit = round(profit, 3)
                     self.current_bot.save()
 
                     return True
@@ -393,7 +393,7 @@ class ClusteringBot:
                     for log in self.logger.objects.filter(user=self.user):
                         profit += log.profit
 
-                    self.current_bot.profit = round(profit, 4)
+                    self.current_bot.profit = round(profit, 3)
                     self.current_bot.save()
 
                     return True
