@@ -179,8 +179,7 @@ class ClusteringBot:
                             if self.current_bot.market_spot:
                                 self.order = self.exchange.sell_market_spot(self.quantity, self.symbol)
 
-                        self.item['entry_candle'] = self.exchange.get_order_entry_price(self.symbol,
-                                                                                        self.order.get('orderId'))
+                        self.item['entry_candle'] = self.exchange.get_order_entry_price(self.symbol,self.order.get('orderId'))
 
                     type = ''
                     if self.item.get('type') == 0:
