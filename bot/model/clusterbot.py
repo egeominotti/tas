@@ -477,6 +477,7 @@ class ClusteringBot:
 
         # end-while-true
         if sentinel:
+
             self.abort()
             self.current_bot.running = False
             self.current_bot.save()
