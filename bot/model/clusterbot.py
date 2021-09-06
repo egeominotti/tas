@@ -163,7 +163,6 @@ class ClusteringBot:
                             if self.current_bot.market_futures:
 
                                 self.quantity = self.exchange.get_leveraged_quantity(self.symbol)
-
                                 self.order = self.exchange.buy_market_futures(self.quantity, self.symbol)
 
                             if self.current_bot.market_spot:
@@ -175,7 +174,6 @@ class ClusteringBot:
                             if self.current_bot.market_futures:
 
                                 self.quantity = self.exchange.get_leveraged_quantity(self.symbol)
-
                                 self.order = self.exchange.sell_market_futures(self.quantity, self.symbol)
 
                             if self.current_bot.market_spot:
