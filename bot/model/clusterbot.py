@@ -470,10 +470,10 @@ class ClusteringBot:
                         self.error(e)
                         self.abort()
 
-            # end-while-true
-            if sentinel:
-                self.abort()
-                self.current_bot.running = False
-                self.current_bot.save()
+                    # end-while-true
+                    if sentinel:
+                        self.abort()
+                        self.current_bot.running = False
+                        self.current_bot.save()
 
-                sys.exit()
+                        sys.exit()
