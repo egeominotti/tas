@@ -156,12 +156,10 @@ class ClusteringBot:
 
                         # Calculate quantity
 
-
                         if self.item.get('type') == 0:
 
                             # LONG
                             if self.current_bot.market_futures:
-
                                 self.quantity = self.exchange.get_leveraged_quantity(self.symbol)
                                 self.order = self.exchange.buy_market_futures(self.quantity, self.symbol)
 
@@ -172,14 +170,14 @@ class ClusteringBot:
 
                             # SHORT
                             if self.current_bot.market_futures:
-
                                 self.quantity = self.exchange.get_leveraged_quantity(self.symbol)
                                 self.order = self.exchange.sell_market_futures(self.quantity, self.symbol)
 
                             if self.current_bot.market_spot:
                                 self.order = self.exchange.sell_market_spot(self.quantity, self.symbol)
 
-                        self.item['entry_candle'] = self.exchange.get_order_entry_price(self.symbol,self.order.get('orderId'))
+                        self.item['entry_candle'] = self.exchange.get_order_entry_price(self.symbol,
+                                                                                        self.order.get('orderId'))
 
                     type = ''
                     if self.item.get('type') == 0:
@@ -435,17 +433,16 @@ class ClusteringBot:
 
         while True:
 
-            try:
+            message = self.pubsub.get_message()
+            if message is not None and message['type'] == 'message':
+                message = json.loads(message['data'])
+                if message.get('status') is True:
 
-                if entry is False:
+                    try:
 
-                    self.abort()
+                        if entry is False:
 
-                    # wait message from websocket when candle is closed
-                    message = self.pubsub.get_message()
-                    if message is not None and message['type'] == 'message':
-                        message = json.loads(message['data'])
-                        if message.get('status') is True:
+                            self.abort()
 
                             for coin in self.coins:
                                 self.symbol = coin.symbol
@@ -461,28 +458,22 @@ class ClusteringBot:
                                 entry = True
                                 continue
 
-                if entry is True:
+                        if entry is True:
 
-                    self.abort()
-
-                    message = self.pubsub.get_message()
-                    if message is not None and message['type'] == 'message':
-                        message = json.loads(message['data'])
-                        if message.get('status') is True:
+                            self.abort()
 
                             if self.exit():
                                 sentinel = True
                                 break
 
-            except Exception as e:
-                self.error(e)
+                    except Exception as e:
+                        self.error(e)
+                        self.abort()
+
+            # end-while-true
+            if sentinel:
                 self.abort()
+                self.current_bot.running = False
+                self.current_bot.save()
 
-        # end-while-true
-        if sentinel:
-
-            self.abort()
-            self.current_bot.running = False
-            self.current_bot.save()
-
-            sys.exit()
+                sys.exit()
