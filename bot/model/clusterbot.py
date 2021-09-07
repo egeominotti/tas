@@ -464,9 +464,14 @@ class ClusteringBot:
 
                     self.abort()
 
-                    if self.exit():
-                        sentinel = True
-                        break
+                    message = self.pubsub.get_message()
+                    if message is not None and message['type'] == 'message':
+                        message = json.loads(message['data'])
+                        if message.get('status') is True:
+
+                            if self.exit():
+                                sentinel = True
+                                break
 
             except Exception as e:
                 self.error(e)

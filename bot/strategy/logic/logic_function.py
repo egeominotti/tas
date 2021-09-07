@@ -12,6 +12,7 @@ def logicentry_bot_rsi_20_bollinger(item: dict) -> None:
 
     rsi = indicators.rsi(14)
     bbands = indicators.bbands(20)
+    ema200 = indicators.ema(200)
 
     item['candle_close'] = indicators.candle().get('close')
 
