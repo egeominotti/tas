@@ -256,7 +256,8 @@ class ClusteringBot:
             func_exit = eval(self.func_exit.name)
             if self.item.get('entry') is True:
 
-                self.indicators.compute(True)
+                #self.indicators.compute(True)
+                self.indicators.compute(False)
                 func_exit(item=self.item)
 
                 """
