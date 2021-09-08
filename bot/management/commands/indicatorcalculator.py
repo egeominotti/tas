@@ -61,7 +61,8 @@ class Command(BaseCommand):
                                           "\n" + "Upperband: " + str(upperband) + \
                                           "\n" + "Middleband: " + str(middleband) + \
                                           "\n" + "Lowerband: " + str(lowerband) + \
-                                          "\n" + "ema200: " + str(ema200) + \
+                                          "\n" + "ema223: " + str(ema223) + \
+                                          "\n" + "ema60: " + str(ema60) + \
                                           "\n" + "Date: " + str(now)
                                 telegram.send(message)
 
