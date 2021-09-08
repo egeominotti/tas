@@ -183,6 +183,10 @@ class Command(BaseCommand):
             indicators1d.rsi(14)
 
 
+            if indicators1d.ema(26) > indicators1d.ema(200):
+                if indicators1d.candle().get('close') > indicators1d.ema(26):
+                    pass
+
 
                 # computed_data = compute_data_to_store(klines)
                 # val = json.loads(computed_data)

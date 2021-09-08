@@ -97,9 +97,9 @@ class Command(BaseCommand):
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures",
                                                                    output_default="UnicornFy")
 
-        binance_websocket_api_manager.create_stream('kline_5m', symbolList, output="UnicornFy")
-        binance_websocket_api_manager.create_stream('kline_15m', symbolList, output="UnicornFy")
-        binance_websocket_api_manager.create_stream('kline_30m', symbolList, output="UnicornFy")
+        #binance_websocket_api_manager.create_stream('kline_5m', symbolList, output="UnicornFy")
+        #binance_websocket_api_manager.create_stream('kline_15m', symbolList, output="UnicornFy")
+        #binance_websocket_api_manager.create_stream('kline_30m', symbolList, output="UnicornFy")
         binance_websocket_api_manager.create_stream('kline_1h', symbolList, output="UnicornFy")
         binance_websocket_api_manager.create_stream('kline_4h', symbolList, output="UnicornFy")
         binance_websocket_api_manager.create_stream('kline_1d', symbolList, output="UnicornFy")
