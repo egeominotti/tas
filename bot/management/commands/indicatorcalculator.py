@@ -190,6 +190,11 @@ class Command(BaseCommand):
             indicators1d.compute(False)
             indicators1d.rsi(14)
 
+            print(indicators1d.ema(26))
+            print(indicators1d.ema(200))
+            print(indicators4h.rsi(14))
+            print(indicators1d.rsi(14))
+
             if indicators1d.ema(26) > indicators1d.ema(200):
                 if indicators1d.candle().get('close') > indicators1d.ema(26):
                     if 46 < indicators1d.rsi(14) < 54:
