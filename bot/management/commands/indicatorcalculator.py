@@ -39,36 +39,42 @@ class Command(BaseCommand):
 
                             rsi = round(val.get('rsi'), coin.quantity_precision)
                             close = round(val.get('close'), coin.quantity_precision)
+                            ema200 = round(val.get('ema200'), coin.quantity_precision)
+                            ema50 = round(val.get('enma50'), coin.quantity_precision)
+                            ema5 = round(val.get('enma5'), coin.quantity_precision)
+                            ema10 = round(val.get('enma10'), coin.quantity_precision)
                             upperband = round(val.get('upperband'), coin.quantity_precision)
                             middleband = round(val.get('middleband'), coin.quantity_precision)
                             lowerband = round(val.get('lowerband'), coin.quantity_precision)
 
                             # Long signal
-                            if rsi <= 25 and close <= lowerband:
-                                now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                                message = '‼️+ Entry Long: ' + coin.symbol + " " \
-                                          "\n" + 'Time Frame: ' + str(interval) + \
-                                          "\n" + "Candle Close: " + str(close) + \
-                                          "\n" + "RSI: " + str(rsi) + \
-                                          "\n" + "Upperband: " + str(upperband) + \
-                                          "\n" + "Middleband: " + str(middleband) + \
-                                          "\n" + "Lowerband: " + str(lowerband) + \
-                                          "\n" + "Date: " + str(now)
-                                telegram.send(message)
+                            if ema200 < close:
+                                if rsi < 30 and close <= lowerband:
+                                    now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+                                    message = '‼️+ Entry Long: ' + coin.symbol + " " \
+                                              "\n" + 'Candle close: ' + str(close) + \
+                                              "\n" + 'Time Frame: ' + str(interval) + \
+                                              "\n" + "Candle Close: " + str(close) + \
+                                              "\n" + "RSI: " + str(rsi) + \
+                                              "\n" + "Upperband: " + str(upperband) + \
+                                              "\n" + "Middleband: " + str(middleband) + \
+                                              "\n" + "Lowerband: " + str(lowerband) + \
+                                              "\n" + "Date: " + str(now)
+                                    telegram.send(message)
 
                             # Short signal
-                            if rsi >= 80 and close >= upperband:
-                                now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                                message = '‼️+  Entry Short: ' + coin.symbol + " " \
-                                          "\n" + 'Time Frame: ' + str(interval) + \
-                                          "\n" + "Candle Close: " + str(close) + \
-                                          "\n" + "RSI: " + str(rsi) + \
-                                          "\n" + "Upperband: " + str(upperband) + \
-                                          "\n" + "Middleband: " + str(middleband) + \
-                                          "\n" + "Lowerband: " + str(lowerband) + \
-                                          "\n" + "Date: " + str(now)
-
-                                telegram.send(message)
+                            # if rsi >= 80 and close >= upperband:
+                            #     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+                            #     message = '‼️+  Entry Short: ' + coin.symbol + " " \
+                            #               "\n" + 'Time Frame: ' + str(interval) + \
+                            #               "\n" + "Candle Close: " + str(close) + \
+                            #               "\n" + "RSI: " + str(rsi) + \
+                            #               "\n" + "Upperband: " + str(upperband) + \
+                            #               "\n" + "Middleband: " + str(middleband) + \
+                            #               "\n" + "Lowerband: " + str(lowerband) + \
+                            #               "\n" + "Date: " + str(now)
+                            #
+                            #     telegram.send(message)
 
                         ComputedData.objects.create(
                             key=key,

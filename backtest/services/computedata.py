@@ -54,32 +54,29 @@ def compute_data_to_store(klines):
     hammer = ta.CDLHAMMER(open_array, high_array, low_array, close_array)
     adx = ta.ADX(high_array, low_array, close_array, timeperiod=14)
 
-    computed_data = []
-    lenght = len(close)
-
     diz = {
         'open': float(open[-1]),
         'high': float(high[-1]),
         'low': float(low[-1]),
         'close': float(close[-1]),
-        # 'ema5': ema5[-1],
+        'ema5': float(ema5[-1]),
         # 'ema7': ema7[-1],
         # 'ema8': ema8[-1],
         # 'ema9': ema9[-1],
-        # 'ema10': ema10[-1],
+        'ema10': float(ema10[-1]),
         # 'ema12': ema12[-1],
         # 'ema13': ema13[-1],
         # 'ema21': ema21[-1],
         # 'ema24': ema24[-1],
-        # 'ema30': ema30[-1],
+        'ema30': float(ema30[-1]),
         # 'ema34': ema34[-1],
         # 'ema42': ema42[-1],
-        # 'ema50': ema50[-1],
+        'ema50': float(ema50[-1]),
         # 'ema55': ema55[-1],
         # 'ema60': ema60[-1],
-        # 'ema100': ema100[-1],
+        'ema100': float(ema100[-1]),
         # 'ema189': ema189[-1],
-        # 'ema200': ema200[-1],
+        'ema200': float(ema200[-1]),
         # 'ema223': ema223[-1],
         # 'ema288': ema288[-1],
         # 'ema365': ema365[-1],
