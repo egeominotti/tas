@@ -40,6 +40,8 @@ class Command(BaseCommand):
                             rsi = round(val.get('rsi'), coin.quantity_precision)
                             close = round(val.get('close'), coin.quantity_precision)
                             ema200 = round(val.get('ema200'), coin.quantity_precision)
+                            ema223 = round(val.get('ema223'), coin.quantity_precision)
+                            ema60 = round(val.get('ema60'), coin.quantity_precision)
                             ema50 = round(val.get('ema50'), coin.quantity_precision)
                             ema5 = round(val.get('ema5'), coin.quantity_precision)
                             ema10 = round(val.get('ema10'), coin.quantity_precision)
@@ -47,12 +49,28 @@ class Command(BaseCommand):
                             middleband = round(val.get('middleband'), coin.quantity_precision)
                             lowerband = round(val.get('lowerband'), coin.quantity_precision)
 
+                            # Short signal
+                            if ema60 == ema223:
+                                now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+                                message = '‼️+ Entry Short: ' + coin.symbol + " " \
+                                          "\n" + 'Candle close: ' + str(close) + \
+                                          "\n" + 'Time Frame: ' + str(interval) + \
+                                          "\n" + 'Ema 60 == ema 223: ' + str(interval) + \
+                                          "\n" + "Candle Close: " + str(close) + \
+                                          "\n" + "RSI: " + str(rsi) + \
+                                          "\n" + "Upperband: " + str(upperband) + \
+                                          "\n" + "Middleband: " + str(middleband) + \
+                                          "\n" + "Lowerband: " + str(lowerband) + \
+                                          "\n" + "ema200: " + str(ema200) + \
+                                          "\n" + "Date: " + str(now)
+                                telegram.send(message)
+
                             # Long signal
                             if ema200 < close:
                                 if rsi < 30 and close <= lowerband:
                                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                                     message = '‼️+ Entry Long: ' + coin.symbol + " " \
-                                              "\n" + 'Candle close: ' + str(close) + \
+                                                                                 "\n" + 'Candle close: ' + str(close) + \
                                               "\n" + 'Time Frame: ' + str(interval) + \
                                               "\n" + "Candle Close: " + str(close) + \
                                               "\n" + "RSI: " + str(rsi) + \
@@ -68,7 +86,7 @@ class Command(BaseCommand):
                                 if rsi > 70 and close >= upperband:
                                     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                                     message = '‼️+ Entry Short: ' + coin.symbol + " " \
-                                              "\n" + 'Candle close: ' + str(close) + \
+                                                                                  "\n" + 'Candle close: ' + str(close) + \
                                               "\n" + 'Time Frame: ' + str(interval) + \
                                               "\n" + "Candle Close: " + str(close) + \
                                               "\n" + "RSI: " + str(rsi) + \
