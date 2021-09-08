@@ -14,7 +14,6 @@ logger = logging.getLogger('main')
 import json
 
 r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
-r.flushall()
 
 LIMIT_KLINE = 348
 KEY = 'SPOT'
