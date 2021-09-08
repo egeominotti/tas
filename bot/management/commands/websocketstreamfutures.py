@@ -15,22 +15,19 @@ import json
 r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 r.flushall()
 
-LIMIT_KLINE = 499
+LIMIT_KLINE = 500
 KEY = 'FUTURES'
 
-
 def init_system(symbol, interval):
+
     client = Client()
     key = symbol + "_" + interval + "_" + KEY
-    print(key)
     klines = client \
         .futures_klines(symbol=symbol,
                         interval=interval,
                         limit=LIMIT_KLINE)
     del klines[-1]
-    print(len(klines))
     r.set(key, json.dumps(klines))
-
     # Close thread
     sys.exit()
 
@@ -105,12 +102,13 @@ class Command(BaseCommand):
 
         counter = 0
 
-        timelist = ['5m', '1h', '4h', '1d']
+        timelist = ['1h', '4h', '1d']
         symbolList = []
 
         for k in SymbolExchange.objects.filter(market=KEY):
             symbolList.append(k.symbol.lower())
             for interval in timelist:
+
                 thread = Thread(target=init_system,
                                 args=(k.symbol, interval))
                 thread.daemon = True
@@ -118,11 +116,10 @@ class Command(BaseCommand):
 
                 time.sleep(0.1)
 
-        print("FINISH")
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures",
                                                                    output_default="UnicornFy")
 
-        binance_websocket_api_manager.create_stream('kline_5m', symbolList, output="UnicornFy")
+        #binance_websocket_api_manager.create_stream('kline_5m', symbolList, output="UnicornFy")
         binance_websocket_api_manager.create_stream('kline_1h', symbolList, output="UnicornFy")
         binance_websocket_api_manager.create_stream('kline_4h', symbolList, output="UnicornFy")
         binance_websocket_api_manager.create_stream('kline_1d', symbolList, output="UnicornFy")
