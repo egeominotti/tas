@@ -58,17 +58,17 @@ def save_klines(kline):
         r.set(key, json.dumps(pre_kline))
 
     # La prima volta scarico i dati dato che non esiste la chiave
-    else:
-
-        client = Client()
-
-        klines = client \
-            .futures_klines(symbol=symbol,
-                            interval=interval,
-                            endTime=kline_start_time,
-                            limit=LIMIT_KLINE)
-
-        r.set(key, json.dumps(klines))
+    # else:
+    #
+    #     client = Client()
+    #
+    #     klines = client \
+    #         .futures_klines(symbol=symbol,
+    #                         interval=interval,
+    #                         endTime=kline_start_time,
+    #                         limit=LIMIT_KLINE)
+    #
+    #     r.set(key, json.dumps(klines))
 
     # Close thread
     sys.exit()
