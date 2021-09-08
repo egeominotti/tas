@@ -20,68 +20,68 @@ LIMIT_KLINE = 348
 KEY = 'SPOT'
 
 
-def save_klines(kline):
-    symbol = kline['symbol']
-    interval = kline['interval']
-    kline_start_time = kline['kline_start_time']
-
-    key = symbol + "_" + interval + "_" + KEY
-
-    # Solo la prima volta scarico i dati la seconda volta li accodo
-    if r.exists(key):
-
-        old_value = r.get(key)
-        pre_kline = json.loads(old_value)
-
-        if len(pre_kline) == 350:
-            pre_kline.pop(0)
-
-        kline_from_websocket = [kline['kline_start_time'],
-                                kline['open_price'],
-                                kline['high_price'],
-                                kline['low_price'],
-                                kline['close_price'], ]
-
-        pre_kline.append(kline_from_websocket)
-        r.set(key, json.dumps(pre_kline))
-
-    # La prima volta scarico i dati dato che non esiste la chiave
-    else:
-
-        client = Client()
-
-        klines = client \
-            .get_klines(symbol=symbol,
-                        interval=interval,
-                        endTime=kline_start_time,
-                        limit=LIMIT_KLINE)
-
-        r.set(key, json.dumps(klines))
-
-    # Close thread
-    sys.exit()
-
-
-def send_realtime_candle_close(kline):
-
-    symbol = kline['symbol']
-    interval = kline['interval']
-    key = symbol + "_" + interval + "_" + KEY + "_CANDLE"
-
-    close_price = kline['close_price']
-    open_price = kline['open_price']
-    high_price = kline['high_price']
-    low_price = kline['low_price']
-
-    candle = {'close': float(close_price),
-              'open': float(open_price),
-              'low': float(low_price),
-              'high': float(high_price)}
-
-    r.set(key, json.dumps(candle))
-
-    # Close thread
-    sys.exit()
+# def save_klines(kline):
+#     symbol = kline['symbol']
+#     interval = kline['interval']
+#     kline_start_time = kline['kline_start_time']
+#
+#     key = symbol + "_" + interval + "_" + KEY
+#
+#     # Solo la prima volta scarico i dati la seconda volta li accodo
+#     if r.exists(key):
+#
+#         old_value = r.get(key)
+#         pre_kline = json.loads(old_value)
+#
+#         if len(pre_kline) == 350:
+#             pre_kline.pop(0)
+#
+#         kline_from_websocket = [kline['kline_start_time'],
+#                                 kline['open_price'],
+#                                 kline['high_price'],
+#                                 kline['low_price'],
+#                                 kline['close_price'], ]
+#
+#         pre_kline.append(kline_from_websocket)
+#         r.set(key, json.dumps(pre_kline))
+#
+#     # La prima volta scarico i dati dato che non esiste la chiave
+#     else:
+#
+#         client = Client()
+#
+#         klines = client \
+#             .get_klines(symbol=symbol,
+#                         interval=interval,
+#                         endTime=kline_start_time,
+#                         limit=LIMIT_KLINE)
+#
+#         r.set(key, json.dumps(klines))
+#
+#     # Close thread
+#     sys.exit()
+#
+#
+# def send_realtime_candle_close(kline):
+#
+#     symbol = kline['symbol']
+#     interval = kline['interval']
+#     key = symbol + "_" + interval + "_" + KEY + "_CANDLE"
+#
+#     close_price = kline['close_price']
+#     open_price = kline['open_price']
+#     high_price = kline['high_price']
+#     low_price = kline['low_price']
+#
+#     candle = {'close': float(close_price),
+#               'open': float(open_price),
+#               'low': float(low_price),
+#               'high': float(high_price)}
+#
+#     r.set(key, json.dumps(candle))
+#
+#     # Close thread
+#     sys.exit()
 
 
 class Command(BaseCommand):

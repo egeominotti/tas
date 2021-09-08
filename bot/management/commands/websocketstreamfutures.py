@@ -13,7 +13,7 @@ logger = logging.getLogger('main')
 import json
 
 r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
-r.flushall()
+
 
 LIMIT_KLINE = 500
 KEY = 'FUTURES'
@@ -34,6 +34,7 @@ def init_system(symbol, interval):
 
 
 def save_klines(kline):
+
     symbol = kline['symbol']
     interval = kline['interval']
     kline_start_time = kline['kline_start_time']
@@ -101,6 +102,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
+        #r.flushall()
         counter = 0
 
         timelist = ['1h', '4h', '1d']
