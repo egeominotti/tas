@@ -90,16 +90,26 @@ class Command(BaseCommand):
 
         counter = 0
 
+        client = Client()
+
+        timelist = ['1h','4h','1d']
         symbolList = []
+
         for k in SymbolExchange.objects.filter(market=KEY):
             symbolList.append(k.symbol.lower())
+            for interval in timelist:
+
+                key = k.symbol + "_" + interval + "_" + KEY
+                klines = client \
+                    .futures_klines(symbol=k.symbol,
+                                    interval=interval,
+                                    limit=LIMIT_KLINE)
+                del klines[-1]
+                r.set(key, json.dumps(klines))
+
 
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures",
                                                                    output_default="UnicornFy")
-
-        #binance_websocket_api_manager.create_stream('kline_5m', symbolList, output="UnicornFy")
-        #binance_websocket_api_manager.create_stream('kline_15m', symbolList, output="UnicornFy")
-        #binance_websocket_api_manager.create_stream('kline_30m', symbolList, output="UnicornFy")
         binance_websocket_api_manager.create_stream('kline_1h', symbolList, output="UnicornFy")
         binance_websocket_api_manager.create_stream('kline_4h', symbolList, output="UnicornFy")
         binance_websocket_api_manager.create_stream('kline_1d', symbolList, output="UnicornFy")
