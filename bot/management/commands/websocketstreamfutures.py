@@ -15,12 +15,26 @@ import json
 r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 r.flushall()
 
-LIMIT_KLINE = 348
+LIMIT_KLINE = 998
 KEY = 'FUTURES'
 
 
-def save_klines(kline):
+def init_system(symbol, interval):
+    client = Client()
+    key = symbol + "_" + interval + "_" + KEY
+    print(key)
+    klines = client \
+        .futures_klines(symbol=symbol,
+                        interval=interval,
+                        limit=LIMIT_KLINE)
+    del klines[-1]
+    r.set(key, json.dumps(klines))
 
+    # Close thread
+    sys.exit()
+
+
+def save_klines(kline):
     symbol = kline['symbol']
     interval = kline['interval']
     kline_start_time = kline['kline_start_time']
@@ -90,26 +104,24 @@ class Command(BaseCommand):
 
         counter = 0
 
-        client = Client()
-
-        timelist = ['1h','4h','1d']
+        timelist = ['5m', '1h', '4h', '1d']
         symbolList = []
 
         for k in SymbolExchange.objects.filter(market=KEY):
             symbolList.append(k.symbol.lower())
             for interval in timelist:
+                thread = Thread(target=init_system,
+                                args=(k.symbol, interval))
+                thread.daemon = True
+                thread.start()
 
-                key = k.symbol + "_" + interval + "_" + KEY
-                klines = client \
-                    .futures_klines(symbol=k.symbol,
-                                    interval=interval,
-                                    limit=LIMIT_KLINE)
-                del klines[-1]
-                r.set(key, json.dumps(klines))
+                time.sleep(0.3)
 
-
+        print("FINISH")
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures",
                                                                    output_default="UnicornFy")
+
+        binance_websocket_api_manager.create_stream('kline_5m', symbolList, output="UnicornFy")
         binance_websocket_api_manager.create_stream('kline_1h', symbolList, output="UnicornFy")
         binance_websocket_api_manager.create_stream('kline_4h', symbolList, output="UnicornFy")
         binance_websocket_api_manager.create_stream('kline_1d', symbolList, output="UnicornFy")
