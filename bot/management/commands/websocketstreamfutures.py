@@ -20,6 +20,7 @@ KEY = 'FUTURES'
 
 
 def save_klines(kline):
+
     symbol = kline['symbol']
     interval = kline['interval']
     kline_start_time = kline['kline_start_time']
@@ -97,6 +98,8 @@ class Command(BaseCommand):
                                                                    output_default="UnicornFy")
 
         binance_websocket_api_manager.create_stream('kline_5m', symbolList, output="UnicornFy")
+        binance_websocket_api_manager.create_stream('kline_1h', symbolList, output="UnicornFy")
+        binance_websocket_api_manager.create_stream('kline_4h', symbolList, output="UnicornFy")
 
         while True:
 
