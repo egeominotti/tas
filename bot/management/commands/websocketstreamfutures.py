@@ -15,7 +15,7 @@ import json
 r = redis.Redis(host=decouple.config('REDIS_HOST'), port=6379, db=0)
 r.flushall()
 
-LIMIT_KLINE = 998
+LIMIT_KLINE = 499
 KEY = 'FUTURES'
 
 
@@ -28,6 +28,7 @@ def init_system(symbol, interval):
                         interval=interval,
                         limit=LIMIT_KLINE)
     del klines[-1]
+    print(len(klines))
     r.set(key, json.dumps(klines))
 
     # Close thread
@@ -47,7 +48,7 @@ def save_klines(kline):
         old_value = r.get(key)
         pre_kline = json.loads(old_value)
 
-        if len(pre_kline) == 350:
+        if len(pre_kline) == 500:
             pre_kline.pop(0)
 
         kline_from_websocket = [kline['kline_start_time'],
@@ -115,7 +116,7 @@ class Command(BaseCommand):
                 thread.daemon = True
                 thread.start()
 
-                time.sleep(0.3)
+                time.sleep(0.1)
 
         print("FINISH")
         binance_websocket_api_manager = BinanceWebSocketApiManager(exchange="binance.com-futures",
