@@ -114,7 +114,6 @@ class Command(BaseCommand):
 
                 thread = Thread(target=init_system,
                                 args=(k.symbol, interval))
-                thread.daemon = True
                 thread.start()
 
                 time.sleep(0.1)
@@ -140,27 +139,28 @@ class Command(BaseCommand):
 
                 if oldest_stream_data_from_stream_buffer is not None:
                     try:
+                        pass
                         # if not oldest_stream_data_from_stream_buffer['kline']['is_closed']:
                         #     thread = Thread(target=send_realtime_candle_close,
                         #                     args=(oldest_stream_data_from_stream_buffer['kline'],))
                         #     thread.daemon = True
                         #     thread.start()
 
-                        if oldest_stream_data_from_stream_buffer['event_time'] >= \
-                                oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
-                            if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
-
-                                thread = Thread(target=save_klines,
-                                                args=(oldest_stream_data_from_stream_buffer['kline'],))
-                                thread.daemon = True
-                                thread.start()
-
-                                counter += 1
-
-                                if len(symbolList) == counter:
-                                    r.publish(oldest_stream_data_from_stream_buffer['kline']['interval'],
-                                              json.dumps({'status': True}))
-                                    counter = 0
+                        # if oldest_stream_data_from_stream_buffer['event_time'] >= \
+                        #         oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
+                        #     if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
+                        #
+                        #         thread = Thread(target=save_klines,
+                        #                         args=(oldest_stream_data_from_stream_buffer['kline'],))
+                        #         thread.daemon = True
+                        #         thread.start()
+                        #
+                        #         counter += 1
+                        #
+                        #         if len(symbolList) == counter:
+                        #             r.publish(oldest_stream_data_from_stream_buffer['kline']['interval'],
+                        #                       json.dumps({'status': True}))
+                        #             counter = 0
 
                     except KeyError:
                         pass
