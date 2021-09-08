@@ -30,7 +30,7 @@ def init_system(symbol, interval):
     r.set(key, json.dumps(klines))
 
     # Close thread
-    sys.exit()
+    #sys.exit()
 
 
 def save_klines(kline):
