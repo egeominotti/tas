@@ -28,6 +28,7 @@ def init_system(symbol, interval):
                         limit=LIMIT_KLINE)
     del klines[-1]
     r.set(key, json.dumps(klines))
+
     # Close thread
     sys.exit()
 
