@@ -132,7 +132,6 @@ class Command(BaseCommand):
             )
 
             if indicators1d.ema(26) > indicators1d.ema(200):
-                if indicators1d.candle().get('close') > indicators1d.ema(26):
                     if 46 < indicators1d.rsi(14) < 54:
                         if indicators4h.rsi(14) < 37.5 and indicators1h.rsi(14) < 31:
                             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
@@ -142,75 +141,85 @@ class Command(BaseCommand):
                                       "\n" + "Date: " + str(now)
                             telegram.send(message)
 
-                # computed_data = compute_data_to_store(klines)
-                # val = json.loads(computed_data)
-                #
-                # if val.get('rsi') is not None:
-                #
-                #     rsi = round(val.get('rsi'), coin.quantity_precision)
-                #     close = round(val.get('close'), coin.quantity_precision)
-                #     ema200 = round(val.get('ema200'), coin.quantity_precision)
-                #     ema223 = round(val.get('ema223'), coin.quantity_precision)
-                #     ema60 = round(val.get('ema60'), coin.quantity_precision)
-                #     ema50 = round(val.get('ema50'), coin.quantity_precision)
-                #     ema5 = round(val.get('ema5'), coin.quantity_precision)
-                #     ema10 = round(val.get('ema10'), coin.quantity_precision)
-                #     upperband = round(val.get('upperband'), coin.quantity_precision)
-                #     middleband = round(val.get('middleband'), coin.quantity_precision)
-                #     lowerband = round(val.get('lowerband'), coin.quantity_precision)
-                #
-                #     # Short signal
-                #     if ema60 == ema223:
-                #         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                #         message = '‼️+ Entry Short: ' + coin.symbol + " " \
-                #                                                       "\n" + 'Candle close: ' + str(close) + \
-                #                   "\n" + 'Time Frame: ' + str(interval) + \
-                #                   "\n" + 'Ema 60 == ema 223: ' + str(interval) + \
-                #                   "\n" + "Candle Close: " + str(close) + \
-                #                   "\n" + "RSI: " + str(rsi) + \
-                #                   "\n" + "Upperband: " + str(upperband) + \
-                #                   "\n" + "Middleband: " + str(middleband) + \
-                #                   "\n" + "Lowerband: " + str(lowerband) + \
-                #                   "\n" + "ema223: " + str(ema223) + \
-                #                   "\n" + "ema60: " + str(ema60) + \
-                #                   "\n" + "Date: " + str(now)
-                #         telegram.send(message)
-                #
-                #     # Long signal
-                #     if ema200 < close:
-                #         if rsi < 30 and close <= lowerband:
-                #             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                #             message = '‼️+ Entry Long: ' + coin.symbol + " " \
-                #                                                          "\n" + 'Candle close: ' + str(close) + \
-                #                       "\n" + 'Time Frame: ' + str(interval) + \
-                #                       "\n" + "Candle Close: " + str(close) + \
-                #                       "\n" + "RSI: " + str(rsi) + \
-                #                       "\n" + "Upperband: " + str(upperband) + \
-                #                       "\n" + "Middleband: " + str(middleband) + \
-                #                       "\n" + "Lowerband: " + str(lowerband) + \
-                #                       "\n" + "ema200: " + str(ema200) + \
-                #                       "\n" + "Date: " + str(now)
-                #             telegram.send(message)
-                #
-                #     # Short signal
-                #     if ema200 > close:
-                #         if rsi > 70 and close >= upperband:
-                #             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                #             message = '‼️+ Entry Short: ' + coin.symbol + " " \
-                #                                                           "\n" + 'Candle close: ' + str(close) + \
-                #                       "\n" + 'Time Frame: ' + str(interval) + \
-                #                       "\n" + "Candle Close: " + str(close) + \
-                #                       "\n" + "RSI: " + str(rsi) + \
-                #                       "\n" + "Upperband: " + str(upperband) + \
-                #                       "\n" + "Middleband: " + str(middleband) + \
-                #                       "\n" + "Lowerband: " + str(lowerband) + \
-                #                       "\n" + "ema200: " + str(ema200) + \
-                #                       "\n" + "Date: " + str(now)
-                #             telegram.send(message)
-                #
-                # ComputedData.objects.create(
-                #     key=key,
-                #     symbol=coin.symbol,
-                #     time_frame=interval,
-                #     data=computed_data
-                # )
+            if indicators1d.ema(26) < indicators1d.ema(200):
+                    if 46 < indicators1d.rsi(14) < 54:
+                        if indicators4h.rsi(14) > 65 and indicators1h.rsi(14) > 70:
+                            now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+                            message = '‼️+ Entry Short: ' + coin.symbol + " " \
+                                                                          "\n" + 'Candle close: ' + str(
+                                indicators1d.candle().get('close')) + \
+                                      "\n" + "Date: " + str(now)
+                            telegram.send(message)
+
+            # computed_data = compute_data_to_store(klines)
+            # val = json.loads(computed_data)
+            #
+            # if val.get('rsi') is not None:
+            #
+            #     rsi = round(val.get('rsi'), coin.quantity_precision)
+            #     close = round(val.get('close'), coin.quantity_precision)
+            #     ema200 = round(val.get('ema200'), coin.quantity_precision)
+            #     ema223 = round(val.get('ema223'), coin.quantity_precision)
+            #     ema60 = round(val.get('ema60'), coin.quantity_precision)
+            #     ema50 = round(val.get('ema50'), coin.quantity_precision)
+            #     ema5 = round(val.get('ema5'), coin.quantity_precision)
+            #     ema10 = round(val.get('ema10'), coin.quantity_precision)
+            #     upperband = round(val.get('upperband'), coin.quantity_precision)
+            #     middleband = round(val.get('middleband'), coin.quantity_precision)
+            #     lowerband = round(val.get('lowerband'), coin.quantity_precision)
+            #
+            #     # Short signal
+            #     if ema60 == ema223:
+            #         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+            #         message = '‼️+ Entry Short: ' + coin.symbol + " " \
+            #                                                       "\n" + 'Candle close: ' + str(close) + \
+            #                   "\n" + 'Time Frame: ' + str(interval) + \
+            #                   "\n" + 'Ema 60 == ema 223: ' + str(interval) + \
+            #                   "\n" + "Candle Close: " + str(close) + \
+            #                   "\n" + "RSI: " + str(rsi) + \
+            #                   "\n" + "Upperband: " + str(upperband) + \
+            #                   "\n" + "Middleband: " + str(middleband) + \
+            #                   "\n" + "Lowerband: " + str(lowerband) + \
+            #                   "\n" + "ema223: " + str(ema223) + \
+            #                   "\n" + "ema60: " + str(ema60) + \
+            #                   "\n" + "Date: " + str(now)
+            #         telegram.send(message)
+            #
+            #     # Long signal
+            #     if ema200 < close:
+            #         if rsi < 30 and close <= lowerband:
+            #             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+            #             message = '‼️+ Entry Long: ' + coin.symbol + " " \
+            #                                                          "\n" + 'Candle close: ' + str(close) + \
+            #                       "\n" + 'Time Frame: ' + str(interval) + \
+            #                       "\n" + "Candle Close: " + str(close) + \
+            #                       "\n" + "RSI: " + str(rsi) + \
+            #                       "\n" + "Upperband: " + str(upperband) + \
+            #                       "\n" + "Middleband: " + str(middleband) + \
+            #                       "\n" + "Lowerband: " + str(lowerband) + \
+            #                       "\n" + "ema200: " + str(ema200) + \
+            #                       "\n" + "Date: " + str(now)
+            #             telegram.send(message)
+            #
+            #     # Short signal
+            #     if ema200 > close:
+            #         if rsi > 70 and close >= upperband:
+            #             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+            #             message = '‼️+ Entry Short: ' + coin.symbol + " " \
+            #                                                           "\n" + 'Candle close: ' + str(close) + \
+            #                       "\n" + 'Time Frame: ' + str(interval) + \
+            #                       "\n" + "Candle Close: " + str(close) + \
+            #                       "\n" + "RSI: " + str(rsi) + \
+            #                       "\n" + "Upperband: " + str(upperband) + \
+            #                       "\n" + "Middleband: " + str(middleband) + \
+            #                       "\n" + "Lowerband: " + str(lowerband) + \
+            #                       "\n" + "ema200: " + str(ema200) + \
+            #                       "\n" + "Date: " + str(now)
+            #             telegram.send(message)
+            #
+            # ComputedData.objects.create(
+            #     key=key,
+            #     symbol=coin.symbol,
+            #     time_frame=interval,
+            #     data=computed_data
+            # )
