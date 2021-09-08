@@ -127,6 +127,14 @@ class Indicators:
 
         return 0
 
+    def supertrend(self, period, multiplier=3):
+
+        atr = talib.ATR(self.high_array, self.low_array, self.close_array, period=period)
+        basic_upperband = (self.high_array + self.low_array / 2) + (multiplier + atr)
+        basic_lowerband = (self.high_array + self.low_array / 2) - (multiplier + atr)
+
+        print(basic_lowerband)
+
     def bbands(self, period=20, backtrack=-1):
 
         if len(self.close_array) >= period and self.close_array is not None:
@@ -182,11 +190,16 @@ class Command(BaseCommand):
             indicators1d.compute(False)
             indicators1d.rsi(14)
 
-
             if indicators1d.ema(26) > indicators1d.ema(200):
                 if indicators1d.candle().get('close') > indicators1d.ema(26):
-                    print("ok")
+                    if 46 < indicators1d.rsi(14) < 54:
+                        if indicators4h.rsi(14) < 37.5 and indicators1d.rsi(14) < 31:
 
+                            now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+                            message = '‼️+ Entry Short: ' + coin.symbol + " " \
+                                      "\n" + 'Candle close: ' + str(indicators1d.candle().get('close')) + \
+                                      "\n" + "Date: " + str(now)
+                            telegram.send(message)
 
                 # computed_data = compute_data_to_store(klines)
                 # val = json.loads(computed_data)
