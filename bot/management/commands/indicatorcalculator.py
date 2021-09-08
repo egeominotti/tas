@@ -79,20 +79,6 @@ class Command(BaseCommand):
                                               "\n" + "Date: " + str(now)
                                     telegram.send(message)
 
-                            # Short signal
-                            # if rsi >= 80 and close >= upperband:
-                            #     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                            #     message = '‼️+  Entry Short: ' + coin.symbol + " " \
-                            #               "\n" + 'Time Frame: ' + str(interval) + \
-                            #               "\n" + "Candle Close: " + str(close) + \
-                            #               "\n" + "RSI: " + str(rsi) + \
-                            #               "\n" + "Upperband: " + str(upperband) + \
-                            #               "\n" + "Middleband: " + str(middleband) + \
-                            #               "\n" + "Lowerband: " + str(lowerband) + \
-                            #               "\n" + "Date: " + str(now)
-                            #
-                            #     telegram.send(message)
-
                         ComputedData.objects.create(
                             key=key,
                             symbol=coin.symbol,
