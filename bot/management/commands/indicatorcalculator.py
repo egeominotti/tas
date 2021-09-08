@@ -185,7 +185,7 @@ class Command(BaseCommand):
 
             if indicators1d.ema(26) > indicators1d.ema(200):
                 if indicators1d.candle().get('close') > indicators1d.ema(26):
-                    pass
+                    print("ok")
 
 
                 # computed_data = compute_data_to_store(klines)
