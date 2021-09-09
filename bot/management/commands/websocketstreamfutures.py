@@ -30,14 +30,14 @@ def init_system(symbol, interval):
     r.set(key, json.dumps(klines))
 
     # Close thread
-    #sys.exit()
+    sys.exit()
 
 
 def save_klines(kline):
 
     symbol = kline['symbol']
     interval = kline['interval']
-    kline_start_time = kline['kline_start_time']
+    #kline_start_time = kline['kline_start_time']
 
     key = symbol + "_" + interval + "_" + KEY
 
@@ -146,21 +146,21 @@ class Command(BaseCommand):
                         #     thread.daemon = True
                         #     thread.start()
 
-                        # if oldest_stream_data_from_stream_buffer['event_time'] >= \
-                        #         oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
-                        #     if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
-                        #
-                        #         thread = Thread(target=save_klines,
-                        #                         args=(oldest_stream_data_from_stream_buffer['kline'],))
-                        #         thread.daemon = True
-                        #         thread.start()
-                        #
-                        #         counter += 1
-                        #
-                        #         if len(symbolList) == counter:
-                        #             r.publish(oldest_stream_data_from_stream_buffer['kline']['interval'],
-                        #                       json.dumps({'status': True}))
-                        #             counter = 0
+                        if oldest_stream_data_from_stream_buffer['event_time'] >= \
+                                oldest_stream_data_from_stream_buffer['kline']['kline_close_time']:
+                            if oldest_stream_data_from_stream_buffer['kline']['is_closed']:
+
+                                thread = Thread(target=save_klines,
+                                                args=(oldest_stream_data_from_stream_buffer['kline'],))
+                                thread.daemon = True
+                                thread.start()
+
+                                counter += 1
+
+                                if len(symbolList) == counter:
+                                    r.publish(oldest_stream_data_from_stream_buffer['kline']['interval'],
+                                              json.dumps({'status': True}))
+                                    counter = 0
 
                     except KeyError:
                         pass
