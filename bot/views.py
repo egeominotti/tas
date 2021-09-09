@@ -10,6 +10,10 @@ telegram = Telegram()
 def webhook_tradingview(request):
     if request.method == 'POST':
         data = json.loads(request.data)
-        telegram.send(data)
+
+        exchange = data.get('exchange')
+        ticker = data.get('ticker')
+        text = exchange + " " + ticker
+        telegram.send(text)
 
         return JsonResponse({})
