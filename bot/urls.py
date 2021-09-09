@@ -4,6 +4,7 @@ from bot.API.v0.StrategyBot.views import StrategyBotList, StrategyBotCreate
 from bot.API.v0.UserEchange.views import UserExchangeList, UserExchangeCreate, UserExchangeDestroy
 from bot.API.v0.BotLogger.views import BotLoggerList
 from bot.API.v0.ComputeData.views import ComputedDataList
+from bot.views import webhook_tradingview
 
 urlpatterns = [
 
@@ -28,4 +29,6 @@ urlpatterns = [
 
     # ComputedData
     path('api/v0/computedata/list', ComputedDataList.as_view()),
+
+    path('api/webhook/tradingview', webhook_tradingview)
 ]
