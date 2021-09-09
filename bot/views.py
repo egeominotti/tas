@@ -125,12 +125,19 @@ def webhook_tradingview(request):
 
     if request.method == 'POST':
 
+        userexchange = UserExchange.objects.all()
         data = json.loads(request.body)
 
-
+        id = data.get('id')
+        action = data.get('action')
         exchange = data.get('exchange')
         ticker = data.get('ticker')
         time = data.get('time')
+
+        data = {
+            "ETHPERP": "ETHUSDT",
+            "BTCPERP": "BTCUSDT"
+        }
 
         market = ''
         if 'PERP' in ticker:
@@ -138,14 +145,14 @@ def webhook_tradingview(request):
         else:
             market = 'SPOT'
 
-        for user in UserExchange.objects.all():
+        for user in userexchange:
             print(user)
             print(user.api_secret)
             cl = Client(api_key=user.api_key, api_secret=user.api_secret)
             ex = ExchangeHelper(cl, leverage)
+            ex.get_leveraged_quantity(data[ticker])
 
-
-        text = "Hi, from TradingView signal: " + exchange + " " + ticker + " " + str(time)
+        text = "Hi, from TradingView signal: " + exchange + " " + ticker + " " + str(time) + " "
         telegram.send(text)
 
         return JsonResponse({})
