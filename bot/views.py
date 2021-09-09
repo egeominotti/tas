@@ -3,10 +3,11 @@ from django.http import JsonResponse
 from bot.services.telegram import Telegram
 from django.views.decorators.csrf import csrf_exempt
 from binance import Client
-from bot.models import Bot, UserExchange
+from bot.models import UserExchange
 import requests
 
 telegram = Telegram()
+
 
 class ExchangeHelper:
 
@@ -20,7 +21,7 @@ class ExchangeHelper:
 
     def get_leveraged_quantity(self, symbol):
 
-        balance_wallet = self.get_current_balance_futures_() * 0.50
+        balance_wallet = self.get_current_balance_futures_() * 0.30
         quantity_precision_live = self.get_symbol_precision(symbol)
         price_coin = self.current_price_coin(symbol)
 
@@ -40,9 +41,9 @@ class ExchangeHelper:
     def current_price_coin(self, symbol) -> float:
 
         resp = 0
-        #if self.bot.market_spot:
+        # if self.bot.market_spot:
         #    resp = requests.get('https://api.binance.com/api/v3/ticker/price?symbol=' + symbol).json()
-        #if self.bot.market_futures:
+        # if self.bot.market_futures:
         resp = requests.get('https://fapi.binance.com/fapi/v1/ticker/price?symbol=' + symbol).json()
         price = float(resp['price'])
         return price
@@ -114,16 +115,19 @@ class ExchangeHelper:
             quantity=quantity,
         )
 
-    def get_order_entry_price(self, symbol, orderId):
-        return float(self.client.futures_get_order(symbol=symbol, orderId=orderId).get('avgPrice'))
-
-
-leverage = 10
 
 @csrf_exempt
 def webhook_tradingview(request):
-
     if request.method == 'POST':
+
+        """
+        id :
+        ->
+            ES -> Entry Short
+            CS -> Close Short
+            EL -> Entry Long
+            CL -> Close Long
+        """
 
         userexchange = UserExchange.objects.all()
         data = json.loads(request.body)
@@ -139,18 +143,29 @@ def webhook_tradingview(request):
             "BTCPERP": "BTCUSDT"
         }
 
-        market = ''
-        if 'PERP' in ticker:
-            market = 'FUTURES'
-        else:
-            market = 'SPOT'
+        # market = ''
+        # if 'PERP' in ticker:
+        #     market = 'FUTURES'
+        # else:
+        #     market = 'SPOT'
 
         for user in userexchange:
-            print(user)
-            print(user.api_secret)
+
             cl = Client(api_key=user.api_key, api_secret=user.api_secret)
-            ex = ExchangeHelper(cl, leverage)
-            ex.get_leveraged_quantity(data[ticker])
+            ex = ExchangeHelper(cl, 10)
+            quantity = ex.get_leveraged_quantity(data[ticker])
+
+            if id == 'ES':
+                ex.sell_market_futures(quantity, ticker)
+
+            if id == 'EL':
+                ex.buy_market_futures(quantity, ticker)
+
+            if id == 'CS':
+                ex.buy_market_futures(quantity, ticker)
+
+            if id == 'CL':
+                ex.sell_market_futures(quantity, ticker)
 
         text = "Hi, from TradingView signal: " + exchange + " " + ticker + " " + str(time) + " "
         telegram.send(text)
