@@ -1,9 +1,11 @@
 import json
+import datetime
 from django.http import JsonResponse
 from bot.services.telegram import Telegram
 from django.views.decorators.csrf import csrf_exempt
 from binance import Client
 from bot.models import UserExchange
+from binance.enums import *
 import requests
 
 telegram = Telegram()
@@ -21,7 +23,7 @@ class ExchangeHelper:
 
     def get_leveraged_quantity(self, symbol):
 
-        balance_wallet = self.get_current_balance_futures_() * 0.30
+        balance_wallet = self.get_current_balance_futures_() * 0.50
         quantity_precision_live = self.get_symbol_precision(symbol)
         price_coin = self.current_price_coin(symbol)
 
@@ -120,6 +122,7 @@ class ExchangeHelper:
 def webhook_tradingview(request):
     if request.method == 'POST':
 
+        entry_text = ''
         """
         id :
         ->
@@ -128,20 +131,20 @@ def webhook_tradingview(request):
             EL -> Entry Long
             CL -> Close Long
         """
+        combination = {
+            "ETHPERP": "ETHUSDT",
+            "BTCPERP": "BTCUSDT"
+        }
 
         userexchange = UserExchange.objects.all()
+        print(userexchange)
         data = json.loads(request.body)
 
         id = data.get('id')
         action = data.get('action')
         exchange = data.get('exchange')
-        ticker = data.get('ticker')
+        ticker = combination[data.get('ticker')]
         time = data.get('time')
-
-        data = {
-            "ETHPERP": "ETHUSDT",
-            "BTCPERP": "BTCUSDT"
-        }
 
         # market = ''
         # if 'PERP' in ticker:
@@ -150,24 +153,46 @@ def webhook_tradingview(request):
         #     market = 'SPOT'
 
         for user in userexchange:
-
+            print(user)
             cl = Client(api_key=user.api_key, api_secret=user.api_secret)
             ex = ExchangeHelper(cl, 5)
-            quantity = ex.get_leveraged_quantity(data[ticker])
+            quantity = ex.get_leveraged_quantity(ticker)
+            print(quantity)
 
             if id == 'ES':
                 ex.sell_market_futures(quantity, ticker)
 
+                now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+                entry_text = "Entry Short: " + \
+                             "\n" + "User: " + user.username + \
+                             "\n" + "Ticker: " + str(ticker) + \
+                             "\nDate: " + str(now)
+
             if id == 'EL':
                 ex.buy_market_futures(quantity, ticker)
+                now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+                entry_text = "Entry Long: " + \
+                             "\n" + "User: " + user.username + \
+                             "\n" + "Ticker: " + str(ticker) + \
+                             "\nDate: " + str(now)
 
             if id == 'CS':
                 ex.buy_market_futures(quantity, ticker)
+                now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+                entry_text = "Exit Short: " + \
+                             "\n" + "User: " + user.username + \
+                             "\n" + "Ticker: " + str(ticker) + \
+                             "\nDate: " + str(now)
 
             if id == 'CL':
                 ex.sell_market_futures(quantity, ticker)
 
-        text = "Hi, from TradingView signal: " + exchange + " " + ticker + " " + str(time) + " "
-        telegram.send(text)
+                now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+                entry_text = "Exit Long: " + \
+                             "\n" + "User: " + user.username + \
+                             "\n" + "Ticker: " + str(ticker) + \
+                             "\nDate: " + str(now)
+
+        telegram.send(entry_text)
 
         return JsonResponse({})
