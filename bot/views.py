@@ -152,7 +152,7 @@ def webhook_tradingview(request):
         for user in userexchange:
 
             cl = Client(api_key=user.api_key, api_secret=user.api_secret)
-            ex = ExchangeHelper(cl, 10)
+            ex = ExchangeHelper(cl, 5)
             quantity = ex.get_leveraged_quantity(data[ticker])
 
             if id == 'ES':
