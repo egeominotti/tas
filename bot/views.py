@@ -13,4 +13,4 @@ def webhook_tradingview(request):
     data = json.loads(request.body)
     telegram.send(entry_text)
 
-    return JsonResponse(data)
+    return JsonResponse({'test': 1})
