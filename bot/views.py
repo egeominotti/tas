@@ -160,39 +160,43 @@ def webhook_tradingview(request):
             print(quantity)
 
             if id == 'ES':
+
                 ex.sell_market_futures(quantity, ticker)
 
                 now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                entry_text = "Entry Short: " + \
-                             "\n" + "User: " + user.username + \
+                entry_text = "Entry Short: 📉" + \
+                             "\n" + "User: " + user.user.username + \
                              "\n" + "Ticker: " + str(ticker) + \
                              "\nDate: " + str(now)
 
             if id == 'EL':
+
                 ex.buy_market_futures(quantity, ticker)
                 now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                entry_text = "Entry Long: " + \
-                             "\n" + "User: " + user.username + \
+                entry_text = "Entry Long: 📈 " + \
+                             "\n" + "User: " + user.user.username + \
                              "\n" + "Ticker: " + str(ticker) + \
                              "\nDate: " + str(now)
 
             if id == 'CS':
+
                 ex.buy_market_futures(quantity, ticker)
                 now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                entry_text = "Exit Short: " + \
-                             "\n" + "User: " + user.username + \
+                entry_text = "Exit Short: ✅ " + \
+                             "\n" + "User: " + user.user.username + \
                              "\n" + "Ticker: " + str(ticker) + \
                              "\nDate: " + str(now)
 
             if id == 'CL':
+
                 ex.sell_market_futures(quantity, ticker)
 
                 now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                entry_text = "Exit Long: " + \
-                             "\n" + "User: " + user.username + \
+                entry_text = "Exit Long: ✅ " + \
+                             "\n" + "User: " + user.user.username + \
                              "\n" + "Ticker: " + str(ticker) + \
                              "\nDate: " + str(now)
 
-        telegram.send(entry_text)
+            telegram.send(entry_text)
 
         return JsonResponse({})
