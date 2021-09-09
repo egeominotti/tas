@@ -1,5 +1,8 @@
 import json
 import datetime
+import sys
+from threading import Thread
+
 from django.http import JsonResponse
 from bot.services.telegram import Telegram
 from django.views.decorators.csrf import csrf_exempt
@@ -118,6 +121,52 @@ class ExchangeHelper:
         )
 
 
+def trading(id, user, ticker):
+
+    entry_text = ''
+
+    cl = Client(api_key=user.api_key, api_secret=user.api_secret)
+    ex = ExchangeHelper(cl, 10)
+    quantity = ex.get_leveraged_quantity(ticker)
+
+    if id == 'ES':
+        ex.sell_market_futures(quantity, ticker)
+
+        now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+        entry_text = "Entry Short: 📉" + \
+                     "\n" + "User: " + user.user.username + \
+                     "\n" + "Ticker: " + str(ticker) + \
+                     "\nDate: " + str(now)
+
+    if id == 'EL':
+        ex.buy_market_futures(quantity, ticker)
+        now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+        entry_text = "Entry Long: 📈 " + \
+                     "\n" + "User: " + user.user.username + \
+                     "\n" + "Ticker: " + str(ticker) + \
+                     "\nDate: " + str(now)
+
+    if id == 'CS':
+        ex.buy_market_futures(quantity, ticker)
+        now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+        entry_text = "Exit Short: ✅ " + \
+                     "\n" + "User: " + user.user.username + \
+                     "\n" + "Ticker: " + str(ticker) + \
+                     "\nDate: " + str(now)
+
+    if id == 'CL':
+        ex.sell_market_futures(quantity, ticker)
+
+        now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+        entry_text = "Exit Long: ✅ " + \
+                     "\n" + "User: " + user.user.username + \
+                     "\n" + "Ticker: " + str(ticker) + \
+                     "\nDate: " + str(now)
+
+    telegram.send(entry_text)
+    sys.exit(1)
+
+
 @csrf_exempt
 def webhook_tradingview(request):
     if request.method == 'POST':
@@ -141,10 +190,10 @@ def webhook_tradingview(request):
         data = json.loads(request.body)
 
         id = data.get('id')
-        action = data.get('action')
-        exchange = data.get('exchange')
+        # action = data.get('action')
+        # exchange = data.get('exchange')
         ticker = combination[data.get('ticker')]
-        time = data.get('time')
+        # time = data.get('time')
 
         # market = ''
         # if 'PERP' in ticker:
@@ -153,48 +202,9 @@ def webhook_tradingview(request):
         #     market = 'SPOT'
 
         for user in userexchange:
-            cl = Client(api_key=user.api_key, api_secret=user.api_secret)
-            ex = ExchangeHelper(cl, 5)
-            quantity = ex.get_leveraged_quantity(ticker)
-
-            if id == 'ES':
-
-                ex.sell_market_futures(quantity, ticker)
-
-                now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                entry_text = "Entry Short: 📉" + \
-                             "\n" + "User: " + user.user.username + \
-                             "\n" + "Ticker: " + str(ticker) + \
-                             "\nDate: " + str(now)
-
-            if id == 'EL':
-
-                ex.buy_market_futures(quantity, ticker)
-                now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                entry_text = "Entry Long: 📈 " + \
-                             "\n" + "User: " + user.user.username + \
-                             "\n" + "Ticker: " + str(ticker) + \
-                             "\nDate: " + str(now)
-
-            if id == 'CS':
-
-                ex.buy_market_futures(quantity, ticker)
-                now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                entry_text = "Exit Short: ✅ " + \
-                             "\n" + "User: " + user.user.username + \
-                             "\n" + "Ticker: " + str(ticker) + \
-                             "\nDate: " + str(now)
-
-            if id == 'CL':
-
-                ex.sell_market_futures(quantity, ticker)
-
-                now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-                entry_text = "Exit Long: ✅ " + \
-                             "\n" + "User: " + user.user.username + \
-                             "\n" + "Ticker: " + str(ticker) + \
-                             "\nDate: " + str(now)
-
-            telegram.send(entry_text)
+            thread = Thread(target=trading,
+                            args=(id, user, ticker))
+            thread.daemon = True
+            thread.start()
 
         return JsonResponse({})
