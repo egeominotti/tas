@@ -153,11 +153,9 @@ def webhook_tradingview(request):
         #     market = 'SPOT'
 
         for user in userexchange:
-            print(user)
             cl = Client(api_key=user.api_key, api_secret=user.api_secret)
             ex = ExchangeHelper(cl, 5)
             quantity = ex.get_leveraged_quantity(ticker)
-            print(quantity)
 
             if id == 'ES':
 
