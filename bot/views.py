@@ -13,7 +13,7 @@ def webhook_tradingview(request):
 
         exchange = data.get('exchange')
         ticker = data.get('ticker')
-        text = exchange + " " + ticker
+        text = "Hi, from tradingview signal" + exchange + " " + ticker
         telegram.send(text)
 
         return JsonResponse({})
