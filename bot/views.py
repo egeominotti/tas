@@ -171,6 +171,8 @@ def trading(id, user, ticker):
 def webhook_tradingview(request):
     if request.method == 'POST':
 
+        entry_text = "Data body: " + str(request.body)
+        telegram.send(entry_text)
         """
         id :
         ->
