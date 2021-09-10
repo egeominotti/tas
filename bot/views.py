@@ -125,66 +125,71 @@ class ExchangeHelper:
 
 def trading(id, user, ticker):
 
-    entry_text = ''
+    try:
+        entry_text = ''
 
-    cl = Client(api_key=user.api_key, api_secret=user.api_secret)
-    ex = ExchangeHelper(cl, 25)
+        cl = Client(api_key=user.api_key, api_secret=user.api_secret)
+        ex = ExchangeHelper(cl, 25)
 
 
-    if id == 'ES':
+        if id == 'ES':
 
-        quantity = ex.get_leveraged_quantity(ticker)
-        ex.sell_market_futures(quantity, ticker)
+            quantity = ex.get_leveraged_quantity(ticker)
+            ex.sell_market_futures(quantity, ticker)
 
-        balance = ex.get_current_balance_futures_()
-        now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-        entry_text = "Entry Short: 📉" + \
-                     "\n" + "User: " + user.user.username + \
-                     "\n" + "Balance: " + str(balance) + \
-                     "\n" + "Ticker: " + str(ticker) + \
-                     "\nDate: " + str(now)
+            balance = ex.get_current_balance_futures_()
+            now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+            entry_text = "Entry Short: 📉" + \
+                         "\n" + "User: " + user.user.username + \
+                         "\n" + "Balance: " + str(balance) + \
+                         "\n" + "Ticker: " + str(ticker) + \
+                         "\nDate: " + str(now)
 
-    if id == 'EL':
+        if id == 'EL':
 
-        quantity = ex.get_leveraged_quantity(ticker)
-        ex.buy_market_futures(quantity, ticker)
+            quantity = ex.get_leveraged_quantity(ticker)
+            ex.buy_market_futures(quantity, ticker)
 
-        balance = ex.get_current_balance_futures_()
-        now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-        entry_text = "Entry Long: 📈 " + \
-                     "\n" + "User: " + user.user.username + \
-                     "\n" + "Balance: " + str(balance) + \
-                     "\n" + "Ticker: " + str(ticker) + \
-                     "\nDate: " + str(now)
+            balance = ex.get_current_balance_futures_()
+            now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+            entry_text = "Entry Long: 📈 " + \
+                         "\n" + "User: " + user.user.username + \
+                         "\n" + "Balance: " + str(balance) + \
+                         "\n" + "Ticker: " + str(ticker) + \
+                         "\nDate: " + str(now)
 
-    if id == 'CS':
+        if id == 'CS':
 
-        quantity = float(cl.futures_get_all_orders(symbol=ticker,limit=1).get('origQty'))
-        ex.buy_market_futures(quantity, ticker)
+            quantity = float(cl.futures_get_all_orders(symbol=ticker,limit=1).get('origQty'))
+            ex.buy_market_futures(quantity, ticker)
 
-        balance = ex.get_current_balance_futures_()
-        now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-        entry_text = "Exit Short: ✅ " + \
-                     "\n" + "User: " + user.user.username + \
-                     "\n" + "Balance: " + str(balance) + \
-                     "\n" + "Ticker: " + str(ticker) + \
-                     "\nDate: " + str(now)
+            balance = ex.get_current_balance_futures_()
+            now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+            entry_text = "Exit Short: ✅ " + \
+                         "\n" + "User: " + user.user.username + \
+                         "\n" + "Balance: " + str(balance) + \
+                         "\n" + "Ticker: " + str(ticker) + \
+                         "\nDate: " + str(now)
 
-    if id == 'CL':
+        if id == 'CL':
 
-        quantity = float(cl.futures_get_all_orders(symbol=ticker,limit=1).get('origQty'))
-        ex.sell_market_futures(quantity, ticker)
+            quantity = float(cl.futures_get_all_orders(symbol=ticker,limit=1).get('origQty'))
+            ex.sell_market_futures(quantity, ticker)
 
-        balance = ex.get_current_balance_futures_()
-        now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-        entry_text = "Exit Long: ✅ " + \
-                     "\n" + "User: " + user.user.username + \
-                     "\n" + "Balance: " + str(balance) + \
-                     "\n" + "Ticker: " + str(ticker) + \
-                     "\nDate: " + str(now)
+            balance = ex.get_current_balance_futures_()
+            now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+            entry_text = "Exit Long: ✅ " + \
+                         "\n" + "User: " + user.user.username + \
+                         "\n" + "Balance: " + str(balance) + \
+                         "\n" + "Ticker: " + str(ticker) + \
+                         "\nDate: " + str(now)
 
-    telegram.send(entry_text)
-    sys.exit(1)
+        telegram.send(entry_text)
+        sys.exit(1)
+
+    except Exception as e:
+        entry_text = "Error: " + str(e)
+        telegram.send(entry_text)
 
 
 @csrf_exempt
