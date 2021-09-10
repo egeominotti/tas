@@ -126,9 +126,10 @@ def trading(id, user, ticker):
 
     cl = Client(api_key=user.api_key, api_secret=user.api_secret)
     ex = ExchangeHelper(cl, 10)
-    quantity = ex.get_leveraged_quantity(ticker)
+
 
     if id == 'ES':
+        quantity = ex.get_leveraged_quantity(ticker)
         ex.sell_market_futures(quantity, ticker)
 
         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
@@ -138,6 +139,7 @@ def trading(id, user, ticker):
                      "\nDate: " + str(now)
 
     if id == 'EL':
+        quantity = ex.get_leveraged_quantity(ticker)
         ex.buy_market_futures(quantity, ticker)
         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
         entry_text = "Entry Long: 📈 " + \
@@ -146,6 +148,7 @@ def trading(id, user, ticker):
                      "\nDate: " + str(now)
 
     if id == 'CS':
+        quantity = ex.get_leveraged_quantity(ticker)
         ex.buy_market_futures(quantity, ticker)
         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
         entry_text = "Exit Short: ✅ " + \
@@ -154,6 +157,7 @@ def trading(id, user, ticker):
                      "\nDate: " + str(now)
 
     if id == 'CL':
+        quantity = ex.get_leveraged_quantity(ticker)
         ex.sell_market_futures(quantity, ticker)
 
         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
@@ -172,8 +176,6 @@ def webhook_tradingview(request):
 
         body = request.body.decode('utf-8')
 
-        entry_text = "Data body: " + str(body)
-        telegram.send(entry_text)
         """
         id :
         ->
@@ -192,9 +194,6 @@ def webhook_tradingview(request):
 
             userexchange = UserExchange.objects.all()
             data = json.loads(body)
-
-            entry_text = "Data body: " + str(data)
-            telegram.send(entry_text)
 
             if data.get('passphrase') == 'mimmo':
 
