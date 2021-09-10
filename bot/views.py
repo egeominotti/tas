@@ -54,7 +54,6 @@ class ExchangeHelper:
         return price
 
     def get_current_balance_futures_(self, coin='USDT'):
-
         item = {}
         account_balance = self.client.futures_account_balance()
 
@@ -127,9 +126,9 @@ def trading(id, user, ticker):
     cl = Client(api_key=user.api_key, api_secret=user.api_secret)
     ex = ExchangeHelper(cl, 25)
 
+    quantity = ex.get_leveraged_quantity(ticker)
 
     if id == 'ES':
-        quantity = ex.get_leveraged_quantity(ticker)
         ex.sell_market_futures(quantity, ticker)
 
         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
@@ -139,7 +138,6 @@ def trading(id, user, ticker):
                      "\nDate: " + str(now)
 
     if id == 'EL':
-        quantity = ex.get_leveraged_quantity(ticker)
         ex.buy_market_futures(quantity, ticker)
         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
         entry_text = "Entry Long: 📈 " + \
@@ -148,7 +146,6 @@ def trading(id, user, ticker):
                      "\nDate: " + str(now)
 
     if id == 'CS':
-        quantity = ex.get_leveraged_quantity(ticker)
         ex.buy_market_futures(quantity, ticker)
         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
         entry_text = "Exit Short: ✅ " + \
@@ -157,7 +154,6 @@ def trading(id, user, ticker):
                      "\nDate: " + str(now)
 
     if id == 'CL':
-        quantity = ex.get_leveraged_quantity(ticker)
         ex.sell_market_futures(quantity, ticker)
 
         now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
@@ -196,9 +192,6 @@ def webhook_tradingview(request):
             data = json.loads(body)
 
             if data.get('passphrase') == 'mimmo':
-
-                entry_text = "Data body: " + str(data)
-                telegram.send(entry_text)
 
                 id = data.get('id')
                 ticker = combination[data.get('ticker')]
