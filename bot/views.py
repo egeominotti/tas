@@ -3,6 +3,8 @@ import datetime
 import sys
 from threading import Thread
 
+import decouple
+import redis
 from django.http import JsonResponse
 from bot.services.telegram import Telegram
 from django.views.decorators.csrf import csrf_exempt
