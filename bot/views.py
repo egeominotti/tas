@@ -135,7 +135,7 @@ def trading(id, user, ticker):
     try:
 
         entry_text = ''
-        key = user + "_" + ticker
+        key = user.user.username + "_" + ticker
         cl = Client(api_key=user.api_key, api_secret=user.api_secret)
         ex = ExchangeHelper(cl, 1)
 
