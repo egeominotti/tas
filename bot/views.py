@@ -144,7 +144,7 @@ def trading(id, user, ticker):
                          "\n" + "Ticker: " + str(ticker) + \
                          "\nDate: " + str(now)
 
-            r.set(key, json.dumps({"quantity": float(quantity)}))
+            r.set(key, json.dumps({"quantity": float(quantity), "start_balance": float(balance)}))
 
         if id == 'EL':
 
@@ -159,14 +159,14 @@ def trading(id, user, ticker):
                          "\n" + "Ticker: " + str(ticker) + \
                          "\nDate: " + str(now)
 
-            r.set(key, json.dumps({"quantity": float(quantity)}))
+            r.set(key, json.dumps({"quantity": float(quantity), "start_balance": float(balance)}))
 
         if id == 'CS':
 
             value = json.loads(r.get(key))
             ex.buy_market_futures(value.get('quantity'), ticker)
 
-            balance = ex.get_current_balance_futures_()
+            balance = ex.get_current_balance_futures_() - value.get('start_balance')
 
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
             entry_text = "Exit Short: ✅ " + \
@@ -179,9 +179,10 @@ def trading(id, user, ticker):
         if id == 'CL':
 
             value = json.loads(r.get(key))
-            ex.buy_market_futures(value.get('quantity'), ticker)
+            ex.sell_market_futures(value.get('quantity'), ticker)
 
-            balance = ex.get_current_balance_futures_()
+            balance = ex.get_current_balance_futures_() - value.get('start_balance')
+
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 
             entry_text = "Exit Long: ✅ " + \
