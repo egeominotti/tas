@@ -124,6 +124,14 @@ class ExchangeHelper:
 
 
 def trading(id, user, ticker):
+    """
+
+    :param id:
+    :param user:
+    :param ticker:
+    :return:
+    """
+
     try:
 
         entry_text = ''
@@ -132,7 +140,6 @@ def trading(id, user, ticker):
         ex = ExchangeHelper(cl, 1)
 
         if id == 'ES':
-
             quantity = ex.get_leveraged_quantity(ticker)
             ex.sell_market_futures(quantity, ticker)
 
@@ -147,7 +154,6 @@ def trading(id, user, ticker):
             r.set(key, json.dumps({"quantity": float(quantity), "start_balance": float(balance)}))
 
         if id == 'EL':
-
             quantity = ex.get_leveraged_quantity(ticker)
             ex.buy_market_futures(quantity, ticker)
 
@@ -162,7 +168,6 @@ def trading(id, user, ticker):
             r.set(key, json.dumps({"quantity": float(quantity), "start_balance": float(balance)}))
 
         if id == 'CS':
-
             value = json.loads(r.get(key))
             ex.buy_market_futures(value.get('quantity'), ticker)
 
@@ -177,7 +182,6 @@ def trading(id, user, ticker):
                          "\nDate: " + str(now)
 
         if id == 'CL':
-
             value = json.loads(r.get(key))
             ex.sell_market_futures(value.get('quantity'), ticker)
 
