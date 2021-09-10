@@ -129,7 +129,7 @@ def trading(id, user, ticker):
         entry_text = ''
 
         cl = Client(api_key=user.api_key, api_secret=user.api_secret)
-        ex = ExchangeHelper(cl, 25)
+        ex = ExchangeHelper(cl, 1)
 
 
         if id == 'ES':
