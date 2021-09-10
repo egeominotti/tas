@@ -125,7 +125,6 @@ class ExchangeHelper:
 
 def trading(id, user, ticker):
     """
-
     :param id:
     :param user:
     :param ticker:
@@ -140,7 +139,6 @@ def trading(id, user, ticker):
         ex = ExchangeHelper(cl, 1)
 
         if id == 'ES':
-
             quantity = ex.get_leveraged_quantity(ticker)
             ex.sell_market_futures(quantity, ticker)
 
@@ -152,7 +150,8 @@ def trading(id, user, ticker):
                          "\n" + "Ticker: " + str(ticker) + \
                          "\nDate: " + str(now)
 
-            r.set(key, json.dumps({"quantity": float(quantity), "start_balance": float(balance)}))
+            dict = {"quantity": float(quantity), "start_balance": float(balance)}
+            r.set(key, json.dumps(dict))
 
         if id == 'EL':
 
@@ -167,20 +166,20 @@ def trading(id, user, ticker):
                          "\n" + "Ticker: " + str(ticker) + \
                          "\nDate: " + str(now)
 
-            r.set(key, json.dumps({"quantity": float(quantity), "start_balance": float(balance)}))
+            dict = {"quantity": float(quantity), "start_balance": float(balance)}
+            r.set(key, json.dumps(dict))
 
         if id == 'CS':
 
             value = json.loads(r.get(key))
             ex.buy_market_futures(value.get('quantity'), ticker)
 
-            balance = ex.get_current_balance_futures_() - value.get('start_balance')
+            balance = round(ex.get_current_balance_futures_() - value.get('start_balance'), 3)
 
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
             entry_text = "Exit Short: ✅ " + \
                          "\n" + "User: " + user.user.username + \
-                         "\n" + "Balance: " + str(balance) + \
-                         "\n" + "quantity: " + str(value.get('quantity')) + \
+                         "\n" + "Final Balance: " + str(balance) + \
                          "\n" + "Ticker: " + str(ticker) + \
                          "\nDate: " + str(now)
 
@@ -189,14 +188,13 @@ def trading(id, user, ticker):
             value = json.loads(r.get(key))
             ex.sell_market_futures(value.get('quantity'), ticker)
 
-            balance = ex.get_current_balance_futures_() - value.get('start_balance')
+            balance = round(ex.get_current_balance_futures_() - value.get('start_balance'), 3)
 
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 
             entry_text = "Exit Long: ✅ " + \
                          "\n" + "User: " + user.user.username + \
-                         "\n" + "Balance: " + str(balance) + \
-                         "\n" + "quantity: " + str(value.get('quantity')) + \
+                         "\n" + "Final Balance: " + str(balance) + \
                          "\n" + "Ticker: " + str(ticker) + \
                          "\nDate: " + str(now)
 
