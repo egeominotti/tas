@@ -170,7 +170,9 @@ def trading(id, user, ticker):
 def webhook_tradingview(request):
     if request.method == 'POST':
 
-        entry_text = "Data body: " + str(request.body.decode('utf-8'))
+        body = request.body.decode('utf-8')
+
+        entry_text = "Data body: " + str(body)
         telegram.send(entry_text)
         """
         id :
@@ -189,7 +191,10 @@ def webhook_tradingview(request):
             }
 
             userexchange = UserExchange.objects.all()
-            data = json.loads(request.body.decode('utf-8'))
+            data = json.loads(body)
+
+            entry_text = "Data body: " + str(data)
+            telegram.send(entry_text)
 
             if data.get('passphrase') == 'mimmo':
 
@@ -197,9 +202,10 @@ def webhook_tradingview(request):
                 telegram.send(entry_text)
 
                 id = data.get('id')
+                ticker = combination[data.get('ticker')]
                 # action = data.get('action')
                 # exchange = data.get('exchange')
-                ticker = combination[data.get('ticker')]
+
                 # time = data.get('time')
 
                 # market = ''
