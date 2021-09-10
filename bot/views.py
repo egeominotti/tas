@@ -136,7 +136,7 @@ def trading(id, user, ticker):
         entry_text = ''
         key = user.user.username + "_" + ticker
         cl = Client(api_key=user.api_key, api_secret=user.api_secret)
-        ex = ExchangeHelper(cl, 1)
+        ex = ExchangeHelper(cl, 5)
 
         if id == 'ES':
             quantity = ex.get_leveraged_quantity(ticker)
