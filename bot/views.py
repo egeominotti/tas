@@ -188,12 +188,14 @@ def webhook_tradingview(request):
                 "BTCPERP": "BTCUSDT"
             }
 
-            entry_text = "Error Long: " + str(request.body)
-            telegram.send(entry_text)
+
 
             userexchange = UserExchange.objects.all()
             print(userexchange)
             data = json.loads(request.body)
+
+            entry_text = "Data body: " + str(data)
+            telegram.send(entry_text)
 
             id = data.get('id')
             # action = data.get('action')
@@ -215,7 +217,7 @@ def webhook_tradingview(request):
 
         except Exception as e:
 
-            entry_text = "Error Long: " + str(e)
+            entry_text = "Error: " + str(e)
             telegram.send(entry_text)
 
         return JsonResponse({})
