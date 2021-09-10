@@ -170,8 +170,6 @@ def trading(id, user, ticker):
 def webhook_tradingview(request):
     if request.method == 'POST':
 
-        body = request.body.decode('utf-8')
-
         """
         id :
         ->
@@ -182,7 +180,7 @@ def webhook_tradingview(request):
         """
 
         try:
-
+            body = request.body.decode('utf-8')
             combination = {
                 "ETHUSDTPERP": "ETHUSDT",
                 "BTCUSDTPERP": "BTCUSDT"
