@@ -29,7 +29,7 @@ class ExchangeHelper:
 
     def get_leveraged_quantity(self, symbol):
 
-        balance_wallet = self.get_current_balance_futures_() * 0.60
+        balance_wallet = self.get_current_balance_futures_() * 0.80
         quantity_precision_live = self.get_symbol_precision(symbol)
         price_coin = self.current_price_coin(symbol)
 
@@ -136,7 +136,7 @@ def trading(id, user, ticker):
         entry_text = ''
         key = user.user.username + "_" + ticker
         cl = Client(api_key=user.api_key, api_secret=user.api_secret)
-        ex = ExchangeHelper(cl, 5)
+        ex = ExchangeHelper(cl, 10)
 
         if id == 'ES':
 
