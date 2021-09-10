@@ -171,7 +171,6 @@ def trading(id, user, ticker):
 def webhook_tradingview(request):
     if request.method == 'POST':
 
-        entry_text = ''
         """
         id :
         ->
@@ -180,31 +179,45 @@ def webhook_tradingview(request):
             EL -> Entry Long
             CL -> Close Long
         """
-        combination = {
-            "ETHPERP": "ETHUSDT",
-            "BTCPERP": "BTCUSDT"
-        }
 
-        userexchange = UserExchange.objects.all()
-        print(userexchange)
-        data = json.loads(request.body)
 
-        id = data.get('id')
-        # action = data.get('action')
-        # exchange = data.get('exchange')
-        ticker = combination[data.get('ticker')]
-        # time = data.get('time')
+        try:
 
-        # market = ''
-        # if 'PERP' in ticker:
-        #     market = 'FUTURES'
-        # else:
-        #     market = 'SPOT'
+            combination = {
+                "ETHPERP": "ETHUSDT",
+                "BTCPERP": "BTCUSDT"
+            }
 
-        for user in userexchange:
-            thread = Thread(target=trading,
-                            args=(id, user, ticker))
-            thread.daemon = True
-            thread.start()
+            entry_text = "Error Long: " + str(request.body)
+            telegram.send(entry_text)
+
+            userexchange = UserExchange.objects.all()
+            print(userexchange)
+            data = json.loads(request.body)
+
+            id = data.get('id')
+            # action = data.get('action')
+            # exchange = data.get('exchange')
+            ticker = combination[data.get('ticker')]
+            # time = data.get('time')
+
+            # market = ''
+            # if 'PERP' in ticker:
+            #     market = 'FUTURES'
+            # else:
+            #     market = 'SPOT'
+
+            for user in userexchange:
+                thread = Thread(target=trading,
+                                args=(id, user, ticker))
+                thread.daemon = True
+                thread.start()
+
+        except Exception as e:
+
+
+
+            entry_text = "Error Long: " + str(e)
+            telegram.send(entry_text)
 
         return JsonResponse({})
