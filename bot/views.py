@@ -160,29 +160,31 @@ def trading(id, user, ticker):
 
         if id == 'CS':
 
-            quantity = float(cl.futures_get_all_orders(symbol=ticker,limit=1).get('origQty'))
+            quantity = float(cl.futures_get_all_orders(symbol=ticker,limit=1)[0].get('origQty'))
             ex.buy_market_futures(quantity, ticker)
 
             balance = ex.get_current_balance_futures_()
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-            entry_text = "Exit Short: ✅ " + \
-                         "\n" + "User: " + user.user.username + \
-                         "\n" + "Balance: " + str(balance) + \
-                         "\n" + "Ticker: " + str(ticker) + \
-                         "\nDate: " + str(now)
+            entry_text = str(cl.futures_get_all_orders(symbol=ticker,limit=1))
+            # entry_text = "Exit Short: ✅ " + \
+            #              "\n" + "User: " + user.user.username + \
+            #              "\n" + "Balance: " + str(balance) + \
+            #              "\n" + "Ticker: " + str(ticker) + \
+            #              "\nDate: " + str(now)
 
         if id == 'CL':
 
-            quantity = float(cl.futures_get_all_orders(symbol=ticker,limit=1).get('origQty'))
+            quantity = float(cl.futures_get_all_orders(symbol=ticker,limit=1)[0].get('origQty'))
             ex.sell_market_futures(quantity, ticker)
 
             balance = ex.get_current_balance_futures_()
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-            entry_text = "Exit Long: ✅ " + \
-                         "\n" + "User: " + user.user.username + \
-                         "\n" + "Balance: " + str(balance) + \
-                         "\n" + "Ticker: " + str(ticker) + \
-                         "\nDate: " + str(now)
+            entry_text = str(cl.futures_get_all_orders(symbol=ticker, limit=1))
+            # entry_text = "Exit Long: ✅ " + \
+            #              "\n" + "User: " + user.user.username + \
+            #              "\n" + "Balance: " + str(balance) + \
+            #              "\n" + "Ticker: " + str(ticker) + \
+            #              "\nDate: " + str(now)
 
         telegram.send(entry_text)
         sys.exit(1)
