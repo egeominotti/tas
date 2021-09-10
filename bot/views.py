@@ -2,6 +2,7 @@ import json
 import datetime
 import sys
 from threading import Thread
+from time import sleep
 
 import decouple
 import redis
@@ -171,7 +172,7 @@ def trading(id, user, ticker):
             r.set(key, json.dumps(dictValue))
 
         if id == 'CS':
-
+            sleep(2)
             value = json.loads(r.get(key))
             quantity = ex.get_leveraged_quantity(ticker)
             ex.buy_market_futures(quantity, ticker)
@@ -185,7 +186,7 @@ def trading(id, user, ticker):
                          "\nDate: " + str(now)
 
         if id == 'CL':
-
+            sleep(2)
             value = json.loads(r.get(key))
             quantity = ex.get_leveraged_quantity(ticker)
             ex.sell_market_futures(quantity, ticker)
