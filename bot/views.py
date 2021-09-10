@@ -180,7 +180,7 @@ def trading(id, user, ticker):
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
             entry_text = "Exit Short: ✅ " + \
                          "\n" + "User: " + user.user.username + \
-                         "\n" + "Final Balance: " + str(balance) + \
+                         "\n" + "Profit or Loss: " + str(balance) + \
                          "\n" + "Ticker: " + str(ticker) + \
                          "\nDate: " + str(now)
 
@@ -196,7 +196,7 @@ def trading(id, user, ticker):
 
             entry_text = "Exit Long: ✅ " + \
                          "\n" + "User: " + user.user.username + \
-                         "\n" + "Final Balance: " + str(balance) + \
+                         "\n" + "Profit or Loss: " + str(balance) + \
                          "\n" + "Ticker: " + str(ticker) + \
                          "\nDate: " + str(now)
 
