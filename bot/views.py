@@ -183,8 +183,8 @@ def webhook_tradingview(request):
         try:
 
             combination = {
-                "ETHPERP": "ETHUSDT",
-                "BTCPERP": "BTCUSDT"
+                "ETHUSDTPERP": "ETHUSDT",
+                "BTCUSDTPERP": "BTCUSDT"
             }
 
             userexchange = UserExchange.objects.all()
