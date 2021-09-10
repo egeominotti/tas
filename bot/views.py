@@ -140,7 +140,6 @@ def trading(id, user, ticker):
         ex = ExchangeHelper(cl, 25)
 
         if id == 'ES':
-
             quantity = ex.get_leveraged_quantity(ticker)
             ex.sell_market_futures(quantity, ticker)
 
@@ -156,7 +155,6 @@ def trading(id, user, ticker):
             r.set(key, json.dumps(dictValue))
 
         if id == 'EL':
-
             quantity = ex.get_leveraged_quantity(ticker)
             ex.buy_market_futures(quantity, ticker)
 
@@ -172,7 +170,6 @@ def trading(id, user, ticker):
             r.set(key, json.dumps(dictValue))
 
         if id == 'CS':
-            sleep(1)
             value = json.loads(r.get(key))
             quantity = ex.get_leveraged_quantity(ticker)
             ex.buy_market_futures(quantity, ticker)
@@ -186,7 +183,6 @@ def trading(id, user, ticker):
                          "\nDate: " + str(now)
 
         if id == 'CL':
-            sleep(1)
             value = json.loads(r.get(key))
             quantity = ex.get_leveraged_quantity(ticker)
             ex.sell_market_futures(quantity, ticker)
@@ -247,10 +243,11 @@ def webhook_tradingview(request):
                 #     market = 'SPOT'
 
                 for user in userexchange:
-                    thread = Thread(target=trading,
-                                    args=(id, user, ticker))
-                    thread.daemon = True
-                    thread.start()
+                    trading(id, user, ticker)
+                    # thread = Thread(target=trading,
+                    #                 args=(id, user, ticker))
+                    # thread.daemon = True
+                    # thread.start()
 
         except Exception as e:
 
