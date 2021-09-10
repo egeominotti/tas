@@ -26,7 +26,7 @@ class ExchangeHelper:
 
     def get_leveraged_quantity(self, symbol):
 
-        balance_wallet = self.get_current_balance_futures_() * 0.40
+        balance_wallet = self.get_current_balance_futures_() * 0.90
         quantity_precision_live = self.get_symbol_precision(symbol)
         price_coin = self.current_price_coin(symbol)
 
