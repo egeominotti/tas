@@ -234,7 +234,7 @@ alert_msg_long_exit_sl      = "Exit Long SL\nSymbol: "+syminfo.tickerid+"\nPrice
 plot(ema1, title="EMA 1", color=color.new(color.red, transp=50))
 plot(ema2, title="EMA 2", color=color.new(color.orange, transp=50))
 plot(pl, title="PL", color=color.new(color.white, transp=50))
-plot(ph, title="PH", color=color.new(color.white, transp=50))
+plot(ph, title="PL", color=color.new(color.white, transp=50))
 
 
 
