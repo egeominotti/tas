@@ -258,12 +258,12 @@ if entry
     
 //TAKE PROFIT
 if takeprofit
-    strategy.exit("CL-TP","EL", alert_message=alert_msg_long_exit_tp)
+    strategy.exit("CL_TP","EL", alert_message=alert_msg_long_exit_tp)
     strategy.close("EL")
     
 //STOP LOSS
 if stoploss
-    strategy.exit("CL-SL","EL", alert_message=alert_msg_long_exit_sl)
+    strategy.exit("CL_SL","EL", alert_message=alert_msg_long_exit_sl)
     strategy.close("EL")
     
 //STRATEGY FINISH
