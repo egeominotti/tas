@@ -188,32 +188,31 @@ def webhook_tradingview(request):
                 "BTCPERP": "BTCUSDT"
             }
 
-
-
             userexchange = UserExchange.objects.all()
-            print(userexchange)
             data = json.loads(request.body)
 
-            entry_text = "Data body: " + str(data)
-            telegram.send(entry_text)
+            if data.get('passphrase') == 'mimmo':
 
-            id = data.get('id')
-            # action = data.get('action')
-            # exchange = data.get('exchange')
-            ticker = combination[data.get('ticker')]
-            # time = data.get('time')
+                entry_text = "Data body: " + str(data)
+                telegram.send(entry_text)
 
-            # market = ''
-            # if 'PERP' in ticker:
-            #     market = 'FUTURES'
-            # else:
-            #     market = 'SPOT'
+                id = data.get('id')
+                # action = data.get('action')
+                # exchange = data.get('exchange')
+                ticker = combination[data.get('ticker')]
+                # time = data.get('time')
 
-            for user in userexchange:
-                thread = Thread(target=trading,
-                                args=(id, user, ticker))
-                thread.daemon = True
-                thread.start()
+                # market = ''
+                # if 'PERP' in ticker:
+                #     market = 'FUTURES'
+                # else:
+                #     market = 'SPOT'
+
+                for user in userexchange:
+                    thread = Thread(target=trading,
+                                    args=(id, user, ticker))
+                    thread.daemon = True
+                    thread.start()
 
         except Exception as e:
 
