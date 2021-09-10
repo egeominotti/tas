@@ -142,7 +142,7 @@ def trading(id, user, ticker):
             quantity = ex.get_leveraged_quantity(ticker)
             ex.sell_market_futures(quantity, ticker)
 
-            balance = ex.get_current_balance_futures_()
+            balance = round(ex.get_current_balance_futures_(), 3)
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
             entry_text = "Entry Short: 📉" + \
                          "\n" + "User: " + user.user.username + \
@@ -154,11 +154,10 @@ def trading(id, user, ticker):
             r.set(key, json.dumps(dictValue))
 
         if id == 'EL':
-
             quantity = ex.get_leveraged_quantity(ticker)
             ex.buy_market_futures(quantity, ticker)
 
-            balance = ex.get_current_balance_futures_()
+            balance = round(ex.get_current_balance_futures_(), 3)
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
             entry_text = "Entry Long: 📈 " + \
                          "\n" + "User: " + user.user.username + \
@@ -170,7 +169,6 @@ def trading(id, user, ticker):
             r.set(key, json.dumps(dictValue))
 
         if id == 'CS':
-
             value = json.loads(r.get(key))
             quantity = ex.get_leveraged_quantity(ticker)
             ex.buy_market_futures(quantity, ticker)
@@ -185,7 +183,6 @@ def trading(id, user, ticker):
                          "\nDate: " + str(now)
 
         if id == 'CL':
-
             value = json.loads(r.get(key))
             quantity = ex.get_leveraged_quantity(ticker)
             ex.sell_market_futures(quantity, ticker)
