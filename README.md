@@ -153,14 +153,12 @@
         "close": {{close}},
         "volume": {{volume}}
     },
-    "strategy": {
-        "position_size": {{strategy.position_size}},
-        "order_action": "{{strategy.order.action}}",
-        "order_contracts": {{strategy.order.contracts}},
-        "order_price": {{strategy.order.price}},
-        "order_id": "{{strategy.order.id}}",
-        "market_position": "{{strategy.market_position}}",
-        "market_position_size": {{strategy.market_position_size}},
-        "prev_market_position": "{{strategy.prev_market_position}}",
-        "prev_market_position_size": {{strategy.prev_market_position_size}}
+
+    {
+        "id": "{{strategy.order.id}}",
+        "action": "{{strategy.order.action}}",
+        "time": "{{timenow}}",
+        "exchange": "{{exchange}}",
+        "ticker": "{{ticker}}",
+        "passphrase": "mimmo"
     }
