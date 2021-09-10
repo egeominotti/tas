@@ -176,10 +176,9 @@ def trading(id, user, ticker):
             balance = round(ex.get_current_balance_futures_() - value.get('start_balance'), 3)
 
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-            entry_text = "Exit Short: ✅ " + \
+            entry_text = "Exit Short: " + str(ticker) + " ✅ " + \
                          "\n" + "User: " + user.user.username + \
                          "\n" + "Profit or Loss: " + str(balance) + \
-                         "\n" + "Ticker: " + str(ticker) + \
                          "\nDate: " + str(now)
 
         if id == 'CL':
@@ -191,10 +190,9 @@ def trading(id, user, ticker):
 
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 
-            entry_text = "Exit Long: ✅ " + \
+            entry_text = "Exit Long: " + str(ticker) + " ✅ " + \
                          "\n" + "User: " + user.user.username + \
                          "\n" + "Profit or Loss: " + str(balance) + \
-                         "\n" + "Ticker: " + str(ticker) + \
                          "\nDate: " + str(now)
 
         telegram.send(entry_text)
