@@ -124,13 +124,12 @@ class ExchangeHelper:
 
 
 def trading(id, user, ticker):
-
     try:
-        entry_text = ''
 
+        entry_text = ''
+        key = user + "_" + ticker
         cl = Client(api_key=user.api_key, api_secret=user.api_secret)
         ex = ExchangeHelper(cl, 1)
-
 
         if id == 'ES':
 
@@ -145,6 +144,8 @@ def trading(id, user, ticker):
                          "\n" + "Ticker: " + str(ticker) + \
                          "\nDate: " + str(now)
 
+            r.set(key, json.dumps({"quantity": float(quantity)}))
+
         if id == 'EL':
 
             quantity = ex.get_leveraged_quantity(ticker)
@@ -158,33 +159,37 @@ def trading(id, user, ticker):
                          "\n" + "Ticker: " + str(ticker) + \
                          "\nDate: " + str(now)
 
+            r.set(key, json.dumps({"quantity": float(quantity)}))
+
         if id == 'CS':
 
-            quantity = float(cl.futures_get_all_orders(symbol=ticker,limit=1)[0].get('origQty'))
-            ex.buy_market_futures(quantity, ticker)
+            value = json.loads(r.get(key))
+            ex.buy_market_futures(value.get('quantity'), ticker)
 
             balance = ex.get_current_balance_futures_()
+
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-            entry_text = str(cl.futures_get_all_orders(symbol=ticker,limit=1))
-            # entry_text = "Exit Short: ✅ " + \
-            #              "\n" + "User: " + user.user.username + \
-            #              "\n" + "Balance: " + str(balance) + \
-            #              "\n" + "Ticker: " + str(ticker) + \
-            #              "\nDate: " + str(now)
+            entry_text = "Exit Short: ✅ " + \
+                         "\n" + "User: " + user.user.username + \
+                         "\n" + "Balance: " + str(balance) + \
+                         "\n" + "quantity: " + str(value.get('quantity')) + \
+                         "\n" + "Ticker: " + str(ticker) + \
+                         "\nDate: " + str(now)
 
         if id == 'CL':
 
-            quantity = float(cl.futures_get_all_orders(symbol=ticker,limit=1)[0].get('origQty'))
-            ex.sell_market_futures(quantity, ticker)
+            value = json.loads(r.get(key))
+            ex.buy_market_futures(value.get('quantity'), ticker)
 
             balance = ex.get_current_balance_futures_()
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-            entry_text = str(cl.futures_get_all_orders(symbol=ticker, limit=1))
-            # entry_text = "Exit Long: ✅ " + \
-            #              "\n" + "User: " + user.user.username + \
-            #              "\n" + "Balance: " + str(balance) + \
-            #              "\n" + "Ticker: " + str(ticker) + \
-            #              "\nDate: " + str(now)
+
+            entry_text = "Exit Long: ✅ " + \
+                         "\n" + "User: " + user.user.username + \
+                         "\n" + "Balance: " + str(balance) + \
+                         "\n" + "quantity: " + str(value.get('quantity')) + \
+                         "\n" + "Ticker: " + str(ticker) + \
+                         "\nDate: " + str(now)
 
         telegram.send(entry_text)
         sys.exit(1)
