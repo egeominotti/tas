@@ -122,7 +122,6 @@ class ExchangeHelper:
 
 
 def trading(id, user, ticker):
-
     entry_text = ''
 
     cl = Client(api_key=user.api_key, api_secret=user.api_secret)
@@ -171,7 +170,7 @@ def trading(id, user, ticker):
 def webhook_tradingview(request):
     if request.method == 'POST':
 
-        entry_text = "Data body: " + str(request.body)
+        entry_text = "Data body: " + str(request.body.decode('utf-8'))
         telegram.send(entry_text)
         """
         id :
@@ -190,7 +189,7 @@ def webhook_tradingview(request):
             }
 
             userexchange = UserExchange.objects.all()
-            data = json.loads(request.body)
+            data = json.loads(request.body.decode('utf-8'))
 
             if data.get('passphrase') == 'mimmo':
 
