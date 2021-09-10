@@ -137,7 +137,7 @@ def trading(id, user, ticker):
         entry_text = ''
         key = user.user.username + "_" + ticker
         cl = Client(api_key=user.api_key, api_secret=user.api_secret)
-        ex = ExchangeHelper(cl, 10)
+        ex = ExchangeHelper(cl, 25)
 
         if id == 'ES':
 
@@ -172,7 +172,7 @@ def trading(id, user, ticker):
             r.set(key, json.dumps(dictValue))
 
         if id == 'CS':
-            sleep(2)
+            sleep(1)
             value = json.loads(r.get(key))
             quantity = ex.get_leveraged_quantity(ticker)
             ex.buy_market_futures(quantity, ticker)
@@ -186,7 +186,7 @@ def trading(id, user, ticker):
                          "\nDate: " + str(now)
 
         if id == 'CL':
-            sleep(2)
+            sleep(1)
             value = json.loads(r.get(key))
             quantity = ex.get_leveraged_quantity(ticker)
             ex.sell_market_futures(quantity, ticker)
