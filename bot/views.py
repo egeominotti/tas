@@ -215,8 +215,6 @@ def webhook_tradingview(request):
 
         except Exception as e:
 
-
-
             entry_text = "Error Long: " + str(e)
             telegram.send(entry_text)
 
