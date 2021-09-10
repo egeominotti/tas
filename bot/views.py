@@ -157,7 +157,7 @@ def trading(id, user, ticker):
 
     if id == 'CS':
 
-        quantity = float(cl.futures_get_all_orders(symbol=ticker).get('origQty'))
+        quantity = float(cl.futures_get_all_orders(symbol=ticker,limit=1).get('origQty'))
         ex.buy_market_futures(quantity, ticker)
 
         balance = ex.get_current_balance_futures_()
@@ -170,7 +170,7 @@ def trading(id, user, ticker):
 
     if id == 'CL':
 
-        quantity = float(cl.futures_get_all_orders(symbol=ticker).get('origQty'))
+        quantity = float(cl.futures_get_all_orders(symbol=ticker,limit=1).get('origQty'))
         ex.sell_market_futures(quantity, ticker)
 
         balance = ex.get_current_balance_futures_()
