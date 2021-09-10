@@ -150,8 +150,8 @@ def trading(id, user, ticker):
                          "\n" + "Ticker: " + str(ticker) + \
                          "\nDate: " + str(now)
 
-            dict = {"quantity": float(quantity), "start_balance": float(balance)}
-            r.set(key, json.dumps(dict))
+            dictValue = {"quantity": float(quantity), "start_balance": float(balance)}
+            r.set(key, json.dumps(dictValue))
 
         if id == 'EL':
 
@@ -166,13 +166,14 @@ def trading(id, user, ticker):
                          "\n" + "Ticker: " + str(ticker) + \
                          "\nDate: " + str(now)
 
-            dict = {"quantity": float(quantity), "start_balance": float(balance)}
-            r.set(key, json.dumps(dict))
+            dictValue = {"quantity": float(quantity), "start_balance": float(balance)}
+            r.set(key, json.dumps(dictValue))
 
         if id == 'CS':
 
             value = json.loads(r.get(key))
-            ex.buy_market_futures(value.get('quantity'), ticker)
+            quantity = ex.get_leveraged_quantity(ticker)
+            ex.buy_market_futures(quantity, ticker)
 
             balance = round(ex.get_current_balance_futures_() - value.get('start_balance'), 3)
 
@@ -186,7 +187,8 @@ def trading(id, user, ticker):
         if id == 'CL':
 
             value = json.loads(r.get(key))
-            ex.sell_market_futures(value.get('quantity'), ticker)
+            quantity = ex.get_leveraged_quantity(ticker)
+            ex.sell_market_futures(quantity, ticker)
 
             balance = round(ex.get_current_balance_futures_() - value.get('start_balance'), 3)
 
