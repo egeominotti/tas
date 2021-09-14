@@ -203,16 +203,11 @@ def webhook_tradingview(request):
         try:
 
             body = request.body.decode('utf-8')
-            combination = {
-                "ETHUSDTPERP": "ETHUSDT",
-                "BTCUSDTPERP": "BTCUSDT"
-            }
-
             userexchange = UserExchange.objects.all()
             data = json.loads(body)
 
             id = data.get('id')
-            ticker = combination[data.get('ticker')]
+            ticker = data.get('ticker')
 
             for user in userexchange:
                 trading(id, user, ticker)
