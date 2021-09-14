@@ -39,6 +39,17 @@ class ExchangeHelper:
 
         return qty
 
+    def get_spot_quantity(self, symbol):
+
+        balance_wallet = self.get_spot_quantity() * 0.80
+        quantity_precision_live = self.get_symbol_precision(symbol)
+        price_coin = self.current_price_coin(symbol)
+
+        total = (balance_wallet / price_coin) * self.leverage
+        qty = round(total, quantity_precision_live)
+
+        return qty
+
     def get_symbol_precision(self, symbol):
         symbols_n_precision = {}
         info = self.client.futures_exchange_info()
@@ -51,9 +62,9 @@ class ExchangeHelper:
 
         resp = 0
         # if self.bot.market_spot:
-        #    resp = requests.get('https://api.binance.com/api/v3/ticker/price?symbol=' + symbol).json()
+        resp = requests.get('https://api.binance.com/api/v3/ticker/price?symbol=' + symbol).json()
         # if self.bot.market_futures:
-        resp = requests.get('https://fapi.binance.com/fapi/v1/ticker/price?symbol=' + symbol).json()
+        #resp = requests.get('https://fapi.binance.com/fapi/v1/ticker/price?symbol=' + symbol).json()
         price = float(resp['price'])
         return price
 
@@ -137,11 +148,11 @@ def trading(id, user, ticker):
         entry_text = ''
         key = user.user.username + "_" + ticker
         cl = Client(api_key=user.api_key, api_secret=user.api_secret)
-        ex = ExchangeHelper(cl, 25)
+        ex = ExchangeHelper(cl, 1)
 
         if id == 'ES':
             quantity = ex.get_leveraged_quantity(ticker)
-            ex.sell_market_futures(quantity, ticker)
+            ex.sell_market_spot(quantity, ticker)
 
             balance = round(ex.get_current_balance_futures_(), 3)
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
@@ -156,7 +167,7 @@ def trading(id, user, ticker):
 
         if id == 'EL':
             quantity = ex.get_leveraged_quantity(ticker)
-            ex.buy_market_futures(quantity, ticker)
+            ex.buy_market_spot(quantity, ticker)
 
             balance = round(ex.get_current_balance_futures_(), 3)
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
@@ -169,20 +180,20 @@ def trading(id, user, ticker):
             dictValue = {"quantity": float(quantity), "start_balance": float(balance)}
             r.set(key, json.dumps(dictValue))
 
-        if id == 'CS':
-            value = json.loads(r.get(key))
-            quantity = ex.get_leveraged_quantity(ticker)
-            ex.buy_market_futures(quantity, ticker)
+        # if id == 'CS':
+        #     value = json.loads(r.get(key))
+        #     quantity = ex.get_leveraged_quantity(ticker)
+        #     ex.buy_market_futures(quantity, ticker)
+        #
+        #     balance = round(ex.get_current_balance_futures_() - value.get('start_balance'), 3)
+        #
+        #     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+        #     entry_text = "Exit Short: " + str(ticker) + " ✅ " + \
+        #                  "\n" + "User: " + user.user.username + \
+        #                  "\n" + "Profit or Loss: " + str(balance) + \
+        #                  "\nDate: " + str(now)
 
-            balance = round(ex.get_current_balance_futures_() - value.get('start_balance'), 3)
-
-            now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-            entry_text = "Exit Short: " + str(ticker) + " ✅ " + \
-                         "\n" + "User: " + user.user.username + \
-                         "\n" + "Profit or Loss: " + str(balance) + \
-                         "\nDate: " + str(now)
-
-        if id == 'CL':
+        if id == 'SL' or id == 'TP':
             value = json.loads(r.get(key))
             quantity = ex.get_leveraged_quantity(ticker)
             ex.sell_market_futures(quantity, ticker)
