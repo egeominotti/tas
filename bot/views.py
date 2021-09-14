@@ -1,7 +1,6 @@
 import json
 import datetime
 import sys
-from threading import Thread
 from time import sleep
 
 import decouple
