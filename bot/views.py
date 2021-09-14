@@ -41,7 +41,7 @@ class ExchangeHelper:
 
     def get_spot_quantity(self, symbol):
 
-        balance_wallet = self.get_spot_quantity() * 0.80
+        balance_wallet = self.get_spot_quantity(symbol) * 0.80
         quantity_precision_live = self.get_symbol_precision(symbol)
         price_coin = self.current_price_coin(symbol)
 
@@ -64,7 +64,7 @@ class ExchangeHelper:
         # if self.bot.market_spot:
         resp = requests.get('https://api.binance.com/api/v3/ticker/price?symbol=' + symbol).json()
         # if self.bot.market_futures:
-        #resp = requests.get('https://fapi.binance.com/fapi/v1/ticker/price?symbol=' + symbol).json()
+        # resp = requests.get('https://fapi.binance.com/fapi/v1/ticker/price?symbol=' + symbol).json()
         price = float(resp['price'])
         return price
 
@@ -150,23 +150,8 @@ def trading(id, user, ticker):
         cl = Client(api_key=user.api_key, api_secret=user.api_secret)
         ex = ExchangeHelper(cl, 1)
 
-        if id == 'ES':
-            quantity = ex.get_leveraged_quantity(ticker)
-            ex.sell_market_spot(quantity, ticker)
-
-            balance = round(ex.get_current_balance_futures_(), 3)
-            now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-            entry_text = "Entry Short: 📉" + \
-                         "\n" + "User: " + user.user.username + \
-                         "\n" + "Balance: " + str(balance) + \
-                         "\n" + "Ticker: " + str(ticker) + \
-                         "\nDate: " + str(now)
-
-            dictValue = {"quantity": float(quantity), "start_balance": float(balance)}
-            r.set(key, json.dumps(dictValue))
-
         if id == 'EL':
-            quantity = ex.get_leveraged_quantity(ticker)
+            quantity = ex.get_spot_quantity(ticker)
             ex.buy_market_spot(quantity, ticker)
 
             balance = round(ex.get_current_balance_futures_(), 3)
@@ -196,9 +181,9 @@ def trading(id, user, ticker):
         if id == 'SL' or id == 'TP':
             value = json.loads(r.get(key))
             quantity = ex.get_leveraged_quantity(ticker)
-            ex.sell_market_futures(quantity, ticker)
+            ex.sell_market_spot(quantity, ticker)
 
-            balance = round(ex.get_current_balance_futures_() - value.get('start_balance'), 3)
+            balance = round(ex.get_spot_quantity(ticker) - value.get('start_balance'), 3)
 
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 
@@ -222,13 +207,13 @@ def webhook_tradingview(request):
         """
         id :
         ->
-            ES -> Entry Short
-            CS -> Close Short
-            EL -> Entry Long
-            CL -> Close Long
+            EL -> Entry Long -> Buy order
+            TP -> Take profit -> sell order
+            SL -> Stop loss -> sell order
         """
 
         try:
+
             body = request.body.decode('utf-8')
             combination = {
                 "ETHUSDTPERP": "ETHUSDT",
@@ -238,27 +223,11 @@ def webhook_tradingview(request):
             userexchange = UserExchange.objects.all()
             data = json.loads(body)
 
-            if data.get('passphrase') == 'mimmo':
+            id = data.get('id')
+            ticker = combination[data.get('ticker')]
 
-                id = data.get('id')
-                ticker = combination[data.get('ticker')]
-                # action = data.get('action')
-                # exchange = data.get('exchange')
-
-                # time = data.get('time')
-
-                # market = ''
-                # if 'PERP' in ticker:
-                #     market = 'FUTURES'
-                # else:
-                #     market = 'SPOT'
-
-                for user in userexchange:
-                    trading(id, user, ticker)
-                    # thread = Thread(target=trading,
-                    #                 args=(id, user, ticker))
-                    # thread.daemon = True
-                    # thread.start()
+            for user in userexchange:
+                trading(id, user, ticker)
 
         except Exception as e:
 
