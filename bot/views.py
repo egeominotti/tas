@@ -23,10 +23,9 @@ class ExchangeHelper:
     def __init__(
             self,
             client,
-            leverage
     ):
         self.client = client
-        self.leverage = leverage
+        self.leverage = 1
 
     def get_leveraged_quantity(self, symbol):
 
@@ -148,13 +147,14 @@ def trading(id, user, ticker):
         entry_text = ''
         key = user.user.username + "_" + ticker
         cl = Client(api_key=user.api_key, api_secret=user.api_secret)
-        ex = ExchangeHelper(cl, 1)
+        ex = ExchangeHelper(cl)
 
+        # buy
         if id == 'EL':
             quantity = ex.get_spot_quantity(ticker)
             ex.buy_market_spot(quantity, ticker)
 
-            balance = round(ex.get_current_balance_futures_(), 3)
+            balance = round(ex.get_spot_quantity(ticker), 3)
             now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
             entry_text = "Entry Long: 📈 " + \
                          "\n" + "User: " + user.user.username + \
@@ -165,22 +165,11 @@ def trading(id, user, ticker):
             dictValue = {"quantity": float(quantity), "start_balance": float(balance)}
             r.set(key, json.dumps(dictValue))
 
-        # if id == 'CS':
-        #     value = json.loads(r.get(key))
-        #     quantity = ex.get_leveraged_quantity(ticker)
-        #     ex.buy_market_futures(quantity, ticker)
-        #
-        #     balance = round(ex.get_current_balance_futures_() - value.get('start_balance'), 3)
-        #
-        #     now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-        #     entry_text = "Exit Short: " + str(ticker) + " ✅ " + \
-        #                  "\n" + "User: " + user.user.username + \
-        #                  "\n" + "Profit or Loss: " + str(balance) + \
-        #                  "\nDate: " + str(now)
-
+        # sell
         if id == 'SL' or id == 'TP':
+
             value = json.loads(r.get(key))
-            quantity = ex.get_leveraged_quantity(ticker)
+            quantity = ex.get_spot_quantity(ticker)
             ex.sell_market_spot(quantity, ticker)
 
             balance = round(ex.get_spot_quantity(ticker) - value.get('start_balance'), 3)
