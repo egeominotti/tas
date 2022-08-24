@@ -52,7 +52,7 @@ import Vue from 'vue'
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: 'AIzaSyDmiOmTUrZR4lszbYHQq5_yJO3348xsRVk'
+    key: ''
     // key: ''
     // To use the Google Maps JavaScript API, you must register your app project on the Google API Console and get a Google API key which you can add to your app
     // v: 'OPTIONAL VERSION NUMBER',
