@@ -34,8 +34,8 @@ class Command(BaseCommand):
         exchange_class = getattr(ccxt, exchange_id)
 
         exchange = exchange_class({
-            'apiKey': 'vyghMLzH2Pvr0TCoV11Equ9kIK2jxL6ZpDh8pyUBz4hvAWXSLWO6rBHbogQmX9lH',
-            'secret': 'yTmr8uu0w3ARIzTlYadGkWX79BlTHSybzzJeInrWcjUoygP3K7t81j4WXd8amMOM',
+            'apiKey': '',
+            'secret': '',
             'enableRateLimit': True,
             'options': {
                 'defaultType': 'future',  # ←-------------- quotes and 'future'
