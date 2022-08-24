@@ -74,6 +74,7 @@ cover/
 # Translations
 *.mo
 
+.env.dev
 # Django stuff:
 
 # Flask stuff:
